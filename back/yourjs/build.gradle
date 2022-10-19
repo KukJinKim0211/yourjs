@@ -44,12 +44,19 @@ dependencies {
     // Swagger
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
 
+    // JWT
+    implementation("com.auth0:java-jwt:3.10.3")
+
     // Apache Commons IO
     implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
 
     //querydsl 추가
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+    // guava
+    implementation("com.google.guava:guava:29.0-jre")
+    annotationProcessor("com.google.guava:guava:29.0-jre")
 }
 
 tasks.named('test') {
