@@ -1,0 +1,36 @@
+import { Outlet } from 'react-router-dom';
+import Header from './Header';
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  width: 100%;
+  background-color: white;
+  min-height: 100vh;
+  height: fit-content;
+  padding: 0;
+  margin: 0;
+`;
+
+const Layout = () => {
+  return (
+    <div
+      style={{
+        width: '100%',
+        backgroundColor: 'tomato',
+        minHeight: '100vh',
+        height: 'fit-content',
+        padding: 0,
+        margin: 0,
+      }}
+    >
+      <div style={{ height: '10vh' }}>
+        <Header></Header>
+      </div>
+      <div style={{ height: '90vh' }}>
+        <Outlet></Outlet>
+      </div>
+    </div>
+  );
+};
+
+export default Layout;
