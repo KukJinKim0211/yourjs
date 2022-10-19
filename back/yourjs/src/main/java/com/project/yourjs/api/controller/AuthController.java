@@ -5,11 +5,12 @@ import com.project.yourjs.api.res.UserLoginPostRes;
 import com.project.yourjs.api.service.UserService;
 import com.project.yourjs.common.util.JwtTokenUtil;
 import com.project.yourjs.db.entity.User;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
+@Tag(name="Auth", description = "인증 관련 API")
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin

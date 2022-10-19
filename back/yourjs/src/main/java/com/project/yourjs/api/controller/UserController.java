@@ -3,11 +3,12 @@ package com.project.yourjs.api.controller;
 import com.project.yourjs.api.req.UserRegisterPostReq;
 import com.project.yourjs.api.service.UserService;
 import com.project.yourjs.db.entity.User;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+@Tag(name="User", description = "회원 API")
 @RestController
 @RequestMapping("/user")
 @CrossOrigin
