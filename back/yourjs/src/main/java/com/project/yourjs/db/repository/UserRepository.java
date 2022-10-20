@@ -9,5 +9,5 @@ import com.project.yourjs.db.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
    @EntityGraph(attributePaths = "authorities")
-   Optional<User> findOneWithAuthoritiesByUsername(String username);
+   Optional<User> findOneWithAuthoritiesByUserName(String userName);
 }

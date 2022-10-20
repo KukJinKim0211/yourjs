@@ -71,9 +71,10 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/hello").permitAll()
+                .antMatchers("/**").permitAll()
+                .antMatchers("/api/swagger-ui").permitAll()
+                .antMatchers("/api/user/signup").permitAll()
                 .antMatchers("/api/authenticate").permitAll()
-                .antMatchers("/api/signup").permitAll()
                 // .antMatchers("/api/test").permitAll()
 
                 .anyRequest().authenticated()

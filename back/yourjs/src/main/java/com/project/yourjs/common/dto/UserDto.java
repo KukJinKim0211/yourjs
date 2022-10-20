@@ -22,30 +22,36 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserDto {
 
-   @NotNull
-   @Size(min = 3, max = 50)
-   private String username;
+        @NotNull
+        @Size(min = 3, max = 50)
+        private String userId;
 
-   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-   @NotNull
-   @Size(min = 3, max = 100)
-   private String password;
+        @NotNull
+        @Size(min = 3, max = 50)
+        private String userName;
 
-   @NotNull
-   @Size(min = 3, max = 50)
-   private String nickname;
+        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+        @NotNull
+        @Size(min = 3, max = 100)
+        private String password;
 
-   private Set<AuthorityDto> authorityDtoSet;
+        @NotNull
+        @Size(min = 3, max = 50)
+        private String nickname;
 
-   public static UserDto from(User user) {
-      if(user == null) return null;
+        private Set<AuthorityDto> authorityDtoSet;
 
-      return UserDto.builder()
-              .username(user.getUsername())
-              .nickname(user.getNickname())
-              .authorityDtoSet(user.getAuthorities().stream()
-                      .map(authority -> AuthorityDto.builder().authorityName(authority.getAuthorityName()).build())
-                      .collect(Collectors.toSet()))
-              .build();
-   }
+        public static UserDto from(User user) {
+                if (user == null)
+                        return null;
+
+                return UserDto.builder()
+                                .userName(user.getUserName())
+                                .nickname(user.getNickname())
+                                .authorityDtoSet(user.getAuthorities().stream()
+                                                .map(authority -> AuthorityDto.builder()
+                                                                .authorityName(authority.getAuthorityName()).build())
+                                                .collect(Collectors.toSet()))
+                                .build();
+        }
 }

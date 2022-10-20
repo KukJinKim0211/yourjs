@@ -22,17 +22,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "user", description = "d")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-    @GetMapping("/hello")
-    public ResponseEntity<String> hello() {
-        return ResponseEntity.ok("hello");
     }
 
     @PostMapping("/test-redirect")
@@ -47,15 +42,15 @@ public class UserController {
         return ResponseEntity.ok(userService.signup(userDto));
     }
 
-    @GetMapping("/user")
+    @GetMapping("/")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<UserDto> getMyUserInfo(HttpServletRequest request) {
         return ResponseEntity.ok(userService.getMyUserWithAuthorities());
     }
 
-    @GetMapping("/user/{username}")
+    @GetMapping("/{userName}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<UserDto> getUserInfo(@PathVariable String username) {
-        return ResponseEntity.ok(userService.getUserWithAuthorities(username));
+    public ResponseEntity<UserDto> getUserInfo(@PathVariable String userName) {
+        return ResponseEntity.ok(userService.getUserWithAuthorities(userName));
     }
 }
