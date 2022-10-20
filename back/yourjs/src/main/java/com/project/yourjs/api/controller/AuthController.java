@@ -1,39 +1,49 @@
 package com.project.yourjs.api.controller;
 
-import com.project.yourjs.api.req.UserLoginPostReq;
-import com.project.yourjs.api.res.UserLoginPostRes;
-import com.project.yourjs.api.service.UserService;
-import com.project.yourjs.common.util.JwtTokenUtil;
-import com.project.yourjs.db.entity.User;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.validation.Valid;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
-@Tag(name="Auth", description = "인증 관련 API")
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.project.yourjs.common.dto.LoginDto;
+import com.project.yourjs.common.dto.TokenDto;
+import com.project.yourjs.common.jwt.JwtFilter;
+import com.project.yourjs.common.jwt.TokenProvider;
+
 @RestController
-@RequestMapping("/auth")
-@CrossOrigin
+@RequestMapping("/api")
 public class AuthController {
-    @Autowired
-    UserService userService;
+    private final TokenProvider tokenProvider;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    public AuthController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
+        this.tokenProvider = tokenProvider;
+        this.authenticationManagerBuilder = authenticationManagerBuilder;
+    }
 
-    @PostMapping("login")
-    public ResponseEntity<UserLoginPostRes> login(@RequestBody UserLoginPostReq loginInfo) {
-        String userId = loginInfo.getUserId();
-        String password = loginInfo.getPassword();
+    @PostMapping("/authenticate")
+    public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginDto loginDto) {
 
-        User user = userService.getUserByUserId(userId);
-        // 로그인 요청한 유저로부터 입력된 패스워드 와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
-        if(passwordEncoder.matches(password, user.getPassword())) {
-            // 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
-            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userId), user));
-        }
-        // 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
-        return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null, null));
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
+
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = tokenProvider.createToken(authentication);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+
+        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
     }
 }
-

@@ -1,55 +1,53 @@
 package com.project.yourjs.db.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import java.util.Set;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Table(name = "`user`")
 @Getter
 @Setter
-@Table(name = "user")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_seq")
-    private Long userSeq;
+   @Id
+   @Column(name = "user_id")
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Long userId;
 
-    @Column(name = "user_id", unique = true, nullable = false)
-    private String userId;
+   @Column(name = "username", length = 50, unique = true)
+   private String username;
 
-    @Column(name = "user_name", unique = true, nullable = false)
-    private String userName;
+   @Column(name = "password", length = 100)
+   private String password;
 
-    @Column(name = "email", nullable = false)
-    private String email;
+   @Column(name = "nickname", length = 50)
+   private String nickname;
 
-    @Column(name = "nickname", nullable = false)
-    private String nickname;
+   @Column(name = "activated")
+   private boolean activated;
 
-    @JsonIgnore
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "password", nullable = false)
-    private String password;
-
-    @Column(name = "info_level", nullable = false)
-    private int infoLevel;
-
-    @CreationTimestamp
-    @CreatedDate
-    @Column(updatable = false,nullable = false)
-    private LocalDateTime regDtm;
-
-    @UpdateTimestamp
-    @LastModifiedDate
-    @Column(nullable = true)
-    private LocalDateTime modDtm;
+   @ManyToMany
+   @JoinTable(
+      name = "user_authority",
+      joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+      inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+   private Set<Authority> authorities;
 }
