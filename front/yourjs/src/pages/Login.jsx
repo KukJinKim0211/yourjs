@@ -26,8 +26,11 @@ const FormDiv = styled.div`
 const LogoImage = styled.img`
   padding-top: 5%;
   width: 40%;
-  src: url('../../img/logo.png');
 `;
+
+LogoImage.defaultProps = {
+  src: logo,
+};
 
 const LabelText = styled.label`
   font-size: 20px;
@@ -63,10 +66,6 @@ const ButtonDiv = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
-LogoImage.defaultProps = {
-  src: logo,
-};
 
 const Login = () => {
   return (
