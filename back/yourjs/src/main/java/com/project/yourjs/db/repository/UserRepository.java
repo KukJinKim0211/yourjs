@@ -1,15 +1,21 @@
 package com.project.yourjs.db.repository;
 
-import com.project.yourjs.db.entity.User;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
+import com.project.yourjs.db.entity.User;
+
 public interface UserRepository extends JpaRepository<User, Long> {
+   @EntityGraph(attributePaths = "authorities")
+   Optional<User> findOneWithAuthoritiesByUserName(String userName);
 
-    int countByUserId(String userId);
-    int countByNickname(String nickname);
+   @EntityGraph(attributePaths = "authorities")
+   Optional<User> findOneWithAuthoritiesByUserId(String userId);
 
-    User findUserByUserId(String userId);
-    User findUserByNickname(String nickname);
+   @EntityGraph(attributePaths = "authorities")
+   Optional<User> findOneWithAuthoritiesByNickname(String nickname);
+
+   Optional<User> findByUserId(String userId);
 }
