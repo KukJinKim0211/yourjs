@@ -1,13 +1,12 @@
 package com.project.yourjs.config;
 
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.GroupedOpenApi;
+import org.springdoc.core.customizers.OpenApiCustomiser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 
 @Configuration
 public class SwaggerConfig {
@@ -16,25 +15,19 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group("v1-definition")
                 .pathsToMatch("/**")
+                .addOpenApiCustomiser(buildSecurityOpenApi())
                 .build();
     }
-    
-    @Bean
-    public OpenAPI springShopOpenAPI() {
-        Info info = new Info()
-                .title("YourJS Swagger")
-                .description("YourJS API 문서")
-                .version("v0.0.1");
-        return new OpenAPI()
-                .info(info)
-                .components(new Components()
-                        .addSecuritySchemes("jwt-token", new SecurityScheme()
-                                .type(SecurityScheme.Type.APIKEY)
-                                .in(SecurityScheme.In.HEADER)
-                                .name("jwt-token")))
-                // AddSecurityItem section applies created scheme globally
-                .addSecurityItem(new SecurityRequirement().addList("jwt-token"));
-    };
 
+    public OpenApiCustomiser buildSecurityOpenApi(){
+        return OpenApi -> OpenApi.addSecurityItem(new SecurityRequirement().addList("jwt token"))
+                        .getComponents()
+                        .addSecuritySchemes("jwt token", new SecurityScheme()
+                        .name("Authorization")
+                        .type(SecurityScheme.Type.HTTP)
+                        .in(SecurityScheme.In.HEADER)
+                        .bearerFormat("JWT")
+                        .scheme("bearer"));
+    }
 
 }

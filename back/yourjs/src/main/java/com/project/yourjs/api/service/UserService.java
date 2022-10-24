@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mysql.cj.protocol.Security;
 import com.project.yourjs.common.dto.UserDto;
 import com.project.yourjs.common.exception.DuplicateMemberException;
 import com.project.yourjs.common.exception.NotFoundMemberException;
@@ -26,7 +27,7 @@ public class UserService {
 
     @Transactional
     public UserDto signup(UserDto userDto) {
-        if (userRepository.findOneWithAuthoritiesByUserName(userDto.getUserName()).orElse(null) != null) {
+        if (userRepository.findOneWithAuthoritiesByUserId(userDto.getUserId()).orElse(null) != null) {
             throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
         }
         Authority authority = Authority.builder()
@@ -44,15 +45,16 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserDto getUserWithAuthorities(String userName) {
-        return UserDto.from(userRepository.findOneWithAuthoritiesByUserName(userName).orElse(null));
+    public UserDto getUserWithAuthorities(String userId) {
+        return UserDto.from(userRepository.findOneWithAuthoritiesByUserId(userId).orElse(null));
     }
 
     @Transactional(readOnly = true)
     public UserDto getMyUserWithAuthorities() {
+        System.out.println(SecurityUtil.getCurrentUserId());
         return UserDto.from(
-                SecurityUtil.getCurrentUserName()
-                        .flatMap(userRepository::findOneWithAuthoritiesByUserName)
+                SecurityUtil.getCurrentUserId()
+                        .flatMap(userRepository::findOneWithAuthoritiesByUserId)
                         .orElseThrow(() -> new NotFoundMemberException("Member not found"))
         );
     }

@@ -46,6 +46,7 @@ public class UserDto {
                         return null;
 
                 return UserDto.builder()
+                                .userId(user.getUserId())
                                 .userName(user.getUserName())
                                 .nickname(user.getNickname())
                                 .authorityDtoSet(user.getAuthorities().stream()
