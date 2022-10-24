@@ -7,7 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,14 +33,19 @@ public class Notice {
   @Column(name = "notice_seq", nullable = false, columnDefinition = "INT UNSIGNED UNIQUE")
   private Integer noticeSeq;
 
-  private Integer userSeq;
+  @JsonBackReference
+  @ManyToOne(targetEntity = User.class)
+  @JoinColumn(name = "userSeq")
+  private User user;
 
   @Column(name = "notice_name", length = 45)
   private String noticeName;
 
+  @CreatedDate
   @Column(name = "reg_dtm")
   private LocalDateTime regDtm;
 
+  @LastModifiedDate
   @Column(name = "mod_dtm")
   private LocalDateTime modDtm;
 
