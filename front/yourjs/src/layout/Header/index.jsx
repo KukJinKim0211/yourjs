@@ -2,6 +2,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import logo from '../../img/logo.png';
+import React, { useState } from 'react';
 
 const Wrapper = styled.div`
   background-color: white;
@@ -35,20 +36,30 @@ const NavBar = styled.div`
 `;
 
 const Header = () => {
+  const [loginState, setLoginState] = useState(false);
+
   return (
     <Wrapper>
       <HeaderDiv>
         <div>
           <LogoImage />
         </div>
-        <NavBar>
-          <Link to="/"> 캘린더 </Link>
-          <Link to="/notice"> 내공고 </Link>
-          <Link to="/findnotice"> 공고찾기 </Link>
-          <Link to="/portfolio"> 포트폴리오 </Link>
-          <Link to="/MyGroup"> 내그룹 </Link>
-          <Link to="/MyPage"> 마이페이지 </Link>
-        </NavBar>
+        {loginState ? (
+          <>
+            <NavBar>
+              <Link to="/"> 캘린더 </Link>
+              <Link to="/notice"> 내공고 </Link>
+              <Link to="/findnotice"> 공고찾기 </Link>
+              <Link to="/portfolio"> 포트폴리오 </Link>
+              <Link to="/MyGroup"> 내그룹 </Link>
+              <Link to="/MyPage"> 마이페이지 </Link>
+            </NavBar>{' '}
+          </>
+        ) : (
+          <NavBar>
+            <Link to="/login"> 로그인 </Link>
+          </NavBar>
+        )}
       </HeaderDiv>
     </Wrapper>
   );

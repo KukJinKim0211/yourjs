@@ -1,11 +1,12 @@
 //Main
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  background-color: skyblue;
+`;
 
 const Main = () => {
-  return (
-    <div style={{ width: '100%', height: '100%' }}>
-      <p>Main</p>
-    </div>
-  );
+  return <Wrapper style={{ width: '100%', height: '100%' }}></Wrapper>;
 };
 
 export default Main;
