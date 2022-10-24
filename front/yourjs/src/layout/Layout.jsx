@@ -16,17 +16,18 @@ const Layout = () => {
     <div
       style={{
         width: '100%',
-        backgroundColor: 'tomato',
         minHeight: '100vh',
         height: 'fit-content',
         padding: 0,
         margin: 0,
       }}
     >
-      <div style={{ height: '10vh' }}>
+      <div style={{ width: '100%', height: '10vh' }}>
         <Header></Header>
       </div>
-      <div style={{ height: '90vh' }}>
+      <div
+        style={{ height: '90vh', display: 'flex', justifyContent: 'center' }}
+      >
         <Outlet></Outlet>
       </div>
     </div>
