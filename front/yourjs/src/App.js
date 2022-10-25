@@ -12,6 +12,8 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import KakaoLogin from './pages/KakaoLogin';
 import NaverLogin from './pages/NaverLogin';
+import MyNoticeDetail from './components/MyNotice/MyNoticeDetail';
+import MyNoticeAdd from './components/MyNotice/MyNoticeAdd';
 
 const App = () => {
   return (
@@ -21,6 +23,8 @@ const App = () => {
           <Route path="/" element={<Main />} />
           <Route path="/maincalendar" element={<MainCalendar />} />
           <Route path="/notice" element={<MyNotice />} />
+          <Route path="/notice/add" element={<MyNoticeAdd />} />
+          <Route path="/notice/detail" element={<MyNoticeDetail />} />
           <Route path="/findnotice" element={<FindNotice />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/MyGroup" element={<MyGroup />} />
@@ -38,3 +42,8 @@ const App = () => {
 };
 
 export default App;
+
+
+
+
+
