@@ -40,6 +40,7 @@ const LabelText = styled.label`
 `;
 
 const FormInput = styled.input`
+  width: ${props => props.width};
   height: 30px;
   font-size: 16px;
   color: black;
@@ -53,10 +54,27 @@ const FormInput = styled.input`
   }
 `;
 
+const InputButton = styled.button`
+  width: 27%;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  &:hover {
+    background-color: ${colors.buttonBlue};
+    color: white;
+  }
+`;
+
+const InputDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const ButtonDiv = styled.div`
   margin-top: 3%;
   width: 100%;
-  height: 10%;
+  height: 70px;
   display: flex;
   justify-content: space-between;
 `;
@@ -68,6 +86,7 @@ const Button = styled.button`
   font-size: 20px;
   color: ${props => props.fontcolor};
   cursor: pointer;
+  border-radius: 5px;
 `;
 
 const SignUp = () => {
@@ -78,8 +97,16 @@ const SignUp = () => {
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  //const [email, setEmail] = useState('');
+  // 빈칸 체크
+  const emptyCheck = () => {
+    return true;
+  };
 
+  // 회원가입 버튼 클릭 이벤트
+  const confirmButtonClicked = () => {};
+
+  // 취소버튼 클릭 이벤트
   const cancelButtonClicked = () => {
     navigate('/login');
   };
@@ -93,43 +120,65 @@ const SignUp = () => {
       </CenterDiv>
       <FormDiv>
         <LabelText>아이디</LabelText>
-        <FormInput
-          type="text"
-          value={id}
-          onChange={e => setId(e.target.value)}
-        />
+        <InputDiv>
+          <FormInput
+            width="70%"
+            type="text"
+            value={id}
+            onChange={e => {
+              if (e.target.value.length < 13) setId(e.target.value);
+              console.log(e.target.value.length);
+            }}
+          />
+          <InputButton>중복확인</InputButton>
+        </InputDiv>
         <LabelText>닉네임</LabelText>
-        <FormInput
-          type="text"
-          value={nickname}
-          onChange={e => setNickname(e.target.value)}
-        />
+        <InputDiv>
+          <FormInput
+            width="70%"
+            type="text"
+            value={nickname}
+            onChange={e => {
+              if (e.target.value.length < 13) setNickname(e.target.value);
+              console.log(e.target.value.length);
+            }}
+          />
+          <InputButton>중복확인</InputButton>
+        </InputDiv>
         <LabelText>비밀번호</LabelText>
         <FormInput
+          width="100%"
           type="password"
           value={password1}
           onChange={e => setPassword1(e.target.value)}
         />
         <LabelText>비밀번호확인</LabelText>
         <FormInput
+          width="100%"
           type="password"
           value={password2}
           onChange={e => setPassword2(e.target.value)}
         />
         <LabelText>이름</LabelText>
         <FormInput
+          width="100%"
           type="text"
           value={name}
           onChange={e => setName(e.target.value)}
         />
+        {/*
         <LabelText>이메일</LabelText>
         <FormInput
           type="text"
           value={email}
           onChange={e => setEmail(e.target.value)}
-        />
+  />*/}
         <ButtonDiv>
-          <Button color={colors.buttonBlue} fontcolor="white">
+          <Button
+            color={colors.buttonBlue}
+            fontcolor="white"
+            onClick={confirmButtonClicked}
+          >
             회원가입
           </Button>
           <Button
