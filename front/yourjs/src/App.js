@@ -10,6 +10,8 @@ import MyGroup from './pages/MyGroup';
 import MyPage from './pages/MyPage';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import KakaoLogin from './pages/KakaoLogin';
+import NaverLogin from './pages/NaverLogin';
 
 const App = () => {
   return (
@@ -27,6 +29,8 @@ const App = () => {
         <Route element={<HeaderlessLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/login/kakao" element={<KakaoLogin />} />
+          <Route path="/login/naver" element={<NaverLogin />} />
         </Route>
       </Routes>
     </BrowserRouter>

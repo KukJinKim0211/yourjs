@@ -1,9 +1,16 @@
 //Login
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../img/logo.png';
 import { colors } from '../common/color';
+import {
+  KAKAO_AUTH_URL,
+  NAVER_CLIENT_ID,
+  NAVER_REDIRECT_URI,
+} from '../common/login';
+import kakao_login_button from '../img/kakao_login_button.png';
+import naver_login_button from '../img/naver_login_button.png';
 
 const Wrapper = styled.div`
   width: 30%;
@@ -54,20 +61,71 @@ const FormInput = styled.input`
 const LoginButton = styled.button`
   width: ${props => props.width};
   height: ${props => props.height};
-  font-size: 20px;
+  font-size: 26px;
   background-color: ${props => props.color};
   color: ${props => props.fontcolor};
   margin-top: 2%;
   cursor: pointer;
   border: none;
+  border-radius: 5px;
 `;
 
-const ButtonDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
+const KakaoButtonImage = styled.img`
+  padding-top: 3%;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  cursor: pointer;
+`;
+
+KakaoButtonImage.defaultProps = {
+  src: kakao_login_button,
+};
+
+const NaverButtonImage = styled.img`
+  padding-top: 3%;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  cursor: pointer;
+`;
+
+NaverButtonImage.defaultProps = {
+  src: naver_login_button,
+};
+
+const NaverIdLogin = styled.div`
+  display: none;
 `;
 
 const Login = () => {
+  const { naver } = window;
+  const naverRef = useRef();
+  const navigate = useNavigate();
+  const initializeNaverLogin = () => {
+    const naverLogin = new naver.LoginWithNaverId({
+      clientId: NAVER_CLIENT_ID,
+      callbackUrl: NAVER_REDIRECT_URI,
+      isPopup: false,
+      loginButton: { color: 'green', type: 2, height: '70' },
+    });
+    naverLogin.init();
+  };
+  const getToken = () => {
+    const token = window.location.href.split('=')[1].split('&')[0];
+  };
+  const userAccessToken = () => {
+    window.location.href.includes('access_token') && getToken();
+  };
+
+  const handleNaverLogin = () => {
+    naverRef.current.children[0].click();
+  };
+
+  useEffect(() => {
+    initializeNaverLogin();
+    userAccessToken();
+  });
   return (
     <Wrapper>
       <CenterDiv>
@@ -88,19 +146,21 @@ const Login = () => {
           color={colors.buttonBlue}
           fontcolor="white"
           width="100%"
-          height="50px"
+          height="70px"
         >
           로그인
         </LoginButton>
-
-        <LoginButton
-          color={colors.kakao}
-          fontcolor="black"
-          width="100%"
-          height="50px"
-        >
-          카카오로그인
-        </LoginButton>
+        {/*
+        <a href={KAKAO_AUTH_URL}>
+          <LoginButton
+            color={colors.kakao}
+            fontcolor="black"
+            width="100%"
+            height="50px"
+          >
+            카카오로그인
+          </LoginButton>
+        </a>
         <LoginButton
           color={colors.naver}
           fontcolor="white"
@@ -108,7 +168,22 @@ const Login = () => {
           height="50px"
         >
           네이버로그인
-        </LoginButton>
+  </LoginButton>*/}
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          <a href={KAKAO_AUTH_URL} style={{ width: '49%', height: '70px' }}>
+            <KakaoButtonImage />
+          </a>
+          <a style={{ width: '49%', height: '70px' }}>
+            <NaverIdLogin ref={naverRef} id="naverIdLogin" />
+            <NaverButtonImage onClick={handleNaverLogin} />
+          </a>
+        </div>
       </FormDiv>
     </Wrapper>
   );
