@@ -18,10 +18,10 @@ public class Portfolio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "military_seq")
-    private Long militarySeq;
+    @Column(name = "portfolio_seq")
+    private Long portfolioSeq;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_seq")
     private User user;
 

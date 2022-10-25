@@ -30,13 +30,13 @@ public class EntityTest extends YourjsApplicationTests {
 //        Assertions.assertThat(savedUser.getUserSeq()).isEqualTo(userRepository.findUserByUserId(savedUser.getUserId()).getUserSeq());
 //        Assertions.assertThat(savedMilitary.getMilitarySeq()).isEqualTo(militaryRepository.findById(savedMilitary.getMilitarySeq()).get().getMilitarySeq());
 //    }
-
-    @Test
-    public void deleteUser() {
-        User user = userRepository.findUserByUserId("JUnittest");
-        userRepository.deleteById(user.getUserSeq());
-        Assertions.assertThat(userRepository.findUserByUserId("JUnittest")).isNull();
-    }
+//
+//    @Test
+//    public void deleteUser() {
+//        User user = userRepository.findUserByUserId("JUnittest");
+//        userRepository.deleteById(user.getUserSeq());
+//        Assertions.assertThat(userRepository.findUserByUserId("JUnittest")).isNull();
+//    }
 
 
 }

@@ -16,6 +16,5 @@ public class UserRegisterPostReq {
 	String password;
 	String userName;
 	String nickname;
-	String email;
 
 }

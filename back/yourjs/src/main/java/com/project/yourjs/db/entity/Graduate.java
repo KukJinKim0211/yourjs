@@ -24,7 +24,7 @@ public class Graduate {
     @Column(name = "graduate_seq")
     private Long graduateSeq;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_seq")
     private User user;
 
@@ -79,22 +79,4 @@ public class Graduate {
     @LastModifiedDate
     @Column
     private LocalDateTime modDtm;
-
-    public Graduate(User user, String schoolName, String location, String degree, boolean graduateStatus, String totAvgCredit, String majorAvgCredit, String totCredit, String majorCredit, String majorName, String doubleMajorName, String subMajorName, Date startDate, Date endDate, String fileSrc) {
-        this.user = user;
-        this.schoolName = schoolName;
-        this.location = location;
-        this.degree = degree;
-        this.graduateStatus = graduateStatus;
-        this.totAvgCredit = totAvgCredit;
-        this.majorAvgCredit = majorAvgCredit;
-        this.totCredit = totCredit;
-        this.majorCredit = majorCredit;
-        this.majorName = majorName;
-        this.doubleMajorName = doubleMajorName;
-        this.subMajorName = subMajorName;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.fileSrc = fileSrc;
-    }
 }

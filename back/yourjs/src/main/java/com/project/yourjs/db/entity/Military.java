@@ -23,7 +23,7 @@ public class Military {
     @Column(name = "military_seq")
     private Long militarySeq;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_seq")
     private User user;
 

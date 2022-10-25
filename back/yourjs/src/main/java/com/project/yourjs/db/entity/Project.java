@@ -21,7 +21,7 @@ public class Project {
     @Column(name = "project_seq")
     private Long projectSeq;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_seq")
     private User user;
 
