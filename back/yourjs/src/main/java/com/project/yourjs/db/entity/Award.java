@@ -1,7 +1,7 @@
 package com.project.yourjs.db.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.project.yourjs.common.dto.AwardDto;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,6 +16,9 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "award")
 public class Award {
 
@@ -52,4 +55,15 @@ public class Award {
     @LastModifiedDate
     @Column
     private LocalDateTime modDtm;
+
+    public AwardDto toDto(){
+        return AwardDto.builder()
+                .awardSeq(this.awardSeq)
+                .awardName(this.awardName)
+                .awardContents(this.awardContents)
+                .awardInstitution(this.awardInstitution)
+                .winDate(this.winDate)
+                .build();
+    }
+
 }
