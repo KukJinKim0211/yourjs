@@ -1,6 +1,7 @@
 package com.project.yourjs.api.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +28,15 @@ public class NoticeService {
         this.userRepository = userRepository;
     }
 
-    public List<Notice> getAllNotice() {
-        return noticeRepository.findAll();
+    public List<Notice> getAllNotice(String userId) {
+        List<Notice> noticeList = new ArrayList<Notice>();
+        List<Notice> allNoticeList = noticeRepository.findAll();
+        for (Notice notice : allNoticeList){
+            if(notice.getUser().getUserId().equals(userId)){
+                noticeList.add(notice);
+            }
+        }
+        return noticeList;
     }
 
     @Transactional

@@ -34,8 +34,8 @@ public class NoticeController {
 
   @GetMapping
   @PreAuthorize("hasAnyRole('USER','ADMIN')")
-  public ResponseEntity<List<Notice>> getAllNotice(){
-    return ResponseEntity.ok(noticeService.getAllNotice());
+  public ResponseEntity<List<Notice>> getAllNotice(Authentication authentication){
+    return ResponseEntity.ok(noticeService.getAllNotice(authentication.getName()));
   }
 
   @PostMapping

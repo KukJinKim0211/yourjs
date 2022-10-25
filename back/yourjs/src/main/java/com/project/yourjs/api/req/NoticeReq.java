@@ -8,5 +8,5 @@ import lombok.Setter;
 public class NoticeReq {
     private String noticeName;
     private String link;
-    private String progress; 
+    private String progress;
 }
