@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.yourjs.api.req.NicknameDupleReq;
+import com.project.yourjs.api.req.UserIdDupleReq;
 import com.project.yourjs.api.req.UserRegisterPostReq;
 import com.project.yourjs.api.service.UserService;
 import com.project.yourjs.common.dto.LoginDto;
@@ -100,8 +102,8 @@ public class UserController {
         @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @PostMapping("/duple/userid")
-    public String isDuplicatedUID(@RequestBody String userId) {
-        return userService.isDuplicatedUID(userId);
+    public Boolean isDuplicatedUID(@RequestBody UserIdDupleReq userIdDupleReq) {
+        return userService.isDuplicatedUID(userIdDupleReq.getUserId());
     }
 
     @Operation(summary = "닉네임 중복 확인")
@@ -112,8 +114,8 @@ public class UserController {
         @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @PostMapping("/duple/nickname")
-    public String isDuplicatedUNN(@RequestBody String nickname) {
-        return userService.isDuplicatedUNN(nickname);
+    public Boolean isDuplicatedUNN(@RequestBody NicknameDupleReq nicknameDupleReq) {
+        return userService.isDuplicatedUNN(nicknameDupleReq.getNickname());
     }
 
     @Operation(summary = "유저 권한 확인", description = "접속한 계정의 권한을 확인합니다.")
