@@ -1,5 +1,5 @@
 //Login
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../img/logo.png';
@@ -11,6 +11,8 @@ import {
 } from '../common/login';
 import kakao_login_button from '../img/kakao_login_button.png';
 import naver_login_button from '../img/naver_login_button.png';
+import axios from 'axios';
+import { SERVER_IP, apis } from '../common/apis';
 
 const Wrapper = styled.div`
   width: 30%;
@@ -100,6 +102,9 @@ const NaverIdLogin = styled.div`
 
 const Login = () => {
   const { naver } = window;
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+
   const naverRef = useRef();
   const navigate = useNavigate();
   const initializeNaverLogin = () => {
@@ -122,6 +127,17 @@ const Login = () => {
     naverRef.current.children[0].click();
   };
 
+  const loginButtonClicked = () => {
+    if (id.length === 0) return;
+
+    if (password.length === 0) return;
+
+    axios
+      .post(SERVER_IP + apis.login, { userId: id, password: password })
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
+  };
+
   useEffect(() => {
     initializeNaverLogin();
     userAccessToken();
@@ -136,9 +152,19 @@ const Login = () => {
       </CenterDiv>
       <FormDiv>
         <LabelText>아이디</LabelText>
-        <FormInput type="text"></FormInput>
+        <FormInput
+          type="text"
+          value={id}
+          onChange={e => setId(e.target.value)}
+          maxLength={12}
+        ></FormInput>
         <LabelText>비밀번호</LabelText>
-        <FormInput type="password"></FormInput>
+        <FormInput
+          type="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          maxLength={10}
+        ></FormInput>
         <p>
           <Link to="/signup">아이디가 없으신가요? 회원가입</Link>
         </p>
@@ -147,6 +173,7 @@ const Login = () => {
           fontcolor="white"
           width="100%"
           height="70px"
+          onClick={loginButtonClicked}
         >
           로그인
         </LoginButton>

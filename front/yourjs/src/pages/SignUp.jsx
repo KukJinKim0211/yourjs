@@ -103,18 +103,15 @@ const SignUp = () => {
       setIdState(1);
     } else {
       // 중복이상 : 2,  사용가능 : 3
-      /*
-      axios
-        .post(SERVER_IP + apis.idCheck, { id })
-        .then(response => console.log(response))
-        .catch(error => console.log(error));
-        */
       axios
         .post(SERVER_IP + apis.idCheck, {
-          id,
+          userId: id,
         })
-        .then(response => console.log(response));
-      setIdState(2);
+        .then(response => {
+          if (response.data) setIdState(3);
+          else setIdState(2);
+        })
+        .catch(error => console.log(error));
     }
   }, [id]);
 
@@ -128,13 +125,16 @@ const SignUp = () => {
       // 글자 수 에러 : 1
       setNicknameState(1);
     } else {
+      // 중복이상 : 2,  사용가능 : 3
       axios
         .post(SERVER_IP + apis.nicknameCheck, {
           nickname,
         })
-        .then(response => console.log(response));
-      // 중복이상 : 2,  사용가능 : 3
-      setNicknameState(2);
+        .then(response => {
+          if (response.data) setNicknameState(3);
+          else setNicknameState(2);
+        })
+        .catch(error => console.log(error));
     }
   }, [nickname]);
 
@@ -161,19 +161,19 @@ const SignUp = () => {
     }
 
     // 닉네임 유효성 체크
-    if (nickname !== 3) {
+    if (nicknameState !== 3) {
       alert('닉네임을 확인해 주세요.');
       return false;
     }
 
     // 이름 입력 체크
-    if (name.length) {
+    if (name.length < 2 || name.length > 8) {
       alert('이름의 양식이 맞지 않습니다.');
       return false;
     }
 
     // 비밀번호 자리수 체크
-    if (password1.length < 4 || password1.length < 10) {
+    if (password1.length < 4 || password1.length > 10) {
       alert('비밀번호의 양식이 맞지 않습니다.');
       return false;
     }
@@ -190,7 +190,7 @@ const SignUp = () => {
   // 회원가입 버튼 클릭 이벤트
   const confirmButtonClicked = () => {
     // 입력 정보 유효성 체크
-    //if (!emptyCheck()) return;
+    if (!emptyCheck()) return;
     /*
     {
   "userId": "string",
@@ -206,13 +206,10 @@ const SignUp = () => {
 */
     axios
       .post(SERVER_IP + apis.signUp, {
-        headers: {},
-        data: {
-          userId: id,
-          userName: name,
-          password: password1,
-          nickname: nickname,
-        },
+        userId: id,
+        userName: name,
+        password: password1,
+        nickname: nickname,
       })
       .then(response => console.log(response))
       .catch(error => console.log(error));
