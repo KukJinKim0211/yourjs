@@ -1,7 +1,7 @@
 package com.project.yourjs.db.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.project.yourjs.common.dto.CareerDto;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,15 +16,18 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "career")
 public class Career {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "career_seq")
     private Long careerSeq;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, targetEntity = User.class)
     @JoinColumn(name = "user_seq")
     private User user;
 
@@ -61,4 +64,17 @@ public class Career {
     @LastModifiedDate
     @Column
     private LocalDateTime modDtm;
+
+    public CareerDto toDto(){
+        return CareerDto.builder()
+                .careerSeq(this.careerSeq)
+                .company(this.company)
+                .department(this.department)
+                .position(this.position)
+                .startDate(this.startDate)
+                .endDate(this.endDate)
+                .salary(this.salary)
+                .careerState(this.careerState)
+                .build();
+    }
 }

@@ -23,11 +23,11 @@ import static javax.persistence.FetchType.LAZY;
 public class Award {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "award_seq")
     private Long awardSeq;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, targetEntity = User.class)
     @JoinColumn(name = "user_seq")
     private User user;
 

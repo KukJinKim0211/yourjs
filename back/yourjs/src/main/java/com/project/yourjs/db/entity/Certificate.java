@@ -20,11 +20,11 @@ import static javax.persistence.FetchType.LAZY;
 public class Certificate {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cert_seq")
     private Long certSeq;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, targetEntity = User.class)
     @JoinColumn(name = "user_seq")
     private User user;
 

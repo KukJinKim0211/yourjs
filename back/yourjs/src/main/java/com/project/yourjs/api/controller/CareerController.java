@@ -1,12 +1,12 @@
 package com.project.yourjs.api.controller;
 
-import com.project.yourjs.api.req.AwardDeleteReq;
-import com.project.yourjs.api.req.AwardPostReq;
-import com.project.yourjs.api.res.AwardDeleteRes;
-import com.project.yourjs.api.res.AwardPatchRes;
-import com.project.yourjs.api.res.AwardPostRes;
-import com.project.yourjs.api.service.AwardService;
-import com.project.yourjs.common.dto.AwardDto;
+import com.project.yourjs.api.req.CareerDeleteReq;
+import com.project.yourjs.api.req.CareerPostReq;
+import com.project.yourjs.api.res.CareerDeleteRes;
+import com.project.yourjs.api.res.CareerPostRes;
+import com.project.yourjs.api.res.CareerUpdateRes;
+import com.project.yourjs.api.service.CareerService;
+import com.project.yourjs.common.dto.CareerDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,64 +22,65 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Tag(name = "Award",description = "수상내역 API")
+@Tag(name = "Career",description = "경력사항 API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/award")
-public class AwardController {
+@RequestMapping("/career")
+public class CareerController {
 
-    private final AwardService awardService;
+    private final CareerService careerService;
 
-    @Operation(summary = "Get Awards", description = "수상내역 조회")
+
+    @Operation(summary = "Get Careers", description = "경력사항 조회")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = AwardDto.class))),
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = CareerDto.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @GetMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<List<AwardDto>> getAllAward(Authentication authentication){
-        return ResponseEntity.ok(awardService.getAllAwards(authentication.getName()));
+    public ResponseEntity<List<CareerDto>> getAllCareers(Authentication authentication){
+        return ResponseEntity.ok(careerService.getAllCareers(authentication.getName()));
     }
 
-    @Operation(summary = "Create Award", description = "수상내역 등록")
+    @Operation(summary = "Create Career", description = "경력사항 등록")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = AwardPostRes.class))),
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = CareerPostRes.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @PostMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<AwardPostRes> createAward(Authentication authentication, @Valid @RequestBody AwardPostReq awardPostReq){
-        return ResponseEntity.ok(awardService.createAward(authentication.getName(), awardPostReq));
+    public ResponseEntity<CareerPostRes> createCareer(Authentication authentication, @Valid @RequestBody CareerPostReq careerPostReq){
+        return ResponseEntity.ok(careerService.createCareer(authentication.getName(), careerPostReq));
     }
 
-    @Operation(summary = "Update Award", description = "수상내역 수정")
+    @Operation(summary = "Update Career", description = "경력사항 수정")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = AwardPatchRes.class))),
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = CareerUpdateRes.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @PutMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<AwardPatchRes> updateAward(Authentication authentication, @Valid @RequestBody AwardDto awardDto){
-        return ResponseEntity.ok(awardService.updateAward(authentication.getName(), awardDto));
+    public ResponseEntity<CareerUpdateRes> updateCareer(Authentication authentication, @Valid @RequestBody CareerDto careerDto){
+        return ResponseEntity.ok(careerService.updateCareer(authentication.getName(), careerDto));
     }
 
-    @Operation(summary = "Delete Award", description = "수상내역 삭제")
+    @Operation(summary = "Delete Career", description = "경력사항 삭제")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = AwardDeleteRes.class))),
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = CareerDeleteRes.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @DeleteMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<AwardDeleteRes> deleteAward(Authentication authentication, @Valid @RequestBody AwardDeleteReq awardDeleteReq){
-        return ResponseEntity.ok(awardService.deleteAward(authentication.getName(), awardDeleteReq));
+    public ResponseEntity<CareerDeleteRes> deleteCareer(Authentication authentication, @Valid @RequestBody CareerDeleteReq careerDeleteReq){
+        return ResponseEntity.ok(careerService.deleteCareer(authentication.getName(), careerDeleteReq));
     }
 
 }

@@ -21,11 +21,11 @@ import static javax.persistence.FetchType.LAZY;
 public class Education {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "edu_seq")
     private Long eduSeq;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, targetEntity = User.class)
     @JoinColumn(name = "user_seq")
     private User user;
 
