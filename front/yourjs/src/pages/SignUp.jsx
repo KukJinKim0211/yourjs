@@ -1,10 +1,12 @@
 //signup
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../img/logo.png';
 import { colors } from '../common/color';
+import { SERVER_IP, apis } from '../common/apis';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Wrapper = styled.div`
   width: 30%;
@@ -36,7 +38,7 @@ LogoImage.defaultProps = {
 
 const LabelText = styled.label`
   font-size: 20px;
-  margin-top: 3%;
+  margin-top: 2%;
 `;
 
 const FormInput = styled.input`
@@ -54,27 +56,15 @@ const FormInput = styled.input`
   }
 `;
 
-const InputButton = styled.button`
-  width: 27%;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  &:hover {
-    background-color: ${colors.buttonBlue};
-    color: white;
-  }
-`;
-
-const InputDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
+const MessageText = styled.p`
+  color: ${props =>
+    props.type === 1 ? colors.negativeMsgColor : colors.positiveMsgColor};
 `;
 
 const ButtonDiv = styled.div`
   margin-top: 3%;
   width: 100%;
-  height: 70px;
+  height: 50px;
   display: flex;
   justify-content: space-between;
 `;
@@ -93,18 +83,140 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const [id, setId] = useState('');
+  const [idState, setIdState] = useState(0);
   const [nickname, setNickname] = useState('');
+  const [nicknameState, setNicknameState] = useState(0);
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
+  const [password2State, setPassword2State] = useState(0);
   const [name, setName] = useState('');
   //const [email, setEmail] = useState('');
+
+  // id 입력체크
+  // 제한조건 : 6 ~ 12글자
+  useEffect(() => {
+    if (id.length === 0) {
+      // 미입력시 : 0
+      setIdState(0);
+    } else if (id.length < 6 || id.length > 12) {
+      // 글자 수 에러 : 1
+      setIdState(1);
+    } else {
+      // 중복이상 : 2,  사용가능 : 3
+      /*
+      axios
+        .post(SERVER_IP + apis.idCheck, { id })
+        .then(response => console.log(response))
+        .catch(error => console.log(error));
+        */
+      axios
+        .post(SERVER_IP + apis.idCheck, {
+          id,
+        })
+        .then(response => console.log(response));
+      setIdState(2);
+    }
+  }, [id]);
+
+  // 닉네임 중복체크
+  // 제한조건 : 2 ~ 8글자
+  useEffect(() => {
+    if (nickname.length === 0) {
+      // 미입력시 : 0
+      setNicknameState(0);
+    } else if (nickname.length < 2 || nickname.length > 8) {
+      // 글자 수 에러 : 1
+      setNicknameState(1);
+    } else {
+      axios
+        .post(SERVER_IP + apis.nicknameCheck, {
+          nickname,
+        })
+        .then(response => console.log(response));
+      // 중복이상 : 2,  사용가능 : 3
+      setNicknameState(2);
+    }
+  }, [nickname]);
+
+  // 비밀번호 일치체크
+  useEffect(() => {
+    if (password2.length === 0) {
+      // 미입력시 : 0
+      setPassword2State(0);
+    } else if (password1 !== password2) {
+      // 패스워드가 맞지 않을 시 : 1
+      setPassword2State(1);
+    } else {
+      // 패스워드가 맞을 시 : 2
+      setPassword2State(2);
+    }
+  }, [password2]);
+
   // 빈칸 체크
   const emptyCheck = () => {
+    // 아이디 유효성 체크
+    if (idState !== 3) {
+      alert('아이디를 확인해 주세요.');
+      return false;
+    }
+
+    // 닉네임 유효성 체크
+    if (nickname !== 3) {
+      alert('닉네임을 확인해 주세요.');
+      return false;
+    }
+
+    // 이름 입력 체크
+    if (name.length) {
+      alert('이름의 양식이 맞지 않습니다.');
+      return false;
+    }
+
+    // 비밀번호 자리수 체크
+    if (password1.length < 4 || password1.length < 10) {
+      alert('비밀번호의 양식이 맞지 않습니다.');
+      return false;
+    }
+
+    // 비밀번호 일치 체크
+    if (password2State !== 2) {
+      alert('비밀번호가 일치하지 않습니다.');
+      return false;
+    }
+
     return true;
   };
 
   // 회원가입 버튼 클릭 이벤트
-  const confirmButtonClicked = () => {};
+  const confirmButtonClicked = () => {
+    // 입력 정보 유효성 체크
+    //if (!emptyCheck()) return;
+    /*
+    {
+  "userId": "string",
+  "userName": "string",
+  "password": "string",
+  "nickname": "string",
+  "authorityDtoSet": [
+    {
+      "authorityName": "string"
+    }
+  ]
+}
+*/
+    axios
+      .post(SERVER_IP + apis.signUp, {
+        headers: {},
+        data: {
+          userId: id,
+          userName: name,
+          password: password1,
+          nickname: nickname,
+        },
+      })
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
+  };
 
   // 취소버튼 클릭 이벤트
   const cancelButtonClicked = () => {
@@ -120,36 +232,57 @@ const SignUp = () => {
       </CenterDiv>
       <FormDiv>
         <LabelText>아이디</LabelText>
-        <InputDiv>
-          <FormInput
-            width="70%"
-            type="text"
-            value={id}
-            onChange={e => {
-              if (e.target.value.length < 13) setId(e.target.value);
-              console.log(e.target.value.length);
-            }}
-          />
-          <InputButton>중복확인</InputButton>
-        </InputDiv>
+        <FormInput
+          width="100%"
+          type="text"
+          value={id}
+          maxLength={12}
+          placeholder="6 ~ 12글자"
+          onChange={e => setId(e.target.value)}
+        />
+        {idState === 1 && (
+          <MessageText type={1}>6글자 ~ 12글자를 입력 해 주세요.</MessageText>
+        )}
+        {idState === 2 && (
+          <MessageText type={1}>이미 사용중인 아이디입니다.</MessageText>
+        )}
+        {idState === 3 && (
+          <MessageText type={2}>사용할 수 있는 아이디입니다.</MessageText>
+        )}
         <LabelText>닉네임</LabelText>
-        <InputDiv>
-          <FormInput
-            width="70%"
-            type="text"
-            value={nickname}
-            onChange={e => {
-              if (e.target.value.length < 13) setNickname(e.target.value);
-              console.log(e.target.value.length);
-            }}
-          />
-          <InputButton>중복확인</InputButton>
-        </InputDiv>
+        <FormInput
+          width="100%"
+          type="text"
+          value={nickname}
+          maxLength={8}
+          placeholder="2 ~ 8글자"
+          onChange={e => setNickname(e.target.value)}
+        />
+        {nicknameState === 1 && (
+          <MessageText type={1}>2글자 ~ 8글자를 입력 해 주세요.</MessageText>
+        )}
+        {nicknameState === 2 && (
+          <MessageText type={1}>이미 사용중인 닉네임입니다.</MessageText>
+        )}
+        {nicknameState === 3 && (
+          <MessageText type={2}>사용할 수 있는 닉네임입니다.</MessageText>
+        )}
+        <LabelText>이름</LabelText>
+        <FormInput
+          width="100%"
+          type="text"
+          value={name}
+          maxLength={8}
+          placeholder="2 ~ 8글자"
+          onChange={e => setName(e.target.value)}
+        />
         <LabelText>비밀번호</LabelText>
         <FormInput
           width="100%"
           type="password"
           value={password1}
+          maxLength={10}
+          placeholder="4 ~ 10글자"
           onChange={e => setPassword1(e.target.value)}
         />
         <LabelText>비밀번호확인</LabelText>
@@ -157,15 +290,16 @@ const SignUp = () => {
           width="100%"
           type="password"
           value={password2}
+          maxLength={10}
+          placeholder="4 ~ 10글자"
           onChange={e => setPassword2(e.target.value)}
         />
-        <LabelText>이름</LabelText>
-        <FormInput
-          width="100%"
-          type="text"
-          value={name}
-          onChange={e => setName(e.target.value)}
-        />
+        {password2State === 1 && (
+          <MessageText type={1}>비밀번호가 일치하지 않습니다.</MessageText>
+        )}
+        {password2State === 2 && (
+          <MessageText type={2}>비밀번호가 일치합니다.</MessageText>
+        )}
         {/*
         <LabelText>이메일</LabelText>
         <FormInput
