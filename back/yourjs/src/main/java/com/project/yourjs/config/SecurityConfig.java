@@ -50,9 +50,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 // token을 사용하는 방식이기 때문에 csrf를 disable합니다.
-                .csrf().disable().cors().disable()
+                .csrf().disable()
 
-                // .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
@@ -81,7 +81,7 @@ public class SecurityConfig {
 
                 .anyRequest().authenticated()
 
-                .and()
+                .and().cors().and()
                 .apply(new JwtSecurityConfig(tokenProvider));
 
         return httpSecurity.build();
