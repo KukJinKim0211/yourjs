@@ -1,6 +1,6 @@
 package com.project.yourjs.api.controller;
 
-import com.project.yourjs.api.req.NoticeReq;
+import com.project.yourjs.api.req.NoticePostReq;
 import com.project.yourjs.api.req.ProjectPostReq;
 import com.project.yourjs.api.req.ProjectUpdateReq;
 import com.project.yourjs.api.res.NoticePostRes;
