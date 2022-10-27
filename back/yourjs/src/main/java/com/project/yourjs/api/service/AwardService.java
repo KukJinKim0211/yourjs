@@ -1,5 +1,7 @@
 package com.project.yourjs.api.service;
 
+import com.project.yourjs.api.req.AwardDeleteReq;
+import com.project.yourjs.api.req.AwardPostReq;
 import com.project.yourjs.api.res.AwardDeleteRes;
 import com.project.yourjs.api.res.AwardPatchRes;
 import com.project.yourjs.api.res.AwardPostRes;
@@ -44,10 +46,10 @@ public class AwardService {
     }
 
     @Transactional
-    public AwardPostRes createAward(String userId, AwardDto awardDto){
+    public AwardPostRes createAward(String userId, AwardPostReq awardPostReq){
         AwardPostRes awardPostRes = new AwardPostRes();
         awardPostRes.setResult("success");
-        Award award = awardDto.toEntity();
+        Award award = awardPostReq.toEntity();
 
         User user = userRepository.findByUserId(userId).get();
         award.setUser(user);
@@ -61,13 +63,13 @@ public class AwardService {
     }
 
     @Transactional
-    public AwardPatchRes updateAward(String userId, Long awardSeq, AwardDto awardDto){
+    public AwardPatchRes updateAward(String userId, AwardDto awardDto){
         AwardPatchRes awardPatchRes = new AwardPatchRes();
         awardPatchRes.setResult("success");
         Award updatedAward = awardDto.toEntity();
         User user = userRepository.findByUserId(userId).get();
 
-        Award award = awardRepository.findById(awardSeq).get();
+        Award award = awardRepository.findById(awardDto.getAwardSeq()).get();
         // 요청자와 등록자가 같은지 체크
         if(user.getUserSeq()!=award.getUser().getUserSeq()){
             awardPatchRes.setResult("fail");
@@ -89,12 +91,12 @@ public class AwardService {
     }
 
     @Transactional
-    public AwardDeleteRes deleteAward(String userId, Long awardSeq){
+    public AwardDeleteRes deleteAward(String userId, AwardDeleteReq awardDeleteReq){
         AwardDeleteRes awardDeleteRes = new AwardDeleteRes();
         awardDeleteRes.setResult("success");
 
         User user = userRepository.findByUserId(userId).get();
-        Award award = awardRepository.findById(awardSeq).get();
+        Award award = awardRepository.findById(awardDeleteReq.getAwardSeq()).get();
         // 요청자와 등록자가 같은지 체크
         if(user.getUserSeq()!=award.getUser().getUserSeq()){
             awardDeleteRes.setResult("fail");
@@ -102,7 +104,7 @@ public class AwardService {
         }
 
         try{
-            awardRepository.deleteById(awardSeq);
+            awardRepository.deleteById(awardDeleteReq.getAwardSeq());
         }catch (Exception e){
             awardDeleteRes.setResult("fail");
         }
