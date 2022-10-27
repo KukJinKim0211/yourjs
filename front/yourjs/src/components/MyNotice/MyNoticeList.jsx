@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import '../../App.css';
 import { useState } from 'react';
+import MyNoticeDetail from './MyNoticeDetail';
 
 // 아이템 리스트
 const ItemList = styled.div`
@@ -48,7 +49,9 @@ const MyNoticeList = () => {
   const [detailFlag,setDetailFlag] = useState(false);
 
 
-  const ChangeFlag = () => {
+
+  const ChangeFlag = (e) => {
+    console.log(e.target)
     setDetailFlag(!detailFlag);
   }
   const dummyData = [
@@ -71,13 +74,17 @@ const MyNoticeList = () => {
         </Link>
       </div>
       {dummyData.map((dummy, index) => (
+        <div>
         <ItemList onClick={ChangeFlag}>
           <ItemGrid width="70%" marginLeft="5%">
             {dummy.title}
           </ItemGrid>
           <ItemGrid width="30%">{dummy.state}</ItemGrid>
+          
         </ItemList>
-        
+
+        <div>123123 </div>
+        </div>
         
       )
       )}
