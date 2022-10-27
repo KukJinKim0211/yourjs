@@ -1,15 +1,12 @@
 package com.project.yourjs.api.controller;
 
-import com.project.yourjs.api.req.CareerDeleteReq;
-import com.project.yourjs.api.req.CareerPostReq;
 import com.project.yourjs.api.req.CertificateDeleteReq;
 import com.project.yourjs.api.req.CertificatePostReq;
-import com.project.yourjs.api.res.*;
-import com.project.yourjs.api.service.CareerService;
+import com.project.yourjs.api.res.CertificateDeleteRes;
+import com.project.yourjs.api.res.CertificatePostRes;
+import com.project.yourjs.api.res.CertificateUpdateRes;
 import com.project.yourjs.api.service.CertificateService;
-import com.project.yourjs.common.dto.CareerDto;
 import com.project.yourjs.common.dto.CertificateDto;
-import com.project.yourjs.db.entity.Certificate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
