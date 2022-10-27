@@ -1,5 +1,6 @@
 package com.project.yourjs.db.entity;
 
+import com.project.yourjs.api.res.MilitaryRes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -52,12 +53,14 @@ public class Military {
     @Column
     private LocalDateTime modDtm;
 
-    public Military(User user, String militaryType, String specialityType, Date startDate, Date endDate, String fileSrc) {
-        this.user = user;
-        this.militaryType = militaryType;
-        this.specialityType = specialityType;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.fileSrc = fileSrc;
+    public MilitaryRes toDto() {
+        return new MilitaryRes(
+                this.militarySeq,
+                this.militaryType,
+                this.specialityType,
+                this.startDate,
+                this.endDate,
+                this.fileSrc
+        );
     }
 }

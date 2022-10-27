@@ -1,8 +1,10 @@
 package com.project.yourjs.db.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.project.yourjs.api.res.GraduateRes;
+import com.project.yourjs.common.dto.AwardDto;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "graduate")
+@NoArgsConstructor
 public class Graduate {
 
     @Id
@@ -79,4 +82,25 @@ public class Graduate {
     @LastModifiedDate
     @Column
     private LocalDateTime modDtm;
+
+    public GraduateRes toDto() {
+         return new GraduateRes(
+                 this.graduateSeq,
+                 this.schoolName,
+                 this.location,
+                 this.degree,
+                 this.graduateStatus,
+                 this.totAvgCredit,
+                 this.majorAvgCredit,
+                 this.totCredit,
+                 this.majorCredit,
+                 this.majorName,
+                 this.doubleMajorName,
+                 this.subMajorName,
+                 this.startDate,
+                 this.endDate,
+                 this.fileSrc
+         );
+    }
+
 }

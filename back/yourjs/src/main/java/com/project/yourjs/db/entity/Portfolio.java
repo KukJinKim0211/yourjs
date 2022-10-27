@@ -1,6 +1,8 @@
 package com.project.yourjs.db.entity;
 
+import com.project.yourjs.api.res.PortfolioRes;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -14,6 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "portfolio")
+@NoArgsConstructor
 public class Portfolio {
 
     @Id
@@ -49,4 +52,15 @@ public class Portfolio {
     @LastModifiedDate
     @Column
     private LocalDateTime modDtm;
+
+    public PortfolioRes toDto() {
+        return new PortfolioRes(
+                this.portfolioSeq,
+                this.cnName,
+                this.engName,
+                this.techStacks,
+                this.links,
+                this.fileSrc
+        );
+    }
 }

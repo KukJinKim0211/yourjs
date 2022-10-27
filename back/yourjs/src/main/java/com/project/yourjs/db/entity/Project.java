@@ -1,5 +1,6 @@
 package com.project.yourjs.db.entity;
 
+import com.project.yourjs.api.res.ProjectRes;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -52,4 +53,16 @@ public class Project {
     @LastModifiedDate
     @Column
     private LocalDateTime modDtm;
+
+    public ProjectRes toDto() {
+        return new ProjectRes(
+                this.projectSeq,
+                this.projectName,
+                this.tools,
+                this.belongs,
+                this.startDate,
+                this.endDate,
+                this.fileSrc
+        );
+    }
 }
