@@ -1,7 +1,8 @@
 package com.project.yourjs.db.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.project.yourjs.common.dto.CareerDto;
+import com.project.yourjs.common.dto.CertificateDto;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,6 +17,9 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "certification")
 public class Certificate {
 
@@ -52,4 +56,14 @@ public class Certificate {
     @LastModifiedDate
     @Column
     private LocalDateTime modDtm;
+
+    public CertificateDto toDto(){
+        return CertificateDto.builder()
+                .certSeq(this.certSeq)
+                .certName(this.certName)
+                .certNum(this.certNum)
+                .certInstitution(this.certInstitution)
+                .acquisionDate(this.acquisionDate)
+                .build();
+    }
 }

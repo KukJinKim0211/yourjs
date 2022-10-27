@@ -3,7 +3,7 @@ package com.project.yourjs.api.service;
 import com.project.yourjs.api.req.AwardDeleteReq;
 import com.project.yourjs.api.req.AwardPostReq;
 import com.project.yourjs.api.res.AwardDeleteRes;
-import com.project.yourjs.api.res.AwardPatchRes;
+import com.project.yourjs.api.res.AwardUpdateRes;
 import com.project.yourjs.api.res.AwardPostRes;
 import com.project.yourjs.common.dto.AwardDto;
 import com.project.yourjs.db.entity.Award;
@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,17 +62,17 @@ public class AwardService {
     }
 
     @Transactional
-    public AwardPatchRes updateAward(String userId, AwardDto awardDto){
-        AwardPatchRes awardPatchRes = new AwardPatchRes();
-        awardPatchRes.setResult("success");
+    public AwardUpdateRes updateAward(String userId, AwardDto awardDto){
+        AwardUpdateRes awardUpdateRes = new AwardUpdateRes();
+        awardUpdateRes.setResult("success");
         Award updatedAward = awardDto.toEntity();
         User user = userRepository.findByUserId(userId).get();
 
         Award award = awardRepository.findById(awardDto.getAwardSeq()).get();
         // 요청자와 등록자가 같은지 체크
         if(user.getUserSeq()!=award.getUser().getUserSeq()){
-            awardPatchRes.setResult("fail");
-            return awardPatchRes;
+            awardUpdateRes.setResult("fail");
+            return awardUpdateRes;
         }
 
         try{
@@ -84,10 +83,10 @@ public class AwardService {
             award.setModDtm(LocalDateTime.now());
             awardRepository.save(award);
         }catch (Exception e){
-            awardPatchRes.setResult("fail");
+            awardUpdateRes.setResult("fail");
         }
 
-        return awardPatchRes;
+        return awardUpdateRes;
     }
 
     @Transactional
