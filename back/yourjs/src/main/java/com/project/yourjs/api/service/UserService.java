@@ -30,6 +30,10 @@ public class UserService {
         if (userRepository.findOneWithAuthoritiesByUserId(userRegisterPostReq.getUserId()).orElse(null) != null) {
             throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
         }
+
+        if(userRepository.findOneWithAuthoritiesByNickname(userRegisterPostReq.getNickname()).orElse(null) != null){
+            throw new DuplicateMemberException("이미 사용중인 닉네임 입니다.");
+        }
         Authority authority = Authority.builder()
                 .authorityName("ROLE_USER")
                 .build();

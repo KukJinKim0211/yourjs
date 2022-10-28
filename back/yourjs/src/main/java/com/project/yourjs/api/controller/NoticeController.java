@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -23,6 +24,15 @@ import com.project.yourjs.api.res.NoticePostRes;
 import com.project.yourjs.api.service.NoticeService;
 import com.project.yourjs.db.entity.Notice;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@CrossOrigin(origins = {"*"}, maxAge = 6000)
+@Tag(name = "Notice", description = "공고")
 @RestController
 @RequestMapping(("/notice"))
 public class NoticeController {
@@ -38,6 +48,13 @@ public class NoticeController {
     return ResponseEntity.ok(noticeService.getAllNotice(authentication.getName()));
   }
 
+  @Operation(summary = "공고 등록")
+  @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePostReq.class))),
+    @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+    @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+  })
   @PostMapping
   @PreAuthorize("hasAnyRole('USER','ADMIN')")
   public ResponseEntity<NoticePostRes> createNotice(Authentication authentication,
