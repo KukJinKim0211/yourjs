@@ -6,7 +6,7 @@ import {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, CenterB
 
 const Military = () => {
   return (
-    <Container>
+    <Container id='2'>
       <ContentTitle>🚅 병역사항</ContentTitle>
       <ContentSet>
         <Hr></Hr>

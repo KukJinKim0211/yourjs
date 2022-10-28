@@ -6,7 +6,7 @@ import {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, CenterB
 
 const Education = () => {
   return (
-    <Container>
+    <Container id='3'>
       <ContentTitle>🎓 학력사항</ContentTitle>
       <ContentSet>
         <Hr></Hr>
