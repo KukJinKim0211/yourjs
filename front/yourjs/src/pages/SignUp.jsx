@@ -7,6 +7,7 @@ import { colors } from '../common/color';
 import { SERVER_IP, apis } from '../common/apis';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import axiosInstance from '../common/customAxios';
 
 const Wrapper = styled.div`
   width: 30%;
@@ -150,7 +151,7 @@ const SignUp = () => {
       // 패스워드가 맞을 시 : 2
       setPassword2State(2);
     }
-  }, [password2]);
+  }, [password2, password1]);
 
   // 빈칸 체크
   const emptyCheck = () => {
@@ -204,14 +205,16 @@ const SignUp = () => {
   ]
 }
 */
-    axios
-      .post(SERVER_IP + apis.signUp, {
+    axiosInstance
+      .post(apis.signUp, {
         userId: id,
         userName: name,
         password: password1,
         nickname: nickname,
       })
-      .then(response => console.log(response))
+      .then(response => {
+        if (response.status === 200) navigate('/login');
+      })
       .catch(error => console.log(error));
   };
 
