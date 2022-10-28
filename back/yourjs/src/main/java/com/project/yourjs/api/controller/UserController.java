@@ -37,7 +37,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @CrossOrigin(origins = {"*"}, maxAge = 6000)
-@Tag(name = "Udlahser", description = "회원관리")
+@Tag(name = "User", description = "회원관리")
 @RestController
 @RequestMapping("/user")
 public class UserController {

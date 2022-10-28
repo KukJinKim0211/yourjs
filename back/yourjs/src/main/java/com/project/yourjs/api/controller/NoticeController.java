@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.yourjs.api.req.NoticeDeleteReq;
 import com.project.yourjs.api.req.NoticePostReq;
 import com.project.yourjs.api.req.NoticeUpdateReq;
 import com.project.yourjs.api.res.NoticeDeleteRes;
@@ -42,6 +43,13 @@ public class NoticeController {
     this.noticeService = noticeService;
   }
 
+  @Operation(summary = "공고 목록 조회")
+  @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePostReq.class))),
+    @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+    @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+  })
   @GetMapping
   @PreAuthorize("hasAnyRole('USER','ADMIN')")
   public ResponseEntity<List<Notice>> getAllNotice(Authentication authentication) {
@@ -62,6 +70,13 @@ public class NoticeController {
     return ResponseEntity.ok(noticeService.createNotice(authentication.getName(), noticePostReq)); // ResponseEntity.ok(NoticeService)
   }
 
+  @Operation(summary = "공고 수정")
+  @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePostReq.class))),
+    @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+    @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+  })
   @PatchMapping
   @PreAuthorize("hasAnyRole('USER','ADMIN')")
   public ResponseEntity<NoticePatchRes> updateNotice(Authentication authentication,
@@ -69,9 +84,16 @@ public class NoticeController {
     return ResponseEntity.ok(noticeService.updateNotice(authentication.getName(), noticeUpdateReq));
   }
 
+  @Operation(summary = "공고 삭제")
+  @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePostReq.class))),
+    @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+    @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+  })
   @DeleteMapping
   @PreAuthorize("hasAnyRole('USER','ADMIN')")
-  public ResponseEntity<NoticeDeleteRes> deleteNotice(Authentication authentication, @RequestBody Integer noticeSeq) {
-    return ResponseEntity.ok(noticeService.deleteNotice(authentication.getName(), noticeSeq));
+  public ResponseEntity<NoticeDeleteRes> deleteNotice(Authentication authentication, @RequestBody NoticeDeleteReq noticeDeleteReq) {
+    return ResponseEntity.ok(noticeService.deleteNotice(authentication.getName(), noticeDeleteReq.getNoticeSeq()));
   }
 }
