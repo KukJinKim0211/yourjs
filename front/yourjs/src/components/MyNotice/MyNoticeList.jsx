@@ -74,7 +74,8 @@ const MyNoticeList = () => {
         </Link>
       </div>
       {dummyData.map((dummy, index) => (
-        <div>
+        <div key={index}>
+          <Link to="/notice/detail" style={{ textDecoration: "none" }} >
         <ItemList onClick={ChangeFlag}>
           <ItemGrid width="70%" marginLeft="5%">
             {dummy.title}
@@ -82,6 +83,7 @@ const MyNoticeList = () => {
           <ItemGrid width="30%">{dummy.state}</ItemGrid>
           
         </ItemList>
+        </Link>
 
         <div>123123 </div>
         </div>

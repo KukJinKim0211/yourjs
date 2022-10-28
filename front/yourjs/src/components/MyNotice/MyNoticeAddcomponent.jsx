@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 
 
+const Wrapper = styled.div`
+`
 //태그 부분 전체 div
 const TagBox = styled.div`
   display: flex;
@@ -13,7 +15,7 @@ const TagBox = styled.div`
 const TagInputBox = styled.input`
   border: none;
   border-bottom: 3px solid gray;
-  width: 90%;
+  width: 100%;
   height: 40px;
   :focus {
     outline: none;
@@ -38,30 +40,51 @@ const ResultTag = styled.div`
   box-shadow: 0.1rem 0.1rem 0.1rem gray;;
   
 `;
-
+//제목 쓰는 인풋박스
 const ContentTitle = styled.input`
-  padding-top: 5px;
+  
+  
   box-sizing: border-box;
   width: 100%;
   height: 50px;
   display: flex;
   align-items: center;
   border: none;
+  border-bottom: 3px solid gray;
+  background-color: whitesmoke;
+  :focus {
+    outline: none;
+  }
+  
 `;
+// content 담는 박스 
 const ContentBox = styled.div`
+  
   background-color: whitesmoke;
   width: 100%;
-  height: 400px;
+  height: 420px;
   border-radius: 15px;
   box-shadow: 0.5rem 0.5rem 0.5rem gray;
-  margin-bottom: 50px;
   margin-top: 10px;
 `;
-const ContentContent = styled.input`
+
+// 내용 적는 textarea
+const ContentContent = styled.textarea`
   box-sizing: border-box;
+  background-color: whitesmoke;
+  border: none;
   width: 100%;
   min-height: 300px;
+
+  :focus {
+    outline: none;
+  }
 `;
+//글자수 세는 div
+const CountBox = styled.div `
+  margin-right: 1%;
+  
+`
 
 const MyNoticeAddcomponent = ({}) => {
   const [tag, setTag] = useState([]);
@@ -100,7 +123,9 @@ const MyNoticeAddcomponent = ({}) => {
   };
 
   return (
-    <div>
+    <Wrapper>
+      <br></br>
+      <br></br>
       <TagBox>
         <TagInputBox
           value={tagItem}
@@ -129,12 +154,16 @@ const MyNoticeAddcomponent = ({}) => {
           <br />
           <ContentContent
             value={content}
+            
             onChange={onChangeContentHandler}
             placeholder="내용을 입력하세요"
           ></ContentContent>
+          <div style={{display:"flex", justifyContent:"flex-end"}}>
+          <CountBox> 현재 글자수 : {content.replace(/<br\s*\/?>/gm, "\n").length}  </CountBox>
+          </div>
         </ContentBox>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 

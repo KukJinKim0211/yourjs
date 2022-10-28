@@ -45,7 +45,13 @@ const ComponentAddButton = styled.button`
 
 const SaveCancelButton = styled.button`
   background-color: ${props => props.backgroundColor};
+  margin-left: ${props => props.marginLeft} ;
+  border: none;
+  box-shadow: 0.5rem 0.5rem 0.5rem gray;
+  width: 10%;
+  height: 30px;
   cursor: pointer;
+  margin-bottom: 10%;
 `;
 
 const MyNoticeAdd = () => {
@@ -79,19 +85,19 @@ const MyNoticeAdd = () => {
       <br></br>
 
       
-      <div id="box"></div>
+      <div id="box" ></div>
       {list.map((li, index) => (
         <MyNoticeAddcomponent
           key={index}
           
         ></MyNoticeAddcomponent>
       ))}
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end' , marginTop:"20px" }}>
         <ComponentAddButton  onClick={onClick}>항목추가</ComponentAddButton>
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <SaveCancelButton backgroundColor="red">저장</SaveCancelButton>{' '}
-        <SaveCancelButton backgroundColor="blue">취소</SaveCancelButton>
+        <SaveCancelButton backgroundColor="#81C6E8">저장</SaveCancelButton>{' '}
+        <SaveCancelButton backgroundColor="#FF6464" marginLeft="30px">취소</SaveCancelButton>
       </div>
     </Wrapper>
   );

@@ -3,11 +3,13 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import MyNoticeAdd from './MyNoticeAdd.jsx';
 import '../../App.css'
+import MyNoticeAddcomponent from './MyNoticeAddcomponent.jsx';
 
 
 const Wrapper = styled.div`
     height : fit-content;
     padding-bottom: 100px;
+    width :60%;
 `
 const TitleBox = styled.div`
     
@@ -105,7 +107,7 @@ const dummyData = {
 
 const MyNoticeDetail = () => {
 
-    const [addFlag,setAddFlag] = useState(true);
+    const [addFlag,setAddFlag] = useState(false);
 
 
 
@@ -134,7 +136,7 @@ const MyNoticeDetail = () => {
       <CreateButton onClick={handleChangeAddFlag} > {addFlag ? "항목 닫기" : "항목 추가" } </CreateButton>
       </div>
       {addFlag && (
-    <MyNoticeAdd/>
+    <MyNoticeAddcomponent/>
     )}
       {dummy.map((dummy, index) => (
         <div key={index}>
