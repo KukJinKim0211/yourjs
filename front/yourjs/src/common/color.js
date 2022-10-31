@@ -10,4 +10,10 @@ export const colors = {
   positiveMsgColor: 'blue',
   // 부정 확인 메세지 색상
   negativeMsgColor: 'red',
+
+  // 파랑하늘 테마색상 # BS 숫자가 작을수록 채도가 낮음
+  bsColor1: '#EFFFFD',
+  bsColor2: '#B8FFF9',
+  bsColor3: '#85F4FF',
+  bsColor4: '#42C2FF', // main Calendar 타이틀 이름 색상
 };

@@ -23,6 +23,7 @@ const HeaderDiv = styled.div`
 const LogoImage = styled.img`
   height: 100%;
   src: url('../../img/logo.png');
+  user-select: none;
 `;
 
 LogoImage.defaultProps = {
