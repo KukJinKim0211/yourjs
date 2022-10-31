@@ -6,7 +6,7 @@ import {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, CenterB
 
 const Training = () => {
   return (
-    <Container id='4'>
+    <Container>
       <ContentTitle>🔥 교육사항</ContentTitle>
       <ContentSet>
         <Hr></Hr>

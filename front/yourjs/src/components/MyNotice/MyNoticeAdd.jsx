@@ -18,11 +18,11 @@ const TitleBox = styled.div`
 const CompanyBox = styled.div`
   display: flex;
   height: 50px;
-`
+`;
 
 const CompanyInput = styled.input`
   border: none;
-  
+
   width: inherit;
   border-bottom: 3px solid gray;
   margin-top: 10px;
@@ -30,7 +30,24 @@ const CompanyInput = styled.input`
   :focus {
     outline: none;
   }
-`
+`;
+
+//상태 div
+const StateBox = styled.div`
+  display: flex;
+  height: 50px;
+`;
+
+const StateSelect = styled.select`
+  border: none;
+
+  width: inherit;
+  border-bottom: 3px solid gray;
+  margin-top: 10px;
+  margin-left: 30px;
+  option {
+  }
+`;
 
 const ComponentAddButton = styled.button`
   width: 100px;
@@ -45,7 +62,7 @@ const ComponentAddButton = styled.button`
 
 const SaveCancelButton = styled.button`
   background-color: ${props => props.backgroundColor};
-  margin-left: ${props => props.marginLeft} ;
+  margin-left: ${props => props.marginLeft};
   border: none;
   box-shadow: 0.5rem 0.5rem 0.5rem gray;
   width: 10%;
@@ -62,9 +79,11 @@ const MyNoticeAdd = () => {
     const a = [...list];
     a.unshift({ title: 'ba', content: 'b' });
     console.log(a, 'aaaaaa');
-    
+
     setList(a);
   };
+
+
 
   return (
     <Wrapper>
@@ -72,32 +91,48 @@ const MyNoticeAdd = () => {
       <TitleBox>
         <h1 style={{ width: '70%' }}>내 공고</h1>
       </TitleBox>
-      
+
       <br></br>
       <br></br>
 
       <CompanyBox>
         <h3>회사명</h3>
-        <CompanyInput placeholder='회사를 입력해 주세요'></CompanyInput>
+        <CompanyInput placeholder="회사를 입력해 주세요"></CompanyInput>
       </CompanyBox>
+      <br></br>
+      <StateBox>
+        <h3>결과를 선택하세요 </h3>
+        <StateSelect defaultValue="진행중">
+          <option value="진행중">진행중</option>
+          <option value="서류탈락">서류탈락</option>
+          <option value="면접탈락">면접탈락</option>
+          <option value="최종합격">최종합격</option>
+        </StateSelect>
+      </StateBox>
 
       <br></br>
       <br></br>
 
-      
-      <div id="box" ></div>
+      <div id="box"></div>
       {list.map((li, index) => (
-        <MyNoticeAddcomponent
-          key={index}
-          
-        ></MyNoticeAddcomponent>
+        
+        <MyNoticeAddcomponent key={index}></MyNoticeAddcomponent>
+        
       ))}
-      <div style={{ display: 'flex', justifyContent: 'flex-end' , marginTop:"20px" }}>
-        <ComponentAddButton  onClick={onClick}>항목추가</ComponentAddButton>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          marginTop: '20px',
+        }}
+      >
+        <ComponentAddButton onClick={onClick}>항목추가</ComponentAddButton>
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <SaveCancelButton backgroundColor="#81C6E8">저장</SaveCancelButton>{' '}
-        <SaveCancelButton backgroundColor="#FF6464" marginLeft="30px">취소</SaveCancelButton>
+        <SaveCancelButton backgroundColor="#FF6464" marginLeft="30px">
+          취소
+        </SaveCancelButton>
       </div>
     </Wrapper>
   );

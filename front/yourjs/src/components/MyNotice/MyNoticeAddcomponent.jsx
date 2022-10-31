@@ -5,10 +5,12 @@ import { useState } from 'react';
 
 
 const Wrapper = styled.div`
+  
 `
 //태그 부분 전체 div
 const TagBox = styled.div`
   display: flex;
+  
 `;
 
 //태그 입력창
@@ -70,6 +72,7 @@ const ContentBox = styled.div`
 
 // 내용 적는 textarea
 const ContentContent = styled.textarea`
+  
   box-sizing: border-box;
   background-color: whitesmoke;
   border: none;
@@ -80,6 +83,9 @@ const ContentContent = styled.textarea`
     outline: none;
   }
 `;
+
+
+
 //글자수 세는 div
 const CountBox = styled.div `
   margin-right: 1%;
@@ -162,7 +168,10 @@ const MyNoticeAddcomponent = ({}) => {
           <CountBox> 현재 글자수 : {content.replace(/<br\s*\/?>/gm, "\n").length}  </CountBox>
           </div>
         </ContentBox>
+        <br></br>
+      
       </div>
+      
     </Wrapper>
   );
 };
