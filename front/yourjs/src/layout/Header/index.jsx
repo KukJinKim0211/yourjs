@@ -2,12 +2,12 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import logo from '../../img/logo.png';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Wrapper = styled.div`
   background-color: white;
   width: 100%;
-  height: 10vh;
+  height: 100px;
   position: fixed;
   display: flex;
   justify-content: center;
@@ -35,29 +35,128 @@ const NavBar = styled.div`
   align-items: center;
 `;
 
+const NavDiv = styled.div`
+  height: 80px;
+  margin-left: 40px;
+`;
+
+const NavText = styled.p`
+  font-size: ${props => (props.selected ? '21px' : '20px')};
+  text-decoration: none;
+  color: ${props =>
+    props.selected ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.5)'};
+  font-weight: ${props => (props.selected ? 600 : 400)};
+  user-select: none;
+  &:hover {
+    color: rgba(0, 0, 0, 0.8);
+    font-weight: 600;
+  }
+  &:focus {
+    border-bottom: 1px solid black;
+  }
+`;
+
 const Header = () => {
-  const [loginState, setLoginState] = useState(false);
+  const [selectedMenu, setSelectedMenu] = useState(
+    parseInt(sessionStorage.getItem('selectItem')),
+  );
+  const [loginState, setLoginState] = useState(true);
+
+  // 선택한 메뉴에 대한 표시 처리
+  // 새로고침 후에도 유지하기 위해 Session Storage 사용
+  const staySelectedMenu = menuSelectedItem => {
+    setSelectedMenu(menuSelectedItem);
+
+    sessionStorage.setItem('selectItem', menuSelectedItem);
+  };
 
   return (
     <Wrapper>
       <HeaderDiv>
         <div>
-          <LogoImage />
+          <Link to={loginState ? '/maincalendar' : '/'}>
+            <LogoImage />
+          </Link>
         </div>
         {loginState ? (
           <>
             <NavBar>
-              <Link to="/"> 캘린더 </Link>
-              <Link to="/notice"> 내공고 </Link>
-              <Link to="/findnotice"> 공고찾기 </Link>
-              <Link to="/portfolio"> 포트폴리오 </Link>
-              <Link to="/MyGroup"> 내그룹 </Link>
-              <Link to="/MyPage"> 마이페이지 </Link>
-            </NavBar>{' '}
+              <NavDiv>
+                <Link to="/maincalendar" style={{ textDecoration: 'none' }}>
+                  <NavText
+                    selected={selectedMenu === 1 ? true : false}
+                    onClick={e => staySelectedMenu(1)}
+                  >
+                    캘린더
+                  </NavText>
+                </Link>
+              </NavDiv>
+              <NavDiv>
+                <Link to="/notice" style={{ textDecoration: 'none' }}>
+                  <NavText
+                    selected={selectedMenu === 2 ? true : false}
+                    onClick={e => staySelectedMenu(2)}
+                  >
+                    내공고
+                  </NavText>
+                </Link>
+              </NavDiv>
+              <NavDiv>
+                <Link to="/findnotice" style={{ textDecoration: 'none' }}>
+                  <NavText
+                    selected={selectedMenu === 3 ? true : false}
+                    onClick={e => staySelectedMenu(3)}
+                  >
+                    공고찾기
+                  </NavText>
+                </Link>
+              </NavDiv>
+              <NavDiv>
+                <Link
+                  to="/portfolio"
+                  style={{ textDecoration: 'none' }}
+                  value={4}
+                >
+                  <NavText
+                    selected={selectedMenu === 4 ? true : false}
+                    onClick={e => staySelectedMenu(4)}
+                  >
+                    포트폴리오
+                  </NavText>
+                </Link>
+              </NavDiv>
+              <NavDiv>
+                <Link to="/MyGroup" style={{ textDecoration: 'none' }}>
+                  <NavText
+                    selected={selectedMenu === 5 ? true : false}
+                    onClick={e => staySelectedMenu(5)}
+                  >
+                    내그룹
+                  </NavText>
+                </Link>
+              </NavDiv>
+              <NavDiv>
+                <Link to="/MyPage" style={{ textDecoration: 'none' }}>
+                  <NavText
+                    selected={selectedMenu === 6 ? true : false}
+                    onClick={e => staySelectedMenu(6)}
+                  >
+                    마이페이지
+                  </NavText>
+                </Link>
+              </NavDiv>
+              <NavDiv>
+                <NavText style={{ cursor: 'pointer' }}>로그아웃</NavText>
+              </NavDiv>
+            </NavBar>
           </>
         ) : (
           <NavBar>
-            <Link to="/login"> 로그인 </Link>
+            <NavDiv>
+              <Link to="/login" style={{ textDecoration: 'none' }}>
+                <NavText>로그인</NavText>
+              </Link>
+            </NavDiv>
           </NavBar>
         )}
       </HeaderDiv>
