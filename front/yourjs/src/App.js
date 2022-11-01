@@ -6,6 +6,7 @@ import MainCalendar from './pages/MainCalendar';
 import MyNotice from './pages/MyNotice';
 import FindNotice from './pages/FindNotice';
 import Portfolio from './pages/Portfolio';
+import PortfolioEdit from './pages/PortfolioEdit';
 import MyGroup from './pages/MyGroup';
 import MyPage from './pages/MyPage';
 import Login from './pages/Login';
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/notice/detail" element={<MyNoticeDetail />} />
           <Route path="/findnotice" element={<FindNotice />} />
           <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/portfolio/edit" element={<PortfolioEdit />} />
           <Route path="/MyGroup" element={<MyGroup />} />
           <Route path="/MyPage" element={<MyPage />} />
         </Route>

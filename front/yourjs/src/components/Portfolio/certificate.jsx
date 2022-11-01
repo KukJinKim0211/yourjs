@@ -1,33 +1,35 @@
 //자격증, 어학
 import React from 'react';
 import styled from 'styled-components';
-import {Container, Content, LeftBox, RightBox} from './personal';
+import {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr} from './personal';
 
 
 const Certificate = () => {
   return (
-    <Container>
-      !! 자격증/어학
-      <Content>
-        <LeftBox>자격증명</LeftBox>
-        <RightBox>정보처리기사</RightBox>
-      </Content>
-      <Content>
-        <LeftBox>자격증번호</LeftBox>
-        <RightBox>003006861</RightBox>
-      </Content>
-      <Content>
-        <LeftBox>발급기관</LeftBox>
-        <RightBox>한국산업인력공단</RightBox>
-      </Content>
-      <Content>
-        <LeftBox>취득일</LeftBox>
-        <RightBox>2022.05.27</RightBox>
-      </Content>
-      <Content>
-        <LeftBox>파일</LeftBox>
-        <RightBox>파일링크</RightBox>
-      </Content>
+    <Container id='5'>
+      <ContentTitle>📖 자격증/어학</ContentTitle>
+      <ContentSet>
+        <Hr></Hr>
+        <Content>
+          <LeftBox>2022.05.27</LeftBox>
+          <CenterBox></CenterBox>
+          <RightBoxes>
+          <RightBox>
+            <RightBoxTitle>자격증명</RightBoxTitle>
+            <RightBoxContent>정보처리기사</RightBoxContent>
+          </RightBox>
+          <RightBox>
+            <RightBoxTitle>번호</RightBoxTitle>
+            <RightBoxContent>003006861</RightBoxContent>
+          </RightBox>
+          <RightBox>
+            <RightBoxTitle>발급기관</RightBoxTitle>
+            <RightBoxContent>한국산업인력공단</RightBoxContent>
+          </RightBox>
+          <RightBox>파일</RightBox>
+          </RightBoxes>
+        </Content>
+      </ContentSet>
     </Container>
   )
 };

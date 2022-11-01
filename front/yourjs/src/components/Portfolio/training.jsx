@@ -6,12 +6,12 @@ import {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, CenterB
 
 const Training = () => {
   return (
-    <Container>
+    <Container id='4'>
       <ContentTitle>🔥 교육사항</ContentTitle>
       <ContentSet>
         <Hr></Hr>
         <Content>
-          <LeftBox>2022.01.05-2022.05.27</LeftBox>
+          <LeftBox>2022.01.05<br/>~ 2022.05.27</LeftBox>
           <CenterBox></CenterBox>
           <RightBoxes>
           <RightBox>

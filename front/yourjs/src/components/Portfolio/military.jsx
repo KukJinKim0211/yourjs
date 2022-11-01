@@ -6,7 +6,7 @@ import {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, CenterB
 
 const Military = () => {
   return (
-    <Container>
+    <Container id='2'>
       <ContentTitle>🚅 병역사항</ContentTitle>
       <ContentSet>
         <Hr></Hr>
@@ -21,7 +21,7 @@ const Military = () => {
           </Content>
           <Content>
             <LeftBox>기간</LeftBox>
-            <RightBox>2016.08.16~2018.08.15</RightBox>
+            <RightBox>2016.08.16 ~ 2018.08.15</RightBox>
           </Content>
           <Content>
             <LeftBox>전역사유</LeftBox>

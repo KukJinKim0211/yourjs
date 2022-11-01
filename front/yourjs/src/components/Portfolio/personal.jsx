@@ -12,6 +12,8 @@ const Container = styled.div`
 
 const ContentTitle = styled.div`
   width: 20%;
+  font-weight: bold;
+  font-size: 1.2rem;
 `
 
 const ContentSet = styled.div`
@@ -34,6 +36,7 @@ const LeftBox = styled.div`
   width: 25%;
   text-align: center;
   word-break: break-all;
+  font-weight: bold;
 `;
 
 const CenterBox = styled.div`
@@ -47,7 +50,6 @@ const RightBoxes = styled.div`
 `
 
 const RightBox = styled.div`
-  /* width: 65%; */
   margin-bottom: 0.5rem;
   display: flex;
 `;
@@ -70,7 +72,7 @@ export {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, CenterB
 
 const Personal = () => {
   return (
-    <Container>
+    <Container id='1'>
       <ContentTitle>🔖 인적사항</ContentTitle>
       <ContentSet>
         <Contents>
