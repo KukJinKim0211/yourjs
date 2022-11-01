@@ -36,7 +36,7 @@ const CurrentTime = () => {
 
   return (
     <Wrapper>
-      <TimeText>{time}</TimeText>
+      <TimeText id="font_Gmarket">{time}</TimeText>
     </Wrapper>
   );
 };

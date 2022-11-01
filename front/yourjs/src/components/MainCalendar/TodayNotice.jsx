@@ -33,15 +33,15 @@ const TitleText = styled.p`
   font-weight: 600;
 `;
 
-const TodayNotice = ({ data }) => {
+const TodayNotice = ({ data, type }) => {
   return (
     <Wrapper>
       <TitleDiv>
-        <TitleText>{data.title}</TitleText>
+        <TitleText id="titleFont">{data.title}</TitleText>
       </TitleDiv>
       <ContentDiv>
         {data.content.map((content, index) => (
-          <TodayNoticeItem key={index} content={content} />
+          <TodayNoticeItem key={index} content={content} type={type} />
         ))}
       </ContentDiv>
     </Wrapper>

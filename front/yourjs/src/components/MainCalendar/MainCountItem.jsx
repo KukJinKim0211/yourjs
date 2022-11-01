@@ -49,10 +49,14 @@ const MainCountItem = ({ data }) => {
     <Wrapper backColor={colors.bsColor1}>
       <TitleContentDiv>
         <div style={{ height: '50%' }}>
-          <TitleText color={colors.bsColor4}>{data.title}</TitleText>
+          <TitleText color={colors.bsColor4} id="titleFont">
+            {data.title}
+          </TitleText>
         </div>
         <div style={{ height: '50%' }}>
-          <ContentText color={colors.bsColor4}>{data.content}</ContentText>
+          <ContentText color={colors.bsColor4} id="contentFont">
+            {data.content}
+          </ContentText>
         </div>
       </TitleContentDiv>
       <ImageDiv>

@@ -50,7 +50,7 @@ const LabelText = styled.label`
 
 const FormInput = styled.input`
   height: 40px;
-  font-size: 30px;
+  font-size: 22px;
   color: black;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
@@ -133,6 +133,8 @@ const Login = () => {
     if (id.length === 0) return;
 
     if (password.length === 0) return;
+
+    console.log('login click');
 
     // 로그인 POST 전송
     axiosInstance

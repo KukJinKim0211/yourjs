@@ -52,8 +52,9 @@ const todayContent = [
   {
     title: '마감 임박 공고',
     content: [
-      { company: '신세계 I&C', date: '2022-11-05' },
-      { company: '지우컴퍼니', date: '2022-11-06' },
+      { company: '신세계 I&C', date: '2022-11-01 17:00:00' },
+      { company: '신한은행', date: '2022-11-03 23:59:59' },
+      { company: '지우컴퍼니', date: '2022-11-04 17:00:00' },
     ],
   },
   {
@@ -69,13 +70,15 @@ const MainCalendar = () => {
       <TodayDiv>
         <CurrentTime />
         <div style={{ width: '2%' }} />
-        <TodayNotice data={todayContent[0]} />
+        <TodayNotice data={todayContent[0]} type={1} />
         <div style={{ width: '2%' }} />
-        <TodayNotice data={todayContent[1]} />
+        <TodayNotice data={todayContent[1]} type={2} />
       </TodayDiv>
       <RecommendDiv>
         <RecommendTitleDiv>
-          <RecommendTitleText>관심 분야의 놓친 공고</RecommendTitleText>
+          <RecommendTitleText id="titleFont">
+            관심 분야의 놓친 공고
+          </RecommendTitleText>
         </RecommendTitleDiv>
         <RecommendContentDiv>HELO</RecommendContentDiv>
       </RecommendDiv>

@@ -87,6 +87,7 @@ const Header = () => {
                   <NavText
                     selected={selectedMenu === 1 ? true : false}
                     onClick={e => staySelectedMenu(1)}
+                    id="navBarFont"
                   >
                     캘린더
                   </NavText>
@@ -97,6 +98,7 @@ const Header = () => {
                   <NavText
                     selected={selectedMenu === 2 ? true : false}
                     onClick={e => staySelectedMenu(2)}
+                    id="navBarFont"
                   >
                     내공고
                   </NavText>
@@ -107,6 +109,7 @@ const Header = () => {
                   <NavText
                     selected={selectedMenu === 3 ? true : false}
                     onClick={e => staySelectedMenu(3)}
+                    id="navBarFont"
                   >
                     공고찾기
                   </NavText>
@@ -121,6 +124,7 @@ const Header = () => {
                   <NavText
                     selected={selectedMenu === 4 ? true : false}
                     onClick={e => staySelectedMenu(4)}
+                    id="navBarFont"
                   >
                     포트폴리오
                   </NavText>
@@ -131,6 +135,7 @@ const Header = () => {
                   <NavText
                     selected={selectedMenu === 5 ? true : false}
                     onClick={e => staySelectedMenu(5)}
+                    id="navBarFont"
                   >
                     내그룹
                   </NavText>
@@ -141,20 +146,27 @@ const Header = () => {
                   <NavText
                     selected={selectedMenu === 6 ? true : false}
                     onClick={e => staySelectedMenu(6)}
+                    id="navBarFont"
                   >
                     마이페이지
                   </NavText>
                 </Link>
               </NavDiv>
               <NavDiv>
-                <NavText style={{ cursor: 'pointer' }}>로그아웃</NavText>
+                <NavText style={{ cursor: 'pointer' }} id="navBarFont">
+                  로그아웃
+                </NavText>
               </NavDiv>
             </NavBar>
           </>
         ) : (
           <NavBar>
             <NavDiv>
-              <Link to="/login" style={{ textDecoration: 'none' }}>
+              <Link
+                to="/login"
+                style={{ textDecoration: 'none' }}
+                id="navBarFont"
+              >
                 <NavText>로그인</NavText>
               </Link>
             </NavDiv>
