@@ -134,6 +134,7 @@ const MyNoticeAddcomponent = ({}) => {
       <br></br>
       <TagBox>
         <TagInputBox
+          id="contentFont"
           value={tagItem}
           placeholder="태그를 추가하세요 "
           onKeyDown={keydownHandler}
@@ -152,6 +153,7 @@ const MyNoticeAddcomponent = ({}) => {
       <div>
         <ContentBox id="font_test2">
           <ContentTitle
+            id="contentFont"
             value={title}
             onChange={onChangeTitleHandler}
             placeholder="제목을 입력하세요"
@@ -160,12 +162,12 @@ const MyNoticeAddcomponent = ({}) => {
           <br />
           <ContentContent
             value={content}
-            
+            id="contentFont"
             onChange={onChangeContentHandler}
             placeholder="내용을 입력하세요"
           ></ContentContent>
           <div style={{display:"flex", justifyContent:"flex-end"}}>
-          <CountBox> 현재 글자수 : {content.replace(/<br\s*\/?>/gm, "\n").length}  </CountBox>
+          <CountBox id="contentFont" > 현재 글자수 : {content.replace(/<br\s*\/?>/gm, "\n").length}  </CountBox>
           </div>
         </ContentBox>
         <br></br>

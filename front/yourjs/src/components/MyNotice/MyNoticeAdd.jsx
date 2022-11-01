@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import MyNoticeAddcomponent from './MyNoticeAddcomponent';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const Wrapper = styled.div`
   width: 60%;
@@ -48,6 +50,36 @@ const StateSelect = styled.select`
   option {
   }
 `;
+//url 입력 div
+const UrlBox = styled.div`
+  display: flex;
+  height: 50px;
+`;
+
+const UrlInput = styled.input`
+  border: none;
+
+  width: 12%;
+  border-bottom: 3px solid gray;
+  margin-top: 10px;
+  margin-left: 30px;
+  :focus {
+    outline: none;
+  }
+`;
+// date 입력 div
+const DateBox = styled.div`
+  display: flex;
+  height: 50px;
+  
+`;
+
+const DateSelectBox = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-left: 15px;
+`
 
 const ComponentAddButton = styled.button`
   width: 100px;
@@ -83,8 +115,6 @@ const MyNoticeAdd = () => {
     setList(a);
   };
 
-
-
   return (
     <Wrapper>
       <br></br>
@@ -95,29 +125,40 @@ const MyNoticeAdd = () => {
       <br></br>
       <br></br>
 
-      <CompanyBox>
+      <CompanyBox id="titleFont">
         <h3>회사명</h3>
-        <CompanyInput placeholder="회사를 입력해 주세요"></CompanyInput>
+        <CompanyInput id="titleFont" placeholder="회사를 입력해 주세요"></CompanyInput>
       </CompanyBox>
       <br></br>
-      <StateBox>
+      <StateBox id="titleFont" >
         <h3>결과를 선택하세요 </h3>
-        <StateSelect defaultValue="진행중">
-          <option value="진행중">진행중</option>
-          <option value="서류탈락">서류탈락</option>
-          <option value="면접탈락">면접탈락</option>
-          <option value="최종합격">최종합격</option>
+        <StateSelect id="titleFont" defaultValue="진행중">
+          <option id="titleFont" value="진행중">진행중</option>
+          <option id="titleFont" value="서류탈락">서류탈락</option>
+          <option id="titleFont" value="면접탈락">면접탈락</option>
+          <option id="titleFont" value="최종합격">최종합격</option>
         </StateSelect>
       </StateBox>
+      <br></br>
+      <UrlBox id="titleFont" >
+        <h3>채용사이트</h3>
+        <UrlInput placeholder="URL을 입력하세요"></UrlInput>
+      </UrlBox>
+      <br></br>
+
+      <DateBox id="titleFont" >
+        <h3>지원기간</h3>
+        <DateSelectBox>
+          <DatePicker dateFormat="yyyy년 MM월 dd일" id="datepick"></DatePicker>
+        </DateSelectBox>
+      </DateBox>
 
       <br></br>
       <br></br>
 
       <div id="box"></div>
       {list.map((li, index) => (
-        
         <MyNoticeAddcomponent key={index}></MyNoticeAddcomponent>
-        
       ))}
       <div
         style={{
@@ -129,8 +170,8 @@ const MyNoticeAdd = () => {
         <ComponentAddButton onClick={onClick}>항목추가</ComponentAddButton>
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <SaveCancelButton backgroundColor="#81C6E8">저장</SaveCancelButton>{' '}
-        <SaveCancelButton backgroundColor="#FF6464" marginLeft="30px">
+        <SaveCancelButton id="contentFont" backgroundColor="#81C6E8">저장</SaveCancelButton>{' '}
+        <SaveCancelButton id="contentFont" backgroundColor="#FF6464" marginLeft="30px">
           취소
         </SaveCancelButton>
       </div>

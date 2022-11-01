@@ -46,7 +46,7 @@ const CreateButton2 = styled.button`
 const ContentBox = styled.div`
   background-color: whitesmoke;
   width: 100%;
-  height: 350px;
+  height: 400px;
   border-radius: 15px;
   box-shadow: 0.5rem 0.5rem 0.5rem gray;
   margin-bottom: 50px;
@@ -54,7 +54,7 @@ const ContentBox = styled.div`
 `;
 //컨텐츠 박스 속 태그 박스
 const TagBox = styled.div`
-  background-color: #81C6E8;
+  background-color: #81c6e8;
   border-radius: 15px;
   height: 40px;
   width: fit-content;
@@ -66,33 +66,34 @@ const TagBox = styled.div`
 `;
 //컨텐츠 박스 제목
 const ContentTitle = styled.div`
-  padding-left: 15px;
+  border-bottom: 3px solid gray;
+  
   padding-top: 5px;
-  margin-left: 10px;
+  margin-left: 25px;
   width: 95%;
   height: 50px;
   display: flex;
   align-items: center;
-  
 `;
 //컨텐츠 박스 내용
 const ContentContent = styled.div`
+  margin-left: 10px;
   padding: 15px;
   overflow: auto;
   height: 200px;
   width: 95%;
 
   // 스크롤바 없애기
-  ::-webkit-scrollbar {
+  /* ::-webkit-scrollbar {
     display: none;
-  }
+  } */
 `;
 
 //컨텐츠 박스 제목 텍스트필드
 const ContentTitle2 = styled.input`
-  padding-left: 15px;
+  
   padding-top: 5px;
-  margin-left: 10px;
+  margin-left: 25px;
   height: 50px;
   display: flex;
   align-items: center;
@@ -107,6 +108,7 @@ const ContentTitle2 = styled.input`
 `;
 //컨텐츠 박스 내용 텍스트필드
 const ContentContent2 = styled.textarea`
+  margin-left: 10px;
   padding: 15px;
   overflow: auto;
   height: 192px;
@@ -147,7 +149,7 @@ const dummyData = {
   regdate: '2022-09-01',
   company: '지우컴퍼니',
   link: 'www.naver.com',
-  state : "진행중"
+  state: '진행중',
 };
 
 const dummy = [
@@ -172,7 +174,6 @@ const dummy = [
     뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
     뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
     뽑아만`,
-    
   },
   {
     title: '지우 컴퍼니에 지원하게 된 동기가 무엇입니까 ??',
@@ -214,19 +215,19 @@ const MyNoticeDetail = () => {
   return (
     // 제목을 두개로 나누는 div
     <Wrapper>
-      <CompanyBox>
+      <CompanyBox id="titleFont">
         <br></br>
         <br></br>
-        <h1>{dummyData.company} ({dummyData.state}) </h1>
+        <h1>
+          {dummyData.company} ({dummyData.state}){' '}
+        </h1>
 
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-          <h3 style ={{ width:'100%'}}>작성일 : {dummyData.regdate} </h3>
-          
-          
+          <h3 style={{ width: '100%' }}>작성일 : {dummyData.regdate} </h3>
         </div>
       </CompanyBox>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <CreateButton onClick={handleChangeAddFlag}>
+        <CreateButton id="contentFont" onClick={handleChangeAddFlag}>
           {addFlag ? '항목 닫기' : '항목 추가'}
         </CreateButton>
       </div>
@@ -236,7 +237,7 @@ const MyNoticeDetail = () => {
           <MyNoticeAddcomponent></MyNoticeAddcomponent>
           <br></br>
           <div style={{ display: 'flex', justifyContent: 'flex-end ' }}>
-            <CreateButton2>저장</CreateButton2>
+            <CreateButton2 id="contentFont" >저장</CreateButton2>
           </div>
         </div>
       )}
@@ -245,36 +246,40 @@ const MyNoticeDetail = () => {
 
       {dummy.map((dummy, index) => (
         <div key={index}>
-          <TagBox># 지우컴퍼니</TagBox>
+          <TagBox id="contentFont"># 지우컴퍼니</TagBox>
           <br></br>
-          <ContentBox id="font_test2">
+          <ContentBox id="contentFont">
             {editFlag[index] ? (
               <div>
                 <ContentTitle2
-                  id="font_test2"
+
+                  id="contentFont"
                   defaultValue={dummy.title}
                 ></ContentTitle2>
+                <br></br>
                 <ContentContent2
-                  id="font_test2"
+                  id="contentFont"
                   defaultValue={dummy.content}
                 ></ContentContent2>
               </div>
             ) : (
               <div>
                 <ContentTitle id="font_test2">{dummy.title}</ContentTitle>
+                <br></br>
                 <ContentContent id="font_test2">{dummy.content}</ContentContent>
               </div>
-            )}
-
+            )}  
+            <br></br>
             {editFlag[index] ? (
               <ContentEditBox>
-                <SaveCancelButton
+                <SaveCancelButton id="contentFont"
                   onClick={() => handleChangeEditFlag(index)}
                   backgroundColor="#F6F6C9"
                 >
                   저장
                 </SaveCancelButton>
                 <SaveCancelButton
+                  id="contentFont"
                   backgroundColor="#A3C7D6"
                   marginLeft="40px"
                   marginRight="20px"
@@ -286,6 +291,7 @@ const MyNoticeDetail = () => {
             ) : (
               <ContentEditBox>
                 <SaveCancelButton
+                  id="contentFont"
                   onClick={() => handleChangeEditFlag(index)}
                   marginRight="20px"
                   backgroundColor="#A3C7D6"
