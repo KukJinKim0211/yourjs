@@ -77,7 +77,6 @@ const TodayNoticeItem = ({ content, type }) => {
       );
       var btMs = endDate.getTime() - stDate.getTime();
       var btDay = btMs / (1000 * 60 * 60 * 24);
-      console.log(btDay);
       setTime(
         `${btDay}일 ${hour < 10 ? '0' + hour : hour}:${
           minute < 10 ? '0' + minute : minute
@@ -91,7 +90,7 @@ const TodayNoticeItem = ({ content, type }) => {
     <Wrapper>
       <TitleDiv>
         <ContentText>
-          <span style={{ fontWeight: '600' }} id="contentFont">
+          <span style={{ fontWeight: '500' }} id="contentFont">
             {content.company}
           </span>
         </ContentText>
@@ -100,7 +99,7 @@ const TodayNoticeItem = ({ content, type }) => {
         {type === 1 && (
           <ContentText>
             <span id="contentFont">
-              <span style={{ fontWeight: '600' }}>지원마감</span>까지 {time}
+              <span style={{ fontWeight: '500' }}>지원마감</span>까지 {time}
             </span>
           </ContentText>
         )}

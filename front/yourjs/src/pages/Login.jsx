@@ -34,6 +34,14 @@ const FormDiv = styled.div`
   flex-direction: column;
 `;
 
+const CheckBoxDiv = styled.div`
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
 const LogoImage = styled.img`
   padding-top: 5%;
   width: 40%;
@@ -60,6 +68,12 @@ const FormInput = styled.input`
   &:focus {
     border-bottom: 1px solid black;
   }
+`;
+
+const CustomCheckBox = styled.input`
+  background-color: red;
+  width: 25px;
+  height: 25px;
 `;
 
 const LoginButton = styled.button`
@@ -106,6 +120,7 @@ const Login = () => {
   const { naver } = window;
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
+  const [autoLogin, setAutoLogin] = useState(false);
 
   const naverRef = useRef();
   const navigate = useNavigate();
@@ -130,21 +145,26 @@ const Login = () => {
   };
 
   const loginButtonClicked = () => {
+    // 아이디 유효성 체크
     if (id.length === 0) return;
-
+    // 비밀번호 유효성 체크
     if (password.length === 0) return;
 
-    console.log('login click');
-
     // 로그인 POST 전송
-    axiosInstance
-      .post(apis.login, { userId: id, password: password })
+    axios
+      .post(SERVER_IP + apis.login, { userId: id, password: password })
       .then(response => {
         if (response.status === 200) {
-          // 로그인 시 발급받은 Refresh Token을 웹 쿠키에 저장
-          setCookie('refresh_Token', response.data.token);
+          // 로그인 시 발급받은 Access/Refresh Token을 웹 쿠키에 저장
+          setCookie('refresh_Token', response.data.refreshToken);
+          setCookie('access_Token', response.data.accessToken);
+          // 자동 로그인 처리
+          if (autoLogin) localStorage.setItem('autoLogin', true);
+          else localStorage.setItem('autoLogin', false);
+          sessionStorage.setItem('selectItem', 1);
+          sessionStorage.setItem('loginState', true);
+          navigate('/maincalendar');
         }
-        console.log(response);
       })
       .catch(error => console.log(error));
   };
@@ -160,17 +180,17 @@ const Login = () => {
         <LogoImage />
       </CenterDiv>
       <CenterDiv>
-        <h1>로그인</h1>
+        <h1 id="titleFont">로그인</h1>
       </CenterDiv>
       <FormDiv>
-        <LabelText>아이디</LabelText>
+        <LabelText id="contentFont">아이디</LabelText>
         <FormInput
           type="text"
           value={id}
           onChange={e => setId(e.target.value)}
           maxLength={12}
         ></FormInput>
-        <LabelText>비밀번호</LabelText>
+        <LabelText id="contentFont">비밀번호</LabelText>
         <FormInput
           type="password"
           value={password}
@@ -182,7 +202,17 @@ const Login = () => {
             }
           }}
         ></FormInput>
-        <p>
+        <CheckBoxDiv>
+          <CustomCheckBox
+            type="checkbox"
+            value={autoLogin}
+            onClick={() => setAutoLogin(!autoLogin)}
+          ></CustomCheckBox>
+          <p id="contentFont" style={{ marginLeft: '10px' }}>
+            자동 로그인
+          </p>
+        </CheckBoxDiv>
+        <p id="contentFont">
           <Link to="/signup">아이디가 없으신가요? 회원가입</Link>
         </p>
         <LoginButton
@@ -194,25 +224,6 @@ const Login = () => {
         >
           로그인
         </LoginButton>
-        {/*
-        <a href={KAKAO_AUTH_URL}>
-          <LoginButton
-            color={colors.kakao}
-            fontcolor="black"
-            width="100%"
-            height="50px"
-          >
-            카카오로그인
-          </LoginButton>
-        </a>
-        <LoginButton
-          color={colors.naver}
-          fontcolor="white"
-          width="100%"
-          height="50px"
-        >
-          네이버로그인
-  </LoginButton>*/}
         <div
           style={{
             width: '100%',

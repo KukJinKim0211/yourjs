@@ -1,8 +1,9 @@
 //header
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../img/logo.png';
 import React, { useState, useEffect } from 'react';
+import { setCookie } from '../../common/cookie';
 
 const Wrapper = styled.div`
   background-color: white;
@@ -58,17 +59,39 @@ const NavText = styled.p`
 `;
 
 const Header = () => {
+  const navigate = useNavigate();
   const [selectedMenu, setSelectedMenu] = useState(
     parseInt(sessionStorage.getItem('selectItem')),
   );
-  const [loginState, setLoginState] = useState(true);
+  const [loginState, setLoginState] = useState(
+    sessionStorage.getItem('loginState') === 'true' ? true : false,
+  );
+  const [refreshFlag, setRefreshFlag] = useState(false);
 
+  useEffect(() => {
+    setLoginState(
+      sessionStorage.getItem('loginState') === 'true' ? true : false,
+    );
+  }, [refreshFlag]);
   // 선택한 메뉴에 대한 표시 처리
   // 새로고침 후에도 유지하기 위해 Session Storage 사용
   const staySelectedMenu = menuSelectedItem => {
     setSelectedMenu(menuSelectedItem);
 
     sessionStorage.setItem('selectItem', menuSelectedItem);
+  };
+  console.log(typeof sessionStorage.getItem('loginState'));
+  const logoutButtonClicked = () => {
+    setCookie('refresh_Token', '');
+    setCookie('access_Token', '');
+
+    localStorage.removeItem('autoLogin');
+
+    sessionStorage.setItem('loginState', false);
+
+    setRefreshFlag(!refreshFlag);
+
+    navigate('/');
   };
 
   return (
@@ -153,7 +176,11 @@ const Header = () => {
                 </Link>
               </NavDiv>
               <NavDiv>
-                <NavText style={{ cursor: 'pointer' }} id="navBarFont">
+                <NavText
+                  style={{ cursor: 'pointer' }}
+                  id="navBarFont"
+                  onClick={() => logoutButtonClicked()}
+                >
                   로그아웃
                 </NavText>
               </NavDiv>

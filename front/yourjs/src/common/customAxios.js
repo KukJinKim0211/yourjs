@@ -7,6 +7,20 @@ const axiosInstance = axios.create({
   baseURL: SERVER_IP, // 요청시에 추가적으로 앞에 붙는 기본 URL 설정
 });
 
+// 요청 인터셉터 추가
+axiosInstance.interceptors.request.use(
+  function (config) {
+    config.headers['Authorization'] = `Bearer ${getCookie('access_Token')}`;
+    console.log(getCookie('access_Token'));
+    return config;
+  },
+  function (error) {
+    // 오류 요청을 보내기전 수행할 일
+    // ...
+    return Promise.reject(error);
+  },
+);
+
 // 토큰 만료를 대비해 axios에 토큰 만료 에러가 발생 시 interceptor로 처리
 axiosInstance.interceptors.response.use(
   function (response) {
