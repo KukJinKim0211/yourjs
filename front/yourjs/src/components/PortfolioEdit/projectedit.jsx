@@ -44,27 +44,27 @@ const WriteForm = () => {
       </BoxName>
       <BoxName>
         <BoxTitle>시작일</BoxTitle>
-        <BoxInput placeholder='프로젝트 명을 입력해 주세요'></BoxInput>
+        <BoxInput placeholder='프로젝트 시작일을 입력해 주세요'></BoxInput>
       </BoxName>
       <BoxName>
         <BoxTitle>종료일</BoxTitle>
-        <BoxInput placeholder='프로젝트 명을 입력해 주세요'></BoxInput>
+        <BoxInput placeholder='프로젝트 종료일을 입력해 주세요'></BoxInput>
       </BoxName>
       <BoxName>
         <BoxTitle>소속명</BoxTitle>
-        <BoxInput placeholder='프로젝트 명을 입력해 주세요'></BoxInput>
+        <BoxInput placeholder='프로젝트 소속명을 입력해 주세요'></BoxInput>
       </BoxName>
       <BoxName>
         <BoxTitle>사용기술</BoxTitle>
-        <BoxInput placeholder='프로젝트 명을 입력해 주세요'></BoxInput>
+        <BoxInput placeholder='프로젝트 사용기술 입력해 주세요'></BoxInput>
       </BoxName>
       <BoxName>
         <BoxTitle>내용</BoxTitle>
-        <BoxInput placeholder='프로젝트 명을 입력해 주세요'></BoxInput>
+        <BoxInput placeholder='프로젝트 내용을 입력해 주세요'></BoxInput>
       </BoxName>
       <BoxName>
         <BoxTitle>파일</BoxTitle>
-        <BoxInput placeholder='프로젝트 명을 입력해 주세요'></BoxInput>
+        <BoxInput placeholder='프로젝트 파일을 업로드해 주세요'></BoxInput>
       </BoxName>
       <br/><hr/>  
     </Box>
@@ -79,7 +79,6 @@ const ProjectEdit = () => {
     setList(a);
   };
 
-
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'flex-end' , marginTop:"1rem" }}>
@@ -88,7 +87,6 @@ const ProjectEdit = () => {
       {list.map((li, index) => (
         <WriteForm key={index}></WriteForm>
       ))}
-
     </div>
   )
 }
