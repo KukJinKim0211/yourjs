@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class NoticeDeleteReq {
-    Integer noticeSeq;
+    private Integer noticeSeq;
 }

@@ -63,6 +63,11 @@ dependencies {
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
+    // sns
+    implementation 'org.springframework.security:spring-security-oauth2-client'
+    implementation 'org.springframework.security:spring-security-oauth2-jose'
+    // implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
     // MongoDB
     implementation ('org.springframework.boot:spring-boot-starter-data-mongodb')
 }

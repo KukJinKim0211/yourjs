@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class Self_IntroDeleteReq {
-    Integer self_IntroSeq;
+    private Integer self_IntroSeq;
 }
