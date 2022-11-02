@@ -34,6 +34,24 @@ const ItemList = styled.div`
 
   cursor: pointer;
 `;
+
+// 검색 div
+const SearchDiv = styled.div`
+display: flex;
+justify-content: center;
+  
+`
+
+//검색 input
+
+const SearchInput = styled.input`
+  width : 350px;
+  height: 40px;
+  border-radius: 5px;
+
+  
+  
+`
 // 아이템 나누기
 const ItemGrid = styled.div`
   font-weight: 600;
@@ -211,6 +229,10 @@ const MyNoticeList = () => {
 
   return (
     <Wrapper>
+      <SearchDiv>
+      <SearchInput></SearchInput>
+      <button>🔍</button>
+      </SearchDiv>
       <br></br>
       <br></br>
       {/*자소서 작성 버튼을 우측 으로 하기위한 div */}

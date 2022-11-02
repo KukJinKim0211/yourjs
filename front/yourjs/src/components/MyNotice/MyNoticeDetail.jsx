@@ -67,7 +67,7 @@ const TagBox = styled.div`
 //컨텐츠 박스 제목
 const ContentTitle = styled.div`
   border-bottom: 3px solid gray;
-  
+
   padding-top: 5px;
   margin-left: 25px;
   width: 95%;
@@ -91,7 +91,6 @@ const ContentContent = styled.div`
 
 //컨텐츠 박스 제목 텍스트필드
 const ContentTitle2 = styled.input`
-  
   padding-top: 5px;
   margin-left: 25px;
   height: 50px;
@@ -120,6 +119,13 @@ const ContentContent2 = styled.textarea`
   :focus {
     outline: none;
   }
+`;
+
+//컨텐츠 박스내에 현재 글자수 box
+const ContentCountBox = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-left: 80%;
 `;
 
 //컨텐츠 박스내에 수정 취소 넣기 위한 box
@@ -197,6 +203,8 @@ const MyNoticeDetail = () => {
   // 이부분에서 get 받았을떄 , 값 게시글 개수에 따라 true false 배열이 필요하다.
   const [editFlag, setEditFlag] = useState([false, false, false]);
   const [addFlag, setAddFlag] = useState(false);
+  // 수정 글자수 count
+  // const [editCount, setEditCount] = useState(''); 
 
   // 항목추가 변경 함수
 
@@ -211,6 +219,13 @@ const MyNoticeDetail = () => {
     newFlag[index] = !newFlag[index];
     setEditFlag(newFlag);
   };
+
+
+  // const handleChangeEditText = (e) => {
+  //   setEditCount(e.target.value)
+    
+  
+  // }
 
   return (
     // 제목을 두개로 나누는 div
@@ -237,7 +252,7 @@ const MyNoticeDetail = () => {
           <MyNoticeAddcomponent></MyNoticeAddcomponent>
           <br></br>
           <div style={{ display: 'flex', justifyContent: 'flex-end ' }}>
-            <CreateButton2 id="contentFont" >저장</CreateButton2>
+            <CreateButton2 id="contentFont">저장</CreateButton2>
           </div>
         </div>
       )}
@@ -252,14 +267,16 @@ const MyNoticeDetail = () => {
             {editFlag[index] ? (
               <div>
                 <ContentTitle2
-
                   id="contentFont"
                   defaultValue={dummy.title}
+                  
                 ></ContentTitle2>
                 <br></br>
                 <ContentContent2
                   id="contentFont"
                   defaultValue={dummy.content}
+                  // onChange = {handleChangeEditText}
+                  
                 ></ContentContent2>
               </div>
             ) : (
@@ -268,11 +285,16 @@ const MyNoticeDetail = () => {
                 <br></br>
                 <ContentContent id="font_test2">{dummy.content}</ContentContent>
               </div>
-            )}  
-            <br></br>
+            )}
+            <ContentCountBox>
+              {/* <div> 현재 글자수 : { editFlag[index] ? `${editCount.replace(/<br\s*\/?>/gm, '\n').length}` : `${dummy.content.replace(/<br\s*\/?>/gm, '\n').length}`}</div> */}
+              <div>현재 글자수 : {dummy.content.replace(/<br\s*\/?>/gm, '\n').length}</div> 
+            </ContentCountBox>
+
             {editFlag[index] ? (
               <ContentEditBox>
-                <SaveCancelButton id="contentFont"
+                <SaveCancelButton
+                  id="contentFont"
                   onClick={() => handleChangeEditFlag(index)}
                   backgroundColor="#F6F6C9"
                 >
