@@ -64,7 +64,7 @@ const Header = () => {
     parseInt(sessionStorage.getItem('selectItem')),
   );
   const [loginState, setLoginState] = useState(
-    sessionStorage.getItem('loginState') === 'true' ? true : false,
+    JSON.parse(sessionStorage.getItem('loginState')),
   );
   const [refreshFlag, setRefreshFlag] = useState(false);
 
@@ -80,14 +80,14 @@ const Header = () => {
 
     sessionStorage.setItem('selectItem', menuSelectedItem);
   };
-  console.log(typeof sessionStorage.getItem('loginState'));
+
   const logoutButtonClicked = () => {
     setCookie('refresh_Token', '');
-    setCookie('access_Token', '');
 
     localStorage.removeItem('autoLogin');
 
     sessionStorage.setItem('loginState', false);
+    sessionStorage.removeItem('accessToken');
 
     setRefreshFlag(!refreshFlag);
 

@@ -157,12 +157,12 @@ const Login = () => {
         if (response.status === 200) {
           // 로그인 시 발급받은 Access/Refresh Token을 웹 쿠키에 저장
           setCookie('refresh_Token', response.data.refreshToken);
-          setCookie('access_Token', response.data.accessToken);
           // 자동 로그인 처리
           if (autoLogin) localStorage.setItem('autoLogin', true);
           else localStorage.setItem('autoLogin', false);
           sessionStorage.setItem('selectItem', 1);
           sessionStorage.setItem('loginState', true);
+          sessionStorage.setItem('accessToken', response.data.accessToken);
           navigate('/maincalendar');
         }
       })

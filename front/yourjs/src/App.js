@@ -15,22 +15,106 @@ import KakaoLogin from './pages/KakaoLogin';
 import NaverLogin from './pages/NaverLogin';
 import MyNoticeDetail from './components/MyNotice/MyNoticeDetail';
 import MyNoticeAdd from './components/MyNotice/MyNoticeAdd';
+import axios from 'axios';
+import { SERVER_IP, apis } from './common/apis';
+import { getCookie } from './common/cookie';
+import PublicRoute from './route/PublicRoute';
+import PrivateRoute from './route/PrivateRoute';
 
 const App = () => {
+  // 자동 로그인은 설정이 되어 있지만 액세스 토큰은 없는 경우 ( 브라우저 다시 실행할 시 )
+  if (
+    JSON.parse(localStorage.getItem('autoLogin')) &&
+    sessionStorage.getItem('accessToken') === null
+  ) {
+    // refreshToken으로 AccessToken 요청하기
+    axios
+      .get(SERVER_IP + apis.getAccessToken, {
+        headers: { Authorization: `Bearer ${getCookie('refresh_Token')}` },
+      })
+      .then(response => {
+        sessionStorage.setItem('accessToken', response.data.accessToken);
+        sessionStorage.setItem('loginState', true);
+        window.location.replace('/maincalendar');
+      });
+  }
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Main />} />
-          <Route path="/maincalendar" element={<MainCalendar />} />
-          <Route path="/notice" element={<MyNotice />} />
-          <Route path="/notice/add" element={<MyNoticeAdd />} />
-          <Route path="/notice/detail" element={<MyNoticeDetail />} />
-          <Route path="/findnotice" element={<FindNotice />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/portfolio/edit" element={<PortfolioEdit />} />
-          <Route path="/MyGroup" element={<MyGroup />} />
-          <Route path="/MyPage" element={<MyPage />} />
+          <Route
+            path="/maincalendar"
+            element={
+              <PrivateRoute>
+                <MainCalendar />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/notice"
+            element={
+              <PrivateRoute>
+                <MyNotice />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/notice/add"
+            element={
+              <PrivateRoute>
+                <MyNoticeAdd />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/notice/detail"
+            element={
+              <PrivateRoute>
+                <MyNoticeDetail />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/findnotice"
+            element={
+              <PrivateRoute>
+                <FindNotice />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/portfolio"
+            element={
+              <PrivateRoute>
+                <Portfolio />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/portfolio/edit"
+            element={
+              <PrivateRoute>
+                <PortfolioEdit />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/mygroup"
+            element={
+              <PrivateRoute>
+                <MyGroup />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/mypage"
+            element={
+              <PrivateRoute>
+                <MyPage />
+              </PrivateRoute>
+            }
+          />
         </Route>
         <Route element={<HeaderlessLayout />}>
           <Route path="/login" element={<Login />} />
@@ -44,8 +128,3 @@ const App = () => {
 };
 
 export default App;
-
-
-
-
-

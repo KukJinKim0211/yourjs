@@ -11,7 +11,6 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   function (config) {
     config.headers['Authorization'] = `Bearer ${getCookie('access_Token')}`;
-    console.log(getCookie('access_Token'));
     return config;
   },
   function (error) {
@@ -32,13 +31,18 @@ axiosInstance.interceptors.response.use(
     // 토른 만료 에러 처리
     if (error.response.status === 401) {
       console.log('토큰만료 에러 intercepter start');
-      console.log(getCookie('refresh_Token'));
+      // refreshToken으로 AccessToken 요청하기
+      axios
+        .get(SERVER_IP + apis.getAccessToken, {
+          headers: { Authorization: `Bearer ${getCookie('refresh_Token')}` },
+        })
+        .then(response => {
+          sessionStorage.setItem('accessToken', response.data.accessToken);
+        });
       console.log('토큰만료 에러 intercepter end');
     }
-    console.log('interceptor 시작');
-    console.log(error.response.status);
+    console.log('interceptor 재송신 시작');
     console.log(originalRequest);
-    console.log('interceptor 종료');
 
     return await axios(originalRequest);
   },

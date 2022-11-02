@@ -6,4 +6,5 @@ export const apis = {
   nicknameCheck: '/user/duple/nickname', // POST 닉네임중복체크
   signUp: '/user', // POST 회원가입
   login: '/user/login', // POST 로그인
+  getAccessToken: '/user/refresh', // 액세스토큰 재발급
 };
