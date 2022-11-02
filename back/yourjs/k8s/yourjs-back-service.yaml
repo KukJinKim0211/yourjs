@@ -1,0 +1,13 @@
+# yourjs-back-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: yourjs-back-service
+spec:
+  ports:
+    - name: https
+      port: 443
+      targetPort: 8080
+  selector:
+    app: yourjs-back
+  type: NodePort
