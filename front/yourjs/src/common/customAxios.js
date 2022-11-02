@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SERVER_IP } from './apis';
+import { SERVER_IP, apis } from './apis';
 import { getCookie, setCookie } from './cookie';
 
 // axios에 기본 BASE URL 설정
