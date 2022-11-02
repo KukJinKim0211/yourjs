@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   position: fixed;
   display: flex;
   justify-content: center;
+  z-index: 999;
 `;
 
 const HeaderDiv = styled.div`
@@ -88,6 +89,7 @@ const Header = () => {
 
     sessionStorage.setItem('loginState', false);
     sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('nickname');
 
     setRefreshFlag(!refreshFlag);
 

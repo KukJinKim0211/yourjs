@@ -10,7 +10,9 @@ const axiosInstance = axios.create({
 // 요청 인터셉터 추가
 axiosInstance.interceptors.request.use(
   function (config) {
-    config.headers['Authorization'] = `Bearer ${getCookie('access_Token')}`;
+    config.headers['Authorization'] = `Bearer ${sessionStorage.getItem(
+      'accessToken',
+    )}`;
     return config;
   },
   function (error) {

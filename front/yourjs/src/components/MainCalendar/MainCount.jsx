@@ -1,6 +1,6 @@
 // 메인캘린더>취업여정 컴포넌트
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import MainCountItem from './MainCountItem';
 import styled from 'styled-components';
 import { colors } from '../../common/color';
@@ -8,6 +8,7 @@ import { faFolder } from '@fortawesome/free-solid-svg-icons';
 import { faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -54,12 +55,14 @@ const countData = [
 ];
 
 const MainCount = () => {
+  const nickname = useSelector(state => state.nickname);
+
   return (
     <Wrapper>
       <TitleDiv>
         <TitleText>
-          <span style={{ color: colors.bsColor4 }}>김국진</span>님의
-          취업여정이에요.
+          <span style={{ color: colors.bsColor4 }}>{nickname}</span>
+          님의 취업여정이에요.
         </TitleText>
       </TitleDiv>
       <CountItemDiv>

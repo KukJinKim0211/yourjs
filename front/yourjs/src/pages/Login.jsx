@@ -15,6 +15,7 @@ import axios from 'axios';
 import { SERVER_IP, apis } from '../common/apis';
 import { setCookie, getCookie } from '../common/cookie';
 import axiosInstance from '../common/customAxios';
+import { useDispatch } from 'react-redux';
 
 const Wrapper = styled.div`
   width: 30%;
@@ -122,6 +123,8 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [autoLogin, setAutoLogin] = useState(false);
 
+  const dispatch = useDispatch();
+
   const naverRef = useRef();
   const navigate = useNavigate();
   const initializeNaverLogin = () => {
@@ -160,6 +163,7 @@ const Login = () => {
           // 자동 로그인 처리
           if (autoLogin) localStorage.setItem('autoLogin', true);
           else localStorage.setItem('autoLogin', false);
+          dispatch({ type: 'login', nickname: response.data.nickname });
           sessionStorage.setItem('selectItem', 1);
           sessionStorage.setItem('loginState', true);
           sessionStorage.setItem('accessToken', response.data.accessToken);
