@@ -1,6 +1,7 @@
 package com.project.yourjs.api.service;
 
 import java.util.Collections;
+import java.util.Optional;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.project.yourjs.api.req.ChangeUserInfoReq;
+import com.project.yourjs.api.req.ChangeUserLevelReq;
+import com.project.yourjs.api.req.PassChangeReq;
 import com.project.yourjs.api.req.UserRegisterPostReq;
-import com.project.yourjs.api.res.RefreshAccessRes;
+import com.project.yourjs.api.res.PassChangeRes;
+import com.project.yourjs.api.res.UserDetailInfoRes;
 import com.project.yourjs.api.res.UserLoginRes;
+import com.project.yourjs.api.res.UserSimpleInfoRes;
 import com.project.yourjs.common.dto.LoginDto;
 import com.project.yourjs.common.dto.RefreshTokenDto;
 import com.project.yourjs.common.dto.UserDto;
@@ -74,13 +80,19 @@ public class UserService {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        Optional<User> oUser = userRepository.findByUserId(loginDto.getUserId());
+        User user = new User();
+        if(oUser.isPresent()){
+            user = oUser.get();
+        }
+
         String jwt = tokenProvider.createToken(authentication);
         String refreshToken = tokenProvider.createRefreshToken(authentication);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + refreshToken);
-        return new ResponseEntity<>(new UserLoginRes(jwt, refreshToken), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(new UserLoginRes(jwt, refreshToken,user.getNickname(), user.getInfoLevel()), httpHeaders, HttpStatus.OK);
     }
 
     @Transactional(readOnly = true)
@@ -133,5 +145,75 @@ public class UserService {
             }
         }
         return null;
+    }
+
+    @Transactional
+    public UserSimpleInfoRes getSimpleInfo(String userId){
+        UserSimpleInfoRes userSimpleInfoRes = new UserSimpleInfoRes();
+        Optional<User> oUser = userRepository.findByUserId(userId);
+        User user = new User();
+        if(oUser.isPresent()){
+            user = oUser.get();
+            userSimpleInfoRes.setNickname(user.getNickname());
+            userSimpleInfoRes.setInfoLevel(user.getInfoLevel());
+        }
+        return userSimpleInfoRes;
+    }
+
+    @Transactional
+    public UserDetailInfoRes getDetailInfo(String userId){
+        UserDetailInfoRes userDetailInfoRes = new UserDetailInfoRes();
+        Optional<User> oUser = userRepository.findByUserId(userId);
+        User user = new User();
+        if(oUser.isPresent()){
+            user = oUser.get();
+            userDetailInfoRes.setUserName(user.getUserName());
+            userDetailInfoRes.setEmail(user.getEmail());
+            userDetailInfoRes.setNickname(user.getNickname());
+            userDetailInfoRes.setInfoLevel(user.getInfoLevel());
+        }
+        return userDetailInfoRes;
+    }
+
+    @Transactional
+    public PassChangeRes passwordChange(String userId, PassChangeReq passChangeReq){
+        PassChangeRes passChangeRes = new PassChangeRes();
+        passChangeRes.setType("fail");
+        Optional<User> oUser = userRepository.findByUserId(userId);
+        if(oUser.isPresent()){
+            User user = oUser.get();
+            if(passwordEncoder.matches(passChangeReq.getCurPassword(), user.getPassword())){
+                user.setPassword(passwordEncoder.encode(passChangeReq.getNewPassword()));
+                userRepository.save(user);
+                passChangeRes.setType("success");
+            }
+        }
+        return passChangeRes;
+    }
+
+    @Transactional
+    public void changeUserInfo(String userId, ChangeUserInfoReq changeUserInfoReq){
+        Optional<User> oUser = userRepository.findByUserId(userId);
+        if(oUser.isPresent()){
+            User user = oUser.get();
+            user.setEmail(changeUserInfoReq.getEmail());
+            user.setNickname(changeUserInfoReq.getNickname());
+            userRepository.save(user);
+        }
+    }
+
+    @Transactional
+    public void changeUserLevel(String userId, ChangeUserLevelReq changeUserLevelReq){
+        Optional<User> oUser = userRepository.findByUserId(userId);
+        if(oUser.isPresent()){
+            User user = oUser.get();
+            user.setInfoLevel(changeUserLevelReq.getType());
+            userRepository.save(user);
+        }
+    }
+
+    @Transactional
+    public void deleteUser(String userId){
+        userRepository.deleteByUserId(userId);
     }
 }

@@ -8,4 +8,6 @@ import lombok.Getter;
 public class UserLoginRes{
 	String accessToken;
 	String refreshToken;
+	String nickname;
+	Integer infoLevel;
 }

@@ -11,10 +11,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserRegisterPostReq {
-
-	String userId;
-	String password;
-	String userName;
-	String nickname;
-
+	private String userId;
+	private String password;
+	private String userName;
+	private String nickname;
 }
