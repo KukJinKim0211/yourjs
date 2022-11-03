@@ -1,6 +1,14 @@
 package com.project.yourjs.api.service;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Optional;
 
 import org.springframework.http.HttpHeaders;
@@ -215,5 +223,103 @@ public class UserService {
     @Transactional
     public void deleteUser(String userId){
         userRepository.deleteByUserId(userId);
+    }
+
+    @Transactional
+    public ResponseEntity<UserLoginRes> kakaoLogin(String code){
+        ResponseEntity<UserLoginRes> userLoginRes = null;
+        String accessToken = "";
+        String refreshToken = "";
+        String reqURL = "https://kauth.kakao.com/oauth/token";
+        try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+            StringBuilder sb = new StringBuilder();
+            sb.append("grant_type=authorization_code");
+            sb.append("&client_id=957b84f395c608126c0be57c56ad2b9d");
+            sb.append("&redirect_uri=http://localhost:8080/api/user/kakao");
+            sb.append("&code=" + code);
+            sb.append("&client_secret=OIvUN78Uyo8YNKFJ0jlAetvEqmEyMkaL");
+            bw.write(sb.toString());
+            bw.flush();
+
+            int responseCode = conn.getResponseCode();
+            // System.out.println("responseCode : " + responseCode);
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line = "";
+            String result = "";
+
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+            // System.out.println("response body : " + result);
+
+            accessToken = result.substring(result.indexOf("access_token\":") + 15, result.indexOf("\",\"token_type"));
+
+            br.close();
+            bw.close();
+
+            HashMap<String, Object> userInfo = new HashMap<>();
+            reqURL = "https://kapi.kakao.com/v2/user/me";
+            try {
+                url = new URL(reqURL);
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("charset", "utf-8");
+
+                // 요청에 필요한 Header에 포함될 내용
+                conn.setRequestProperty("Authorization", "Bearer " + accessToken);
+
+                responseCode = conn.getResponseCode();
+                // System.out.println("responseCode : " + responseCode);
+
+                br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+                line = "";
+                result = "";
+
+                while ((line = br.readLine()) != null) {
+                    result += line;
+                }
+                // System.out.println("response body : " + result);
+
+                String userId = result.substring(result.indexOf("id\":")+4, result.indexOf(",\"connected_at"));
+                String nickname = result.substring(result.indexOf("\"properties\":{\"nickname\":\"")+26, result.indexOf("\",\"profile"));
+                String userName = "kakao"+nickname;
+                Optional<User> oUser = userRepository.findByUserId(userId);
+                if(oUser.isPresent()){
+                    User user = oUser.get();
+                    // 액세스 토큰 생성
+                    userLoginRes = this.login(new LoginDto(user.getUserId(), "kakao"));
+            
+                }else{
+                    // 회원 가입 후 액세스 토큰 생성
+                    System.out.println("sfsdfsdf");
+                    UserRegisterPostReq userRegisterPostReq = new UserRegisterPostReq();
+                    userRegisterPostReq.setUserId(userId);
+                    userRegisterPostReq.setNickname(nickname);
+                    userRegisterPostReq.setUserName(userName);
+                    userRegisterPostReq.setPassword("kakao");
+        
+                    UserDto userDto = this.signup(userRegisterPostReq);
+                    // 액세스 토큰 생성
+                    userLoginRes = this.login(new LoginDto(userDto.getUserId(), "kakao"));
+                }
+            
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(userLoginRes.getBody().getAccessToken());
+        return userLoginRes;
     }
 }
