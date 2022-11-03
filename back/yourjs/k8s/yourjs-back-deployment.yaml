@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: yourjs-back-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: yourjs-back
