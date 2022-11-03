@@ -242,7 +242,7 @@ public class UserService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=957b84f395c608126c0be57c56ad2b9d");
-            sb.append("&redirect_uri=http://localhost:8080/api/user/kakao");
+            sb.append("&redirect_uri=https://yourjs.co.kr/api/user/kakao");
             sb.append("&code=" + code);
             sb.append("&client_secret=OIvUN78Uyo8YNKFJ0jlAetvEqmEyMkaL");
             bw.write(sb.toString());
