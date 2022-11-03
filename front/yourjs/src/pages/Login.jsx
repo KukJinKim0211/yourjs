@@ -166,7 +166,7 @@ const Login = () => {
           sessionStorage.setItem('selectItem', 1);
           sessionStorage.setItem('loginState', true);
           sessionStorage.setItem('accessToken', response.data.accessToken);
-          navigate('/maincalendar');
+          navigate('/main');
         }
       })
       .catch(error => console.log(error));
