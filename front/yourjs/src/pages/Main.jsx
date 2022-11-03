@@ -1,4 +1,4 @@
-//Main
+// 사용자 Main
 import styled from 'styled-components';
 
 const Wrapper = styled.div`

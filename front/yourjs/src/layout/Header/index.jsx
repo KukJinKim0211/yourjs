@@ -4,19 +4,20 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../img/logo.png';
 import React, { useState, useEffect } from 'react';
 import { setCookie } from '../../common/cookie';
+import { fullWidth } from '../../common/size';
+import { faPersonDigging } from '@fortawesome/free-solid-svg-icons';
 
 const Wrapper = styled.div`
   background-color: white;
   width: 100%;
-  height: 100px;
-  position: fixed;
+  height: 108px;
   display: flex;
   justify-content: center;
   z-index: 999;
 `;
 
 const HeaderDiv = styled.div`
-  width: 60%;
+  width: ${fullWidth};
   height: 100%;
   display: flex;
   justify-content: space-between;
@@ -39,7 +40,7 @@ const NavBar = styled.div`
 `;
 
 const NavDiv = styled.div`
-  height: 80px;
+  height: 70px;
   margin-left: 40px;
 `;
 
@@ -108,7 +109,18 @@ const Header = () => {
           <>
             <NavBar>
               <NavDiv>
-                <Link to="/maincalendar" style={{ textDecoration: 'none' }}>
+                <Link to="/main" style={{ textDecoration: 'none' }}>
+                  <NavText
+                    selected={selectedMenu === 0 ? true : false}
+                    onClick={e => staySelectedMenu(0)}
+                    id="navBarFont"
+                  >
+                    나의여정
+                  </NavText>
+                </Link>
+              </NavDiv>
+              <NavDiv>
+                <Link to="/calendar" style={{ textDecoration: 'none' }}>
                   <NavText
                     selected={selectedMenu === 1 ? true : false}
                     onClick={e => staySelectedMenu(1)}

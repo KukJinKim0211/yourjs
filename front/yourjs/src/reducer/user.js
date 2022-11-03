@@ -5,7 +5,6 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'login': {
-      console.log(action.nickname);
       return {
         ...state,
         nickname: action.nickname,

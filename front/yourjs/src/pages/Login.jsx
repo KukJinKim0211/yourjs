@@ -152,7 +152,6 @@ const Login = () => {
     if (id.length === 0) return;
     // 비밀번호 유효성 체크
     if (password.length === 0) return;
-
     // 로그인 POST 전송
     axios
       .post(SERVER_IP + apis.login, { userId: id, password: password })

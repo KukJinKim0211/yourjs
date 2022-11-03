@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './layout/Layout';
 import HeaderlessLayout from './layout/HeaderlessLayout';
 import Main from './pages/Main';
-import MainCalendar from './pages/MainCalendar';
+import Calendar from './pages/Calendar';
 import MyNotice from './pages/MyNotice';
 import FindNotice from './pages/FindNotice';
 import Portfolio from './pages/Portfolio';
@@ -15,6 +15,7 @@ import KakaoLogin from './pages/KakaoLogin';
 import NaverLogin from './pages/NaverLogin';
 import MyNoticeDetail from './components/MyNotice/MyNoticeDetail';
 import MyNoticeAdd from './components/MyNotice/MyNoticeAdd';
+import UserMain from './pages/UserMain';
 import axios from 'axios';
 import axiosInstance from './common/customAxios';
 import { SERVER_IP, apis } from './common/apis';
@@ -26,6 +27,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const App = () => {
   const dispatch = useDispatch();
+  const nickname = useSelector(state => state.nickname);
 
   useEffect(() => {
     // 자동 로그인은 설정이 되어 있지만 액세스 토큰은 없는 경우 ( 브라우저 다시 실행할 시 )
@@ -44,9 +46,10 @@ const App = () => {
             sessionStorage.setItem('loginState', true);
           }
         })
-        .then(() => window.location.replace('/maincalendar'));
+        .then(() => window.location.replace('/main'));
     }
 
+    // 로그인정보가 존재하지 않을 시, 액세스토큰으로 로그인 정보를 요청해 세션스토리지에 저장
     if (
       JSON.parse(localStorage.getItem('autoLogin')) &&
       sessionStorage.getItem('nickname') === null
@@ -62,6 +65,16 @@ const App = () => {
           dispatch({ type: 'login', nickname: response.data.nickname });
         });
     }
+
+    // Redux 내에 로그인 정보가 없을 시, 세션스토리지에서 가져옴
+    if (nickname === '') {
+      if (sessionStorage.getItem('nickname') === null) return;
+
+      dispatch({
+        type: 'login',
+        nickname: sessionStorage.getItem('nickname'),
+      });
+    }
   }, []);
   return (
     <BrowserRouter>
@@ -69,10 +82,18 @@ const App = () => {
         <Route element={<Layout />}>
           <Route path="/" element={<Main />} />
           <Route
-            path="/maincalendar"
+            path="/main"
             element={
               <PrivateRoute>
-                <MainCalendar />
+                <UserMain />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/calendar"
+            element={
+              <PrivateRoute>
+                <Calendar />
               </PrivateRoute>
             }
           />

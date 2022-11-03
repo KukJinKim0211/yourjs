@@ -1,5 +1,5 @@
 // 서버 IP
-export const SERVER_IP = 'http://yourjs.co.kr:18080/api';
+export const SERVER_IP = 'https://yourjs.co.kr/api';
 
 export const apis = {
   // [포트폴리오 API] 개인상세정보 조회/수정/추가/삭제
