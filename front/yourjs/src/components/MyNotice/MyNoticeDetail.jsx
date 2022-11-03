@@ -4,6 +4,7 @@ import { useState } from 'react';
 import MyNoticeAdd from './MyNoticeAdd.jsx';
 import '../../App.css';
 import MyNoticeAddcomponent from './MyNoticeAddcomponent.jsx';
+import MyNoticeDate from './MyNoticeDate.jsx';
 
 const Wrapper = styled.div`
   height: fit-content;
@@ -151,11 +152,28 @@ const SaveCancelButton = styled.button`
   margin-bottom: 10%;
 `;
 
+const UrlInput = styled.input `
+margin-left: 50px;
+  width : 150px;
+  height: 40px;
+  border: none;
+`
+
+const Select = styled.select`
+  border: none;
+
+  /* border-bottom: 3px solid gray; */
+
+  option {
+  }
+`;
+
 const dummyData = {
   regdate: '2022-09-01',
   company: '지우컴퍼니',
   link: 'www.naver.com',
   state: '진행중',
+  title : "상반기 IT 채용"
 };
 
 const dummy = [
@@ -204,7 +222,7 @@ const MyNoticeDetail = () => {
   const [editFlag, setEditFlag] = useState([false, false, false]);
   const [addFlag, setAddFlag] = useState(false);
   // 수정 글자수 count
-  // const [editCount, setEditCount] = useState(''); 
+  // const [editCount, setEditCount] = useState('');
 
   // 항목추가 변경 함수
 
@@ -220,11 +238,11 @@ const MyNoticeDetail = () => {
     setEditFlag(newFlag);
   };
 
+  // 결과 선택
 
   // const handleChangeEditText = (e) => {
   //   setEditCount(e.target.value)
-    
-  
+
   // }
 
   return (
@@ -233,12 +251,37 @@ const MyNoticeDetail = () => {
       <CompanyBox id="titleFont">
         <br></br>
         <br></br>
-        <h1>
-          {dummyData.company} ({dummyData.state}){' '}
-        </h1>
-
+        <h1>{dummyData.company}</h1>
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-          <h3 style={{ width: '100%' }}>작성일 : {dummyData.regdate} </h3>
+          <h2 style={{ width: '100%' }}> {dummyData.title} </h2>
+        </div>
+
+        
+        <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+          <h3 style={{ width: '15%' }}>결과를 선택하세요 : </h3>
+          <Select defaultValue={dummyData.state}>
+            <option id="titleFont" value="진행중">
+              진행중
+            </option>
+            <option id="titleFont" value="서류탈락">
+              서류탈락
+            </option>
+            <option id="titleFont" value="최종합격">
+              최종합격
+            </option>
+            <option id="titleFont" value="면접탈락">
+              면접탈락
+            </option>
+            
+          </Select>
+        </div>
+        <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+          <h3 style={{ width: '100%' }}>
+            채용사이트 : <UrlInput id="titleFont" defaultValue={dummyData.link}></UrlInput>
+          </h3>
+        </div>
+        <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+          <h3 style={{ width: '100%' }}>일정등록 : </h3>
         </div>
       </CompanyBox>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -269,14 +312,12 @@ const MyNoticeDetail = () => {
                 <ContentTitle2
                   id="contentFont"
                   defaultValue={dummy.title}
-                  
                 ></ContentTitle2>
                 <br></br>
                 <ContentContent2
                   id="contentFont"
                   defaultValue={dummy.content}
                   // onChange = {handleChangeEditText}
-                  
                 ></ContentContent2>
               </div>
             ) : (
@@ -288,7 +329,10 @@ const MyNoticeDetail = () => {
             )}
             <ContentCountBox>
               {/* <div> 현재 글자수 : { editFlag[index] ? `${editCount.replace(/<br\s*\/?>/gm, '\n').length}` : `${dummy.content.replace(/<br\s*\/?>/gm, '\n').length}`}</div> */}
-              <div>현재 글자수 : {dummy.content.replace(/<br\s*\/?>/gm, '\n').length}</div> 
+              <div>
+                현재 글자수 :{' '}
+                {dummy.content.replace(/<br\s*\/?>/gm, '\n').length}
+              </div>
             </ContentCountBox>
 
             {editFlag[index] ? (

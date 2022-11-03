@@ -17,7 +17,28 @@ const Wrapper = styled.div`
 const TitleBox = styled.div`
   display: flex;
   align-items: center;
+
+  
 `;
+
+//회사 div
+const TitleNoticeBox = styled.div`
+  display: flex;
+  height: 50px;
+`;
+
+const TitleNoticeInput = styled.input`
+  border: none;
+
+  width: inherit;
+  border-bottom: 3px solid gray;
+  margin-top: 10px;
+  margin-left: 30px;
+  :focus {
+    outline: none;
+  }
+`;
+
 //회사 div
 const CompanyBox = styled.div`
   display: flex;
@@ -161,7 +182,16 @@ const MyNoticeAdd = () => {
           id="titleFont"
           placeholder="회사를 입력해 주세요"
         ></CompanyInput>
+        
       </CompanyBox>
+      <TitleNoticeBox id="titleFont">
+        <h3>공고명</h3>
+        <TitleNoticeInput
+          id="titleFont"
+          placeholder="ex) 상반기 IT 채용 "
+        ></TitleNoticeInput>
+        
+      </TitleNoticeBox>
       <br></br>
       <StateBox id="titleFont">
         <h3>결과를 선택하세요 </h3>
