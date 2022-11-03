@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.yourjs.api.req.ChangeUserInfoReq;
@@ -170,7 +171,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @GetMapping("/simple")
-    public ResponseEntity<UserSimpleInfoRes> getSimpleInfo(Authentication authentication){
+    public ResponseEntity<UserSimpleInfoRes> getSimpleInfo(Authentication authentication) {
         return ResponseEntity.ok(userService.getSimpleInfo(authentication.getName()));
     }
 
@@ -182,7 +183,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @GetMapping("/detail")
-    public ResponseEntity<UserDetailInfoRes> getDetailInfo(Authentication authentication){
+    public ResponseEntity<UserDetailInfoRes> getDetailInfo(Authentication authentication) {
         return ResponseEntity.ok(userService.getDetailInfo(authentication.getName()));
     }
 
@@ -194,7 +195,8 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @PatchMapping("/passchange")
-    public ResponseEntity<PassChangeRes> passwordChange (Authentication authentication, @RequestBody PassChangeReq passChangeReq) {
+    public ResponseEntity<PassChangeRes> passwordChange(Authentication authentication,
+            @RequestBody PassChangeReq passChangeReq) {
         return ResponseEntity.ok(userService.passwordChange(authentication.getName(), passChangeReq));
     }
 
@@ -206,7 +208,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @PatchMapping("/infochange")
-    public void changeUserInfo(Authentication authentication, @RequestBody ChangeUserInfoReq changeUserInfoReq){
+    public void changeUserInfo(Authentication authentication, @RequestBody ChangeUserInfoReq changeUserInfoReq) {
         userService.changeUserInfo(authentication.getName(), changeUserInfoReq);
     }
 
@@ -218,7 +220,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @PatchMapping("/levelchange")
-    public void changeUserLevel(Authentication authentication, @RequestBody ChangeUserLevelReq changeUserLevelReq){
+    public void changeUserLevel(Authentication authentication, @RequestBody ChangeUserLevelReq changeUserLevelReq) {
         userService.changeUserLevel(authentication.getName(), changeUserLevelReq);
     }
 
@@ -230,7 +232,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @DeleteMapping
-    public void deleteUser(Authentication authentication){
+    public void deleteUser(Authentication authentication) {
         userService.deleteUser(authentication.getName());
     }
 
@@ -241,8 +243,10 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
-    @PostMapping("/kakao")
-    public String kakaoLogin(){
-        return null;
+    @GetMapping("/kakao")
+    public ResponseEntity<UserLoginRes> kakaoLogin(@RequestParam(value = "code") String code) {
+        
+
+        return userService.kakaoLogin(code);
     }
 }

@@ -33,7 +33,10 @@ public class JwtFilter extends GenericFilterBean {
       HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
       String jwt = resolveToken(httpServletRequest);
       String requestURI = httpServletRequest.getRequestURI();
-      String tokenValid = tokenProvider.validateToken(jwt);
+      String tokenValid = "";
+      if(!requestURI.equals("/api/user/kakao"))
+            tokenValid = tokenProvider.validateToken(jwt);
+
       if (tokenValid.equals("expired")) {
          httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "accessTokenExpired");
       } else {
@@ -46,6 +49,7 @@ public class JwtFilter extends GenericFilterBean {
          }
          filterChain.doFilter(servletRequest, servletResponse);
       }
+
    }
 
    private String resolveToken(HttpServletRequest request) {
