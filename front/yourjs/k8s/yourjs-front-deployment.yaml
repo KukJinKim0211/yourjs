@@ -1,0 +1,26 @@
+#yourjs-front-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yourjs-front-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: yourjs-front
+  template:
+    metadata:
+      labels:
+        app: yourjs-front
+    spec:
+      containers:
+        - name: yourjs-front
+          image: pudingles94/project:yourjs-front
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
+          env:
+            - name: DATE
+              value: 'DATE_STRING'
+      imagePullSecrets:
+        - name: my-secret

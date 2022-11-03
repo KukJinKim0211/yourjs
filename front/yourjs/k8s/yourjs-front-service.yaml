@@ -1,0 +1,13 @@
+# yourjs-front-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: yourjs-front-service
+spec:
+  ports:
+    - name: https
+      port: 443
+      targetPort: 3000
+  selector:
+    app: yourjs-front
+  type: NodePort
