@@ -18,7 +18,6 @@ public class CareerDto {
     private Date startDate;
     private Date endDate;
     private Integer salary;
-    private Boolean careerState;
 
     public Career toEntity(){
         return Career.builder()
@@ -29,7 +28,6 @@ public class CareerDto {
                 .startDate(this.startDate)
                 .endDate(this.endDate)
                 .salary(this.salary)
-                .careerState(this.careerState)
                 .build();
 
     }

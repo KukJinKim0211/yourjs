@@ -86,7 +86,6 @@ public class EducationService {
             education.setEduTime(updatedEducation.getEduTime());
             education.setStartDate(updatedEducation.getStartDate());
             education.setEndDate(updatedEducation.getEndDate());
-            education.setCompletionState(updatedEducation.getCompletionState());
             education.setModDtm(LocalDateTime.now());
             educationRepository.save(education);
         }catch (Exception e){

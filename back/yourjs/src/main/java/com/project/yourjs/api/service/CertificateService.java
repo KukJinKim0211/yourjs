@@ -79,7 +79,7 @@ public class CertificateService {
             certificate.setCertName(updatedCertificate.getCertName());
             certificate.setCertNum(updatedCertificate.getCertNum());
             certificate.setCertInstitution(updatedCertificate.getCertInstitution());
-            certificate.setAcquisionDate(updatedCertificate.getAcquisionDate());
+            certificate.setAcquisitionDate(updatedCertificate.getAcquisitionDate());
             certificate.setModDtm(LocalDateTime.now());
             certificateRepository.save(certificate);
         }catch (Exception e){

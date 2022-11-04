@@ -50,9 +50,6 @@ public class Education {
     @Column(name = "edu_time",nullable = false)
     private Integer eduTime;
 
-    @Column(name = "completion_state", nullable = false)
-    private Boolean completionState;
-
     @Column(name = "file_src")
     private String fileSrc;
 
@@ -75,7 +72,6 @@ public class Education {
                 .eduTime(this.eduTime)
                 .startDate(this.startDate)
                 .endDate(this.endDate)
-                .completionState(this.completionState)
                 .build();
     }
 

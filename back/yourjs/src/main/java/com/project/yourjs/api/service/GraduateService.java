@@ -22,11 +22,9 @@ public class GraduateService {
     private final GraduateRepository graduateRepository;
     private final UserRepository userRepository;
 
-    private Graduate getGraduate(Graduate graduate, String schoolName, String location, String degree, boolean graduateStatus, String totAvgCredit, String majorAvgCredit, String totCredit, String majorCredit, String majorName, String doubleMajorName, Date startDate, Date endDate, String fileSrc) {
+    private Graduate getGraduate(Graduate graduate, String schoolName, String location, String totAvgCredit, String majorAvgCredit, String totCredit, String majorCredit, String majorName, String doubleMajorName, Date startDate, Date endDate, String fileSrc) {
         graduate.setSchoolName(schoolName);
         graduate.setLocation(location);
-        graduate.setDegree(degree);
-        graduate.setGraduateStatus(graduateStatus);
         graduate.setTotAvgCredit(totAvgCredit);
         graduate.setMajorAvgCredit(majorAvgCredit);
         graduate.setTotCredit(totCredit);
@@ -55,7 +53,7 @@ public class GraduateService {
     public GraduateRes createGraduate(String userId, GraduatePostReq graduatePostReq) {
         Graduate graduate = new Graduate();
         graduate.setUser(userRepository.findByUserId(userId).get());
-        getGraduate(graduate, graduatePostReq.getSchoolName(), graduatePostReq.getLocation(), graduatePostReq.getDegree(), graduatePostReq.isGraduateStatus(), graduatePostReq.getTotAvgCredit(), graduatePostReq.getMajorAvgCredit(), graduatePostReq.getTotCredit(), graduatePostReq.getMajorCredit(), graduatePostReq.getMajorName(), graduatePostReq.getDoubleMajorName(), graduatePostReq.getStartDate(), graduatePostReq.getEndDate(), graduatePostReq.getFileSrc());
+        getGraduate(graduate, graduatePostReq.getSchoolName(), graduatePostReq.getLocation(), graduatePostReq.getTotAvgCredit(), graduatePostReq.getMajorAvgCredit(), graduatePostReq.getTotCredit(), graduatePostReq.getMajorCredit(), graduatePostReq.getMajorName(), graduatePostReq.getDoubleMajorName(), graduatePostReq.getStartDate(), graduatePostReq.getEndDate(), graduatePostReq.getFileSrc());
         return graduate.toDto();
     }
 
@@ -63,7 +61,7 @@ public class GraduateService {
     public GraduateRes updateGraduate(String userId, @Valid GraduateRes graduateRes) {
         Graduate graduate = graduateRepository.findById(graduateRes.getGraduateSeq()).get();
         if (userId.equals(graduate.getUser().getUserId())) {
-            getGraduate(graduate, graduateRes.getSchoolName(), graduateRes.getLocation(), graduateRes.getDegree(), graduateRes.isGraduateStatus(), graduateRes.getTotAvgCredit(), graduateRes.getMajorAvgCredit(), graduateRes.getTotCredit(), graduateRes.getMajorCredit(), graduateRes.getMajorName(), graduateRes.getDoubleMajorName(), graduateRes.getStartDate(), graduateRes.getEndDate(), graduateRes.getFileSrc());
+            getGraduate(graduate, graduateRes.getSchoolName(), graduateRes.getLocation(), graduateRes.getTotAvgCredit(), graduateRes.getMajorAvgCredit(), graduateRes.getTotCredit(), graduateRes.getMajorCredit(), graduateRes.getMajorName(), graduateRes.getDoubleMajorName(), graduateRes.getStartDate(), graduateRes.getEndDate(), graduateRes.getFileSrc());
             return graduate.toDto();
         }
         return null;

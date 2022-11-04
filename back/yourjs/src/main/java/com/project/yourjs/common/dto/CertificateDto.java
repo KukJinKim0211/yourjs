@@ -15,7 +15,7 @@ public class CertificateDto {
     private String certName;
     private String certNum;
     private String certInstitution;
-    private Date acquisionDate;
+    private Date acquisitionDate;
 
     public Certificate toEntity(){
         return Certificate.builder()
@@ -23,7 +23,7 @@ public class CertificateDto {
                 .certName(this.certName)
                 .certNum(this.certNum)
                 .certInstitution(this.certInstitution)
-                .acquisionDate(this.acquisionDate)
+                .acquisitionDate(this.acquisitionDate)
                 .build();
     }
 }

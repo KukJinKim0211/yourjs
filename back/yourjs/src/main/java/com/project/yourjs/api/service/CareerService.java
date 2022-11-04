@@ -82,7 +82,6 @@ public class CareerService {
             career.setStartDate(updatedCareer.getStartDate());
             career.setEndDate(updatedCareer.getEndDate());
             career.setSalary(updatedCareer.getSalary());
-            career.setCareerState(updatedCareer.getCareerState());
             career.setModDtm(LocalDateTime.now());
             careerRepository.save(career);
         }catch (Exception e){

@@ -15,7 +15,6 @@ public class EducationPostReq {
     private Date startDate;
     private Date endDate;
     private Integer eduTime;
-    private Boolean completionState;
 
     public Education toEntity(){
         return Education.builder()
@@ -25,7 +24,6 @@ public class EducationPostReq {
                 .startDate(this.startDate)
                 .endDate(this.endDate)
                 .eduTime(this.eduTime)
-                .completionState(this.completionState)
                 .build();
     }
 

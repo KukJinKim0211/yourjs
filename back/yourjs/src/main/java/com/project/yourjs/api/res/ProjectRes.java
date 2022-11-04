@@ -9,21 +9,23 @@ import java.sql.Date;
 @Setter
 public class ProjectRes {
 
-    private Long projectReq;
+    private Long projectSeq;
     private String projectName;
     private String tools;
     private String belongs;
     private Date startDate;
     private Date endDate;
     private String fileSrc;
+    private String content;
 
-    public ProjectRes(Long projectReq, String projectName, String tools, String belongs, Date startDate, Date endDate, String fileSrc) {
-        this.projectReq = projectReq;
+    public ProjectRes(Long projectSeq, String projectName, String tools, String belongs, Date startDate, Date endDate, String fileSrc, String content) {
+        this.projectSeq = projectSeq;
         this.projectName = projectName;
         this.tools = tools;
         this.belongs = belongs;
         this.startDate = startDate;
         this.endDate = endDate;
         this.fileSrc = fileSrc;
+        this.content = content;
     }
 }

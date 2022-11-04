@@ -42,7 +42,7 @@ public class Certificate {
     private String certInstitution;
 
     @Column(name = "acquision_date", nullable = false)
-    private Date acquisionDate;
+    private Date acquisitionDate;
 
     @Column(name = "file_src")
     private String fileSrc;
@@ -63,7 +63,7 @@ public class Certificate {
                 .certName(this.certName)
                 .certNum(this.certNum)
                 .certInstitution(this.certInstitution)
-                .acquisionDate(this.acquisionDate)
+                .acquisitionDate(this.acquisitionDate)
                 .build();
     }
 }

@@ -19,7 +19,6 @@ public class CareerPostReq {
     private Date endDate;
     @Schema(description = "만원 단위")
     private Integer salary;
-    private Boolean careerState;
 
     public Career toEntity(){
         return Career.builder()
@@ -29,7 +28,6 @@ public class CareerPostReq {
                 .startDate(this.startDate)
                 .endDate(this.endDate)
                 .salary(this.salary)
-                .careerState(this.careerState)
                 .build();
 
     }

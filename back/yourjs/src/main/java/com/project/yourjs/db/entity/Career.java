@@ -46,11 +46,8 @@ public class Career {
     @Column(name = "end_date")
     private Date endDate;
 
-    @Column(nullable = false)
+    @Column
     private Integer salary;
-
-    @Column(name = "career_state", nullable = false)
-    private Boolean careerState;
 
     @Column(name = "file_src")
     private String fileSrc;
@@ -74,7 +71,6 @@ public class Career {
                 .startDate(this.startDate)
                 .endDate(this.endDate)
                 .salary(this.salary)
-                .careerState(this.careerState)
                 .build();
     }
 }

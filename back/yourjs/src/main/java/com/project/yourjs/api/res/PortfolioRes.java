@@ -14,8 +14,7 @@ public class PortfolioRes {
     private String engName;
     private String techStacks;
     private String links;
-    private String fileSrc;
 
-    public PortfolioRes(Long portfolioSeq, String cnName, String engName, String techStacks, String links, String fileSrc) {
+    public PortfolioRes(Long portfolioSeq, String cnName, String engName, String techStacks, String links) {
     }
 }

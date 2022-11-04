@@ -40,8 +40,8 @@ public class Military {
     @Column(name = "end_date")
     private Date endDate;
 
-    @Column(name = "file_src", nullable = true)
-    private String fileSrc;
+    @Column(name = "discharge", nullable = false)
+    private String discharge;
 
     @CreationTimestamp
     @CreatedDate
@@ -60,7 +60,7 @@ public class Military {
                 this.specialityType,
                 this.startDate,
                 this.endDate,
-                this.fileSrc
+                this.discharge
         );
     }
 }

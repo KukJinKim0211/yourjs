@@ -12,5 +12,5 @@ public class MilitaryPostReq {
     private String specialityType;
     private Date startDate;
     private Date endDate;
-    private String fileSrc;
+    private String discharge;
 }

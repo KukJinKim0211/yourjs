@@ -14,5 +14,6 @@ public class ProjectPostReq {
     private Date startDate;
     private Date endDate;
     private String fileSrc;
+    private String content;
 
 }

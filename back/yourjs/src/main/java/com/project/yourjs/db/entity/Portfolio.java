@@ -28,20 +28,17 @@ public class Portfolio {
     @JoinColumn(name = "user_seq")
     private User user;
 
-    @Column(name = "cn_name", nullable = true)
+    @Column(name = "cn_name")
     private String cnName;
 
-    @Column(name = "eng_name", nullable = false)
+    @Column(name = "eng_name")
     private String engName;
 
-    @Column(name = "tech_stacks", nullable = false)
+    @Column(name = "tech_stacks")
     private String techStacks;
 
-    @Column(name = "links", nullable = true)
+    @Column(name = "links")
     private String links;
-
-    @Column(name = "file_src", nullable = true)
-    private String fileSrc;
 
     @CreationTimestamp
     @CreatedDate
@@ -59,8 +56,7 @@ public class Portfolio {
                 this.cnName,
                 this.engName,
                 this.techStacks,
-                this.links,
-                this.fileSrc
+                this.links
         );
     }
 }

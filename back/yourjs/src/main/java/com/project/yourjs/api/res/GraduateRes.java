@@ -28,12 +28,10 @@ public class GraduateRes {
     private Date endDate;
     private String fileSrc;
 
-    public GraduateRes(Long graduateSeq, String schoolName, String location, String degree, boolean graduateStatus, String totAvgCredit, String majorAvgCredit, String totCredit, String majorCredit, String majorName, String doubleMajorName, String subMajorName, Date startDate, Date endDate, String fileSrc) {
+    public GraduateRes(Long graduateSeq, String schoolName, String location, String totAvgCredit, String majorAvgCredit, String totCredit, String majorCredit, String majorName, String doubleMajorName, String subMajorName, Date startDate, Date endDate, String fileSrc) {
         this.graduateSeq = graduateSeq;
         this.schoolName = schoolName;
         this.location = location;
-        this.degree = degree;
-        this.graduateStatus = graduateStatus;
         this.totAvgCredit = totAvgCredit;
         this.majorAvgCredit = majorAvgCredit;
         this.totCredit = totCredit;

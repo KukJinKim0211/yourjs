@@ -17,12 +17,11 @@ public class PortfolioService {
     private final PortfolioRepository portfolioRepository;
     private final UserRepository userRepository;
 
-    private Portfolio getPortfolio(Portfolio portfolio, String cnName, String engName, String techStacks, String links, String fileSrc) {
+    private Portfolio getPortfolio(Portfolio portfolio, String cnName, String engName, String techStacks, String links) {
         portfolio.setCnName(cnName);
         portfolio.setEngName(engName);
         portfolio.setTechStacks(techStacks);
         portfolio.setLinks(links);
-        portfolio.setFileSrc(fileSrc);
         portfolioRepository.save(portfolio);
         return portfolio;
     }
@@ -37,7 +36,7 @@ public class PortfolioService {
     public PortfolioRes createPortfolio(String userId, PortfolioPostReq portfolioPostReq) {
         Portfolio portfolio = new Portfolio();
         portfolio.setUser(userRepository.findByUserId(userId).get());
-        getPortfolio(portfolio, portfolioPostReq.getCnName(), portfolioPostReq.getEngName(), portfolioPostReq.getTechStacks(), portfolioPostReq.getLinks(), portfolioPostReq.getFileSrc());
+        getPortfolio(portfolio, portfolioPostReq.getCnName(), portfolioPostReq.getEngName(), portfolioPostReq.getTechStacks(), portfolioPostReq.getLinks());
         return portfolio.toDto();
     }
 
@@ -45,7 +44,7 @@ public class PortfolioService {
     public PortfolioRes updatePortfolio(String userId, PortfolioRes portfolioRes) {
         Portfolio portfolio = portfolioRepository.findById(portfolioRes.getPortfolioSeq()).get();
         if (userId.equals(portfolio.getUser().getUserId())) {
-            getPortfolio(portfolio, portfolioRes.getCnName(), portfolioRes.getEngName(), portfolioRes.getTechStacks(), portfolioRes.getLinks(), portfolioRes.getFileSrc());
+            getPortfolio(portfolio, portfolioRes.getCnName(), portfolioRes.getEngName(), portfolioRes.getTechStacks(), portfolioRes.getLinks());
             return portfolio.toDto();
         }
         return null;

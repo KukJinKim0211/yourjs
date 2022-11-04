@@ -22,13 +22,14 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
 
-    private Project getProject(Project project, String projectName, String tools, String belongs, Date startDate, Date endDate, String fileSrc) {
+    private Project getProject(Project project, String projectName, String tools, String belongs, Date startDate, Date endDate, String fileSrc, String content) {
         project.setProjectName(projectName);
         project.setTools(tools);
         project.setBelongs(belongs);
         project.setStartDate(startDate);
         project.setEndDate(endDate);
         project.setFileSrc(fileSrc);
+        project.setContent(content);
         return projectRepository.save(project);
     }
 
@@ -47,15 +48,15 @@ public class ProjectService {
     public ProjectRes createProject(String userId, ProjectPostReq projectPostReq) {
         Project project = new Project();
         project.setUser(userRepository.findByUserId(userId).get());
-        getProject(project, projectPostReq.getProjectName(), projectPostReq.getTools(), projectPostReq.getBelongs(), projectPostReq.getStartDate(), projectPostReq.getEndDate(), projectPostReq.getFileSrc());
+        getProject(project, projectPostReq.getProjectName(), projectPostReq.getTools(), projectPostReq.getBelongs(), projectPostReq.getStartDate(), projectPostReq.getEndDate(), projectPostReq.getFileSrc(), projectPostReq.getContent());
         return project.toDto();
     }
 
     @Transactional
     public ProjectRes updateProject(String userId, ProjectRes projectRes) {
-        Project project = projectRepository.findById(projectRes.getProjectReq()).get();
+        Project project = projectRepository.findById(projectRes.getProjectSeq()).get();
         if (userId.equals(project.getUser().getUserId())) {
-            getProject(project, projectRes.getProjectName(), projectRes.getTools(), projectRes.getBelongs(), projectRes.getStartDate(), projectRes.getEndDate(), projectRes.getFileSrc());
+            getProject(project, projectRes.getProjectName(), projectRes.getTools(), projectRes.getBelongs(), projectRes.getStartDate(), projectRes.getEndDate(), projectRes.getFileSrc(), projectRes.getContent());
             return project.toDto();
         }
         return null;

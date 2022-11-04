@@ -11,5 +11,4 @@ public class PortfolioPostReq {
     private String engName;
     private String techStacks;
     private String links;
-    private String fileSrc;
 }

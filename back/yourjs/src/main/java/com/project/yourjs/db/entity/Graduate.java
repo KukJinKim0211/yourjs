@@ -37,25 +37,19 @@ public class Graduate {
     @Column(name = "location", nullable = false)
     private String location;
 
-    @Column(name = "degree", nullable = false)
-    private String degree;
-
-    @Column(name = "graduate_status", nullable = false)
-    private boolean graduateStatus;
-
-    @Column(name = "tot_avg_credit", nullable = false)
+    @Column(name = "tot_avg_credit")
     private String totAvgCredit;
 
-    @Column(name = "major_avg_credit", nullable = false)
+    @Column(name = "major_avg_credit")
     private String majorAvgCredit;
 
-    @Column(name = "tot_credit", nullable = false)
+    @Column(name = "tot_credit")
     private String totCredit;
 
-    @Column(name = "major_credit", nullable = false)
+    @Column(name = "major_credit")
     private String majorCredit;
 
-    @Column(name = "major_name", nullable = false)
+    @Column(name = "major_name")
     private String majorName;
 
     @Column(name = "doubl_major_name")
@@ -70,7 +64,7 @@ public class Graduate {
     @Column(name = "end_date")
     private Date endDate;
 
-    @Column(name = "file_src", nullable = true)
+    @Column(name = "file_src")
     private String fileSrc;
 
     @CreationTimestamp
@@ -88,8 +82,6 @@ public class Graduate {
                  this.graduateSeq,
                  this.schoolName,
                  this.location,
-                 this.degree,
-                 this.graduateStatus,
                  this.totAvgCredit,
                  this.majorAvgCredit,
                  this.totCredit,

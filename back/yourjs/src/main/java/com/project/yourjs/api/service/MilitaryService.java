@@ -21,12 +21,12 @@ public class MilitaryService {
     private final MilitaryRepository militaryRepository;
     private final UserRepository userRepository;
 
-    private Military getMilitary(Military military, String militaryType, String specialityType, Date startDate, Date endDate, String fileSrc) {
+    private Military getMilitary(Military military, String militaryType, String specialityType, Date startDate, Date endDate, String discharge) {
         military.setMilitaryType(militaryType);
         military.setSpecialityType(specialityType);
         military.setStartDate(startDate);
         military.setEndDate(endDate);
-        military.setFileSrc(fileSrc);
+        military.setDischarge(discharge);
         militaryRepository.save(military);
         return military;
     }
@@ -46,7 +46,7 @@ public class MilitaryService {
     public MilitaryRes createMilitary(String userId, MilitaryPostReq militaryPostReq) {
         Military military = new Military();
         military.setUser(userRepository.findByUserId(userId).get());
-        getMilitary(military, militaryPostReq.getMilitaryType(), militaryPostReq.getSpecialityType(), militaryPostReq.getStartDate(), militaryPostReq.getEndDate(), militaryPostReq.getFileSrc());
+        getMilitary(military, militaryPostReq.getMilitaryType(), militaryPostReq.getSpecialityType(), militaryPostReq.getStartDate(), militaryPostReq.getEndDate(), militaryPostReq.getDischarge());
         return military.toDto();
     }
 
@@ -54,7 +54,7 @@ public class MilitaryService {
     public MilitaryRes updateMilitary(String userId, MilitaryRes militaryRes) {
         Military military = militaryRepository.findById(militaryRes.getMilitarySeq()).get();
         if (userId.equals(military.getUser().getUserId())) {
-            getMilitary(military, militaryRes.getMilitaryType(), militaryRes.getSpecialityType(), militaryRes.getStartDate(), militaryRes.getEndDate(), militaryRes.getFileSrc());
+            getMilitary(military, militaryRes.getMilitaryType(), militaryRes.getSpecialityType(), militaryRes.getStartDate(), militaryRes.getEndDate(), militaryRes.getDischarge());
             return military.toDto();
         }
         return null;

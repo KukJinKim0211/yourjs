@@ -14,14 +14,14 @@ public class MilitaryRes {
     private String specialityType;
     private Date startDate;
     private Date endDate;
-    private String fileSrc;
+    private String discharge;
 
-    public MilitaryRes(Long militarySeq, String militaryType, String specialityType, Date startDate, Date endDate, String fileSrc) {
+    public MilitaryRes(Long militarySeq, String militaryType, String specialityType, Date startDate, Date endDate, String discharge) {
         this.militarySeq = militarySeq;
         this.militaryType = militaryType;
         this.specialityType = specialityType;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.fileSrc = fileSrc;
+        this.discharge = discharge;
     }
 }

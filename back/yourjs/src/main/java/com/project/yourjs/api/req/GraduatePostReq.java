@@ -10,8 +10,6 @@ public class GraduatePostReq {
 
     private String schoolName;
     private String location;
-    private String degree;
-    private boolean graduateStatus;
     private String totAvgCredit;
     private String majorAvgCredit;
     private String totCredit;

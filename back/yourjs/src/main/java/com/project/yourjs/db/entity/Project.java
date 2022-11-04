@@ -44,6 +44,9 @@ public class Project {
     @Column(name = "file_src", nullable = true)
     private String fileSrc;
 
+    @Column(name = "content", nullable = false)
+    private String content;
+
     @CreationTimestamp
     @CreatedDate
     @Column(updatable = false, nullable = false)
@@ -62,7 +65,8 @@ public class Project {
                 this.belongs,
                 this.startDate,
                 this.endDate,
-                this.fileSrc
+                this.fileSrc,
+                this.content
         );
     }
 }
