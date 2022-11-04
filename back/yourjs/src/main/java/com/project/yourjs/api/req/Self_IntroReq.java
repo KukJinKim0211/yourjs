@@ -4,7 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class Self_IntroReq {
-    private String coName;
     private String question;
     private String contents;
     private Integer maxLength;

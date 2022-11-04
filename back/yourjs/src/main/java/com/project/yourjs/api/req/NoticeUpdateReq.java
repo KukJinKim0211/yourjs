@@ -8,4 +8,6 @@ public class NoticeUpdateReq {
     private String noticeName;
     private String link;
     private String progress;
+    private String coName;
+    private String noticeTag;
 }
