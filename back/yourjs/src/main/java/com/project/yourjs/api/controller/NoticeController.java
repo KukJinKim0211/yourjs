@@ -46,7 +46,7 @@ public class NoticeController {
 
   @Operation(summary = "공고 목록 조회")
   @ApiResponses(value = {
-    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePostReq.class))),
+    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticeGetRes.class))),
     @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
     @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
     @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
@@ -59,7 +59,7 @@ public class NoticeController {
 
   @Operation(summary = "공고 등록")
   @ApiResponses(value = {
-    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePostReq.class))),
+    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePostRes.class))),
     @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
     @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
     @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
@@ -73,7 +73,7 @@ public class NoticeController {
 
   @Operation(summary = "공고 수정")
   @ApiResponses(value = {
-    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePostReq.class))),
+    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePatchRes.class))),
     @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
     @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
     @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
@@ -87,7 +87,7 @@ public class NoticeController {
 
   @Operation(summary = "공고 삭제")
   @ApiResponses(value = {
-    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePostReq.class))),
+    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticeDeleteRes.class))),
     @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
     @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
     @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))

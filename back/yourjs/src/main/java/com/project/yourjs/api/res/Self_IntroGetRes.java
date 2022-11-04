@@ -1,11 +1,12 @@
-package com.project.yourjs.api.req;
+package com.project.yourjs.api.res;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-public class Self_IntroPostReq {
+@Setter
+public class Self_IntroGetRes {
     private String question;
     private String contents;
-    private Integer noticeSeq;
     private String introTag;
 }

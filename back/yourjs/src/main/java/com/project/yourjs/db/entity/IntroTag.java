@@ -28,10 +28,8 @@ public class IntroTag {
     @Column(name = "intro_tag_seq")
     private Integer introTagSeq;
 
-    @JsonBackReference
-    @ManyToOne(targetEntity = Self_Intro.class)
-    @JoinColumn(name = "intro_seq")
-    Self_Intro self_Intro;
+    @Column(name = "intro_seq")
+    private Integer introSeq;
 
     @Column(name = "intro_tag_name")
     String introTagName;
