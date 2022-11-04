@@ -20,6 +20,7 @@ import com.project.yourjs.api.req.NoticeDeleteReq;
 import com.project.yourjs.api.req.NoticePostReq;
 import com.project.yourjs.api.req.NoticeUpdateReq;
 import com.project.yourjs.api.res.NoticeDeleteRes;
+import com.project.yourjs.api.res.NoticeGetRes;
 import com.project.yourjs.api.res.NoticePatchRes;
 import com.project.yourjs.api.res.NoticePostRes;
 import com.project.yourjs.api.service.NoticeService;
@@ -52,7 +53,7 @@ public class NoticeController {
   })
   @GetMapping
   @PreAuthorize("hasAnyRole('USER','ADMIN')")
-  public ResponseEntity<List<Notice>> getAllNotice(Authentication authentication) {
+  public ResponseEntity<List<NoticeGetRes>> getAllNotice(Authentication authentication) {
     return ResponseEntity.ok(noticeService.getAllNotice(authentication.getName()));
   }
 

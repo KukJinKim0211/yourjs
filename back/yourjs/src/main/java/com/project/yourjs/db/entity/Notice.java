@@ -61,9 +61,6 @@ public class Notice {
   @Column(name = "progress")
   private String progress;
 
-  @Column(name = "notice_date")
-  private LocalDateTime noticeDate;
-
   @Column(name = "co_name")
   private String coName;
 }
