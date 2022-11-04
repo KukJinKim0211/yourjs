@@ -55,7 +55,6 @@ public class Self_IntroService {
         if (oUser.isPresent()) {
             User user = oUser.get();
             self_Intro.setUser(user);
-            self_Intro.setCoName(self_IntroPostReq.getCoName());
             self_Intro.setContents(self_IntroPostReq.getContents());
             self_Intro.setMaxBytes(self_IntroPostReq.getMaxBytes());
             self_Intro.setMaxLength(self_IntroPostReq.getMaxLength());
@@ -83,7 +82,6 @@ public class Self_IntroService {
                 User user = oUser.get();
                 Notice notice = oNotice.get();
                 self_Intro.setUser(user);
-                self_Intro.setCoName(self_IntroPostReq.getCoName());
                 self_Intro.setContents(self_IntroPostReq.getContents());
                 self_Intro.setMaxBytes(self_IntroPostReq.getMaxBytes());
                 self_Intro.setMaxLength(self_IntroPostReq.getMaxLength());
@@ -112,8 +110,6 @@ public class Self_IntroService {
                 Self_Intro self_Intro = new Self_Intro();
                 if (self_Intro.getUser().getUserSeq() != user.getUserSeq())
                     return self_IntroPatchRes;
-                if (StringUtils.isNotBlank(self_IntroPatchReq.getCoName()))
-                    self_Intro.setCoName(self_IntroPatchReq.getCoName());
                 if (StringUtils.isNotBlank(self_IntroPatchReq.getContents()))
                     self_Intro.setContents(self_IntroPatchReq.getContents());
                 if (self_IntroPatchReq.getMaxBytes() != 0)

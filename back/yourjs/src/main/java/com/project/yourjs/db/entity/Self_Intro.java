@@ -43,9 +43,6 @@ public class Self_Intro {
     @JoinColumn(name = "notice_seq")
     private Notice notice;
 
-    @Column(name = "co_name")
-    private String coName;
-
     @Column(name = "question")
     private String question;
 
