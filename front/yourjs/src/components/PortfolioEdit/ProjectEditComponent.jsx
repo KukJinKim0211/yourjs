@@ -88,7 +88,7 @@ const ProjectEditComponent = ({}) => {
         <DateBox
           value={end}
           onChange={onChangeEndHandler}
-          placeholder='종료일'
+          placeholder='종료일' 
         ></DateBox><br/><br/>
         <SaveButton>추가</SaveButton>
       </LeftBox>
@@ -99,7 +99,7 @@ const ProjectEditComponent = ({}) => {
           <BoxInput 
             value={title}
             onChange={onChangeTitleHandler}
-            placeholder='프로젝트 명을 입력해 주세요'
+            placeholder='프로젝트 명을 입력해 주세요.'
           ></BoxInput>
         </RightBox>
         <RightBox>

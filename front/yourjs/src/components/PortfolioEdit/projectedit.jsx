@@ -44,7 +44,7 @@ const ProjectEdit = () => {
       {buttonFlag && (<ProjectEditComponent ></ProjectEditComponent>)}
       <br/><br/>
       <Container>
-        <ContentTitle>📜 프로젝트</ContentTitle>
+        <ContentTitle>📜 프로젝트 </ContentTitle>
         <ContentSet>
           <Hr></Hr>
           {dataArr.map((el, index) => (

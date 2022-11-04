@@ -2,7 +2,9 @@ import React from 'react'
 
 const TrainingEdit = () => {
   return (
-    <div>TrainingEdit</div>
+    <div>TrainingEdit
+      To dodddddd
+    </div>
   )
 }
 

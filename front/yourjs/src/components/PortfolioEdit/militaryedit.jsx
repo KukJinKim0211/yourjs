@@ -2,7 +2,9 @@ import React from 'react'
 
 const MilitaryEdit = () => {
   return (
-    <div>MilitaryEdit</div>
+    <div>MilitaryEdit
+      To dddd
+    </div>
   )
 }
 
