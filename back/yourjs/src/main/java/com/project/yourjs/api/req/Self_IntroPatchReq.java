@@ -7,7 +7,6 @@ public class Self_IntroPatchReq {
     private Integer selfIntroSeq;
     private String question;
     private String contents;
-    private Integer maxLength;
-    private Integer maxBytes;
     private Integer noticeSeq;
+    private String introTag;
 }

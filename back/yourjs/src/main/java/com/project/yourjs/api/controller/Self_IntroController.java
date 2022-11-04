@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.yourjs.api.req.NoticePostReq;
+import com.project.yourjs.api.req.Self_IntroDeleteReq;
+import com.project.yourjs.api.req.Self_IntroPatchReq;
 import com.project.yourjs.api.req.Self_IntroPostReq;
-import com.project.yourjs.api.req.Self_IntroReq;
 import com.project.yourjs.api.res.Self_IntroDeleteRes;
+import com.project.yourjs.api.res.Self_IntroGetRes;
 import com.project.yourjs.api.res.Self_IntroPatchRes;
 import com.project.yourjs.api.res.Self_IntroPostRes;
 import com.project.yourjs.api.service.Self_IntroService;
-import com.project.yourjs.db.entity.Self_Intro;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -45,20 +45,20 @@ public class Self_IntroController {
 
     @Operation(summary = "자소서 목록 조회")
     @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePostReq.class))),
+      @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Self_IntroGetRes.class))),
       @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
       @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
       @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @GetMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<List<Self_Intro>> getAllSelf_Intro(Authentication authentication){
+    public ResponseEntity<List<Self_IntroGetRes>> getAllSelf_Intro(Authentication authentication){
         return ResponseEntity.ok(selfIntroService.getAllSelf_Intro(authentication.getName()));
     }
 
     @Operation(summary = "자소서 등록")
     @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePostReq.class))),
+      @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Self_IntroPostRes.class))),
       @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
       @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
       @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
@@ -71,27 +71,27 @@ public class Self_IntroController {
 
     @Operation(summary = "자소서 수정")
     @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePostReq.class))),
+      @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Self_IntroPatchRes.class))),
       @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
       @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
       @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @PatchMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<Self_IntroPatchRes> updateSelf_Intro(){
-        return null;
+    public ResponseEntity<Self_IntroPatchRes> updateSelf_Intro(Authentication authentication, @Valid @RequestBody Self_IntroPatchReq self_IntroPatchReq){
+        return ResponseEntity.ok(selfIntroService.updateSelf_Intro(authentication.getName(), self_IntroPatchReq));
     }
 
     @Operation(summary = "자소서 삭제")
     @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePostReq.class))),
+      @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Self_IntroDeleteRes.class))),
       @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
       @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
       @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
     @DeleteMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<Self_IntroDeleteRes> deleteSelf_Intro(){
-        return null;
+    public ResponseEntity<Self_IntroDeleteRes> deleteSelf_Intro(Authentication authentication, @Valid @RequestBody Self_IntroDeleteReq self_IntroDeleteReq){
+        return ResponseEntity.ok(selfIntroService.deleteSelf_Intro(authentication.getName(), self_IntroDeleteReq));
     }
 }

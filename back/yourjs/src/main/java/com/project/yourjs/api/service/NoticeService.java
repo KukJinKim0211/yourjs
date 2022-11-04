@@ -55,7 +55,8 @@ public class NoticeService {
                         sb.append(tag.getNoticeTagName());
                         sb.append(", ");
                     }
-                    sb.delete(sb.length() - 2, sb.length());
+                    if(sb.length() > 1)
+                        sb.delete(sb.length() - 2, sb.length());
                     noticeGetRes.setNoticeTag(sb.toString());
                 }
                 List<Schedule> schedules = scheduleRepository.findAllByNoticeSeq(notice.getNoticeSeq());

@@ -46,12 +46,6 @@ public class Self_Intro {
     @Column(name = "question")
     private String question;
 
-    @Column(name = "max_length")
-    private Integer maxLength;
-
-    @Column(name = "max_bytes")
-    private Integer maxBytes;
-
     @Column(name = "contents")
     private String contents;
 

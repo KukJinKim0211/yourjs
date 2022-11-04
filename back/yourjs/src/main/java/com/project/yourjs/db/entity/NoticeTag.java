@@ -24,11 +24,6 @@ public class NoticeTag {
     @Column(name = "notice_tag_seq")
     private Integer noticeTagSeq;
 
-    // @JsonBackReference
-    // @ManyToOne(targetEntity = Notice.class)
-    // @JoinColumn(name = "notice_seq")
-    // private Notice notice;
-
     @Column(name = "notice_seq")
     private Integer noticeSeq;
 

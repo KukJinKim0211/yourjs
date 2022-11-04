@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Self_IntroPatchRes {
-    String result;
+    private String result;
 }
