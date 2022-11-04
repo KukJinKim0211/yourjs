@@ -163,13 +163,20 @@ const Login = () => {
           if (autoLogin) localStorage.setItem('autoLogin', true);
           else localStorage.setItem('autoLogin', false);
           dispatch({ type: 'login', nickname: response.data.nickname });
-          sessionStorage.setItem('selectItem', 1);
+          sessionStorage.setItem('selectItem', 0);
           sessionStorage.setItem('loginState', true);
           sessionStorage.setItem('accessToken', response.data.accessToken);
           navigate('/main');
         }
       })
       .catch(error => console.log(error));
+  };
+
+  const kakao = async () => {
+    const response = await axios
+      .get(KAKAO_AUTH_URL)
+      .then(response => console.log(response));
+    console.log(response);
   };
 
   useEffect(() => {
@@ -237,6 +244,7 @@ const Login = () => {
           <a href={KAKAO_AUTH_URL} style={{ width: '49%', height: '65px' }}>
             <KakaoButtonImage />
           </a>
+          {/* <KakaoButtonImage onClick={() => kakao()} /> */}
           <a style={{ width: '49%', height: '65px' }}>
             <NaverIdLogin ref={naverRef} id="naverIdLogin" />
             <NaverButtonImage onClick={handleNaverLogin} />

@@ -29,7 +29,7 @@ axiosInstance.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config;
-
+    console.log(error.response.status);
     // 토른 만료 에러 처리
     if (error.response.status === 401) {
       console.log('토큰만료 에러 intercepter start');

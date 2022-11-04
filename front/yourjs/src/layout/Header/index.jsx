@@ -101,7 +101,7 @@ const Header = () => {
     <Wrapper>
       <HeaderDiv>
         <div>
-          <Link to={loginState ? '/maincalendar' : '/'}>
+          <Link to={loginState ? '/main' : '/'}>
             <LogoImage />
           </Link>
         </div>

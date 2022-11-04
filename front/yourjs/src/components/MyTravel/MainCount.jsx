@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 const Wrapper = styled.div`
   width: 100%;
   min-width: 500;
-  height: 200px;
+  height: 190px;
   border-radius: 15px;
   display: flex;
   flex-direction: column;

@@ -3,10 +3,11 @@
 
 import React from 'react';
 
-const KakaoLogin = () => {
+const KakaoLogin = props => {
   // 리다이렉트 된 페이지에서 인가코드 꺼내오기
   const code = new URL(window.location.href).searchParams.get('code');
   console.log(code);
+  console.log(props);
   return <div></div>;
 };
 
