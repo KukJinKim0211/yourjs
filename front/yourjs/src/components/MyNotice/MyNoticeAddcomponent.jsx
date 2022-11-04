@@ -1,16 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-
-
-const Wrapper = styled.div`
-  
-`
+const Wrapper = styled.div``;
 //태그 부분 전체 div
 const TagBox = styled.div`
   display: flex;
-  
 `;
 
 //태그 입력창
@@ -39,13 +34,10 @@ const ResultTag = styled.div`
   height: 30px;
   background-color: aliceblue;
   font-weight: 700;
-  box-shadow: 0.1rem 0.1rem 0.1rem gray;;
-  
+  box-shadow: 0.1rem 0.1rem 0.1rem gray; ;
 `;
 //제목 쓰는 인풋박스
 const ContentTitle = styled.input`
-  
-  
   box-sizing: border-box;
   width: 100%;
   height: 50px;
@@ -57,11 +49,9 @@ const ContentTitle = styled.input`
   :focus {
     outline: none;
   }
-  
 `;
-// content 담는 박스 
+// content 담는 박스
 const ContentBox = styled.div`
-  
   background-color: whitesmoke;
   width: 100%;
   height: 420px;
@@ -72,7 +62,6 @@ const ContentBox = styled.div`
 
 // 내용 적는 textarea
 const ContentContent = styled.textarea`
-  
   box-sizing: border-box;
   background-color: whitesmoke;
   border: none;
@@ -84,20 +73,30 @@ const ContentContent = styled.textarea`
   }
 `;
 
-
-
 //글자수 세는 div
-const CountBox = styled.div `
+const CountBox = styled.div`
   margin-right: 1%;
-  
-`
+`;
 
-const MyNoticeAddcomponent = ({}) => {
+const MyNoticeAddcomponent = ({ getChildData }) => {
   const [tag, setTag] = useState([]);
   const [tagItem, setTagItem] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [pushData, setPushData] = useState({ title: '', tag: '', content: '' });
+
+  
+
+  // push data 값이 변할때 부모에게 값주는 effect
+  useEffect(() => {
+    getChildData(pushData);
+  }, [pushData]);
+
+  // 태그 값이 변하는걸쳐다봄
+  useEffect(() => {
+    if (tag.length === 0) return;
+    setPushData({ ...pushData, tag: tag });
+  }, [tag]);
 
   const keydownHandler = e => {
     if (e.key === 'Enter') {
@@ -115,7 +114,6 @@ const MyNoticeAddcomponent = ({}) => {
 
   const onChangeTagHandler = e => {
     setTagItem(e.target.value);
-    setPushData({ ...pushData, tag: tagItem });
   };
 
   const onChangeTitleHandler = e => {
@@ -166,14 +164,15 @@ const MyNoticeAddcomponent = ({}) => {
             onChange={onChangeContentHandler}
             placeholder="내용을 입력하세요"
           ></ContentContent>
-          <div style={{display:"flex", justifyContent:"flex-end"}}>
-          <CountBox id="contentFont" > 현재 글자수 : {content.replace(/<br\s*\/?>/gm, "\n").length}  </CountBox>
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <CountBox id="contentFont">
+              {' '}
+              현재 글자수 : {content.replace(/<br\s*\/?>/gm, '\n').length}{' '}
+            </CountBox>
           </div>
         </ContentBox>
         <br></br>
-      
       </div>
-      
     </Wrapper>
   );
 };

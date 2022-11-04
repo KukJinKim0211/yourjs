@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MyNoticeAddcomponent from './MyNoticeAddcomponent';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -17,8 +17,6 @@ const Wrapper = styled.div`
 const TitleBox = styled.div`
   display: flex;
   align-items: center;
-
-  
 `;
 
 //회사 div
@@ -63,8 +61,6 @@ const StateBox = styled.div`
   height: 50px;
 `;
 
-
-
 const StateSelect = styled.select`
   border: none;
 
@@ -73,7 +69,6 @@ const StateSelect = styled.select`
   margin-top: 10px;
   margin-left: 30px;
   option {
-    
   }
 `;
 //url 입력 div
@@ -95,16 +90,13 @@ const UrlInput = styled.input`
 `;
 // date 입력 div
 const DateBox = styled.div`
-  
-  width : 40%;
-  
+  width: 40%;
 `;
 
 const DateTitle = styled.div`
-  
   font-size: 1.17em;
   font-weight: 700;
-`
+`;
 
 const DateSelectBox = styled.div`
   display: flex;
@@ -135,36 +127,117 @@ const SaveCancelButton = styled.button`
   cursor: pointer;
   margin-bottom: 10%;
 `;
+
+const TagInputBox = styled.input`
+  border: none;
+  border-bottom: 3px solid gray;
+  width: 100%;
+  height: 40px;
+  :focus {
+    outline: none;
+  }
+`;
+
+const TagBox = styled.div`
+  display: flex;
+`;
+
+const ResultTag = styled.div`
+  min-width: 40px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  padding: 10px;
+  margin-right: 20px;
+  height: 30px;
+  background-color: aliceblue;
+  font-weight: 700;
+  box-shadow: 0.1rem 0.1rem 0.1rem gray; ;
+`;
+
 let countList = 1;
 let countDate = 1;
 const MyNoticeAdd = () => {
-  
   const [list, setList] = useState(['']);
-  const [dateList , setDateList] = useState(['']) // 일정 등록 컴포넌트 생성을 위한 list
-
+  const [dateList, setDateList] = useState(['']); // 일정 등록 컴포넌트 생성을 위한 list
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [companyInput, setCompanyInput] = useState('');
+  // const [formData,setFormData] = useState([])
+  
+
+  const [totalData, setTotalData] = useState({});
+  const [tag, setTag] = useState([]);
+  const [tagItem, setTagItem] = useState('');
 
   const onClick = () => {
     // 수정 필요 ( 자식 값 안가져옴 - > 헛짓중 )
     const a = [...list];
-    
-    a.unshift({ index: countList,  });
-    
-    countList = countList +1 ;
-    
+
+    a.unshift({ index: countList });
+
+    countList = countList + 1;
 
     setList(a);
   };
 
+  //회사이름 입력
+  const handleCompanyInput = e => {
+    setTotalData({ ...totalData, coName: e.target.value });
+    
+  };
+  // 공고명 입력
+  const handleNoticeInput = e => {
+    setTotalData({ ...totalData, noticeName: e.target.value });
+  };
+  // 진행상황 입력
+  const handleProgressInput = e => {
+    setTotalData({ ...totalData, progress: e.target.value });
+  };
+
+  const handleLinkInput = e => {
+    setTotalData({ ...totalData, link: e.target.value });
+  };
+
+  const handleTagInput = e => {
+    setTagItem(e.target.value);
+  };
 
   const handleDateClick = () => {
     const b = [...dateList];
-    b.unshift({index : countDate});
-    countDate = countDate + 1
-    setDateList(b)
-    console.log("123123")
+    b.unshift({ index: countDate });
+    countDate = countDate + 1;
+    setDateList(b);
+    console.log('123123');
+  };
+
+  const handleTotalData = () => {
+    console.log(totalData,"최종값")
+    
+  }
+
+
+  const getChildData = (data) => {
+    console.log(data, "값가져오기 성공")
+  }
+
+
+  // 태그값이 변하는거를 쳐다보다가 useeffect
+  useEffect(() => {
+    if (tag.length === 0) return;
+    setTotalData({ ...totalData, tag: tag });
+  }, [tag]);
+
+  // 복사 추가
+  const keydownHandler = e => {
+    if (e.key === 'Enter') {
+      console.log('성공');
+      setTag([...tag, tagItem]);
+      setTagItem('');
+      
     }
+  };
 
   return (
     <Wrapper>
@@ -181,21 +254,42 @@ const MyNoticeAdd = () => {
         <CompanyInput
           id="titleFont"
           placeholder="회사를 입력해 주세요"
+          onChange={handleCompanyInput}
         ></CompanyInput>
-        
       </CompanyBox>
       <TitleNoticeBox id="titleFont">
         <h3>공고명</h3>
         <TitleNoticeInput
+          onChange={handleNoticeInput}
           id="titleFont"
           placeholder="ex) 상반기 IT 채용 "
         ></TitleNoticeInput>
-        
       </TitleNoticeBox>
       <br></br>
+      <TagBox>
+        <TagInputBox
+          id="contentFont"
+          value={tagItem}
+          placeholder="태그를 추가하세요 "
+          onKeyDown={keydownHandler}
+          onChange={handleTagInput}
+        />
+        {/* <TagAddButton onClick={tagAdd}>추가</TagAddButton> */}
+      </TagBox>
+      <br></br>
+      <div style={{ display: 'flex' }}>
+        {tag.map((tag, index) => (
+          <ResultTag key={index}># {tag}</ResultTag>
+        ))}
+      </div>
+
       <StateBox id="titleFont">
         <h3>결과를 선택하세요 </h3>
-        <StateSelect id="titleFont" defaultValue="진행중">
+        <StateSelect
+          id="titleFont"
+          defaultValue="진행중"
+          onChange={handleProgressInput}
+        >
           <option id="titleFont" value="진행중">
             진행중
           </option>
@@ -213,18 +307,20 @@ const MyNoticeAdd = () => {
       <br></br>
       <UrlBox id="titleFont">
         <h3>채용사이트</h3>
-        <UrlInput placeholder="URL을 입력하세요"></UrlInput>
+        <UrlInput
+          placeholder="URL을 입력하세요"
+          onChange={handleLinkInput}
+        ></UrlInput>
       </UrlBox>
       <br></br>
       <DateBox id="titleFont">
-        
         <DateTitle>일정 등록</DateTitle>
-        <button style={{marginLeft: "83%"}} onClick={handleDateClick}>➕</button>
+        <button style={{ marginLeft: '83%' }} onClick={handleDateClick}>
+          ➕
+        </button>
         {dateList.map((li, index) => (
-        <MyNoticeDate key={index}></MyNoticeDate>
-      ))}
-        
-
+          <MyNoticeDate key={index}></MyNoticeDate>
+        ))}
       </DateBox>
       <br></br>
 
@@ -259,7 +355,7 @@ const MyNoticeAdd = () => {
 
       <div id="box"></div>
       {list.map((li, index) => (
-        <MyNoticeAddcomponent key={index}></MyNoticeAddcomponent>
+        <MyNoticeAddcomponent  getChildData={getChildData} key={index}></MyNoticeAddcomponent>
       ))}
       <div
         style={{
@@ -268,10 +364,10 @@ const MyNoticeAdd = () => {
           marginTop: '20px',
         }}
       >
-        <ComponentAddButton onClick={onClick}>항목추가</ComponentAddButton>
+        <ComponentAddButton  onClick={onClick}>항목추가</ComponentAddButton>
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <SaveCancelButton id="contentFont" backgroundColor="#81C6E8">
+        <SaveCancelButton id="contentFont" backgroundColor="#81C6E8" onClick={handleTotalData}>
           저장
         </SaveCancelButton>{' '}
         <SaveCancelButton
