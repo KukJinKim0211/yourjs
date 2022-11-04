@@ -9,16 +9,18 @@ import CertificateEdit from '../components/PortfolioEdit/CertificateEdit';
 import AwardEdit from '../components/PortfolioEdit/AwardEdit';
 import CareerEdit from '../components/PortfolioEdit/CareerEdit';
 import ProjectEdit from '../components/PortfolioEdit/ProjectEdit';
-import Sidebar from '../components/Portfolio/sidebar';
+import { fullWidth } from '../common/size';
+import ProjectEditComponent from '../components/PortfolioEdit/ProjectEditComponent';
 
 const Box = styled.div`
-  width: 60%;
+  width: ${fullWidth};
   height: fit-content;
   margin: 60px auto;
   color: #1E1E1E;
   background-color: #FFF;
   box-shadow: rgba(0, 0, 0, 0.16) 0rem 1rem 4rem 0rem, rgba(0, 0, 0, 0.06) 0px 0px 0px 0.3rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
 `;
 
@@ -62,9 +64,7 @@ const TabMenu = styled.ul`
 `;
 
 const BoxContent = styled.div`
-  /* text-align: center; */
   width: 100%;
-  /* margin: 60px auto; */
   margin: 1.5rem;
 `;
 
@@ -78,7 +78,7 @@ const PortfolioEdit = () => {
         { name: '자격증 / 어학', content: <CertificateEdit/> },
         { name: '수상내역', content: <AwardEdit/> },
         { name: '커리어', content: <CareerEdit/> },
-        { name: '프로젝트', content: <ProjectEdit/> },
+        { name: '프로젝트', content: <ProjectEdit/>, component: <ProjectEditComponent/> },
     ];
     const selectMenuHandler = (index) => {
         setOpenTab(index);
@@ -87,6 +87,11 @@ const PortfolioEdit = () => {
     return (
       <Wrapper>
         <Wrapper>
+          <Box>
+            <BoxContent>
+              {menuArr[openTab].component}
+            </BoxContent>
+          </Box>
           <Box>
             <BoxContent>
               {menuArr[openTab].content}
@@ -99,7 +104,6 @@ const PortfolioEdit = () => {
               ))}
             </TabMenu>
         </Wrapper>
-        <br/>
       </Wrapper>
     )
 }

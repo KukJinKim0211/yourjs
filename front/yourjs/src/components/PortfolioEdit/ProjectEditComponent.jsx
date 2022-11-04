@@ -2,34 +2,49 @@ import React from 'react';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent} from '../Portfolio/personal';
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { ko } from 'date-fns/esm/locale';
 
 const DateBox = styled.input`
   border: none;
   width: 50%;
-  border-bottom: 2px solid orange;
+  border-bottom: 2px solid #b7cdee;
   :focus {
     outline: none;
   }
   padding: 0.5rem;
+  font-family: 'InfinitySans-RegularA1';
+  text-align: center;
 `
 
 const BoxInput = styled.input`
   border: none;
   width: 70%;
-  border-bottom: 2px solid orange;
+  border-bottom: 2px solid #b7cdee;
   :focus {
     outline: none;
   }
   padding: 0.5rem;
+  font-family: 'InfinitySans-RegularA1';
+`
+
+const BoxArea = styled.textarea`
+  border: none;
+  width: 70%;
+  border-bottom: 2px solid #b7cdee;
+  :focus {
+    outline: none;
+  }
+  padding: 0.5rem;
+  font-family: 'InfinitySans-RegularA1';
 `
 
 const SaveButton = styled.button`
   width: 4rem;
-  height: 2rem;
+  height: 3rem;
+  margin: 2rem;
   cursor: pointer;
-  /* margin: 1rem; */
-  /* margin-left: 85%; */
 `
 
 const ProjectEditComponent = ({}) => {
@@ -79,17 +94,35 @@ const ProjectEditComponent = ({}) => {
 
   return (
     <Content>
-      <LeftBox>
-        <DateBox
+      <LeftBox style={{marginLeft: "2rem"}}>
+        {/* <DateBox
           value={start}
           onChange={onChangeStartHandler}
           placeholder='시작일'
-        ></DateBox><br/>~ 
-        <DateBox
-          value={end}
-          onChange={onChangeEndHandler}
-          placeholder='종료일' 
-        ></DateBox><br/><br/>
+        ></DateBox> */}
+        <br/>
+        <DatePicker
+            style ={{"z-index" : 999}}
+            placeholderText='시작일'
+            locale={ko}
+            dateFormat="yyyy년 MM월 dd일"
+            autoComplete="off"
+            id="contentFont"
+            onChange={date => setStart(date)}
+            selected={start}
+        ></DatePicker>
+        ~
+        <DatePicker
+            style ={{"z-index" : 999}}
+            placeholderText='종료일'
+            locale={ko}
+            dateFormat="yyyy년 MM월 dd일"
+            autoComplete="off"
+            id="contentFont"
+            onChange={date => setEnd(date)}
+            selected={end}
+        ></DatePicker>
+        <br/><br/>
         <SaveButton>추가</SaveButton>
       </LeftBox>
       <CenterBox></CenterBox>
@@ -120,11 +153,11 @@ const ProjectEditComponent = ({}) => {
         </RightBox>
         <RightBox>
           <RightBoxTitle>내용</RightBoxTitle>
-          <BoxInput 
+          <BoxArea 
             value={content}
             onChange={onChangeContentHandler}
             placeholder='프로젝트 내용을 입력해 주세요'
-          ></BoxInput>
+          ></BoxArea>
         </RightBox>
         <RightBox>
           <RightBoxTitle>파일</RightBoxTitle>

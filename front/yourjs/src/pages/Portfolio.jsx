@@ -11,15 +11,14 @@ import Career from '../components/Portfolio/career';
 import Project from '../components/Portfolio/project';
 import Sidebar from '../components/Portfolio/sidebar';
 import { Link } from 'react-router-dom';
+import { fullWidth } from '../common/size';
 
 const Wrapper = styled.div`
   width: 100%;
-  /* margin-bottom: 100rem; */
-  /* padding: 100px; */
 `
 
 const Box = styled.div`
-  width: 60%;
+  width: ${fullWidth};
   height: fit-content;
   margin: 60px auto;
   color: #1E1E1E;
@@ -31,11 +30,10 @@ const Box = styled.div`
 `;
 
 const UpdatePofol = styled.div`
-  margin-top: 5%;
+  margin : 5% 0% 3% 15%;
   font-size: 1.5rem;
   width: 100%;
-  text-align: end;
-  margin-right: 10%;
+  font-family: 'GmarketSansMedium';
 `
 
 export { Wrapper, Box }
@@ -46,7 +44,7 @@ const Portfolio = () => {
       <Wrapper>
         <Box>
           <UpdatePofol>
-            <Link to = 'edit' style={{textDecoration:"none", color:"#8fb4ec"}}>포폴 수정!</Link>
+            <Link to = 'edit' style={{textDecoration:"none", color:"white", backgroundColor:"#c4dbfd", borderRadius:"1rem", padding:"0.5rem"}}>Update Portfolio</Link>
           </UpdatePofol>
           <Personal></Personal>
           <Military></Military>

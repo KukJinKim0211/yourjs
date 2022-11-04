@@ -58,13 +58,11 @@ const RightBox = styled.div`
   font-family: 'InfinitySans-RegularA1';
   font-weight: 200;
   color: rgba(0, 0, 0, 0.55);
-  /* id : font_pretendard; */
-  /* font-family: 'Pretendard Variable'; */
-  /* font-family: 'GmarketSansMedium'; */
 `;
 
 const RightBoxTitle = styled.div`
   width: 20%;
+  /* text-align: center; */
 `
 
 const RightBoxContent = styled.div`
@@ -74,7 +72,8 @@ const RightBoxContent = styled.div`
 const Hr = styled.hr`
   width: 100%;
   height: 0.1rem;
-  background-color: orange;
+  /* background-color: orange; */
+  background-color: #d4e1f5;
 `
 
 export {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr}
