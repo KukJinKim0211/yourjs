@@ -226,7 +226,7 @@ const MyNoticeAdd = () => {
   // 태그값이 변하는거를 쳐다보다가 useeffect
   useEffect(() => {
     if (tag.length === 0) return;
-    setTotalData({ ...totalData, tag: tag });
+    setTotalData({ ...totalData, noticeTag: tag.join(', ') });
   }, [tag]);
 
   // 복사 추가

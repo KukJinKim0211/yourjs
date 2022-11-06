@@ -4,11 +4,12 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
 import { useState } from 'react';
+import dayjs from "dayjs";
+
 
 
 const TagBox = styled.div`
   display: flex;
-  
 `;
 const Select = styled.select`
   border: none;
@@ -22,12 +23,9 @@ const Select = styled.select`
 
 const DateBox = styled.div`
   display: flex;
-  
-  
 `;
 
 const DateSelectBox = styled.div`
-  
   display: flex;
   align-items: center;
   margin-top: 10px;
@@ -36,12 +34,28 @@ const DateSelectBox = styled.div`
 `;
 
 const MyNoticeDate = () => {
-    const [endDate, setEndDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [dateData, setDateData] = useState('');
+  const [scheduleName, setScheduleName] = useState('');
+  const [scheduleDate, setScheduleDate] = useState('');
+
+  // 할일 명 변경
+  const handleScheduleName = e => {
+    setDateData({ ...dateData, scheduleName: e.target.value });
+    console.log(dateData)
+  };
+
+  // 할일 날짜 변경
+
+  const handleScheduleDate = e => {
+    console.log(e)
+    setScheduleDate(e);
+    setDateData({...dateData, scheduleDate : dayjs(e).format('YYYY-MM-DD')})
+  };
 
   return (
     <TagBox>
-        
-      <Select>
+      <Select onChange={handleScheduleName}>
         <option id="titleFont" value="서류마감">
           서류마감
         </option>
@@ -72,18 +86,18 @@ const MyNoticeDate = () => {
         <h3>해당일</h3>
         <DateSelectBox>
           <DatePicker
-            style ={{"z-index" : 999}}
-            placeholderText='날짜를 선택해 주세요.'
+            
+            style={{ 'z-index': 999 }}
+            placeholderText="날짜를 선택해 주세요."
             locale={ko}
             dateFormat="yyyy년 MM월 dd일"
             autoComplete="off"
             id="contentFont"
-            onChange={date => setEndDate(date)}
-            selected={endDate}
+            onChange={handleScheduleDate}
+            selected={scheduleDate}
           ></DatePicker>
         </DateSelectBox>
       </DateBox>
-      
     </TagBox>
   );
 };

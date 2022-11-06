@@ -95,7 +95,8 @@ const MyNoticeAddcomponent = ({ getChildData }) => {
   // 태그 값이 변하는걸쳐다봄
   useEffect(() => {
     if (tag.length === 0) return;
-    setPushData({ ...pushData, tag: tag });
+    setPushData({ ...pushData, tag: [tag.join(', ')] }); // ,로 구분하기 위한 과정
+    
   }, [tag]);
 
   const keydownHandler = e => {
@@ -103,14 +104,10 @@ const MyNoticeAddcomponent = ({ getChildData }) => {
       console.log('성공');
       setTag([...tag, tagItem]);
       setTagItem('');
-      console.log(tag);
+      
     }
   };
 
-  const tagAdd = () => {
-    setTag([...tag, tagItem]);
-    setTagItem('');
-  };
 
   const onChangeTagHandler = e => {
     setTagItem(e.target.value);
