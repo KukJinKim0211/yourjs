@@ -90,7 +90,7 @@ public class UserService {
 
         Optional<User> oUser = userRepository.findByUserId(loginDto.getUserId());
         User user = new User();
-        if(oUser.isPresent()){
+        if (oUser.isPresent()) {
             user = oUser.get();
         }
 
@@ -100,7 +100,8 @@ public class UserService {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + refreshToken);
-        return new ResponseEntity<>(new UserLoginRes(jwt, refreshToken,user.getNickname(), user.getInfoLevel()), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(new UserLoginRes(jwt, refreshToken, user.getNickname(), user.getInfoLevel()),
+                httpHeaders, HttpStatus.OK);
     }
 
     @Transactional(readOnly = true)
@@ -156,11 +157,11 @@ public class UserService {
     }
 
     @Transactional
-    public UserSimpleInfoRes getSimpleInfo(String userId){
+    public UserSimpleInfoRes getSimpleInfo(String userId) {
         UserSimpleInfoRes userSimpleInfoRes = new UserSimpleInfoRes();
         Optional<User> oUser = userRepository.findByUserId(userId);
         User user = new User();
-        if(oUser.isPresent()){
+        if (oUser.isPresent()) {
             user = oUser.get();
             userSimpleInfoRes.setNickname(user.getNickname());
             userSimpleInfoRes.setInfoLevel(user.getInfoLevel());
@@ -169,11 +170,11 @@ public class UserService {
     }
 
     @Transactional
-    public UserDetailInfoRes getDetailInfo(String userId){
+    public UserDetailInfoRes getDetailInfo(String userId) {
         UserDetailInfoRes userDetailInfoRes = new UserDetailInfoRes();
         Optional<User> oUser = userRepository.findByUserId(userId);
         User user = new User();
-        if(oUser.isPresent()){
+        if (oUser.isPresent()) {
             user = oUser.get();
             userDetailInfoRes.setUserName(user.getUserName());
             userDetailInfoRes.setEmail(user.getEmail());
@@ -184,13 +185,13 @@ public class UserService {
     }
 
     @Transactional
-    public PassChangeRes passwordChange(String userId, PassChangeReq passChangeReq){
+    public PassChangeRes passwordChange(String userId, PassChangeReq passChangeReq) {
         PassChangeRes passChangeRes = new PassChangeRes();
         passChangeRes.setType("fail");
         Optional<User> oUser = userRepository.findByUserId(userId);
-        if(oUser.isPresent()){
+        if (oUser.isPresent()) {
             User user = oUser.get();
-            if(passwordEncoder.matches(passChangeReq.getCurPassword(), user.getPassword())){
+            if (passwordEncoder.matches(passChangeReq.getCurPassword(), user.getPassword())) {
                 user.setPassword(passwordEncoder.encode(passChangeReq.getNewPassword()));
                 userRepository.save(user);
                 passChangeRes.setType("success");
@@ -200,9 +201,9 @@ public class UserService {
     }
 
     @Transactional
-    public void changeUserInfo(String userId, ChangeUserInfoReq changeUserInfoReq){
+    public void changeUserInfo(String userId, ChangeUserInfoReq changeUserInfoReq) {
         Optional<User> oUser = userRepository.findByUserId(userId);
-        if(oUser.isPresent()){
+        if (oUser.isPresent()) {
             User user = oUser.get();
             user.setEmail(changeUserInfoReq.getEmail());
             user.setNickname(changeUserInfoReq.getNickname());
@@ -211,9 +212,9 @@ public class UserService {
     }
 
     @Transactional
-    public void changeUserLevel(String userId, ChangeUserLevelReq changeUserLevelReq){
+    public void changeUserLevel(String userId, ChangeUserLevelReq changeUserLevelReq) {
         Optional<User> oUser = userRepository.findByUserId(userId);
-        if(oUser.isPresent()){
+        if (oUser.isPresent()) {
             User user = oUser.get();
             user.setInfoLevel(changeUserLevelReq.getType());
             userRepository.save(user);
@@ -221,12 +222,12 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(String userId){
+    public void deleteUser(String userId) {
         userRepository.deleteByUserId(userId);
     }
 
     @Transactional
-    public ResponseEntity<UserLoginRes> kakaoLogin(String code){
+    public ResponseEntity<UserLoginRes> kakaoLogin(String code) {
         ResponseEntity<UserLoginRes> userLoginRes = null;
         String accessToken = "";
         String refreshToken = "";
@@ -242,7 +243,7 @@ public class UserService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=957b84f395c608126c0be57c56ad2b9d");
-            sb.append("&redirect_uri=http://localhost:8080/api/user/kakao");
+            sb.append("&redirect_uri=https://yourjs.co.kr/login/kakao");
             sb.append("&code=" + code);
             sb.append("&client_secret=OIvUN78Uyo8YNKFJ0jlAetvEqmEyMkaL");
             bw.write(sb.toString());
@@ -286,18 +287,19 @@ public class UserService {
                 while ((line = br.readLine()) != null) {
                     result += line;
                 }
-                // System.out.println("response body : " + result);
+                System.out.println("response body : " + result);
 
-                String userId = result.substring(result.indexOf("id\":")+4, result.indexOf(",\"connected_at"));
-                String nickname = result.substring(result.indexOf("\"properties\":{\"nickname\":\"")+26, result.indexOf("\",\"profile"));
-                String userName = "kakao"+nickname;
+                String userId = result.substring(result.indexOf("id\":") + 4, result.indexOf(",\"connected_at"));
+                String nickname = result.substring(result.indexOf("\"properties\":{\"nickname\":\"") + 26,
+                        result.indexOf("\",\"profile"));
+                String userName = "kakao" + nickname;
                 Optional<User> oUser = userRepository.findByUserId(userId);
-                if(oUser.isPresent()){
+                if (oUser.isPresent()) {
                     User user = oUser.get();
                     // 액세스 토큰 생성
                     userLoginRes = this.login(new LoginDto(user.getUserId(), "kakao"));
-            
-                }else{
+
+                } else {
                     // 회원 가입 후 액세스 토큰 생성
                     System.out.println("sfsdfsdf");
                     UserRegisterPostReq userRegisterPostReq = new UserRegisterPostReq();
@@ -305,12 +307,12 @@ public class UserService {
                     userRegisterPostReq.setNickname(nickname);
                     userRegisterPostReq.setUserName(userName);
                     userRegisterPostReq.setPassword("kakao");
-        
+
                     UserDto userDto = this.signup(userRegisterPostReq);
                     // 액세스 토큰 생성
                     userLoginRes = this.login(new LoginDto(userDto.getUserId(), "kakao"));
                 }
-            
+
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
