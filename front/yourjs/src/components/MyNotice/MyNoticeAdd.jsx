@@ -7,6 +7,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
 import MyNoticeDate from './MyNoticeDate';
+import axiosInstance from '../../common/customAxios';
+import { apis } from '../../common/apis';
 
 const Wrapper = styled.div`
   width: 60%;
@@ -159,13 +161,16 @@ const ResultTag = styled.div`
 let countList = 1;
 let countDate = 1;
 const MyNoticeAdd = () => {
-  const [list, setList] = useState(['']);
-  const [dateList, setDateList] = useState(['']); // 일정 등록 컴포넌트 생성을 위한 list
+  const [list, setList] = useState([]);
+  const [dateList, setDateList] = useState([]); // 일정 등록 컴포넌트 생성을 위한 list
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [companyInput, setCompanyInput] = useState('');
+  const [schedule, setSchedule] = useState({
+    scheduleName: '',
+    scheduleDate: '',
+  });
   // const [formData,setFormData] = useState([])
-  
 
   const [totalData, setTotalData] = useState({});
   const [tag, setTag] = useState([]);
@@ -175,17 +180,22 @@ const MyNoticeAdd = () => {
     // 수정 필요 ( 자식 값 안가져옴 - > 헛짓중 )
     const a = [...list];
 
-    a.unshift({ index: countList });
+    a.push({ index: countList });
 
     countList = countList + 1;
 
     setList(a);
   };
 
+  useEffect(() => {
+    console.log(list);
+  }, [list]);
+
+  useEffect(() => {}, [totalData]);
+
   //회사이름 입력
   const handleCompanyInput = e => {
     setTotalData({ ...totalData, coName: e.target.value });
-    
   };
   // 공고명 입력
   const handleNoticeInput = e => {
@@ -204,24 +214,56 @@ const MyNoticeAdd = () => {
     setTagItem(e.target.value);
   };
 
+  /// 할일 모아오는 함수
+  const setDateData = (index, dateData) => {
+    const newArray = [...dateList];
+    newArray[index] = dateData;
+    setDateList(newArray);
+    console.log(dateList, '123epelel3');
+    setTotalData({ ...totalData, schedules: dateList });
+  };
+
+  const settingNoticeData = (index, noticeData) => {
+    const newArray2 = [...list];
+    newArray2[index] = noticeData;
+    setList(newArray2);
+    console.log(list);
+    setTotalData({ ...totalData, noticeData: list });
+  };
+  // datelist useeffect
+  useEffect(() => {}, [dateList]);
+
   const handleDateClick = () => {
     const b = [...dateList];
-    b.unshift({ index: countDate });
+    b.push({ index: countDate });
     countDate = countDate + 1;
     setDateList(b);
     console.log('123123');
   };
 
   const handleTotalData = () => {
-    console.log(totalData,"최종값")
+    console.log(totalData, '최종값');
+
+    // await  axiosInstance
+    //   .post(apis.notice, totalData)
+    //   .then((response) => {console.log(response.data)})
+
+    // const handlePushTotalData = () => {
+
+    //   await axiosInstance
+
+    // }
+  };
+
+  const getChildData = data => {
     
-  }
+  };
 
+  const getDateData = data => {
+    setTotalData({ ...totalData, schedules: data });
 
-  const getChildData = (data) => {
-    console.log(data, "값가져오기 성공")
-  }
-
+    
+  };
 
   // 태그값이 변하는거를 쳐다보다가 useeffect
   useEffect(() => {
@@ -235,7 +277,6 @@ const MyNoticeAdd = () => {
       console.log('성공');
       setTag([...tag, tagItem]);
       setTagItem('');
-      
     }
   };
 
@@ -319,7 +360,13 @@ const MyNoticeAdd = () => {
           ➕
         </button>
         {dateList.map((li, index) => (
-          <MyNoticeDate key={index}></MyNoticeDate>
+          <MyNoticeDate
+            li={li}
+            getDateData={getDateData}
+            key={index}
+            index={index}
+            setDateDataee={setDateData}
+          ></MyNoticeDate>
         ))}
       </DateBox>
       <br></br>
@@ -355,7 +402,12 @@ const MyNoticeAdd = () => {
 
       <div id="box"></div>
       {list.map((li, index) => (
-        <MyNoticeAddcomponent  getChildData={getChildData} key={index}></MyNoticeAddcomponent>
+        <MyNoticeAddcomponent
+          getChildData={getChildData}
+          key={index}
+          settingNoticeData={settingNoticeData}
+          index={index}
+        ></MyNoticeAddcomponent>
       ))}
       <div
         style={{
@@ -364,10 +416,14 @@ const MyNoticeAdd = () => {
           marginTop: '20px',
         }}
       >
-        <ComponentAddButton  onClick={onClick}>항목추가</ComponentAddButton>
+        <ComponentAddButton onClick={onClick}>항목추가</ComponentAddButton>
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <SaveCancelButton id="contentFont" backgroundColor="#81C6E8" onClick={handleTotalData}>
+        <SaveCancelButton
+          id="contentFont"
+          backgroundColor="#81C6E8"
+          onClick={handleTotalData}
+        >
           저장
         </SaveCancelButton>{' '}
         <SaveCancelButton

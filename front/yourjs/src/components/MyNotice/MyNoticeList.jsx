@@ -337,7 +337,7 @@ const MyNoticeList = () => {
       <ListTotal>
         {dummyData.map((dummy, index) => (
           <div key={index}>
-            <Link to="/notice/detail" style={{ textDecoration: 'none' }}>
+            <Link to="/notice/detail" style={{ textDecoration: 'none' }} >
               <ItemList onClick={ChangeFlag}>
                 <ItemGrid className="regdate" id="titleFont" width="100%">
                   {dummy.regDate}

@@ -224,6 +224,11 @@ const MyNoticeDetail = () => {
   // 수정 글자수 count
   // const [editCount, setEditCount] = useState('');
 
+
+  // 아직 미구현
+  const getChildData =() =>{
+    console.log(123123)
+  }
   // 항목추가 변경 함수
 
   const handleChangeAddFlag = () => {
@@ -292,7 +297,7 @@ const MyNoticeDetail = () => {
       {/* 항목추가 눌를때 항목이 생성 */}
       {addFlag && (
         <div>
-          <MyNoticeAddcomponent></MyNoticeAddcomponent>
+          <MyNoticeAddcomponent getChildData={getChildData}></MyNoticeAddcomponent>
           <br></br>
           <div style={{ display: 'flex', justifyContent: 'flex-end ' }}>
             <CreateButton2 id="contentFont">저장</CreateButton2>

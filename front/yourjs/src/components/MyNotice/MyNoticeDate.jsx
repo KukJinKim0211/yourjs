@@ -3,10 +3,8 @@ import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
-import { useState } from 'react';
-import dayjs from "dayjs";
-
-
+import { useState, useEffect } from 'react';
+import dayjs from 'dayjs';
 
 const TagBox = styled.div`
   display: flex;
@@ -33,24 +31,42 @@ const DateSelectBox = styled.div`
   margin-right: 15px;
 `;
 
-const MyNoticeDate = () => {
+const MyNoticeDate = ({ getDateData, li, index, setDateDataee }) => {
   const [endDate, setEndDate] = useState('');
   const [dateData, setDateData] = useState('');
   const [scheduleName, setScheduleName] = useState('');
   const [scheduleDate, setScheduleDate] = useState('');
 
+  const setDate = () => {};
+
+  // 부모로 값을 보낸다.
+
+  useEffect(() => {
+    getDateData(dateData);
+  }, [dateData]);
+
+  useEffect(() => {
+    setDateDataee(index, {
+      scheduleName: dateData.scheduleName,
+      scheduleDate: dateData.scheduleDate,
+    });
+  }, [dateData]);
+
   // 할일 명 변경
   const handleScheduleName = e => {
     setDateData({ ...dateData, scheduleName: e.target.value });
-    console.log(dateData)
+    getDateData(dateData);
   };
 
   // 할일 날짜 변경
 
   const handleScheduleDate = e => {
-    console.log(e)
     setScheduleDate(e);
-    setDateData({...dateData, scheduleDate : dayjs(e).format('YYYY-MM-DD')})
+    setDateData({
+      ...dateData,
+      scheduleDate: dayjs(e).format('YYYY-MM-DD'),
+      index: li.index,
+    });
   };
 
   return (
@@ -86,7 +102,6 @@ const MyNoticeDate = () => {
         <h3>해당일</h3>
         <DateSelectBox>
           <DatePicker
-            
             style={{ 'z-index': 999 }}
             placeholderText="날짜를 선택해 주세요."
             locale={ko}
@@ -98,6 +113,7 @@ const MyNoticeDate = () => {
           ></DatePicker>
         </DateSelectBox>
       </DateBox>
+      
     </TagBox>
   );
 };

@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import axiosInstance from '../../common/customAxios';
+import { apis } from '../../common/apis';
+
 
 const Wrapper = styled.div``;
 //태그 부분 전체 div
@@ -78,26 +81,43 @@ const CountBox = styled.div`
   margin-right: 1%;
 `;
 
-const MyNoticeAddcomponent = ({ getChildData }) => {
+const MyNoticeAddcomponent = ({ getChildData,settingNoticeData,index}) => {
   const [tag, setTag] = useState([]);
   const [tagItem, setTagItem] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [pushData, setPushData] = useState({ title: '', tag: '', content: '' });
+  const [pushData, setPushData] = useState({ question: '', introTag: '', contents: '' });
 
   
+  useEffect(() => {
+    settingNoticeData(index, {
+      question: pushData.question,
+      contents: pushData.contents,
+      introTag : pushData.introTag
+    });
+  }, [pushData]);
 
   // push data 값이 변할때 부모에게 값주는 effect
-  useEffect(() => {
-    getChildData(pushData);
-  }, [pushData]);
+  // useEffect(() => {
+  //   getChildData(pushData);
+  // }, [pushData]);
 
   // 태그 값이 변하는걸쳐다봄
   useEffect(() => {
     if (tag.length === 0) return;
-    setPushData({ ...pushData, tag: [tag.join(', ')] }); // ,로 구분하기 위한 과정
+    setPushData({ ...pushData, introTag: [tag.join(', ')] }); // ,로 구분하기 위한 과정
     
   }, [tag]);
+
+
+  const handlePushData =  ( ) => { 
+
+    console.log(pushData,"보내기직전")
+
+    // const response = await axiosInstance
+    // .post(apis.selfIntroduce, {});
+
+  }
 
   const keydownHandler = e => {
     if (e.key === 'Enter') {
@@ -113,14 +133,22 @@ const MyNoticeAddcomponent = ({ getChildData }) => {
     setTagItem(e.target.value);
   };
 
+  useEffect(() => {
+    setPushData({ ...pushData, question: title });
+  }, [title]);
+
+  useEffect(() => {
+    setPushData({ ...pushData, contents: content });
+  }, [content]);
+
   const onChangeTitleHandler = e => {
     setTitle(e.target.value);
-    setPushData({ ...pushData, title: title });
+    
   };
 
   const onChangeContentHandler = e => {
     setContent(e.target.value);
-    setPushData({ ...pushData, content: content });
+    
   };
 
   return (
@@ -168,6 +196,7 @@ const MyNoticeAddcomponent = ({ getChildData }) => {
             </CountBox>
           </div>
         </ContentBox>
+        <button  onClick={handlePushData}>dfd</button>
         <br></br>
       </div>
     </Wrapper>
