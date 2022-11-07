@@ -242,7 +242,7 @@ public class UserService {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
-            sb.append("&client_id=957b84f395c608126c0be57c56ad2b9d");
+            sb.append("&client_id=fb0ecb04816f465587d8bf341bacac7a");
             sb.append("&redirect_uri=https://yourjs.co.kr/login/kakao");
             sb.append("&code=" + code);
             sb.append("&client_secret=OIvUN78Uyo8YNKFJ0jlAetvEqmEyMkaL");
