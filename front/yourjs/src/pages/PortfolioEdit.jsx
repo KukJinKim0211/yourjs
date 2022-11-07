@@ -16,6 +16,9 @@ import CareerEditComponent from '../components/PortfolioEdit/CarrerEditComponent
 import ProjectEdit from '../components/PortfolioEdit/ProjectEdit';
 import ProjectEditComponent from '../components/PortfolioEdit/ProjectEditComponent';
 import { fullWidth } from '../common/size';
+import { useEffect } from 'react';
+import axiosInstance from '../common/customAxios';
+import { apis } from '../common/apis';
 
 
 const Box = styled.div`
@@ -74,8 +77,38 @@ const BoxContent = styled.div`
   margin: 1.5rem;
 `;
 
+const apiSequence = [
+  apis.portfolio, apis.military, apis.graduate, apis.education, apis.certificate ,apis.award, apis.career, apis.project
+]
+
 const PortfolioEdit = () => {
-    const [openTab, setOpenTab] = useState(1);
+  
+    const [openTab, setOpenTab] = useState(0);
+    const [viewData, setViewData] = useState([]);
+    useEffect(() => {
+      setViewData()
+    }, [])
+
+    //토탈 데이터 받아오는 함수
+    const getServerData = () => {
+      axiosInstance
+        .get(apiSequence[openTab])
+        .then(response => setViewData(response.data))
+    }
+
+    useEffect(() => {
+
+    }, [viewData])
+
+    useEffect(() => {
+      getServerData(openTab)
+    }, [])
+
+    useEffect(() => {
+      console.log("오픈탭====================", openTab);
+      getServerData(openTab);
+    }, [openTab])
+
     const menuArr = [
         { name: '인적사항', content: <PersonalEdit/> },
         { name: '병역사항', content: <MilitaryEdit/> },
@@ -84,10 +117,12 @@ const PortfolioEdit = () => {
         { name: '자격증 / 어학', content: <CertificateEdit/>, component: <CertificateEditComponent/> },
         { name: '수상내역', content: <AwardEdit/>, component: <AwardEditComponent/> },
         { name: '커리어', content: <CareerEdit/>, component: <CareerEditComponent/>},
-        { name: '프로젝트', content: <ProjectEdit/>, component: <ProjectEditComponent/> },
+        { name: '프로젝트', content: <ProjectEdit dataArr={viewData}/>, component: <ProjectEditComponent getServerData={getServerData}/> },
     ];
+
     const selectMenuHandler = (index) => {
         setOpenTab(index);
+        
     };
 
     return (
@@ -105,8 +140,9 @@ const PortfolioEdit = () => {
           </Box>
           <TabMenu>
               {menuArr.map((el, index) => (
-                <li className={index === openTab ? "submenu focused" : "submenu"}
-                onClick={() => selectMenuHandler(index)}>{el.name}</li>
+                <li key={index} className={index === openTab ? "submenu focused" : "submenu"}
+                onClick={() => selectMenuHandler(index)
+                }>{el.name}</li>
               ))}
             </TabMenu>
         </Wrapper>

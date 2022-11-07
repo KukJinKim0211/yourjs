@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useState } from 'react';
-import { Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent} from '../Portfolio/personal';
+import { useState, useEffect } from 'react';
+import { Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent } from '../Portfolio/personal';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
+import axiosInstance from '../../common/customAxios';
+import { apis } from '../../common/apis';
 
 
 const BoxInput = styled.input`
@@ -36,31 +38,42 @@ const SaveButton = styled.button`
   cursor: pointer;
 `
 
+const Essential = styled.text`
+  color: red;
+`
+
+const EssentialDate = styled.text`
+  color: red;
+  display: flex;
+  /* justify-content: ; */
+  /* align-items: ; */
+`
+
 export {BoxInput, BoxArea, SaveButton}
 
-const ProjectEditComponent = ({}) => {
-  const [title, setTitle] = useState('');
-  const [start, setStart] = useState('');
-  const [end, setEnd] = useState('');
-  const [group, setGroup] = useState('');
-  const [skill, setSkill] = useState('');
+const ProjectEditComponent = ({getServerData}) => {
+  const [projectName, setProjectName] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [belongs, setBelongs] = useState('');
+  const [tools, setTools] = useState('');
   const [content, setContent] = useState('');
   const [file, setFile] = useState('');
-  const [data, setData] = useState({title: '', start: '', end: '', group: '', skill: '', content: '', file: ''});
+  const [data, setData] = useState({projectName: '', startDate: '', endDate: '', belongs: '', tools: '', content: '', file: ''});
 
-  const onChangeTitleHandler = e => {
-    setTitle(e.target.value);
-    setData({ ...data, title: title });
+  const onChangeNameHandler = e => {
+    setProjectName(e.target.value);
+    setData({ ...data, projectName: projectName });
   };
 
-  const onChangeGroupHandler = e => {
-    setGroup(e.target.value);
-    setData({ ...data, group: group });
+  const onChangeBelongsHandler = e => {
+    setBelongs(e.target.value);
+    setData({ ...data, belongs: belongs });
   };
 
-  const onChangeSkillHandler = e => {
-    setSkill(e.target.value);
-    setData({ ...data, skill: skill });
+  const onChangeToolsHandler = e => {
+    setTools(e.target.value);
+    setData({ ...data, tools: tools });
   };
 
   const onChangeContentHandler = e => {
@@ -73,10 +86,41 @@ const ProjectEditComponent = ({}) => {
     setData({ ...data, file: file });
   };
 
+  const addButtonClicked = () => {
+    // YYYY-MM-DD hh:mm:ss
+    const data = {
+      projectName: projectName === "" ? null : projectName,
+      startDate: startDate === "" ? null : startDate,
+      endDate,
+      belongs: belongs === "" ? null : belongs,
+      tools: tools === "" ? null : tools,
+      content: content === "" ? null : content,
+      file
+    }
+
+    axiosInstance
+      .post(apis.project, data)
+      .then(response => {
+        if (response.status === 200) {
+          console.log('성공')
+          getServerData()
+          setProjectName('')
+          setStartDate('')
+          setEndDate('')
+          setBelongs('')
+          setTools('')
+          setContent('')
+          setFile('')
+        }
+      })
+      .catch(error => console.log(error));
+  };
+
   return (
     <Content>
       <LeftBox style={{marginLeft: "2rem"}}>
         <br/>
+        <EssentialDate>(*)
         <DatePicker
             style ={{"z-index" : 999}}
             placeholderText='시작일'
@@ -84,9 +128,9 @@ const ProjectEditComponent = ({}) => {
             dateFormat="yyyy년 MM월 dd일"
             autoComplete="off"
             id="contentFont"
-            onChange={date => setStart(date)}
-            selected={start}
-        ></DatePicker>
+            onChange={date => setStartDate(date)}
+            selected={startDate}
+        ></DatePicker></EssentialDate>
         ~
         <DatePicker
             style ={{"z-index" : 999}}
@@ -95,40 +139,42 @@ const ProjectEditComponent = ({}) => {
             dateFormat="yyyy년 MM월 dd일"
             autoComplete="off"
             id="contentFont"
-            onChange={date => setEnd(date)}
-            selected={end}
+            onChange={date => setEndDate(date)}
+            selected={endDate}
         ></DatePicker>
         <br/><br/>
-        <SaveButton>추가</SaveButton>
+        <SaveButton
+          onClick={addButtonClicked}
+        >추가</SaveButton>
       </LeftBox>
       <CenterBox></CenterBox>
       <RightBoxes>
         <RightBox>
-          <RightBoxTitle>프로젝트명</RightBoxTitle>
+          <RightBoxTitle>프로젝트명 <Essential>(*)</Essential></RightBoxTitle>
           <BoxInput 
-            value={title}
-            onChange={onChangeTitleHandler}
+            value={projectName}
+            onChange={onChangeNameHandler}
             placeholder='프로젝트 명을 입력해 주세요'
           ></BoxInput>
         </RightBox>
         <RightBox>
-          <RightBoxTitle>소속명</RightBoxTitle>
+          <RightBoxTitle>소속명 <Essential>(*)</Essential></RightBoxTitle>
           <BoxInput 
-            value={group}
-            onChange={onChangeGroupHandler}
+            value={belongs}
+            onChange={onChangeBelongsHandler}
             placeholder='프로젝트 소속명을 입력해 주세요'
           ></BoxInput>
         </RightBox>
         <RightBox>
-          <RightBoxTitle>사용기술</RightBoxTitle>
+          <RightBoxTitle>사용기술 <Essential>(*)</Essential></RightBoxTitle>
           <BoxInput 
-            value={skill}
-            onChange={onChangeSkillHandler}
+            value={tools}
+            onChange={onChangeToolsHandler}
             placeholder='프로젝트 사용기술을 입력해 주세요'
           ></BoxInput>
         </RightBox>
         <RightBox>
-          <RightBoxTitle>내용</RightBoxTitle>
+          <RightBoxTitle>내용 <Essential>(*)</Essential></RightBoxTitle>
           <BoxArea 
             value={content}
             onChange={onChangeContentHandler}
@@ -150,4 +196,3 @@ const ProjectEditComponent = ({}) => {
 
 
 export default ProjectEditComponent;
-//프로젝트명, 프로젝트기간, 소속명, 사용기술, 내용, 파일
