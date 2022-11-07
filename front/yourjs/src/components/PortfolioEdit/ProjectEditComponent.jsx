@@ -6,17 +6,6 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
 
-const DateBox = styled.input`
-  border: none;
-  width: 50%;
-  border-bottom: 2px solid #b7cdee;
-  :focus {
-    outline: none;
-  }
-  padding: 0.5rem;
-  font-family: 'InfinitySans-RegularA1';
-  text-align: center;
-`
 
 const BoxInput = styled.input`
   border: none;
@@ -47,6 +36,8 @@ const SaveButton = styled.button`
   cursor: pointer;
 `
 
+export {BoxInput, BoxArea, SaveButton}
+
 const ProjectEditComponent = ({}) => {
   const [title, setTitle] = useState('');
   const [start, setStart] = useState('');
@@ -60,16 +51,6 @@ const ProjectEditComponent = ({}) => {
   const onChangeTitleHandler = e => {
     setTitle(e.target.value);
     setData({ ...data, title: title });
-  };
-
-  const onChangeStartHandler = e => {
-    setStart(e.target.value);
-    setData({ ...data, start: start });
-  };
-
-  const onChangeEndHandler = e => {
-    setEnd(e.target.value);
-    setData({ ...data, end: end });
   };
 
   const onChangeGroupHandler = e => {
@@ -95,11 +76,6 @@ const ProjectEditComponent = ({}) => {
   return (
     <Content>
       <LeftBox style={{marginLeft: "2rem"}}>
-        {/* <DateBox
-          value={start}
-          onChange={onChangeStartHandler}
-          placeholder='시작일'
-        ></DateBox> */}
         <br/>
         <DatePicker
             style ={{"z-index" : 999}}
@@ -164,7 +140,7 @@ const ProjectEditComponent = ({}) => {
           <BoxInput 
             value={file}
             onChange={onChangeFileHandler}
-            placeholder='프로젝트 파일을 업로드해 주세요'
+            placeholder='파일을 업로드해 주세요'
           ></BoxInput>
         </RightBox>
       </RightBoxes>

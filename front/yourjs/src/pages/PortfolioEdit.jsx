@@ -4,13 +4,19 @@ import styled from 'styled-components';
 import PersonalEdit from '../components/PortfolioEdit/PersonalEdit';
 import MilitaryEdit from '../components/PortfolioEdit/MilitaryEdit';
 import EducationEdit from '../components/PortfolioEdit/EducationEdit';
+import EducationEditComponent from '../components/PortfolioEdit/EducationEditComponent';
 import TrainingEdit from '../components/PortfolioEdit/TrainingEdit';
+import TrainingEditComponent from '../components/PortfolioEdit/TrainingEditComponent';
 import CertificateEdit from '../components/PortfolioEdit/CertificateEdit';
+import CertificateEditComponent from '../components/PortfolioEdit/CertificateEditComponent';
 import AwardEdit from '../components/PortfolioEdit/AwardEdit';
+import AwardEditComponent from '../components/PortfolioEdit/AwardEditComponent';
 import CareerEdit from '../components/PortfolioEdit/CareerEdit';
+import CareerEditComponent from '../components/PortfolioEdit/CarrerEditComponent';
 import ProjectEdit from '../components/PortfolioEdit/ProjectEdit';
-import { fullWidth } from '../common/size';
 import ProjectEditComponent from '../components/PortfolioEdit/ProjectEditComponent';
+import { fullWidth } from '../common/size';
+
 
 const Box = styled.div`
   width: ${fullWidth};
@@ -73,11 +79,11 @@ const PortfolioEdit = () => {
     const menuArr = [
         { name: '인적사항', content: <PersonalEdit/> },
         { name: '병역사항', content: <MilitaryEdit/> },
-        { name: '학력사항', content: <EducationEdit/> },
-        { name: '교육사항', content: <TrainingEdit/> },
-        { name: '자격증 / 어학', content: <CertificateEdit/> },
-        { name: '수상내역', content: <AwardEdit/> },
-        { name: '커리어', content: <CareerEdit/> },
+        { name: '학력사항', content: <EducationEdit/>, component: <EducationEditComponent/> },
+        { name: '교육사항', content: <TrainingEdit/>, component: <TrainingEditComponent/> },
+        { name: '자격증 / 어학', content: <CertificateEdit/>, component: <CertificateEditComponent/> },
+        { name: '수상내역', content: <AwardEdit/>, component: <AwardEditComponent/> },
+        { name: '커리어', content: <CareerEdit/>, component: <CareerEditComponent/>},
         { name: '프로젝트', content: <ProjectEdit/>, component: <ProjectEditComponent/> },
     ];
     const selectMenuHandler = (index) => {

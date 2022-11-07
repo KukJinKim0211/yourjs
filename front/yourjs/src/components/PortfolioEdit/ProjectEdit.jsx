@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
 import { useState } from 'react';
-import ProjectEditComponent from './ProjectEditComponent';
 import { Container, ContentTitle, ContentSet, Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr} from '../Portfolio/personal';
 
 const ChangeButton = styled.button`
@@ -23,8 +22,9 @@ const dataArr = [
   { title: 'Pecommend', group: '삼성 청년 SW 아카데미', skill: 'React', procontent: '향수 최고야...', start: '2021-01-01', end: '2021-04-29'}
 ];
 
-const ProjectEdit = () => {
+export {ChangeButton, DelButton}
 
+const ProjectEdit = () => {
   return (
     <div>
       <Container>

@@ -19,7 +19,7 @@ const Certificate = () => {
             <RightBoxContent>정보처리기사</RightBoxContent>
           </RightBox>
           <RightBox>
-            <RightBoxTitle>번호</RightBoxTitle>
+            <RightBoxTitle>자격번호</RightBoxTitle>
             <RightBoxContent>003006861</RightBoxContent>
           </RightBox>
           <RightBox>
