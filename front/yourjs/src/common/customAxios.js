@@ -28,6 +28,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async function (error) {
+    console.log('Interceptor 호출 시작==============');
     const originalRequest = error.config;
     console.log(error.response.status);
     // 토른 만료 에러 처리
@@ -42,11 +43,12 @@ axiosInstance.interceptors.response.use(
           sessionStorage.setItem('accessToken', response.data.accessToken);
         });
       console.log('토큰만료 에러 intercepter end');
+      return await axiosInstance(originalRequest);
     }
-    console.log('interceptor 재송신 시작');
-    console.log(originalRequest);
-
-    return await axios(originalRequest);
+    // console.log('interceptor 재송신 시작');
+    // console.log(originalRequest);
+    console.log('Interceptor 호출 종료==============');
+    // return await axios(originalRequest);
   },
 );
 

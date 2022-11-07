@@ -12,7 +12,7 @@ const KakaoLogin = props => {
   axios
     .get(SERVER_IP + apis.kakaoLogin + `?code=${code}`)
     .then(response => console.log(response));
-  return <div></div>;
+  return <div>12</div>;
 };
 
 export default KakaoLogin;
