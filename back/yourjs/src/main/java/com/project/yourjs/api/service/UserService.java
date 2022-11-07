@@ -228,7 +228,7 @@ public class UserService {
 
     @Transactional
     public ResponseEntity<UserLoginRes> kakaoLogin(String code) {
-        ResponseEntity<UserLoginRes> userLoginRes = null;
+        ResponseEntity<UserLoginRes> userLoginRes;
         String accessToken = "";
         String refreshToken = "";
         String reqURL = "https://kauth.kakao.com/oauth/token";
@@ -298,6 +298,7 @@ public class UserService {
                     User user = oUser.get();
                     // 액세스 토큰 생성
                     userLoginRes = this.login(new LoginDto(user.getUserId(), "kakao"));
+                    return userLoginRes;
 
                 } else {
                     // 회원 가입 후 액세스 토큰 생성
@@ -311,6 +312,7 @@ public class UserService {
                     UserDto userDto = this.signup(userRegisterPostReq);
                     // 액세스 토큰 생성
                     userLoginRes = this.login(new LoginDto(userDto.getUserId(), "kakao"));
+                    return userLoginRes;
                 }
 
             } catch (IOException e) {
@@ -321,7 +323,8 @@ public class UserService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(userLoginRes.getBody().getAccessToken());
-        return userLoginRes;
+        // System.out.println(userLoginRes.getBody().getAccessToken());
+        
+        return null;
     }
 }
