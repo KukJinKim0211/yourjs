@@ -36,7 +36,7 @@ podTemplate(label: 'builder',
         try {
             stage('Checkout') {
                 checkout scm   // gitlab으로부터 소스 다운
-                sh "cp -r /etc/react/env ./front/yourjs"
+                sh "cp /etc/react/env/.env ./front/yourjs"
             }
             stage('Docker build') {
                 container('docker') {
