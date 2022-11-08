@@ -13,4 +13,15 @@ const scheduleList = [
   '기타',
 ];
 
+
+const progressList = [
+  '등록',
+  '진행중',
+  '서류탈락',
+  '코딩테스트탈락',
+  '면접탈락',
+  '최종합격',
+
+]
+
 export { scheduleList };
