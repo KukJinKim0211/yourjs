@@ -19,13 +19,14 @@ const KakaoLogin = props => {
         console.log('카카오로그인성공');
         // 로그인 시 발급받은 Access/Refresh Token을 웹 쿠키에 저장
         setCookie('refresh_Token', response.data.refreshToken);
+        localStorage.setItem('autoLogin', true);
         // 자동 로그인 처리
         localStorage.setItem('autoLogin', false);
         dispatch({ type: 'login', nickname: response.data.nickname });
         sessionStorage.setItem('selectItem', 0);
         sessionStorage.setItem('loginState', true);
         sessionStorage.setItem('accessToken', response.data.accessToken);
-        navigate('/main');
+        navigate('http://localhost:3000/main');
       }
     });
   }, []);

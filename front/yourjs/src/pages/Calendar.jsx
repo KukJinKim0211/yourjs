@@ -3,6 +3,9 @@ import { subMonths, addMonths, startOfMonth, endOfMonth } from 'date-fns';
 import MonthCalendar from '../components/Calendar/MonthCalendar';
 import styled from 'styled-components';
 import { fullWidth } from '../common/size';
+import axiosInstance from '../common/customAxios';
+import { apis } from '../common/apis';
+import { getYYMMFormat } from '../common/date';
 
 const Wrapper = styled.div`
   width: ${fullWidth};
@@ -14,12 +17,25 @@ const Wrapper = styled.div`
 const Calendar = () => {
   // 현재 달력 상태 관리
   const [searchDate, setSearchDate] = useState(new Date());
+  // 공고 총 데이터
+  const [noticeData, setNoticeData] = useState([]);
   // 서버에서 응답받은 공고 데이터 상태 관리
   const [monthMenu, setMonthMenu] = useState([]);
 
+  const getNotice = () => {
+    axiosInstance
+      .get(apis.notice)
+      .then(response => setNoticeData(response.data));
+  };
+
   useEffect(() => {
-    dataSetting('');
+    getNotice();
   }, []);
+
+  useEffect(() => {
+    if (noticeData.length === 0) return;
+    dataSetting(noticeData);
+  }, [noticeData]);
 
   // 하위 컴포넌트로 보낼 데이터 포매팅
   const dataSetting = data => {
@@ -31,7 +47,6 @@ const Calendar = () => {
     const startDay = startOfMonth(searchDate).getDay();
     // 현재 달에서 마지막날짜를 가져옴
     const endDay = endOfMonth(searchDate).getDate();
-
     // 주 기준으로 배열 관리
     for (let i = 0; i < (startDay + endDay) / 7; i++) {
       const week = [];
@@ -41,14 +56,24 @@ const Calendar = () => {
         // const filteredData = data.filter(item => {
         //   return parseInt(item.meal_date.split('-')[2]) === day;
         // });
+        // 오늘의 날짜 구하기 YYYY-MM-DD
+        const today = `${getYYMMFormat(searchDate, day)}`;
+        const scheduleData = [];
+        noticeData.forEach(notice =>
+          notice.schedules.forEach(sche => {
+            if (sche.scheduleDate.slice(0, 10) === today) {
+              scheduleData.push({
+                ...notice,
+                scheduleName: sche.scheduleName,
+                scheduleDate: sche.scheduleDate,
+              });
+            }
+          }),
+        );
         const obj = {
           id: idIdx,
           day: day,
-          // meal:
-          //   filteredData[0] === undefined ? [] : filteredData[0].meal_content,
-          // snack:
-          //   filteredData[0] === undefined ? [] : filteredData[0].snack_content,
-          // meal_no: filteredData[0] === undefined ? 0 : filteredData[0].meal_no,
+          data: scheduleData,
         };
         idIdx++;
         week.push(obj);
@@ -60,7 +85,11 @@ const Calendar = () => {
   };
   return (
     <Wrapper>
-      <MonthCalendar monthData={monthMenu}></MonthCalendar>
+      <MonthCalendar
+        monthData={monthMenu}
+        getNotice={getNotice}
+        searchDate={searchDate}
+      ></MonthCalendar>
     </Wrapper>
   );
 };

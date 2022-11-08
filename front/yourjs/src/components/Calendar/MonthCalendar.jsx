@@ -8,11 +8,16 @@ const Wrapper = styled.div`
   flex-direction: column;
 `;
 
-const MonthCalendar = ({ monthData }) => {
+const MonthCalendar = ({ monthData, getNotice, searchDate }) => {
   return (
     <Wrapper>
       {monthData.map((data, index) => (
-        <WeekCalendar key={index} weekData={data} />
+        <WeekCalendar
+          key={index}
+          weekData={data}
+          getNotice={getNotice}
+          searchDate={searchDate}
+        />
       ))}
     </Wrapper>
   );

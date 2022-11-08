@@ -7,11 +7,16 @@ const Wrapper = styled.div`
   display: flex;
 `;
 
-const WeekCalendar = ({ weekData }) => {
+const WeekCalendar = ({ weekData, getNotice, searchDate }) => {
   return (
     <Wrapper>
       {weekData.map((data, index) => (
-        <DayCalendar key={index} dayData={data} />
+        <DayCalendar
+          key={index}
+          dayData={data}
+          getNotice={getNotice}
+          searchDate={searchDate}
+        />
       ))}
     </Wrapper>
   );

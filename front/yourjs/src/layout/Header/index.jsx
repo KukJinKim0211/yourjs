@@ -13,7 +13,6 @@ const Wrapper = styled.div`
   height: 108px;
   display: flex;
   justify-content: center;
-  z-index: 999;
 `;
 
 const HeaderDiv = styled.div`

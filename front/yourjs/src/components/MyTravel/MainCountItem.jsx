@@ -50,18 +50,24 @@ const MainCountItem = ({ data }) => {
       <TitleContentDiv>
         <div style={{ height: '50%' }}>
           <TitleText color={colors.bsColor4} id="titleFont">
-            {data.title}
+            {data?.title}
           </TitleText>
         </div>
         <div style={{ height: '50%' }}>
           <ContentText color={colors.bsColor4} id="contentFont">
-            {data.content}
+            {data?.content}
           </ContentText>
         </div>
       </TitleContentDiv>
-      <ImageDiv>
-        <FontAwesomeIcon icon={data.icon} size="3x" color={colors.bsColor4} />
-      </ImageDiv>
+      {data?.icon !== null && (
+        <ImageDiv>
+          <FontAwesomeIcon
+            icon={data?.icon}
+            size="3x"
+            color={colors.bsColor4}
+          />
+        </ImageDiv>
+      )}
     </Wrapper>
   );
 };

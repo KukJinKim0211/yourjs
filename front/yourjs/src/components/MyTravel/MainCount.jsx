@@ -4,11 +4,15 @@ import React, { useState, useEffect } from 'react';
 import MainCountItem from './MainCountItem';
 import styled from 'styled-components';
 import { colors } from '../../common/color';
-import { faFolder } from '@fortawesome/free-solid-svg-icons';
-import { faFileLines } from '@fortawesome/free-solid-svg-icons';
-import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-import { faAddressCard } from '@fortawesome/free-solid-svg-icons';
+import {
+  faFolder,
+  faFileLines,
+  faPenToSquare,
+  faAddressCard,
+} from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
+import axiosInstance from '../../common/customAxios';
+import { apis } from '../../common/apis';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -35,29 +39,69 @@ const CountItemDiv = styled.div`
   display: flex;
 `;
 
-const countData = [
-  { title: '총 지원 횟수', content: '23회', icon: faFolder },
-  {
-    title: '등록 중 공고',
-    content: '4회',
-    icon: faFileLines,
-  },
-  {
-    title: '진행 중 공고',
-    content: '3회',
-    icon: faPenToSquare,
-  },
-  {
-    title: '프로필 관리',
-    content: '프로필 보기',
-    icon: faAddressCard,
-  },
+const titleData = [
+  '총 지원 횟수',
+  '등록 중 공고',
+  '진행 중 공고',
+  '프로필 관리',
 ];
 
 const MainCount = () => {
+  const [countData, setCountData] = useState([
+    {
+      title: '총 지원 횟수',
+      content: 0,
+      icon: faFolder,
+    },
+    {
+      title: '등록 중 공고',
+      content: 0,
+      icon: faFileLines,
+    },
+    {
+      title: '진행 중 공고',
+      content: 0,
+      icon: faPenToSquare,
+    },
+    {
+      title: '프로필 관리',
+      content: '프로필 관리',
+      icon: faAddressCard,
+    },
+  ]);
   const [nickname, setNickname] = useState(
     useSelector(state => state.nickname),
   );
+
+  const getNotice = () => {
+    axiosInstance.get(apis.notice).then(response => {
+      if (response.status === 200) {
+        let i1 = 4;
+        let i2 = 0;
+        const newArray = [...countData];
+        response.data.forEach(d => {
+          if (d.progress === '등록') {
+            i1++;
+          }
+
+          if (d.profress === '진행중') {
+            i2++;
+          }
+        });
+
+        // 총 지원 횟수
+        newArray[0].content = response.data.length;
+        // 등록 중 공고
+        newArray[1].content = i1;
+        // 진행 중 공고
+        newArray[2].content = i2;
+        setCountData(newArray);
+      }
+    });
+  };
+  useEffect(() => {
+    getNotice();
+  }, []);
 
   return (
     <Wrapper>
