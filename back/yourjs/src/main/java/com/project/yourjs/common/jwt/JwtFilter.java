@@ -34,7 +34,7 @@ public class JwtFilter extends GenericFilterBean {
       String jwt = resolveToken(httpServletRequest);
       String requestURI = httpServletRequest.getRequestURI();
       String tokenValid = "";
-      if(!requestURI.equals("/api/user/kakao"))
+      if((!requestURI.equals("/api/user/kakao")||!requestURI.equals("/api/user/naver"))&&jwt!=null)
             tokenValid = tokenProvider.validateToken(jwt);
 
       if (tokenValid.equals("expired")) {

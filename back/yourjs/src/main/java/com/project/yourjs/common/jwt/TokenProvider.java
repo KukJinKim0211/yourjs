@@ -137,7 +137,10 @@ public class TokenProvider implements InitializingBean {
       } catch (UnsupportedJwtException e) {
          logger.info("지원되지 않는 JWT 토큰입니다.");
       } catch (IllegalArgumentException e) {
-         logger.info("JWT 토큰이 잘못되었습니다.");
+         if(token == null){
+            logger.info("JWT 토큰이 없습니다.");
+         }else
+            logger.info("JWT 토큰이 잘못되었습니다.");
       }
       return "denied";
    }
