@@ -15,7 +15,7 @@ const KakaoLogin = props => {
     // 리다이렉트 된 페이지에서 인가코드 꺼내오기
     const code = new URL(window.location.href).searchParams.get('code');
     axios.get(SERVER_IP + apis.kakaoLogin + `?code=${code}`).then(response => {
-      if (response.state === 200 && response.data.length > 0) {
+      if (response.state === 200 && response.data !== '') {
         const data = response.data;
         // 로그인 시 발급받은 Access/Refresh Token을 웹 쿠키에 저장
         setCookie('refresh_Token', response.data.refreshToken);
