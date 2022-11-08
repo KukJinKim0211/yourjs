@@ -41,9 +41,9 @@ const MyNoticeDate = ({ getDateData, li, index, setDateDataee }) => {
 
   // 부모로 값을 보낸다.
 
-  useEffect(() => {
-    getDateData(dateData);
-  }, [dateData]);
+  // useEffect(() => {
+  //   getDateData(dateData);
+  // }, [dateData]);
 
   useEffect(() => {
     setDateDataee(index, {
@@ -54,6 +54,8 @@ const MyNoticeDate = ({ getDateData, li, index, setDateDataee }) => {
 
   // 할일 명 변경
   const handleScheduleName = e => {
+
+    
     setDateData({ ...dateData, scheduleName: e.target.value });
     getDateData(dateData);
   };
@@ -64,7 +66,7 @@ const MyNoticeDate = ({ getDateData, li, index, setDateDataee }) => {
     setScheduleDate(e);
     setDateData({
       ...dateData,
-      scheduleDate: dayjs(e).format('YYYY-MM-DD'),
+      scheduleDate: dayjs(e).format('YYYY-MM-DD hh:mm:ss'),
       index: li.index,
     });
   };
@@ -72,14 +74,17 @@ const MyNoticeDate = ({ getDateData, li, index, setDateDataee }) => {
   return (
     <TagBox>
       <Select onChange={handleScheduleName}>
-        <option id="titleFont" value="서류마감">
-          서류마감
+        <option id="titleFont" value="서류제출">
+          서류제출
         </option>
         <option id="titleFont" value="서류발표">
           서류발표
         </option>
         <option id="titleFont" value="코딩테스트">
           코딩테스트
+        </option>
+        <option id="titleFont" value="코딩테스트발표">
+          코딩테스트발표
         </option>
         <option id="titleFont" value="1차면접">
           1차면접
@@ -88,13 +93,16 @@ const MyNoticeDate = ({ getDateData, li, index, setDateDataee }) => {
           1차면접발표
         </option>
         <option id="titleFont" value="2차면접">
-          2차면접발표
+          2차면접
         </option>
         <option id="titleFont" value="2차면접발표">
           2차면접발표
         </option>
         <option id="titleFont" value="최종발표">
           최종발표
+        </option>
+        <option id="titleFont" value="기타">
+          기타
         </option>
       </Select>
 

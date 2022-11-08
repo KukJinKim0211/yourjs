@@ -9,6 +9,7 @@ import { ko } from 'date-fns/esm/locale';
 import MyNoticeDate from './MyNoticeDate';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
   width: 60%;
@@ -161,11 +162,25 @@ const ResultTag = styled.div`
 let countList = 1;
 let countDate = 1;
 const MyNoticeAdd = () => {
+  // const datetest = [
+  //   { date: '2022-05-11' },
+  //   { date: '2021-03-11' },
+  //   { date: '2020-01-11' },
+  //   { date: '2022-05-15' },
+  //   { date: '2021-06-13' },
+  //   { date: '2019-05-11' },
+  //   { date: '2022-05-12' },
+  // ];
+  // const orderedDate = datetest.sort((a,b)=> new Date(a.date) - new Date(b.date))
+  
+  // console.log(orderedDate,'222');
+  const navigate = useNavigate();
   const [list, setList] = useState([]);
   const [dateList, setDateList] = useState([]); // 일정 등록 컴포넌트 생성을 위한 list
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [companyInput, setCompanyInput] = useState('');
+  const [selfData, setSelfData] = useState([]);
   const [schedule, setSchedule] = useState({
     scheduleName: '',
     scheduleDate: '',
@@ -219,7 +234,7 @@ const MyNoticeAdd = () => {
     const newArray = [...dateList];
     newArray[index] = dateData;
     setDateList(newArray);
-    console.log(dateList, '123epelel3');
+    
     setTotalData({ ...totalData, schedules: dateList });
   };
 
@@ -227,8 +242,8 @@ const MyNoticeAdd = () => {
     const newArray2 = [...list];
     newArray2[index] = noticeData;
     setList(newArray2);
-    console.log(list);
-    setTotalData({ ...totalData, noticeData: list });
+    setSelfData({ ...selfData, noticeData: list });
+    // setTotalData({ ...totalData, noticeData: list });
   };
   // datelist useeffect
   useEffect(() => {}, [dateList]);
@@ -238,31 +253,53 @@ const MyNoticeAdd = () => {
     b.push({ index: countDate });
     countDate = countDate + 1;
     setDateList(b);
-    console.log('123123');
-  };
-
-  const handleTotalData = () => {
-    console.log(totalData, '최종값');
-
-    // await  axiosInstance
-    //   .post(apis.notice, totalData)
-    //   .then((response) => {console.log(response.data)})
-
-    // const handlePushTotalData = () => {
-
-    //   await axiosInstance
-
-    // }
-  };
-
-  const getChildData = data => {
     
   };
+  // 최종 버튼 눌렀을때 post axios
+  const handleTotalData = () => {
+    // const orderedDate = datetest.sort((a,b)=> new Date(a.date) - new Date(b.date))
+    
+    console.log(selfData, '자소서 항목');
+    console.log(selfData.length,"자소사항목길이")
+
+    const orderedtotal = totalData.schedules.sort((a,b)=> new Date(a.scheduleDate)- new Date(b.scheduleDate))
+    delete totalData.schedules;
+    totalData.schedules = orderedtotal
+    
+    console.log(totalData, '최종값');
+    
+    //날짜 순서로 post 보내기
+  
+    axiosInstance
+      .post(apis.notice, totalData)
+      .then(response => {
+        console.log(response.data.noticeSeq, '리턴값 참조하기');
+
+        if (response.status === 200) {
+          
+          if (selfData.length === 0 ) {
+            navigate('/notice')
+          }
+          else {
+          selfData.noticeData.forEach(self => {
+            const data = { ...self, noticeSeq: response.data.noticeSeq };
+            console.log(data);
+            axiosInstance.post(apis.selfIntroduce, self).then(response => {
+              console.log(response);
+              
+            
+            });
+          });}
+          navigate('/notice');
+        }
+      })
+      .catch(error => console.log(error));
+  };
+
+  const getChildData = data => {};
 
   const getDateData = data => {
     setTotalData({ ...totalData, schedules: data });
-
-    
   };
 
   // 태그값이 변하는거를 쳐다보다가 useeffect

@@ -18,7 +18,7 @@ const FindNoticeIndex = () => {
 
 
     <Wrapper>
-        {list.map((form) => (<FindNoticeItemList></FindNoticeItemList>))}</Wrapper>
+        {list.map((form,index) => (<FindNoticeItemList key={index}></FindNoticeItemList>))}</Wrapper>
   )
 }
 

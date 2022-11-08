@@ -30,7 +30,7 @@ export const apis = {
   graduation: '/graduate', // GET, POST, PUT, DELETE
 
   // [자소서 API]
-  selfIntroduce: '/self', // GET, POST, PUT, DELETE
+  selfIntroduce: '/introduce', // GET, POST, PUT, DELETE
 
   // [병역사항 API]
   military: '/military', //GET, POST, PUT, DELETE

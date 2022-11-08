@@ -5,6 +5,8 @@ import '../../App.css';
 import { useState } from 'react';
 import MyNoticeDetail from './MyNoticeDetail';
 import { useEffect } from 'react';
+import axiosInstance from '../../common/customAxios';
+import { apis } from '../../common/apis';
 
 // 아이템 리스트
 const ItemList = styled.div`
@@ -140,7 +142,7 @@ const dummyDataBasic = [
     company: '카카오',
     regDate: '2022.09.01',
     title: '상반기 IT채용',
-    tag: [ '상반기', '물건'],
+    tag: ['상반기', '물건'],
   },
   {
     state: '진행중',
@@ -240,46 +242,64 @@ const MyNoticeList = () => {
   const [searchData, setSearchData] = useState('');
   const [detailFlag, setDetailFlag] = useState(false);
   const [dropdownState, setDropdownState] = useState('전체보기');
-  const [dummyData, setDummyData] = useState(dummyDataBasic);
+  const [dummyData, setDummyData] = useState([]);
+
+  useEffect(() => {
+    getNoticeData();
+  }, []);
+
+  
+
+
+  // axios get 하는 함수
+  const getNoticeData = () => {
+    axiosInstance
+      .get(apis.notice)
+      .then(response => {
+        console.log([response.data], 'get해온값');
+        setDummyData(response.data);
+      })
+      .catch(error => console.log(error));
+  };
 
   const handleDropdownState = e => {
     setDropdownState(e.target.value);
   };
 
-  const getItems = () => {
-    if (dropdownState === '전체보기') {
-      setDummyData(dummyDataBasic);
-    }
+  // const getItems = () => {
+  //   if (dropdownState === '전체보기') {
+  //     setDummyData(dummyData);
+  //   }
 
-    if (dropdownState === '진행중') {
-      setDummyData(
-        dummyDataBasic.filter(dummystate => dummystate.state === '진행중'),
-      );
-    }
-    if (dropdownState === '면접탈락') {
-      setDummyData(
-        dummyDataBasic.filter(dummystate => dummystate.state === '면접탈락'),
-      );
-    }
-    if (dropdownState === '서류탈락') {
-      setDummyData(
-        dummyDataBasic.filter(dummystate => dummystate.state === '서류탈락'),
-      );
-    }
-    if (dropdownState === '최종합격') {
-      setDummyData(
-        dummyDataBasic.filter(dummystate => dummystate.state === '최종합격'),
-      );
-    }
-  };
+  //   if (dropdownState === '진행중') {
+  //     setDummyData(
+  //       dummyData.filter(dummystate => dummystate.progress === '진행중'),
+  //     );
+  //   }
+  //   if (dropdownState === '면접탈락') {
+  //     setDummyData(
+  //       dummyData.filter(dummystate => dummystate.progress === '면접탈락'),
+  //     );
+  //   }
+  //   if (dropdownState === '서류탈락') {
+  //     setDummyData(
+  //       dummyData.filter(dummystate => dummystate.progress === '서류탈락'),
+  //     );
+  //   }
+  //   if (dropdownState === '최종합격') {
+  //     setDummyData(
+  //       dummyData.filter(dummystate => dummystate.progress === '최종합격'),
+  //     );
+  //   }
+  // };
 
   const ChangeFlag = e => {
     setDetailFlag(!detailFlag);
   };
 
-  useEffect(() => {
-    getItems();
-  }, [dropdownState]);
+  // useEffect(() => {
+  //   getItems();
+  // }, [dropdownState]);
 
   // 검색 함수
 
@@ -337,28 +357,30 @@ const MyNoticeList = () => {
       <ListTotal>
         {dummyData.map((dummy, index) => (
           <div key={index}>
-            <Link to="/notice/detail" style={{ textDecoration: 'none' }} >
+            <Link to="/notice/detail" style={{ textDecoration: 'none' }}>
               <ItemList onClick={ChangeFlag}>
-                <ItemGrid className="regdate" id="titleFont" width="100%">
+                {/* <ItemGrid className="regdate" id="titleFont" width="100%">
                   {dummy.regDate}
-                </ItemGrid>
+                </ItemGrid> */}
                 <ItemGrid id="contentFont" width="100%" marginTop="40px">
-                  {dummy.company}
+                  {dummy.coName}
                 </ItemGrid>
 
                 <ItemGrid id="contentFont" width="100%" marginTop="20px">
-                  [{dummy.title}]
+                  {dummy.noticeName}
                 </ItemGrid>
                 <br></br>
                 <TagBox>
-                  {dummy.tag.map((tag, index) => (
-                    <TagItemBox id="contentFont" key={index}># {tag}</TagItemBox>
+                  {dummy?.noticeTag?.split(', ').map((tag, index) => (
+                    <TagItemBox id="contentFont" key={index}>
+                      # {tag}
+                    </TagItemBox>
                   ))}
                 </TagBox>
                 <br></br>
 
                 <ItemGrid className="state" id="titleFont" width="100%">
-                  {dummy.state}
+                  {dummy.progress}
                 </ItemGrid>
                 <br></br>
               </ItemList>

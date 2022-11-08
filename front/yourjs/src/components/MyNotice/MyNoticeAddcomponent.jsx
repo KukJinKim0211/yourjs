@@ -105,19 +105,11 @@ const MyNoticeAddcomponent = ({ getChildData,settingNoticeData,index}) => {
   // 태그 값이 변하는걸쳐다봄
   useEffect(() => {
     if (tag.length === 0) return;
-    setPushData({ ...pushData, introTag: [tag.join(', ')] }); // ,로 구분하기 위한 과정
+    setPushData({ ...pushData, introTag: tag.join(', ') }); // ,로 구분하기 위한 과정
     
   }, [tag]);
 
 
-  const handlePushData =  ( ) => { 
-
-    console.log(pushData,"보내기직전")
-
-    // const response = await axiosInstance
-    // .post(apis.selfIntroduce, {});
-
-  }
 
   const keydownHandler = e => {
     if (e.key === 'Enter') {
@@ -196,7 +188,7 @@ const MyNoticeAddcomponent = ({ getChildData,settingNoticeData,index}) => {
             </CountBox>
           </div>
         </ContentBox>
-        <button  onClick={handlePushData}>dfd</button>
+        
         <br></br>
       </div>
     </Wrapper>
