@@ -81,7 +81,7 @@ const CountBox = styled.div`
   margin-right: 1%;
 `;
 
-const MyNoticeAddcomponent = ({ getChildData,settingNoticeData,index}) => {
+const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
   const [tag, setTag] = useState([]);
   const [tagItem, setTagItem] = useState('');
   const [title, setTitle] = useState('');

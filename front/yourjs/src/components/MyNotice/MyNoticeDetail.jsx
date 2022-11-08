@@ -1,10 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MyNoticeAdd from './MyNoticeAdd.jsx';
 import '../../App.css';
 import MyNoticeAddcomponent from './MyNoticeAddcomponent.jsx';
 import MyNoticeDate from './MyNoticeDate.jsx';
+import { useLocation } from 'react-router-dom';
+import axiosInstance from '../../common/customAxios';
+import { apis } from '../../common/apis';
 
 const Wrapper = styled.div`
   height: fit-content;
@@ -172,7 +175,7 @@ const dummyData = {
   regdate: '2022-09-01',
   company: '지우컴퍼니',
   link: 'www.naver.com',
-  state: '진행중',
+  state: '면접탈락',
   title : "상반기 IT 채용"
 };
 
@@ -218,17 +221,45 @@ const dummy = [
 ];
 
 const MyNoticeDetail = () => {
+  const location = useLocation();
   // 이부분에서 get 받았을떄 , 값 게시글 개수에 따라 true false 배열이 필요하다.
   const [editFlag, setEditFlag] = useState([false, false, false]);
   const [addFlag, setAddFlag] = useState(false);
+  const [noticeData,setNoticeData] = useState([]);
+  
   // 수정 글자수 count
   // const [editCount, setEditCount] = useState('');
+
+  
+  useEffect(() => {
+    getDetailData();
+  }, []);
+
+
+  
+
+  // 화면 렌더링시 get 실행
+  const getDetailData = () => {
+    axiosInstance
+      .get(apis.notice+`/${location.state.noticeSeq}`)
+      .then(response => {
+
+        console.log(response.data,"디테일 값 받아오기")
+        
+        setNoticeData(response.data)
+        
+
+      })
+  }
+
 
 
   // 아직 미구현
   const getChildData =() =>{
     console.log(123123)
   }
+
+  
   // 항목추가 변경 함수
 
   const handleChangeAddFlag = () => {
@@ -256,17 +287,17 @@ const MyNoticeDetail = () => {
       <CompanyBox id="titleFont">
         <br></br>
         <br></br>
-        <h1>{dummyData.company}</h1>
+        <h1>{noticeData.coName}</h1>
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-          <h2 style={{ width: '100%' }}> {dummyData.title} </h2>
+          <h2 style={{ width: '100%' }}> {noticeData.noticeName} </h2>
         </div>
 
         
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
           <h3 style={{ width: '15%' }}>결과를 선택하세요 : </h3>
-          <Select defaultValue={dummyData.state}>
+          <Select defaultValue={noticeData.progress}>
             <option id="titleFont" value="진행중">
-              진행중
+            진행중
             </option>
             <option id="titleFont" value="서류탈락">
               서류탈락
@@ -282,7 +313,7 @@ const MyNoticeDetail = () => {
         </div>
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
           <h3 style={{ width: '100%' }}>
-            채용사이트 : <UrlInput id="titleFont" defaultValue={dummyData.link}></UrlInput>
+            채용사이트 : <UrlInput id="titleFont" defaultValue={noticeData.link}></UrlInput>
           </h3>
         </div>
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
@@ -297,7 +328,7 @@ const MyNoticeDetail = () => {
       {/* 항목추가 눌를때 항목이 생성 */}
       {addFlag && (
         <div>
-          <MyNoticeAddcomponent getChildData={getChildData}></MyNoticeAddcomponent>
+          <MyNoticeAddcomponent></MyNoticeAddcomponent>
           <br></br>
           <div style={{ display: 'flex', justifyContent: 'flex-end ' }}>
             <CreateButton2 id="contentFont">저장</CreateButton2>

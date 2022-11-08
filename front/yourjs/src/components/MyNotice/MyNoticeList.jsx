@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../App.css';
 import { useState } from 'react';
 import MyNoticeDetail from './MyNoticeDetail';
@@ -129,116 +129,9 @@ const SearchButton = styled.button`
   margin-left: 50px;
 `;
 
-const dummyDataBasic = [
-  {
-    state: '진행중',
-    company: '카카오',
-    regDate: '2022.09.01',
-    title: '상반기 IT채용',
-    tag: ['카카오회사', '음악', '상반기', '물건'],
-  },
-  {
-    state: '진행중',
-    company: '카카오',
-    regDate: '2022.09.01',
-    title: '상반기 IT채용',
-    tag: ['상반기', '물건'],
-  },
-  {
-    state: '진행중',
-    company: '카카오',
-    regDate: '2022.09.01',
-    title: '상반기 IT채용',
-    tag: ['카카오', '음악', '상반기', '물건'],
-  },
-  {
-    state: '진행중',
-    company: '카카오',
-    regDate: '2022.09.01',
-    title: '상반기 IT채용',
-    tag: ['카카오', '음악', '상반기', '물건'],
-  },
-  {
-    state: '진행중',
-    company: '카카오',
-    regDate: '2022.09.01',
-    title: '상반기 IT채용',
-    tag: ['카카오', '음악', '상반기', '물건'],
-  },
-  {
-    state: '진행중',
-    company: '카카오',
-    regDate: '2022.09.01',
-    title: '상반기 IT채용',
-    tag: ['카카오', '음악', '상반기', '물건'],
-  },
-  {
-    state: '진행중',
-    company: '카카오',
-    regDate: '2022.09.01',
-    title: '상반기 IT채용',
-    tag: ['카카오', '음악', '상반기', '물건'],
-  },
-  {
-    state: '진행중',
-    company: '카카오',
-    regDate: '2022.09.01',
-    title: '상반기 IT채용',
-    tag: ['카카오', '음악', '상반기', '물건'],
-  },
-
-  {
-    state: '면접탈락',
-    company: '지우컴퍼니',
-    regDate: '2022.09.01',
-    title: '상반기 IT채용',
-    tag: ['카카오', '음악', '상반기', '물건'],
-  },
-  {
-    state: '서류탈락',
-    company: '네이버',
-    regDate: '2022.09.01',
-    title: '상반기 IT채용',
-    tag: ['카카오', '음악', '상반기', '물건'],
-  },
-  {
-    state: '최종합격',
-    company: '은행',
-    regDate: '2022.09.01',
-    title: '상반기 IT채용',
-    tag: ['카카오', '음악', '상반기', '물건'],
-  },
-  {
-    state: '최종합격',
-    company: '은행',
-    regDate: '2022.09.01',
-    title: '상반기 IT채용',
-    tag: ['카카오', '음악', '상반기', '물건'],
-  },
-  {
-    state: '최종합격',
-    company: '은행',
-    regDate: '2022.09.01',
-    title: '상반기 IT채용',
-    tag: ['카카오', '음악', '상반기', '물건'],
-  },
-  {
-    state: '면접탈락',
-    company: '지우컴퍼니',
-    regDate: '2022.09.01',
-    title: '상반기 IT채용',
-    tag: ['카카오', '음악', '상반기', '물건'],
-  },
-  {
-    state: '면접탈락',
-    title: '지우컴퍼니',
-    regDate: '2022.09.01',
-    title: '상반기 IT채용',
-    tag: ['카카오', '음악', '상반기', '물건'],
-  },
-];
 
 const MyNoticeList = () => {
+  const navigate = useNavigate();
   const [searchData, setSearchData] = useState('');
   const [detailFlag, setDetailFlag] = useState(false);
   const [dropdownState, setDropdownState] = useState('전체보기');
@@ -266,40 +159,48 @@ const MyNoticeList = () => {
     setDropdownState(e.target.value);
   };
 
+  // useEffect(() => {
+  //   getItems();
+  // }, [dropdownState]);
+
   // const getItems = () => {
+  //   getNoticeData();
   //   if (dropdownState === '전체보기') {
+      
   //     setDummyData(dummyData);
+      
   //   }
 
   //   if (dropdownState === '진행중') {
+      
   //     setDummyData(
   //       dummyData.filter(dummystate => dummystate.progress === '진행중'),
   //     );
   //   }
   //   if (dropdownState === '면접탈락') {
+      
   //     setDummyData(
   //       dummyData.filter(dummystate => dummystate.progress === '면접탈락'),
   //     );
   //   }
   //   if (dropdownState === '서류탈락') {
+      
   //     setDummyData(
   //       dummyData.filter(dummystate => dummystate.progress === '서류탈락'),
   //     );
   //   }
   //   if (dropdownState === '최종합격') {
+      
   //     setDummyData(
   //       dummyData.filter(dummystate => dummystate.progress === '최종합격'),
   //     );
   //   }
+    
   // };
 
-  const ChangeFlag = e => {
-    setDetailFlag(!detailFlag);
-  };
+  
 
-  // useEffect(() => {
-  //   getItems();
-  // }, [dropdownState]);
+  
 
   // 검색 함수
 
@@ -319,6 +220,18 @@ const MyNoticeList = () => {
   const onClickSearch = () => {
     setSearchData('');
   };
+
+
+  // 값을 디테일 페이지에 보내는 함수
+
+  const onLinkDetail = async (e) => {
+    e.preventDefault();
+    navigate('/notice/detail', {
+      state : {
+
+      }
+    });
+  }
 
   return (
     <Wrapper>
@@ -357,8 +270,12 @@ const MyNoticeList = () => {
       <ListTotal>
         {dummyData.map((dummy, index) => (
           <div key={index}>
-            <Link to="/notice/detail" style={{ textDecoration: 'none' }}>
-              <ItemList onClick={ChangeFlag}>
+            
+              <ItemList onClick={()=>{navigate('/notice/detail',{
+                state:{
+                  noticeSeq : dummy.noticeSeq
+                }
+              })}}>
                 {/* <ItemGrid className="regdate" id="titleFont" width="100%">
                   {dummy.regDate}
                 </ItemGrid> */}
@@ -384,7 +301,7 @@ const MyNoticeList = () => {
                 </ItemGrid>
                 <br></br>
               </ItemList>
-            </Link>
+            
           </div>
         ))}
       </ListTotal>
