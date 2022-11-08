@@ -67,6 +67,29 @@ public class Self_IntroService {
         return self_IntroList;
     }
 
+    public Self_IntroGetRes getSelf_Intro(String userId, Integer introSeq){
+        Self_Intro self_Intro =  self_IntroRepository.findByIntroSeq(introSeq);
+        if (self_Intro.getUser().getUserId().equals(userId)) {
+            Self_IntroGetRes self_IntroGetRes = new Self_IntroGetRes();
+            self_IntroGetRes.setQuestion(self_Intro.getQuestion());
+            self_IntroGetRes.setContents(self_Intro.getContents());
+            self_IntroGetRes.setIntroSeq(self_Intro.getIntroSeq());
+            List<IntroTag> introTagList = self_IntroTagRepository.findAllByIntroSeq(self_Intro.getIntroSeq());
+            if (introTagList != null) {
+                StringBuilder sb = new StringBuilder();
+                for (IntroTag tag : introTagList) {
+                    sb.append(tag.getIntroTagName());
+                    sb.append(", ");
+                }
+                if (sb.length() > 1)
+                    sb.delete(sb.length() - 2, sb.length());
+                self_IntroGetRes.setIntroTag(sb.toString());
+            }
+            return self_IntroGetRes;
+        }
+        return null;
+    }
+
     @Transactional
     public Self_IntroPostRes createSelf_IntroNoNotice(String userId, Self_IntroPostReq self_IntroPostReq) {
         Self_IntroPostRes self_IntroPostRes = new Self_IntroPostRes();

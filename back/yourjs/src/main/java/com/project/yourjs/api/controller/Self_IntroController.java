@@ -3,6 +3,7 @@ package com.project.yourjs.api.controller;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +37,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @CrossOrigin(origins = {"*"}, maxAge = 6000)
 @Tag(name = "SelfIntroduce", description = "자소서")
 @RestController
-@RequestMapping("/self")
+@RequestMapping("/introduce")
 public class Self_IntroController {
     private final Self_IntroService selfIntroService;
 
@@ -54,6 +56,19 @@ public class Self_IntroController {
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<Self_IntroGetRes>> getAllSelf_Intro(Authentication authentication){
         return ResponseEntity.ok(selfIntroService.getAllSelf_Intro(authentication.getName()));
+    }
+
+    @Operation(summary = "자소서 단일 조회")
+    @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Self_IntroGetRes.class))),
+      @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+    })
+    @GetMapping("/{introSeq}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public ResponseEntity<Self_IntroGetRes> getSelf_Intro(Authentication authentication, @PathVariable Integer introSeq){
+        return ResponseEntity.ok(selfIntroService.getSelf_Intro(authentication.getName(), introSeq));
     }
 
     @Operation(summary = "자소서 등록")

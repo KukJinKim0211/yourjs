@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,6 +56,19 @@ public class NoticeController {
   @PreAuthorize("hasAnyRole('USER','ADMIN')")
   public ResponseEntity<List<NoticeGetRes>> getAllNotice(Authentication authentication) {
     return ResponseEntity.ok(noticeService.getAllNotice(authentication.getName()));
+  }
+
+  @Operation(summary = "공고 단일 조회")
+  @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticeGetRes.class))),
+    @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+    @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+  })
+  @GetMapping("/{noticeSeq}")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
+  public ResponseEntity<NoticeGetRes> getNotice(Authentication authentication, @PathVariable Integer noticeSeq) {
+    return ResponseEntity.ok(noticeService.getNotice(authentication.getName(), noticeSeq));
   }
 
   @Operation(summary = "공고 등록")

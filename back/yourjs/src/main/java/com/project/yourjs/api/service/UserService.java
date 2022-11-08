@@ -82,7 +82,7 @@ public class UserService {
         return UserDto.from(userRepository.save(user));
     }
 
-    @Transactional
+    // @Transactional
     public ResponseEntity<UserLoginRes> login(LoginDto loginDto) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginDto.getUserId(), loginDto.getPassword());

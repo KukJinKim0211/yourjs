@@ -55,7 +55,7 @@ public class NoticeService {
                         sb.append(tag.getNoticeTagName());
                         sb.append(", ");
                     }
-                    if(sb.length() > 1)
+                    if (sb.length() > 1)
                         sb.delete(sb.length() - 2, sb.length());
                     noticeGetRes.setNoticeTag(sb.toString());
                 }
@@ -81,6 +81,46 @@ public class NoticeService {
             }
         }
         return noticeList;
+    }
+
+    public NoticeGetRes getNotice(String userId, Integer noticeSeq) {
+        Optional<Notice> oNotice = noticeRepository.findByNoticeSeq(noticeSeq);
+        if (oNotice.isPresent()) {
+            Notice notice = oNotice.get();
+            if (notice != null) {
+                NoticeGetRes noticeGetRes = new NoticeGetRes();
+                noticeGetRes.setNoticeSeq(notice.getNoticeSeq());
+                noticeGetRes.setCoName(notice.getCoName());
+                noticeGetRes.setLink(notice.getLink());
+                noticeGetRes.setNoticeName(notice.getNoticeName());
+                noticeGetRes.setProgress(notice.getProgress());
+                List<Schedule> schedules = scheduleRepository.findAllByNoticeSeq(notice.getNoticeSeq());
+                List<ScheduleRes> schedulesRes = new ArrayList<>();
+                if (schedules != null) {
+                    for (Schedule schedule : schedules) {
+                        ScheduleRes scheduleRes = new ScheduleRes();
+                        scheduleRes.setScheduleName(schedule.getScheduleName());
+                        String dateTime = schedule.getScheduleDate().toLocalDate() + " "
+                                + schedule.getScheduleDate().toLocalTime();
+                        scheduleRes.setScheduleDate(dateTime);
+                        schedulesRes.add(scheduleRes);
+                    }
+                }
+                List<NoticeTag> noticeTagList = noticeTagRepository.findAllByNoticeSeq(notice.getNoticeSeq());
+                if (noticeTagList != null) {
+                    StringBuilder sb = new StringBuilder();
+                    for (NoticeTag tag : noticeTagList) {
+                        sb.append(tag.getNoticeTagName());
+                        sb.append(", ");
+                    }
+                    if (sb.length() > 1)
+                        sb.delete(sb.length() - 2, sb.length());
+                    noticeGetRes.setNoticeTag(sb.toString());
+                }
+                return noticeGetRes;
+            }
+        }
+        return null;
     }
 
     public List<NoticeTag> getAllNoticeTag(Integer noticeSeq) {
