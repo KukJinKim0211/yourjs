@@ -146,7 +146,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
     })
-    @GetMapping("/refresh")
+    @PostMapping("/refresh")
     public ResponseEntity<RefreshAccessRes> getAccessToken(HttpServletResponse response,
             @RequestHeader HttpHeaders headers) throws IOException {
         RefreshTokenDto refreshToken = new RefreshTokenDto();
