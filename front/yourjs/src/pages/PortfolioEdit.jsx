@@ -117,7 +117,7 @@ const PortfolioEdit = () => {
         { name: '자격증 / 어학', content: <CertificateEdit/>, component: <CertificateEditComponent/> },
         { name: '수상내역', content: <AwardEdit/>, component: <AwardEditComponent/> },
         { name: '커리어', content: <CareerEdit/>, component: <CareerEditComponent/>},
-        { name: '프로젝트', content: <ProjectEdit dataArr={viewData}/>, component: <ProjectEditComponent getServerData={getServerData}/> },
+        { name: '프로젝트', content: <ProjectEdit dataArr={viewData} getServerData={getServerData}/>, component: <ProjectEditComponent getServerData={getServerData}/> },
     ];
 
     const selectMenuHandler = (index) => {

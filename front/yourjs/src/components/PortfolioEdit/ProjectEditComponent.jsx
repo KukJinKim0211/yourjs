@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import { Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent } from '../Portfolio/personal';
+import { Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, LeftBoxTitle, LeftBoxContent } from '../Portfolio/personal';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
@@ -34,7 +34,7 @@ const BoxArea = styled.textarea`
 const SaveButton = styled.button`
   width: 4rem;
   height: 3rem;
-  margin: 2rem;
+  margin-left: 2rem;
   cursor: pointer;
 `
 
@@ -45,11 +45,9 @@ const Essential = styled.text`
 const EssentialDate = styled.text`
   color: red;
   display: flex;
-  /* justify-content: ; */
-  /* align-items: ; */
 `
 
-export {BoxInput, BoxArea, SaveButton}
+export {BoxInput, BoxArea, SaveButton, Essential}
 
 const ProjectEditComponent = ({getServerData}) => {
   const [projectName, setProjectName] = useState('');
@@ -87,7 +85,6 @@ const ProjectEditComponent = ({getServerData}) => {
   };
 
   const addButtonClicked = () => {
-    // YYYY-MM-DD hh:mm:ss
     const data = {
       projectName: projectName === "" ? null : projectName,
       startDate: startDate === "" ? null : startDate,
@@ -97,12 +94,14 @@ const ProjectEditComponent = ({getServerData}) => {
       content: content === "" ? null : content,
       file
     }
-
+    console.log(data)
+    if (data.projectName === null || data.startDate === null || data.belongs === null || data.tools === null || data.content === null) {
+      alert("필수값을 입력해 주세요.")
+    } else {
     axiosInstance
       .post(apis.project, data)
       .then(response => {
         if (response.status === 200) {
-          console.log('성공')
           getServerData()
           setProjectName('')
           setStartDate('')
@@ -113,14 +112,15 @@ const ProjectEditComponent = ({getServerData}) => {
           setFile('')
         }
       })
-      .catch(error => console.log(error));
+      .catch(error => console.log(error));}
   };
 
   return (
     <Content>
       <LeftBox style={{marginLeft: "2rem"}}>
         <br/>
-        <EssentialDate>(*)
+        <LeftBoxTitle>시작일<EssentialDate>(*)</EssentialDate>{"\u00A0"}{"\u00A0"}~{"\u00A0"}{"\u00A0"}종료일</LeftBoxTitle>
+        <LeftBoxContent>
         <DatePicker
             style ={{"z-index" : 999}}
             placeholderText='시작일'
@@ -130,8 +130,8 @@ const ProjectEditComponent = ({getServerData}) => {
             id="contentFont"
             onChange={date => setStartDate(date)}
             selected={startDate}
-        ></DatePicker></EssentialDate>
-        ~
+        ></DatePicker></LeftBoxContent>
+        ~<LeftBoxContent>
         <DatePicker
             style ={{"z-index" : 999}}
             placeholderText='종료일'
@@ -141,7 +141,7 @@ const ProjectEditComponent = ({getServerData}) => {
             id="contentFont"
             onChange={date => setEndDate(date)}
             selected={endDate}
-        ></DatePicker>
+        ></DatePicker></LeftBoxContent>
         <br/><br/>
         <SaveButton
           onClick={addButtonClicked}

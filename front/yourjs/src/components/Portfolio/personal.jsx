@@ -42,6 +42,21 @@ const LeftBox = styled.div`
   font-family: 'Pretendard-Regular';
 `;
 
+const LeftBoxTitle = styled.div`
+  width: 100%;
+  margin: 1rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+`
+
+const LeftBoxContent = styled.div`
+  width: 100%;
+  margin-left: 1rem;
+  text-align: center;
+`
+
 const CenterBox = styled.div`
   width: 5%;
 `
@@ -76,7 +91,7 @@ const Hr = styled.hr`
   background-color: #d4e1f5;
 `
 
-export {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr}
+export {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr, LeftBoxTitle, LeftBoxContent}
 
 const Personal = () => {
   return (
