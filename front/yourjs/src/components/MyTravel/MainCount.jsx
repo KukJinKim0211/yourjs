@@ -55,7 +55,9 @@ const countData = [
 ];
 
 const MainCount = () => {
-  const nickname = useSelector(state => state.nickname);
+  const [nickname, setNickname] = useState(
+    useSelector(state => state.nickname),
+  );
 
   return (
     <Wrapper>
