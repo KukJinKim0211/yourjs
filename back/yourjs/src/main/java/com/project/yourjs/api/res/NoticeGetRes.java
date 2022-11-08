@@ -12,6 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NoticeGetRes {
+    private Integer noticeSeq;
     private String coName;
     private String noticeName;
     private String link;

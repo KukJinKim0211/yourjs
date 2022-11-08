@@ -71,6 +71,7 @@ public class NoticeService {
                         schedulesRes.add(scheduleRes);
                     }
                 }
+                noticeGetRes.setNoticeSeq(notice.getNoticeSeq());
                 noticeGetRes.setSchedules(schedulesRes);
                 noticeGetRes.setCoName(notice.getCoName());
                 noticeGetRes.setLink(notice.getLink());

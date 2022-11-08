@@ -49,6 +49,7 @@ public class Self_IntroService {
                 Self_IntroGetRes self_IntroGetRes = new Self_IntroGetRes();
                 self_IntroGetRes.setQuestion(self_Intro.getQuestion());
                 self_IntroGetRes.setContents(self_Intro.getContents());
+                self_IntroGetRes.setIntroSeq(self_Intro.getIntroSeq());
                 List<IntroTag> introTagList = self_IntroTagRepository.findAllByIntroSeq(self_Intro.getIntroSeq());
                 if (introTagList != null) {
                     StringBuilder sb = new StringBuilder();
