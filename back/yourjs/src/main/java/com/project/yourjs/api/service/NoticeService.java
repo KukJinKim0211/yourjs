@@ -89,7 +89,7 @@ public class NoticeService {
     @Transactional
     public NoticePostRes createNotice(String userId, NoticePostReq noticePostReq) {
         NoticePostRes noticePostRes = new NoticePostRes();
-        noticePostRes.setResult("fail");
+        noticePostRes.setNoticeSeq(-1);
         Notice notice = new Notice();
         Optional<User> oUser = userRepository.findByUserId(userId);
         if (oUser.isPresent()) {
@@ -130,7 +130,7 @@ public class NoticeService {
                         noticeTagRepository.save(noticeTag);
                     }
                 }
-                noticePostRes.setResult("success");
+                noticePostRes.setNoticeSeq(notice.getNoticeSeq());
             }
 
         }

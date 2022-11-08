@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.yourjs.api.req.ChangeUserInfoReq;
 import com.project.yourjs.api.req.ChangeUserLevelReq;
@@ -325,6 +326,11 @@ public class UserService {
         }
         // System.out.println(userLoginRes.getBody().getAccessToken());
         
+        return null;
+    }
+
+    @Transactional
+    public ResponseEntity<UserLoginRes> naverLogin(String code ){
         return null;
     }
 }

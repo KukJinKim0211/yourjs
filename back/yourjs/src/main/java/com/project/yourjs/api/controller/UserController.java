@@ -245,8 +245,18 @@ public class UserController {
     })
     @GetMapping("/kakao")
     public ResponseEntity<UserLoginRes> kakaoLogin(@RequestParam(value = "code") String code) {
-        
-
         return userService.kakaoLogin(code);
+    }
+
+    @Operation(summary = "네이버 로그인", description = "네이버 로그인 API를 이용하여 로그인 합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = RefreshAccessRes.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+    })
+    @GetMapping("/naver")
+    public ResponseEntity<UserLoginRes> naverLogin(@RequestParam(value = "code") String code) {
+        return userService.naverLogin(code);
     }
 }
