@@ -244,7 +244,8 @@ public class UserService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=fb0ecb04816f465587d8bf341bacac7a");
-            sb.append("&redirect_uri=https://yourjs.co.kr/login/kakao");
+            // sb.append("&redirect_uri=https://yourjs.co.kr/login/kakao");
+            sb.append("&redirect_uri=http://localhost:3000/login/kakao");
             sb.append("&code=" + code);
             sb.append("&client_secret=OIvUN78Uyo8YNKFJ0jlAetvEqmEyMkaL");
             bw.write(sb.toString());
@@ -330,7 +331,8 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<UserLoginRes> naverLogin(String code ){
+    public ResponseEntity<UserLoginRes> naverLogin(String code){
+        System.out.println(code);
         return null;
     }
 }
