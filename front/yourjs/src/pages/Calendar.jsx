@@ -24,7 +24,6 @@ const Calendar = () => {
   const [noticeList, setNoticeList] = useState([]);
   // 서버에서 응답받은 공고 데이터 상태 관리
   const [monthMenu, setMonthMenu] = useState([]);
-
   const getNotice = () => {
     axiosInstance
       .get(apis.notice)
@@ -40,7 +39,7 @@ const Calendar = () => {
     if (noticeData.length === 0) return;
     dataSetting(noticeData);
     getNoticeList();
-  }, [noticeData]);
+  }, [noticeData, searchDate]);
 
   const getNoticeList = () => {
     const newArray = [];
@@ -51,7 +50,6 @@ const Calendar = () => {
         companyName: data.coName,
       }),
     );
-    noticeData.forEach(data => console.log(data.noticeSeq));
     setNoticeList(newArray);
   };
 
@@ -100,7 +98,7 @@ const Calendar = () => {
   };
   return (
     <Wrapper>
-      <CalendarSet searchDate={searchDate} />
+      <CalendarSet searchDate={searchDate} setSearchDate={setSearchDate} />
       <MonthCalendar
         monthData={monthMenu}
         getNotice={getNotice}

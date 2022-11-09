@@ -280,6 +280,7 @@ const DayCalendar = ({
   };
 
   const plusButtonClicked = () => {
+    setScheduleDate(`${getYYMMFormat(searchDate, dayData.day)} 23:59:59`);
     setModalOpen(true);
   };
 
@@ -297,7 +298,6 @@ const DayCalendar = ({
       }
       // 현재 태그 리스트에 입력한 태그가 존재할 시
       if (tagList.indexOf(tagItem) !== -1) {
-        console.log('있음');
         return;
       }
       setTagItem('');
@@ -348,7 +348,6 @@ const DayCalendar = ({
         },
       ],
     };
-    console.log(data);
     axiosInstance.post(apis.notice, data).then(response => {
       closeModal();
       getNotice();
@@ -378,13 +377,10 @@ const DayCalendar = ({
     schedules.sort(
       (a, b) => new Date(a.scheduleDate) - new Date(b.scheduleDate),
     );
-    notice[0].schedules = schedules;
     console.log(notice[0]);
     axiosInstance.patch(apis.notice, notice[0]).then(response => {
-      if (response.status === 200) {
-        closeModal();
-        getNotice();
-      }
+      closeModal();
+      getNotice();
     });
   };
 
