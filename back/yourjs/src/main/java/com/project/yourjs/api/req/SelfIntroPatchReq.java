@@ -3,7 +3,8 @@ package com.project.yourjs.api.req;
 import lombok.Getter;
 
 @Getter
-public class Self_IntroPostReq {
+public class SelfIntroPatchReq {
+    private Integer selfIntroSeq;
     private String question;
     private String contents;
     private Integer noticeSeq;

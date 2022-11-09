@@ -49,7 +49,7 @@ public class Notice {
   @Column(name = "mod_dtm")
   private LocalDateTime modDtm;
 
-  @Column(name = "link", length = 45)
+  @Column(name = "link", length = 300)
   private String link;
 
   @Column(name = "notice_tag")

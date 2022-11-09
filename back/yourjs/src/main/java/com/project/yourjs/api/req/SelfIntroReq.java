@@ -3,7 +3,7 @@ package com.project.yourjs.api.req;
 import lombok.Getter;
 
 @Getter
-public class Self_IntroReq {
+public class SelfIntroReq {
     private String question;
     private String contents;
     private Integer maxLength;
