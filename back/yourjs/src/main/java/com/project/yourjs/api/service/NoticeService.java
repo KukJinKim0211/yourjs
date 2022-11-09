@@ -25,6 +25,7 @@ import com.project.yourjs.db.entity.User;
 import com.project.yourjs.db.repository.NoticeRepository;
 import com.project.yourjs.db.repository.NoticeTagRepository;
 import com.project.yourjs.db.repository.ScheduleRepository;
+import com.project.yourjs.db.repository.SelfIntroRepository;
 import com.project.yourjs.db.repository.UserRepository;
 
 @Service
@@ -33,13 +34,15 @@ public class NoticeService {
     private final UserRepository userRepository;
     private final NoticeTagRepository noticeTagRepository;
     private final ScheduleRepository scheduleRepository;
+    private final SelfIntroService selfIntroService;
 
     public NoticeService(NoticeRepository noticeRepository, UserRepository userRepository,
-            NoticeTagRepository noticeTagRepository, ScheduleRepository scheduleRepository) {
+            NoticeTagRepository noticeTagRepository, ScheduleRepository scheduleRepository, SelfIntroService selfIntroService) {
         this.noticeRepository = noticeRepository;
         this.userRepository = userRepository;
         this.noticeTagRepository = noticeTagRepository;
         this.scheduleRepository = scheduleRepository;
+        this.selfIntroService = selfIntroService;
     }
 
     public List<NoticeGetRes> getAllNotice(String userId) {
@@ -105,6 +108,7 @@ public class NoticeService {
                         scheduleRes.setScheduleDate(dateTime);
                         schedulesRes.add(scheduleRes);
                     }
+                    noticeGetRes.setSchedules(schedulesRes);
                 }
                 List<NoticeTag> noticeTagList = noticeTagRepository.findAllByNoticeSeq(notice.getNoticeSeq());
                 if (noticeTagList != null) {
@@ -117,6 +121,8 @@ public class NoticeService {
                         sb.delete(sb.length() - 2, sb.length());
                     noticeGetRes.setNoticeTag(sb.toString());
                 }
+                noticeGetRes.setIntros(selfIntroService.getSelfIntroByNoticeSeq(noticeSeq));
+                System.out.println(noticeGetRes.getIntros());
                 return noticeGetRes;
             }
         }

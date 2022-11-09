@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Self_IntroPostRes {
-    private String result; 
+public class SelfIntroDeleteRes {
+    String result;
 }

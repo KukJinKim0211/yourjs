@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Self_IntroGetRes {
+public class SelfIntroGetRes {
     private Integer introSeq;
     private String question;
     private String contents;

@@ -3,6 +3,7 @@ package com.project.yourjs.db.entity;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +28,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "self_introduce")
-public class Self_Intro {
+public class SelfIntro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "intro_seq")
@@ -35,7 +36,7 @@ public class Self_Intro {
 
     @JsonBackReference
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "userSeq")
+    @JoinColumn(name = "user_seq")
     private User user;
 
     @JsonBackReference

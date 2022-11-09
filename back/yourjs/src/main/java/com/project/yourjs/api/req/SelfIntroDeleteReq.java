@@ -3,6 +3,6 @@ package com.project.yourjs.api.req;
 import lombok.Getter;
 
 @Getter
-public class Self_IntroDeleteReq {
+public class SelfIntroDeleteReq {
     private Integer selfIntroSeq;
 }

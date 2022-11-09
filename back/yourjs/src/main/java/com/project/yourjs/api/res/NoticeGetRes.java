@@ -19,4 +19,5 @@ public class NoticeGetRes {
     private String progress;
     private String noticeTag;
     private List<ScheduleRes> schedules;
+    private List<SelfIntroGetRes> intros;
 }
