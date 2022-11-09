@@ -12,8 +12,9 @@ export const colors = {
   negativeMsgColor: 'red',
 
   // 파랑하늘 테마색상 # BS 숫자가 작을수록 채도가 낮음
-  bsColor1: '#EFFFFD',
-  bsColor2: '#B8FFF9',
-  bsColor3: '#85F4FF',
-  bsColor4: '#42C2FF', // main Calendar 타이틀 이름 색상
+  bsColor0: '#fdf5eb',
+  bsColor1: '#FDEEDC',
+  bsColor2: '#FFD8A9',
+  bsColor3: '#F1A661',
+  bsColor4: '#E38B29', // main Calendar 타이틀 이름 색상
 };
