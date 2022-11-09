@@ -7,6 +7,13 @@ import MyNoticeDetail from './MyNoticeDetail';
 import { useEffect } from 'react';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
+import { colors } from '../../common/color';
+import plusbutton from '../../img/noticeadd.png'
+import {
+  faCirclePlus,
+ 
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // 아이템 리스트
 const ItemList = styled.div`
@@ -16,13 +23,27 @@ const ItemList = styled.div`
   flex-direction: column;
   color: black;
   height: 320px;
-  background-color: #f8ede3;
+  background-color: ${colors.bsColor1}; // 카드 한장한장 배경화면 색깔
   margin-top: 30px;
-  border-radius: 10%;
-  box-shadow: 0.5rem 0.5rem 0.5rem gray;
-  .state {
+  border-radius: 10px;
+  box-shadow: 0.5rem 0.5rem 0.5rem ${colors.bsColor2};
+  .progress {
+    color : ${colors.bsColor3};
     justify-content: center;
-    padding-left: 30%;
+    padding-top: 10px;
+    padding-left: 35%;
+    font-size: 16px;
+    font-weight: 900;
+  }
+  .coName {
+    
+  }
+
+  .noticeName{
+    
+  }
+  .tag {
+    
   }
   .regdate {
     justify-content: center;
@@ -31,11 +52,14 @@ const ItemList = styled.div`
   }
 
   &:hover {
-    box-shadow: 0.5rem 0.5rem 0.5rem #b2b2b2;
+    box-shadow: 0.5rem 0.5rem 0.5rem ${colors.bsColor0};
   }
 
   cursor: pointer;
 `;
+
+
+
 
 // 검색 div
 const SearchDiv = styled.div`
@@ -44,12 +68,12 @@ const SearchDiv = styled.div`
 `;
 // 태그를 담을 div box
 const TagBox = styled.div`
-  display: grid;
-  justify-content: space-evenly;
-  min-height: 90px;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 70px;
   column-gap: 10px;
-  row-gap: 10px;
-  grid: '. .';
+  
+  padding: 0px 20px 0px 20px;
 `;
 // 태그 하나하나의 div
 const TagItemBox = styled.div`
@@ -58,8 +82,8 @@ const TagItemBox = styled.div`
   align-items: center;
   border-radius: 10px;
   font-size: 15px;
-  padding: 5px 20px;
-  background-color: aliceblue;
+  padding : 0px 8px 0px 8px;
+  background-color: ${colors.bsColor2};
   width: fit-content;
   height: 30px;
 `;
@@ -70,14 +94,21 @@ const SearchInput = styled.input`
   width: 350px;
   height: 40px;
   border-radius: 5px;
+  
+
+  
 `;
 // 아이템 나누기
 const ItemGrid = styled.div`
+  
   font-weight: 600;
   width: ${props => props.width};
   height: ${props => props.height};
   display: flex;
   justify-content: center;
+  text-align: center;
+
+  
   margin-left: ${props => props.marginLeft};
   margin-top: ${props => props.marginTop};
   font-size: 20px;
@@ -97,37 +128,86 @@ const Wrapper = styled.div`
 `;
 // 카드 여러개 map 해주는 style div
 const ListTotal = styled.div`
-  width: 100%;
+  
   height: 100%;
-  display: grid;
+  display: flex;
   margin-bottom: 10%;
   row-gap: 80px;
   column-gap: 40px;
-  grid: '. . .';
-  justify-content: space-between;
+  flex-wrap: wrap;
 `;
+//셀렉트
+const ProgressSelect = styled.select`
+  background-color: ${colors.bsColor2};
+  margin-left: 10px;
+
+
+  option {
+    background-color: ${colors.bsColor1};
+  }
+`
+
 
 // 자소서 작성 버튼
 const CreateButton = styled.div`
   border-radius: 10px;
-  box-shadow: 0.1rem 0.1rem 0.1rem #5837d0;
+  box-shadow: 0.1rem 0.1rem 0.1rem ${colors.bsColor4};
   display: flex;
   justify-content: center;
   align-items: center;
   width: 200px;
   height: 50px;
-  background-color: #81c6e8;
+  background-color: ${colors.bsColor3};
   border-radius: 5px;
+  font-size: 18px;
+  color : ${colors.bsColor1};
 
   :hover {
-    background-color: #5da7db;
-    box-shadow: 0.2rem 0.2rem 0.2rem #5837d0;
+    background-color: ${colors.bsColor2};
+    box-shadow: 0.2rem 0.2rem 0.2rem ${colors.bsColor3};
   }
 `;
 
 const SearchButton = styled.button`
   margin-left: 50px;
 `;
+const ButtonImg = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  position: fixed;
+  left: 80%;
+  top: 73%;
+  cursor: pointer;
+  border-radius: 70%;
+  background-color: red;
+`;
+
+const ButtonImg2 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width : 250px;
+  height: 250px;
+  border-radius: 70%;
+  background-color: white;
+  font-size: 150px;
+`
+
+
+//테스트 버튼
+const TestButton = styled.button`
+  position: fixed;
+  left: 82%;
+  top : 65%;
+
+  width: 300px;
+  height: 300px;
+  background-color: red;
+`
 
 
 const MyNoticeList = () => {
@@ -251,11 +331,11 @@ const MyNoticeList = () => {
         style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}
       >
         <Link to="/notice/add" style={{ textDecoration: 'none' }}>
-          <CreateButton id="contentFont">자소서 작성</CreateButton>
+          <CreateButton id="contentFont">공고 추가</CreateButton>
         </Link>
       </div>
       <div>
-        <select
+        <ProgressSelect
           id="contentFont"
           defaultValue="전체보기"
           onChange={handleDropdownState}
@@ -265,13 +345,13 @@ const MyNoticeList = () => {
           <option value="서류탈락">서류탈락</option>
           <option value="최종합격">최종합격</option>
           <option value="면접탈락">면접탈락</option>
-        </select>
+        </ProgressSelect>
       </div>
       <ListTotal>
         {dummyData.map((dummy, index) => (
-          <div key={index}>
+          
             
-              <ItemList onClick={()=>{navigate('/notice/detail',{
+              <ItemList key={index} onClick={()=>{navigate('/notice/detail',{
                 state:{
                   noticeSeq : dummy.noticeSeq
                 }
@@ -279,32 +359,40 @@ const MyNoticeList = () => {
                 {/* <ItemGrid className="regdate" id="titleFont" width="100%">
                   {dummy.regDate}
                 </ItemGrid> */}
-                <ItemGrid id="contentFont" width="100%" marginTop="40px">
+                <ItemGrid className="progress" id="titleFont" width="100%">
+                  {dummy.progress}
+                </ItemGrid>
+                <ItemGrid className="coName"id="contentFont" width="250px" marginTop="40px" >
                   {dummy.coName}
                 </ItemGrid>
 
-                <ItemGrid id="contentFont" width="100%" marginTop="20px">
+                <ItemGrid className="noticeName" id="contentFont" width="250px" marginTop="20px">
                   {dummy.noticeName}
                 </ItemGrid>
                 <br></br>
                 <TagBox>
                   {dummy?.noticeTag?.split(', ').map((tag, index) => (
-                    <TagItemBox id="contentFont" key={index}>
+                    <TagItemBox className="tag" id="contentFont" key={index}>
                       # {tag}
                     </TagItemBox>
                   ))}
                 </TagBox>
                 <br></br>
 
-                <ItemGrid className="state" id="titleFont" width="100%">
-                  {dummy.progress}
-                </ItemGrid>
+                
                 <br></br>
               </ItemList>
             
-          </div>
+          
         ))}
       </ListTotal>
+      <Link to="/notice/add" style={{ textDecoration: 'none' }}>
+        <ButtonImg><ButtonImg2>➕</ButtonImg2>
+      {/* <FontAwesomeIcon size='4x' icon={faCirclePlus}></FontAwesomeIcon> */}
+
+      </ButtonImg>
+      
+      </Link>
     </Wrapper>
   );
 };

@@ -4,10 +4,12 @@ import { useState, useEffect } from 'react';
 import MyNoticeAdd from './MyNoticeAdd.jsx';
 import '../../App.css';
 import MyNoticeAddcomponent from './MyNoticeAddcomponent.jsx';
-import MyNoticeDate from './MyNoticeDate.jsx';
 import { useLocation } from 'react-router-dom';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
+import MyNoticePlus from './MyNoticePlus.jsx';
+import MyNoticeSchedule from './MyNoticeSchedule.jsx';
+
 
 const Wrapper = styled.div`
   height: fit-content;
@@ -29,6 +31,24 @@ const CompanyBox = styled.div`
     color: #3c4048;
   }
 `;
+
+//태그 입력 창
+const TagInput = styled.input`
+  border: none;
+  border-bottom: 3px solid gray;
+  width: 80%;
+  height: 40px;
+  :focus {
+    outline: none;
+  }
+`
+
+// 큰 태그 박스
+
+const TagBigBox = styled.div`
+  display: flex;
+  
+`
 
 //자기소개서 작성창 여는 버튼
 const CreateButton = styled.button`
@@ -67,6 +87,9 @@ const TagBox = styled.div`
   display: flex;
   align-items: center;
   font-weight: 700;
+  margin-right: 10px;
+  margin-top: 10px;
+  
 `;
 //컨텐츠 박스 제목
 const ContentTitle = styled.div`
@@ -124,6 +147,10 @@ const ContentContent2 = styled.textarea`
     outline: none;
   }
 `;
+
+const DeleteButton = styled.div`
+  margin-left: 5px;
+`
 
 //컨텐츠 박스내에 현재 글자수 box
 const ContentCountBox = styled.div`
@@ -226,6 +253,9 @@ const MyNoticeDetail = () => {
   const [editFlag, setEditFlag] = useState([false, false, false]);
   const [addFlag, setAddFlag] = useState(false);
   const [noticeData,setNoticeData] = useState([]);
+  const [tagItem, setTagItem] = useState('');
+  const [scheduleFlag, setScheduleFlag] = useState(false);
+  const [totalData,setTotalData] = useState([]);
   
   // 수정 글자수 count
   // const [editCount, setEditCount] = useState('');
@@ -254,10 +284,7 @@ const MyNoticeDetail = () => {
 
 
 
-  // 아직 미구현
-  const getChildData =() =>{
-    console.log(123123)
-  }
+
 
   
   // 항목추가 변경 함수
@@ -281,6 +308,39 @@ const MyNoticeDetail = () => {
 
   // }
 
+  const handleTagChange = (e) => {
+
+    setTagItem(e.target.value)
+
+  }
+
+
+  const handleProgressChange =(e) => {
+    setNoticeData({...noticeData, progress : e.target.value })
+  }
+
+
+  const onKeyDownHandler = (e) => {
+    if (e.key === "Enter") {
+      // 추가해서 바꾼다 
+      console.log(noticeData.noticeTag + `, ${e.target.value}`,"체크용")
+      
+      setNoticeData({...noticeData,noticeTag : noticeData.noticeTag + `, ${e.target.value}` })
+      setTagItem('');
+    }
+  }
+
+  const handleLinkChange = (e) => {
+    setNoticeData({...noticeData, link: e.target.value})
+  }
+
+
+    // // 태그 삭제
+    // const deleteTag = tag => {
+    //   const newArray = tagList.filter(d => d !== tag);
+    //   setTagList(newArray);
+    // };
+
   return (
     // 제목을 두개로 나누는 div
     <Wrapper>
@@ -295,7 +355,7 @@ const MyNoticeDetail = () => {
         
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
           <h3 style={{ width: '15%' }}>결과를 선택하세요 : </h3>
-          <Select defaultValue={noticeData.progress}>
+          <Select onChange={handleProgressChange} defaultValue={noticeData.progress}>
             <option id="titleFont" value="진행중">
             진행중
             </option>
@@ -313,12 +373,25 @@ const MyNoticeDetail = () => {
         </div>
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
           <h3 style={{ width: '100%' }}>
-            채용사이트 : <UrlInput id="titleFont" defaultValue={noticeData.link}></UrlInput>
+            채용사이트 : <UrlInput id="titleFont" onChange={handleLinkChange} defaultValue={noticeData.link} ></UrlInput>
           </h3>
         </div>
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-          <h3 style={{ width: '100%' }}>일정등록 : </h3>
+          <h3 style={{ width: '100%' }}>일정 : {scheduleFlag && (<MyNoticeSchedule></MyNoticeSchedule>)}</h3>
+          <button onClick={()=> setScheduleFlag(!scheduleFlag)}>+</button>
         </div>
+        <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+           <TagInput id="titleFont" placeholder='태그를 추가하세요' value={tagItem} onKeyDown={onKeyDownHandler} onChange={handleTagChange}></TagInput>
+          
+        </div>
+        <div style={{ width: '100%', display: 'flex', alignItems: 'center', }}>
+          <TagBigBox>{noticeData?.noticeTag?.split(', ').map((tag,index) => (
+            <TagBox key={index}>#{tag} </TagBox>
+          ))}</TagBigBox>
+          
+        </div>
+        
+        
       </CompanyBox>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <CreateButton id="contentFont" onClick={handleChangeAddFlag}>
@@ -328,7 +401,7 @@ const MyNoticeDetail = () => {
       {/* 항목추가 눌를때 항목이 생성 */}
       {addFlag && (
         <div>
-          <MyNoticeAddcomponent></MyNoticeAddcomponent>
+          <MyNoticePlus></MyNoticePlus>
           <br></br>
           <div style={{ display: 'flex', justifyContent: 'flex-end ' }}>
             <CreateButton2 id="contentFont">저장</CreateButton2>
@@ -404,8 +477,10 @@ const MyNoticeDetail = () => {
             )}
           </ContentBox>
           <br></br>
+          
         </div>
       ))}
+      <button>저장하기</button>
     </Wrapper>
   );
 };
