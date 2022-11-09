@@ -69,9 +69,7 @@ const MainCount = () => {
       icon: faAddressCard,
     },
   ]);
-  const [nickname, setNickname] = useState(
-    useSelector(state => state.nickname),
-  );
+  const [nickname, setNickname] = useState(sessionStorage.getItem('nickname'));
 
   const getNotice = () => {
     axiosInstance.get(apis.notice).then(response => {

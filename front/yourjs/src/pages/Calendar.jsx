@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { subMonths, addMonths, startOfMonth, endOfMonth } from 'date-fns';
 import MonthCalendar from '../components/Calendar/MonthCalendar';
+import CalendarSet from '../components/Calendar/CalendarSet';
 import styled from 'styled-components';
 import { fullWidth } from '../common/size';
 import axiosInstance from '../common/customAxios';
@@ -19,6 +20,8 @@ const Calendar = () => {
   const [searchDate, setSearchDate] = useState(new Date());
   // 공고 총 데이터
   const [noticeData, setNoticeData] = useState([]);
+  // 공고 명 리스트
+  const [noticeList, setNoticeList] = useState([]);
   // 서버에서 응답받은 공고 데이터 상태 관리
   const [monthMenu, setMonthMenu] = useState([]);
 
@@ -30,12 +33,27 @@ const Calendar = () => {
 
   useEffect(() => {
     getNotice();
+    dataSetting();
   }, []);
 
   useEffect(() => {
     if (noticeData.length === 0) return;
     dataSetting(noticeData);
+    getNoticeList();
   }, [noticeData]);
+
+  const getNoticeList = () => {
+    const newArray = [];
+    noticeData.forEach(data =>
+      newArray.push({
+        noticeName: data.noticeName,
+        noticeSeq: data.noticeSeq,
+        companyName: data.coName,
+      }),
+    );
+    noticeData.forEach(data => console.log(data.noticeSeq));
+    setNoticeList(newArray);
+  };
 
   // 하위 컴포넌트로 보낼 데이터 포매팅
   const dataSetting = data => {
@@ -53,13 +71,10 @@ const Calendar = () => {
       // 하루 기준으로 객체 관리
       for (let j = 0; j < 7; j++) {
         const day = idIdx > startDay ? (dayIdx <= endDay ? dayIdx++ : 0) : 0;
-        // const filteredData = data.filter(item => {
-        //   return parseInt(item.meal_date.split('-')[2]) === day;
-        // });
         // 오늘의 날짜 구하기 YYYY-MM-DD
         const today = `${getYYMMFormat(searchDate, day)}`;
         const scheduleData = [];
-        noticeData.forEach(notice =>
+        noticeData.forEach(notice => {
           notice.schedules.forEach(sche => {
             if (sche.scheduleDate.slice(0, 10) === today) {
               scheduleData.push({
@@ -68,8 +83,8 @@ const Calendar = () => {
                 scheduleDate: sche.scheduleDate,
               });
             }
-          }),
-        );
+          });
+        });
         const obj = {
           id: idIdx,
           day: day,
@@ -85,10 +100,13 @@ const Calendar = () => {
   };
   return (
     <Wrapper>
+      <CalendarSet searchDate={searchDate} />
       <MonthCalendar
         monthData={monthMenu}
         getNotice={getNotice}
         searchDate={searchDate}
+        noticeList={noticeList}
+        noticeData={noticeData}
       ></MonthCalendar>
     </Wrapper>
   );

@@ -9,9 +9,10 @@ import { fullWidth } from '../common/size';
 
 const Wrapper = styled.div`
   width: 60%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 `;
 
@@ -35,7 +36,7 @@ const RecommendDiv = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 15px;
-  background-color: ${colors.bsColor1};
+  background-color: ${colors.bsColor0};
 `;
 
 const RecommendTitleDiv = styled.div`
@@ -49,12 +50,6 @@ const RecommendContentDiv = styled.div`
   margin-left: 2%;
   margin-right: 2%;
   height: 60%;
-`;
-
-const CarouselDiv = styled.div`
-  width: 100%;
-  height: 20%;
-  background-color: skyblue;
 `;
 
 const RecommendTitleText = styled.p`

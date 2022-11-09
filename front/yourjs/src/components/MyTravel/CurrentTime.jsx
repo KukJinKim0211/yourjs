@@ -8,14 +8,14 @@ const Wrapper = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
-  background-color: ${colors.bsColor1};
+  background-color: ${colors.bsColor0};
   border-radius: 15px;
   align-items: center;
 `;
 
 const TimeText = styled.p`
   font-size: 56px;
-  color: rgba(0, 0, 0, 0.7);
+  color: ${colors.bsColor4};
 `;
 
 const CurrentTime = () => {

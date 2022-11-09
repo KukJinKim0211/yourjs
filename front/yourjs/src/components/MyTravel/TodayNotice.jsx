@@ -8,7 +8,7 @@ import { colors } from '../../common/color';
 const Wrapper = styled.div`
   width: 33%;
   height: 100%;
-  background-color: ${colors.bsColor1};
+  background-color: ${colors.bsColor0};
   border-radius: 15px;
   display: flex;
   flex-direction: column;

@@ -13,10 +13,12 @@ const Wrapper = styled.div`
 const NoticeDiv = styled.div`
   width: 250px;
   height: 140px;
-  background-color: aliceblue;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: white;
+  border: 1px solid ${colors.bsColor2};
+  border-radius: 10px;
   &:hover {
-    border: 2px solid rgba(0, 0, 0, 0.5);
+    border: 2px solid ${colors.bsColor3};
+    cursor: pointer;
   }
 `;
 
@@ -26,21 +28,20 @@ const NoticeTitleDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${colors.bsColor2};
   font-size: 18px;
+  border-bottom: 1px solid ${colors.bsColor2};
 `;
 
 const NoticeContentDiv = styled.div`
   width: 100%;
-  height: 80px;
-  background-color: ${colors.bsColor1};
-  font-size: 14px;
+  height: 75px;
+  font-size: 15px;
 `;
 
 const NoticeDateDiv = styled.div`
   width: 100%;
-  height: 20px;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  height: 25px;
+  border-top: 1px solid ${colors.bsColor2};
   color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: space-between;

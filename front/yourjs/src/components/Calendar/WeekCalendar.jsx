@@ -7,7 +7,13 @@ const Wrapper = styled.div`
   display: flex;
 `;
 
-const WeekCalendar = ({ weekData, getNotice, searchDate }) => {
+const WeekCalendar = ({
+  weekData,
+  getNotice,
+  searchDate,
+  noticeList,
+  noticeData,
+}) => {
   return (
     <Wrapper>
       {weekData.map((data, index) => (
@@ -16,6 +22,8 @@ const WeekCalendar = ({ weekData, getNotice, searchDate }) => {
           dayData={data}
           getNotice={getNotice}
           searchDate={searchDate}
+          noticeList={noticeList}
+          noticeData={noticeData}
         />
       ))}
     </Wrapper>

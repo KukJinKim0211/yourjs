@@ -35,6 +35,7 @@ const TitleText = styled.p`
   font-size: 20px;
   color: ${props => props.color};
   font-weight: 600;
+  opacity: 100%;
 `;
 
 const ContentText = styled.p`
@@ -46,7 +47,7 @@ const ContentText = styled.p`
 
 const MainCountItem = ({ data }) => {
   return (
-    <Wrapper backColor={colors.bsColor1}>
+    <Wrapper backColor={colors.bsColor0}>
       <TitleContentDiv>
         <div style={{ height: '50%' }}>
           <TitleText color={colors.bsColor4} id="titleFont">

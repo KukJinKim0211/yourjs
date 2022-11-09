@@ -21,8 +21,8 @@ const Wrapper = styled.div`
 
   background-color: ${props =>
     props.color % 7 === 1 || props.color % 7 === 0
-      ? 'rgba(0, 0, 0, 0.03)'
-      : 'white'};
+      ? `${colors.bsColor1}`
+      : `${colors.bsColor0}`};
 `;
 
 const TitleDiv = styled.div`
@@ -54,16 +54,19 @@ const DayDiv = styled.div`
 `;
 
 const ContentDiv = styled.div`
-  width: 92%;
-  margin-left: 4%;
-  margin-right: 4%;
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-bottom: 1px;
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  height: 40px;
-  font-size: 14px;
+  height: 35px;
+  font-size: 13px;
   user-select: none;
-
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.8);
+  padding-left: 8px;
+  background-color: white;
   &:hover {
     background-color: rgba(0, 0, 0, 0.1);
   }
@@ -144,8 +147,9 @@ const ModalInput = styled.input`
   border: 1px solid rgba(0, 0, 0, 0.3);
   font-size: 16px;
   padding: 6px 3px;
-  width: 100%;
+  width: 96%;
   border-radius: 5px;
+  padding-left: 10px;
 
   &:hover {
     border: 1px solid ${colors.bsColor4};
@@ -179,8 +183,9 @@ const StateSelect = styled.select`
   border: 1px solid rgba(0, 0, 0, 0.3);
   width: 100%;
   font-size: 16px;
-  height: 40px;
+  height: 32px;
   border-radius: 5px;
+  padding-left: 10px;
 
   &:hover {
     border: 1px solid ${colors.bsColor4};
@@ -239,7 +244,13 @@ const TagComponent = ({ tagName, deleteTag }) => {
   );
 };
 
-const DayCalendar = ({ dayData, getNotice, searchDate }) => {
+const DayCalendar = ({
+  dayData,
+  getNotice,
+  searchDate,
+  noticeList,
+  noticeData,
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [tabState, setTabState] = useState(0);
   // 공고등록 관련 State
@@ -253,13 +264,17 @@ const DayCalendar = ({ dayData, getNotice, searchDate }) => {
   const [scheduleDate, setScheduleDate] = useState(
     `${getYYMMFormat(searchDate, dayData.day)} 23:59:59`,
   ); // 일정 날짜
+  // 공고 시퀀스
+  const [noticeSeq, setNoticeSeq] = useState(0);
 
   const hoverOver = e => {
+    if (dayData.day === 0) return;
     const button = e.currentTarget.children[0].children[0].children[0];
     button.classList.remove('buttonView');
   };
 
   const hoverOut = e => {
+    if (dayData.day === 0) return;
     const button = e.currentTarget.children[0].children[0].children[0];
     button.classList.add('buttonView');
   };
@@ -296,8 +311,27 @@ const DayCalendar = ({ dayData, getNotice, searchDate }) => {
     setTagList(newArray);
   };
 
+  // 공고추가 유효성 체크
+  const noticeInvalidCheck = () => {
+    if (
+      noticeName === '' ||
+      companyName === '' ||
+      link === '' ||
+      scheduleDate === '' ||
+      scheduleIndex === 0
+    )
+      return false;
+
+    return true;
+  };
+
   // 공고 추가 버튼 클릭
   const noticeAddButtonClicked = () => {
+    if (!noticeInvalidCheck()) {
+      alert('필수 사항을 입력 해 주세요.');
+      return;
+    }
+
     const data = {
       noticeName,
       link,
@@ -316,8 +350,41 @@ const DayCalendar = ({ dayData, getNotice, searchDate }) => {
     };
     console.log(data);
     axiosInstance.post(apis.notice, data).then(response => {
-      getNotice();
       closeModal();
+      getNotice();
+    });
+  };
+
+  // 일정 추가 유효성 체크
+  const scheduleInvalidCheck = () => {
+    if (noticeSeq === 0 || scheduleIndex === 0) {
+      return false;
+    }
+    return true;
+  };
+
+  const scheduleAddButtonClicked = () => {
+    if (!scheduleInvalidCheck()) {
+      alert('필수 사항을 입력 해 주세요.');
+      return;
+    }
+
+    const notice = noticeData.filter(data => data.noticeSeq === noticeSeq);
+    const schedules = notice[0].schedules;
+    schedules.push({
+      scheduleName: scheduleList[scheduleIndex - 1],
+      scheduleDate: scheduleDate,
+    });
+    schedules.sort(
+      (a, b) => new Date(a.scheduleDate) - new Date(b.scheduleDate),
+    );
+    notice[0].schedules = schedules;
+    console.log(notice[0]);
+    axiosInstance.patch(apis.notice, notice[0]).then(response => {
+      if (response.status === 200) {
+        closeModal();
+        getNotice();
+      }
     });
   };
 
@@ -329,7 +396,12 @@ const DayCalendar = ({ dayData, getNotice, searchDate }) => {
     >
       <TitleDiv>
         <InsertButtonDiv>
-          <InsertButton className="buttonView" onClick={plusButtonClicked}>
+          <InsertButton
+            className="buttonView"
+            onClick={e => {
+              plusButtonClicked();
+            }}
+          >
             <span style={{ color: 'rgba(0, 0, 0, 0.5)', fontSize: '16px' }}>
               +
             </span>
@@ -356,134 +428,264 @@ const DayCalendar = ({ dayData, getNotice, searchDate }) => {
             <ModalLeftTitleDiv
               id="titleFont"
               tabState={tabState}
-              onClick={() => setTabState(0)}
+              onClick={() => {
+                setTabState(0);
+                setScheduleIndex(0);
+              }}
             >
               <span style={{}}>공고추가</span>
             </ModalLeftTitleDiv>
             <ModalRightTitleDiv
               id="titleFont"
               tabState={tabState}
-              onClick={() => setTabState(1)}
+              onClick={() => {
+                setTabState(1);
+                setScheduleIndex(0);
+              }}
             >
               일정추가
             </ModalRightTitleDiv>
           </ModalTitleDivForm>
-          <div style={{ height: '3%' }}></div>
-          <ModalInputLabelDiv>
-            <ModalLabelDiv>공고명</ModalLabelDiv>
-            <ModalInputDiv>
-              <ModalInput
-                type="text"
-                placeholder="삼성 청년 SW 아카데미 9기 모집"
-                value={noticeName}
-                onChange={e => setNoticeName(e.target.value)}
-                maxLength={25}
-              ></ModalInput>
-            </ModalInputDiv>
-          </ModalInputLabelDiv>
-          <ModalInputLabelDiv>
-            <ModalLabelDiv>회사명</ModalLabelDiv>
-            <ModalInputDiv>
-              <ModalInput
-                type="text"
-                placeholder="삼성 청년 SW 아카데미"
-                value={companyName}
-                onChange={e => setCompanyName(e.target.value)}
-                maxLength={25}
-              ></ModalInput>
-            </ModalInputDiv>
-          </ModalInputLabelDiv>
-          <ModalInputLabelDiv>
-            <ModalLabelDiv>지원링크</ModalLabelDiv>
-            <ModalInputDiv>
-              <ModalInput
-                type="text"
-                placeholder="https://www.ssafy.com/ksp/jsp/swp/apply/swpApplyProcess.jsp"
-                value={link}
-                onChange={e => setLink(e.target.value)}
-                maxLength={100}
-              ></ModalInput>
-            </ModalInputDiv>
-          </ModalInputLabelDiv>
-          <ModalInputLabelDiv>
-            <ModalLabelDiv>연관태그등록</ModalLabelDiv>
-            <ModalInputDiv>
-              <ModalInput
-                type="text"
-                value={tagItem}
-                onChange={e => setTagItem(e.target.value)}
-                maxLength={10}
-                onKeyDown={e => enterKeyDownHandler(e)}
-              ></ModalInput>
-            </ModalInputDiv>
-          </ModalInputLabelDiv>
-          <ModalTagDiv>
-            {tagList.map((tag, index) => (
-              <TagComponent key={index} tagName={tag} deleteTag={deleteTag} />
-            ))}
-          </ModalTagDiv>
-          <ModalInputLabelDiv>
-            <ModalLabelDiv>일시</ModalLabelDiv>
-            <ModalInputDiv>
-              <ModalInput
-                type="text"
-                value={scheduleDate}
-                onChange={e => setScheduleDate(e.target.value)}
-                maxLength={20}
-                onKeyDown={e => enterKeyDownHandler(e)}
-              ></ModalInput>
-            </ModalInputDiv>
-          </ModalInputLabelDiv>
-
-          <ModalInputLabelDiv>
-            <ModalLabelDiv>일정</ModalLabelDiv>
-            <ModalInputDiv>
-              <StateSelect
-                id="titleFont"
-                defaultValue={0}
-                onChange={e => setScheduleIndex(parseInt(e.target.value))}
-              >
-                <option id="titleFont" value={0}>
-                  항목을 선택해주세요.
-                </option>
-                {scheduleList.map((schedule, index) => (
-                  <option key={index + 1} id="titleFont" value={index + 1}>
-                    {schedule}
-                  </option>
+          <div
+            style={{
+              height: '10%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              fontSize: '20px',
+            }}
+            id="titleFont"
+          >
+            {tabState === 0
+              ? '새로운 공고를 추가합니다.'
+              : '이미 등록된 공고에 새로운 일정을 추가합니다.'}
+          </div>
+          {tabState === 0 ? (
+            <>
+              <ModalInputLabelDiv style={{ marginTop: '0%' }}>
+                <ModalLabelDiv>
+                  공고명<span style={{ color: 'red' }}> *</span>
+                </ModalLabelDiv>
+                <ModalInputDiv>
+                  <ModalInput
+                    type="text"
+                    placeholder="삼성 청년 SW 아카데미 9기 모집"
+                    value={noticeName}
+                    onChange={e => setNoticeName(e.target.value)}
+                    maxLength={25}
+                  ></ModalInput>
+                </ModalInputDiv>
+              </ModalInputLabelDiv>
+              <ModalInputLabelDiv>
+                <ModalLabelDiv>
+                  회사명<span style={{ color: 'red' }}> *</span>
+                </ModalLabelDiv>
+                <ModalInputDiv>
+                  <ModalInput
+                    type="text"
+                    placeholder="삼성 청년 SW 아카데미"
+                    value={companyName}
+                    onChange={e => setCompanyName(e.target.value)}
+                    maxLength={25}
+                  ></ModalInput>
+                </ModalInputDiv>
+              </ModalInputLabelDiv>
+              <ModalInputLabelDiv>
+                <ModalLabelDiv>
+                  지원링크<span style={{ color: 'red' }}> *</span>
+                </ModalLabelDiv>
+                <ModalInputDiv>
+                  <ModalInput
+                    type="text"
+                    placeholder="https://www.ssafy.com/ksp/jsp/swp/apply/swpApplyProcess.jsp"
+                    value={link}
+                    onChange={e => setLink(e.target.value)}
+                    maxLength={100}
+                  ></ModalInput>
+                </ModalInputDiv>
+              </ModalInputLabelDiv>
+              <ModalInputLabelDiv>
+                <ModalLabelDiv>연관태그등록</ModalLabelDiv>
+                <ModalInputDiv>
+                  <ModalInput
+                    type="text"
+                    value={tagItem}
+                    onChange={e => setTagItem(e.target.value)}
+                    maxLength={10}
+                    onKeyDown={e => enterKeyDownHandler(e)}
+                  ></ModalInput>
+                </ModalInputDiv>
+              </ModalInputLabelDiv>
+              <ModalTagDiv>
+                {tagList.map((tag, index) => (
+                  <TagComponent
+                    key={index}
+                    tagName={tag}
+                    deleteTag={deleteTag}
+                  />
                 ))}
-              </StateSelect>
-              {scheduleIndex === 10 && (
-                <ModalInput
-                  type="text"
-                  value={scheduleName}
-                  onChange={e => setScheduleName(e.target.value)}
-                  maxLength={20}
-                ></ModalInput>
-              )}
-            </ModalInputDiv>
-          </ModalInputLabelDiv>
-          <ModalButtonDivForm>
-            <ModalButtonDiv>
-              <ModalButton
-                id="contentFont"
-                color={colors.bsColor4}
-                type={0}
-                onClick={() => noticeAddButtonClicked()}
-              >
-                추가하기
-              </ModalButton>
-            </ModalButtonDiv>
-            <ModalButtonDiv>
-              <ModalButton
-                id="contentFont"
-                color="rgba(0, 0, 0, 0.3)"
-                type={1}
-                onClick={() => closeModal()}
-              >
-                닫기
-              </ModalButton>
-            </ModalButtonDiv>
-          </ModalButtonDivForm>
+              </ModalTagDiv>
+              <ModalInputLabelDiv>
+                <ModalLabelDiv>
+                  일시<span style={{ color: 'red' }}> *</span>
+                </ModalLabelDiv>
+                <ModalInputDiv>
+                  <ModalInput
+                    type="text"
+                    value={scheduleDate}
+                    onChange={e => setScheduleDate(e.target.value)}
+                    maxLength={20}
+                    onKeyDown={e => enterKeyDownHandler(e)}
+                  ></ModalInput>
+                </ModalInputDiv>
+              </ModalInputLabelDiv>
+
+              <ModalInputLabelDiv>
+                <ModalLabelDiv>
+                  일정<span style={{ color: 'red' }}> *</span>
+                </ModalLabelDiv>
+                <ModalInputDiv>
+                  <StateSelect
+                    id="titleFont"
+                    defaultValue={0}
+                    onChange={e => setScheduleIndex(parseInt(e.target.value))}
+                  >
+                    <option id="titleFont" value={0}>
+                      항목을 선택해주세요.
+                    </option>
+                    {scheduleList.map((schedule, index) => (
+                      <option key={index + 1} id="titleFont" value={index + 1}>
+                        {schedule}
+                      </option>
+                    ))}
+                  </StateSelect>
+                  {scheduleIndex === 10 && (
+                    <ModalInput
+                      type="text"
+                      value={scheduleName}
+                      onChange={e => setScheduleName(e.target.value)}
+                      maxLength={20}
+                    ></ModalInput>
+                  )}
+                </ModalInputDiv>
+              </ModalInputLabelDiv>
+              <ModalButtonDivForm>
+                <ModalButtonDiv>
+                  <ModalButton
+                    id="contentFont"
+                    color={colors.bsColor4}
+                    type={0}
+                    onClick={() => noticeAddButtonClicked()}
+                  >
+                    추가하기
+                  </ModalButton>
+                </ModalButtonDiv>
+                <ModalButtonDiv>
+                  <ModalButton
+                    id="contentFont"
+                    color="rgba(0, 0, 0, 0.3)"
+                    type={1}
+                    onClick={() => closeModal()}
+                  >
+                    닫기
+                  </ModalButton>
+                </ModalButtonDiv>
+              </ModalButtonDivForm>
+            </>
+          ) : (
+            <>
+              <ModalInputLabelDiv>
+                <ModalLabelDiv>
+                  공고명<span style={{ color: 'red' }}> *</span>
+                </ModalLabelDiv>
+                <ModalInputDiv>
+                  <StateSelect
+                    id="titleFont"
+                    defaultValue={noticeSeq}
+                    onChange={e => setNoticeSeq(parseInt(e.target.value))}
+                  >
+                    <option id="titleFont" value={0}>
+                      항목을 선택해주세요.
+                    </option>
+                    {noticeList?.map((notice, index) => (
+                      <option
+                        key={index + 1}
+                        id="titleFont"
+                        value={notice.noticeSeq}
+                      >
+                        {`${notice.noticeName} - ${notice.companyName}`}
+                      </option>
+                    ))}
+                  </StateSelect>
+                </ModalInputDiv>
+              </ModalInputLabelDiv>
+              <ModalInputLabelDiv>
+                <ModalLabelDiv>
+                  일시<span style={{ color: 'red' }}> *</span>
+                </ModalLabelDiv>
+                <ModalInputDiv>
+                  <ModalInput
+                    type="text"
+                    value={scheduleDate}
+                    onChange={e => setScheduleDate(e.target.value)}
+                    maxLength={20}
+                    onKeyDown={e => enterKeyDownHandler(e)}
+                  ></ModalInput>
+                </ModalInputDiv>
+              </ModalInputLabelDiv>
+              <ModalInputLabelDiv>
+                <ModalLabelDiv>
+                  일정<span style={{ color: 'red' }}> *</span>
+                </ModalLabelDiv>
+                <ModalInputDiv>
+                  <StateSelect
+                    id="titleFont"
+                    defaultValue={0}
+                    onChange={e => setScheduleIndex(parseInt(e.target.value))}
+                  >
+                    <option id="titleFont" value={0}>
+                      항목을 선택해주세요.
+                    </option>
+                    {scheduleList.map((schedule, index) => (
+                      <option key={index + 1} id="titleFont" value={index + 1}>
+                        {schedule}
+                      </option>
+                    ))}
+                  </StateSelect>
+                  {scheduleIndex === 10 && (
+                    <ModalInput
+                      type="text"
+                      value={scheduleName}
+                      onChange={e => setScheduleName(e.target.value)}
+                      maxLength={20}
+                    ></ModalInput>
+                  )}
+                </ModalInputDiv>
+              </ModalInputLabelDiv>{' '}
+              <ModalButtonDivForm>
+                <ModalButtonDiv>
+                  <ModalButton
+                    id="contentFont"
+                    color={colors.bsColor4}
+                    type={0}
+                    onClick={() => scheduleAddButtonClicked()}
+                  >
+                    추가하기
+                  </ModalButton>
+                </ModalButtonDiv>
+                <ModalButtonDiv>
+                  <ModalButton
+                    id="contentFont"
+                    color="rgba(0, 0, 0, 0.3)"
+                    type={1}
+                    onClick={() => closeModal()}
+                  >
+                    닫기
+                  </ModalButton>
+                </ModalButtonDiv>
+              </ModalButtonDivForm>
+            </>
+          )}
         </ModalDiv>
       </Modal>
     </Wrapper>
