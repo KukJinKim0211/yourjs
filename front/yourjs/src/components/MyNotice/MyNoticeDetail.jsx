@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import MyNoticeAdd from './MyNoticeAdd.jsx';
 import '../../App.css';
 import MyNoticeAddcomponent from './MyNoticeAddcomponent.jsx';
-import { useLocation} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 import MyNoticePlus from './MyNoticePlus.jsx';
@@ -55,8 +55,8 @@ const CreateButton = styled.button`
   height: 60px;
   background-color: ${colors.bsColor2};
   border-radius: 10px;
-  border : 1px solid  ${colors.bsColor3};
-  color : rgba(0, 0, 0, 0.9);
+  border: 1px solid ${colors.bsColor3};
+  color: rgba(0, 0, 0, 0.9);
   cursor: pointer;
 `;
 
@@ -196,7 +196,6 @@ const ResultTag = styled.div`
   box-shadow: 0.1rem 0.1rem 0.1rem gray; ;
 `;
 
-
 const UrlInput = styled.input`
   margin-left: 50px;
   width: 150px;
@@ -272,6 +271,8 @@ const MyNoticeDetail = () => {
   const [scheduleFlag, setScheduleFlag] = useState(false);
   const [totalData, setTotalData] = useState([]);
   const [contentList, setContentList] = useState([]);
+  const [firstSelfData, setFirstSelfData] = useState([]); // 첫값 저장해놓는곳
+
 
   // 수정 글자수 count
   // const [editCount, setEditCount] = useState('');
@@ -285,12 +286,16 @@ const MyNoticeDetail = () => {
     axiosInstance
       .get(apis.notice + `/${location.state.noticeSeq}`)
       .then(response => {
-        console.log(response.data, '디테일 값 받아오기'); 
-        console.log(response.data.intros.length)
-        var arr1 = Array.apply(null, new Array(response.data.intros.length)).map(Number.prototype.valueOf,0)
-        console.log(arr1,"자소서 항목 갯수만큼 리스트 상태관리 위함")
+        console.log(response.data, '디테일 값 받아오기');
+        console.log(response.data.intros.length);
+        var arr1 = Array.apply(
+          null,
+          new Array(response.data.intros.length),
+        ).map(Number.prototype.valueOf, 0); // 0으로 만듬 배열
+        arr1.fill(false); // false 로 0을 바꿈
+        setContentList(arr1);
+        setFirstSelfData(response.data.intros);
         setNoticeData(response.data);
-        
       });
   };
 
@@ -303,10 +308,12 @@ const MyNoticeDetail = () => {
   // 수정 변경 함수
 
   const handleChangeEditFlag = index => {
-    const newFlag = [...editFlag];
+    const newFlag = [...contentList];
     newFlag[index] = !newFlag[index];
-    setEditFlag(newFlag);
+    setContentList(newFlag);
   };
+
+  
 
   // 결과 선택
 
@@ -320,7 +327,6 @@ const MyNoticeDetail = () => {
   };
 
   const handleProgressChange = e => {
-    
     setNoticeData({ ...noticeData, progress: e.target.value });
   };
 
@@ -364,24 +370,24 @@ const MyNoticeDetail = () => {
             onChange={handleProgressChange}
             defaultValue={noticeData?.progress}
           >
-          <option id="titleFont" value="등록">
-            등록
-          </option>
-          <option id="titleFont" value="진행중">
-            진행중
-          </option>
-          <option id="titleFont" value="서류탈락">
-            서류탈락
-          </option>
-          <option id="titleFont" value="코딩테스트탈락">
-            코딩테스트탈락
-          </option>
-          <option id="titleFont" value="면접탈락">
-            면접탈락
-          </option>
-          <option id="titleFont" value="최종합격">
-            최종합격
-          </option>
+            <option id="titleFont" value="등록">
+              등록
+            </option>
+            <option id="titleFont" value="진행중">
+              진행중
+            </option>
+            <option id="titleFont" value="서류탈락">
+              서류탈락
+            </option>
+            <option id="titleFont" value="코딩테스트탈락">
+              코딩테스트탈락
+            </option>
+            <option id="titleFont" value="면접탈락">
+              면접탈락
+            </option>
+            <option id="titleFont" value="최종합격">
+              최종합격
+            </option>
           </Select>
         </div>
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
@@ -410,12 +416,10 @@ const MyNoticeDetail = () => {
           ></TagInput>
         </div>
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-          
           <TagBigBox>
             {noticeData?.noticeTag?.split(', ').map((tag, index) => (
               <ResultTag key={index}>#{tag} </ResultTag>
             ))}
-            
           </TagBigBox>
         </div>
       </CompanyBox>
@@ -439,7 +443,7 @@ const MyNoticeDetail = () => {
 
       {noticeData?.intros?.map((intros, index) => (
         <div key={index}>
-          <div style={{display:"flex"}}>
+          <div style={{ display: 'flex' }}>
             {intros?.introTag?.split(', ').map((tag, index) => (
               <ResultTag key={index} id="contentFont">
                 {tag}
@@ -447,19 +451,37 @@ const MyNoticeDetail = () => {
             ))}
           </div>
 
-          
           <ContentBox id="contentFont">
-            {editFlag[index] ? (
+            {contentList[index] ? (
               <div>
                 <ContentTitle2
                   id="contentFont"
                   defaultValue={intros?.question}
+                  onChange={(e) => {
+                    setFirstSelfData(
+                      firstSelfData.map((self, index2) =>
+                        index2 === index
+                          ? { ...self, question: e.target.value }
+                          : self,
+                      ),
+                    );
+                    
+                  }}
                 ></ContentTitle2>
                 <br></br>
                 <ContentContent2
                   id="contentFont"
                   defaultValue={intros?.contents}
-                  // onChange = {handleChangeEditText}
+                  onChange={(e) => {
+                    setFirstSelfData(
+                      firstSelfData.map((self, index2) =>
+                        index2 === index
+                          ? { ...self, contents: e.target.value }
+                          : self,
+                      ),
+                    );
+                    
+                  }}
                 ></ContentContent2>
               </div>
             ) : (
@@ -479,7 +501,7 @@ const MyNoticeDetail = () => {
               </div>
             </ContentCountBox>
 
-            {editFlag[index] ? (
+            {contentList[index] ? (
               <ContentEditBox>
                 <SaveCancelButton
                   id="contentFont"
@@ -514,8 +536,7 @@ const MyNoticeDetail = () => {
           <br></br>
         </div>
       ))}
-      <button>저장하기</button>
-      
+      <button onClick={()=>console.log(firstSelfData,"최종확인")}>저장하기</button>
     </Wrapper>
   );
 };
