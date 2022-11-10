@@ -59,12 +59,6 @@ public class SecurityConfig {
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
 
-                // enable h2-console
-                // .and()
-                // .headers()
-                // .frameOptions()
-                // .sameOrigin()
-
                 // 세션을 사용하지 않기 때문에 STATELESS로 설정
                 .and()
                 .sessionManagement()
@@ -80,7 +74,6 @@ public class SecurityConfig {
                 .antMatchers("/api/user/duple").permitAll()
                 .antMatchers("/api/user/refresh").permitAll()
                 .antMatchers("/api/user/kakao").permitAll()
-                // .antMatchers("/api/test").permitAll()
 
                 .anyRequest().authenticated()
 

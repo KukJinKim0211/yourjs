@@ -1,10 +1,10 @@
 package com.project.yourjs.api.service;
 
-import com.project.yourjs.api.req.CareerDeleteReq;
-import com.project.yourjs.api.req.CareerPostReq;
-import com.project.yourjs.api.res.CareerDeleteRes;
-import com.project.yourjs.api.res.CareerPostRes;
-import com.project.yourjs.api.res.CareerUpdateRes;
+import com.project.yourjs.api.req.Portfolio.Career.CareerDeleteReq;
+import com.project.yourjs.api.req.Portfolio.Career.CareerPostReq;
+import com.project.yourjs.api.res.Portfolio.Career.CareerDeleteRes;
+import com.project.yourjs.api.res.Portfolio.Career.CareerPostRes;
+import com.project.yourjs.api.res.Portfolio.Career.CareerUpdateRes;
 import com.project.yourjs.common.dto.CareerDto;
 import com.project.yourjs.db.entity.Career;
 import com.project.yourjs.db.entity.User;

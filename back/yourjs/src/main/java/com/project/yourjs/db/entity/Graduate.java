@@ -1,6 +1,6 @@
 package com.project.yourjs.db.entity;
 
-import com.project.yourjs.api.res.GraduateRes;
+import com.project.yourjs.api.res.Portfolio.Graduate.GraduateRes;
 import com.project.yourjs.common.dto.AwardDto;
 import lombok.Builder;
 import lombok.Getter;

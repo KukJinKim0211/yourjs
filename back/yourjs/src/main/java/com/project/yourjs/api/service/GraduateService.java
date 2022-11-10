@@ -1,7 +1,7 @@
 package com.project.yourjs.api.service;
 
-import com.project.yourjs.api.req.GraduatePostReq;
-import com.project.yourjs.api.res.GraduateRes;
+import com.project.yourjs.api.req.Portfolio.Graduate.GraduatePostReq;
+import com.project.yourjs.api.res.Portfolio.Graduate.GraduateRes;
 import com.project.yourjs.db.entity.Graduate;
 import com.project.yourjs.db.entity.User;
 import com.project.yourjs.db.repository.GraduateRepository;

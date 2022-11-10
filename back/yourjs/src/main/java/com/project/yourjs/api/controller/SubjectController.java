@@ -1,7 +1,7 @@
 package com.project.yourjs.api.controller;
 
-import com.project.yourjs.api.req.ProjectPostReq;
-import com.project.yourjs.api.req.UserSubjectPostReq;
+import com.project.yourjs.api.req.Portfolio.Project.ProjectPostReq;
+import com.project.yourjs.api.req.User.UserSubjectPostReq;
 import com.project.yourjs.api.service.SubjectService;
 import com.project.yourjs.api.service.UserService;
 import com.project.yourjs.api.service.UserSubjectService;

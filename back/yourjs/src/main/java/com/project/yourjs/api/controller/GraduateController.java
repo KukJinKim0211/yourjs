@@ -1,8 +1,8 @@
 package com.project.yourjs.api.controller;
 
-import com.project.yourjs.api.req.GraduateDeleteReq;
-import com.project.yourjs.api.req.GraduatePostReq;
-import com.project.yourjs.api.res.GraduateRes;
+import com.project.yourjs.api.req.Portfolio.Graduate.GraduateDeleteReq;
+import com.project.yourjs.api.req.Portfolio.Graduate.GraduatePostReq;
+import com.project.yourjs.api.res.Portfolio.Graduate.GraduateRes;
 import com.project.yourjs.api.service.GraduateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

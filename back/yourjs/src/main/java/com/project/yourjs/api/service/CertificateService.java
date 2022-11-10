@@ -1,10 +1,10 @@
 package com.project.yourjs.api.service;
 
-import com.project.yourjs.api.req.CertificateDeleteReq;
-import com.project.yourjs.api.req.CertificatePostReq;
-import com.project.yourjs.api.res.CertificateDeleteRes;
-import com.project.yourjs.api.res.CertificatePostRes;
-import com.project.yourjs.api.res.CertificateUpdateRes;
+import com.project.yourjs.api.req.Portfolio.Certificate.CertificateDeleteReq;
+import com.project.yourjs.api.req.Portfolio.Certificate.CertificatePostReq;
+import com.project.yourjs.api.res.Portfolio.Certificate.CertificateDeleteRes;
+import com.project.yourjs.api.res.Portfolio.Certificate.CertificatePostRes;
+import com.project.yourjs.api.res.Portfolio.Certificate.CertificateUpdateRes;
 import com.project.yourjs.common.dto.CertificateDto;
 import com.project.yourjs.db.entity.Certificate;
 import com.project.yourjs.db.entity.User;
