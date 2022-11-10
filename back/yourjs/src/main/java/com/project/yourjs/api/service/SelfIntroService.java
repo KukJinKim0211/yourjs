@@ -97,7 +97,7 @@ public class SelfIntroService {
         Optional<Notice> oNotice = noticeRepository.findByNoticeSeq(noticeSeq);
         if (oNotice.isPresent()) {
             Notice notice = oNotice.get();
-            Optional<List<SelfIntro>> oIntros = selfIntroRepository.findAllByNotice(notice);
+            Optional<List<SelfIntro>> oIntros = selfIntroRepository.findAllByNoticeSeq(noticeSeq);
         
         if (oIntros.isPresent()) {
             List<SelfIntro> intros = oIntros.get();
@@ -145,7 +145,7 @@ public class SelfIntroService {
             selfIntro.setModDtm(LocalDateTime.now());
             selfIntro.setQuestion(selfIntroPostReq.getQuestion());
             selfIntro.setRegDtm(LocalDateTime.now());
-            selfIntro.setNotice(null);
+            selfIntro.setNoticeSeq(null);
             selfIntro = selfIntroRepository.save(selfIntro);
             String introTagList = selfIntroPostReq.getIntroTag();
             if (introTagList != null) {
@@ -180,7 +180,7 @@ public class SelfIntroService {
                 selfIntro.setModDtm(LocalDateTime.now());
                 selfIntro.setQuestion(selfIntroPostReq.getQuestion());
                 selfIntro.setRegDtm(LocalDateTime.now());
-                selfIntro.setNotice(notice);
+                selfIntro.setNoticeSeq(notice.getNoticeSeq());
                 selfIntro = selfIntroRepository.save(selfIntro);
                 String introTagList = selfIntroPostReq.getIntroTag();
                 if (introTagList != null) {

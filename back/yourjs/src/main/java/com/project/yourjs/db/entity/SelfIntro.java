@@ -39,10 +39,12 @@ public class SelfIntro {
     @JoinColumn(name = "user_seq")
     private User user;
 
-    @JsonBackReference
-    @ManyToOne(targetEntity = Notice.class)
-    @JoinColumn(name = "notice_seq")
-    private Notice notice;
+    // @JsonBackReference
+    // @ManyToOne(targetEntity = Notice.class)
+    // @JoinColumn(name = "notice_seq")
+    // private Notice notice;
+    @Column(name = "notice_seq")
+    private Integer noticeSeq;
 
     @Column(name = "question")
     private String question;
