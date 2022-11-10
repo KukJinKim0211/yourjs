@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
+import { colors } from '../../common/color';
 
 
 const Wrapper = styled.div``;
@@ -32,10 +33,10 @@ const ResultTag = styled.div`
   display: flex;
   align-items: center;
   border-radius: 10px;
-  padding: 10px;
-  margin-right: 20px;
+  padding: 0px 7px 0px 7px;
+  margin-right: 10px;
   height: 30px;
-  background-color: aliceblue;
+  background-color: ${colors.bsColor2};
   font-weight: 700;
   box-shadow: 0.1rem 0.1rem 0.1rem gray; ;
 `;
@@ -160,7 +161,7 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
       <br></br>
       <div style={{ display: 'flex' }}>
         {tag.map((tag, index) => (
-          <ResultTag key={index}># {tag}</ResultTag>
+          <ResultTag id="contentFont" key={index}># {tag}</ResultTag>
         ))}
       </div>
 

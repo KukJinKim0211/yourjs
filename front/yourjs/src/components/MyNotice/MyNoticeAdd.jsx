@@ -10,6 +10,7 @@ import MyNoticeDate from './MyNoticeDate';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 import { useNavigate } from 'react-router-dom';
+import { colors } from '../../common/color';
 
 const Wrapper = styled.div`
   width: 60%;
@@ -25,6 +26,7 @@ const TitleBox = styled.div`
 //회사 div
 const TitleNoticeBox = styled.div`
   display: flex;
+  align-items: center;
   height: 50px;
 `;
 
@@ -40,20 +42,35 @@ const TitleNoticeInput = styled.input`
   }
 `;
 
+const EachTitle = styled.h3`
+  width : 200px;
+  
+`
+
 //회사 div
 const CompanyBox = styled.div`
   display: flex;
   height: 50px;
+  align-items: center;
 `;
 
-const CompanyInput = styled.input`
-  border: none;
+const InputBox = styled.input`
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  font-size: 16px;
+  padding: 6px 3px;
+  width: 80%;
+  height: 20px;
+  border-radius: 5px;
+  padding-left: 10px;
+  
 
-  width: inherit;
-  border-bottom: 3px solid gray;
-  margin-top: 10px;
-  margin-left: 30px;
-  :focus {
+  &:hover {
+    border: 1px solid ${colors.bsColor4};
+  }
+
+  &:focus {
+    border: 1px solid ${colors.bsColor4};
+    box-shadow: 0 0 10px ${colors.bsColor3};
     outline: none;
   }
 `;
@@ -61,21 +78,31 @@ const CompanyInput = styled.input`
 //상태 div
 const StateBox = styled.div`
   display: flex;
+  align-items: center;
   height: 50px;
 `;
 
 const StateSelect = styled.select`
-  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  width: 81.3%;
+  font-size: 16px;
+  height: 32px;
+  border-radius: 5px;
+  padding-left: 10px;
 
-  width: inherit;
-  border-bottom: 3px solid gray;
-  margin-top: 10px;
-  margin-left: 30px;
-  option {
+  &:hover {
+    border: 1px solid ${colors.bsColor4};
+  }
+
+  &:focus {
+    border: 1px solid ${colors.bsColor4};
+    box-shadow: 0 0 10px ${colors.bsColor3};
+    outline: none;
   }
 `;
 //url 입력 div
 const UrlBox = styled.div`
+  align-items: center;
   display: flex;
   height: 50px;
 `;
@@ -93,7 +120,9 @@ const UrlInput = styled.input`
 `;
 // date 입력 div
 const DateBox = styled.div`
-  width: 40%;
+  display : flex;
+  flex-wrap: wrap;
+  width: 100%;
 `;
 
 const DateTitle = styled.div`
@@ -112,7 +141,7 @@ const DateSelectBox = styled.div`
 const ComponentAddButton = styled.button`
   width: 100px;
   height: 50px;
-  background-color: antiquewhite;
+  background-color: ${colors.bsColor2};
   border-radius: 10px;
   border: none;
   box-shadow: 0.5rem 0.5rem 0.5rem gray;
@@ -136,13 +165,37 @@ const TagInputBox = styled.input`
   border-bottom: 3px solid gray;
   width: 100%;
   height: 40px;
+ 
   :focus {
     outline: none;
   }
 `;
 
+/// 가져온 인풋 
+const ModalInput = styled.input`
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  font-size: 16px;
+  padding: 6px 3px;
+  width: 96%;
+  border-radius: 5px;
+  padding-left: 10px;
+
+  &:hover {
+    border: 1px solid ${colors.bsColor4};
+  }
+
+  &:focus {
+    border: 1px solid ${colors.bsColor4};
+    box-shadow: 0 0 10px ${colors.bsColor3};
+    outline: none;
+  }
+`;
+/// 가져온 인풋
+
 const TagBox = styled.div`
   display: flex;
+  align-items: center;
+  height: 50px;
 `;
 
 const ResultTag = styled.div`
@@ -151,10 +204,10 @@ const ResultTag = styled.div`
   display: flex;
   align-items: center;
   border-radius: 10px;
-  padding: 10px;
-  margin-right: 20px;
+  padding: 0px 5px 0px 5px;
+  margin-right: 10px;
   height: 30px;
-  background-color: aliceblue;
+  background-color: ${colors.bsColor2};
   font-weight: 700;
   box-shadow: 0.1rem 0.1rem 0.1rem gray; ;
 `;
@@ -203,7 +256,7 @@ const MyNoticeAdd = () => {
   };
 
   useEffect(() => {
-    console.log(list);
+    
   }, [list]);
 
   useEffect(() => {}, [totalData]);
@@ -284,7 +337,7 @@ const MyNoticeAdd = () => {
           selfData.noticeData.forEach(self => {
             const data = { ...self, noticeSeq: response.data.noticeSeq };
             console.log(data);
-            axiosInstance.post(apis.selfIntroduce, self).then(response => {
+            axiosInstance.post(apis.selfIntroduce, data).then(response => {
               console.log(response);
               
             
@@ -311,7 +364,7 @@ const MyNoticeAdd = () => {
   // 복사 추가
   const keydownHandler = e => {
     if (e.key === 'Enter') {
-      console.log('성공');
+      
       setTag([...tag, tagItem]);
       setTagItem('');
     }
@@ -328,25 +381,26 @@ const MyNoticeAdd = () => {
       <br></br>
 
       <CompanyBox id="titleFont">
-        <h3>회사명</h3>
-        <CompanyInput
+        <EachTitle >회사명</EachTitle>
+        <InputBox
           id="titleFont"
           placeholder="회사를 입력해 주세요"
           onChange={handleCompanyInput}
-        ></CompanyInput>
+        ></InputBox>
       </CompanyBox>
       <TitleNoticeBox id="titleFont">
-        <h3>공고명</h3>
-        <TitleNoticeInput
+        <EachTitle>공고명</EachTitle>
+        <InputBox
           onChange={handleNoticeInput}
           id="titleFont"
           placeholder="ex) 상반기 IT 채용 "
-        ></TitleNoticeInput>
+        ></InputBox>
       </TitleNoticeBox>
-      <br></br>
-      <TagBox>
-        <TagInputBox
-          id="contentFont"
+      
+      <TagBox id="titleFont">
+        <EachTitle>태그명</EachTitle>
+        <InputBox
+          id="titleFont"
           value={tagItem}
           placeholder="태그를 추가하세요 "
           onKeyDown={keydownHandler}
@@ -354,25 +408,32 @@ const MyNoticeAdd = () => {
         />
         {/* <TagAddButton onClick={tagAdd}>추가</TagAddButton> */}
       </TagBox>
-      <br></br>
+
       <div style={{ display: 'flex' }}>
+        <EachTitle></EachTitle>
         {tag.map((tag, index) => (
           <ResultTag key={index}># {tag}</ResultTag>
         ))}
       </div>
 
       <StateBox id="titleFont">
-        <h3>결과를 선택하세요 </h3>
+        <EachTitle>결과를 선택하세요 </EachTitle>
         <StateSelect
           id="titleFont"
           defaultValue="진행중"
           onChange={handleProgressInput}
         >
+          <option id="titleFont" value="등록">
+            등록
+          </option>
           <option id="titleFont" value="진행중">
             진행중
           </option>
           <option id="titleFont" value="서류탈락">
             서류탈락
+          </option>
+          <option id="titleFont" value="코딩테스트탈락">
+            코딩테스트탈락
           </option>
           <option id="titleFont" value="면접탈락">
             면접탈락
@@ -384,18 +445,21 @@ const MyNoticeAdd = () => {
       </StateBox>
       <br></br>
       <UrlBox id="titleFont">
-        <h3>채용사이트</h3>
-        <UrlInput
+        <EachTitle>채용사이트</EachTitle>
+        <InputBox
           placeholder="URL을 입력하세요"
           onChange={handleLinkInput}
-        ></UrlInput>
+        ></InputBox>
       </UrlBox>
       <br></br>
       <DateBox id="titleFont">
         <DateTitle>일정 등록</DateTitle>
-        <button style={{ marginLeft: '83%' }} onClick={handleDateClick}>
+        <button style={{ marginLeft: '3%' }} onClick={handleDateClick}>
           ➕
         </button>
+        </DateBox>
+        <br></br>
+        
         {dateList.map((li, index) => (
           <MyNoticeDate
             li={li}
@@ -403,9 +467,13 @@ const MyNoticeAdd = () => {
             key={index}
             index={index}
             setDateDataee={setDateData}
-          ></MyNoticeDate>
-        ))}
-      </DateBox>
+          >
+            
+          </MyNoticeDate>
+          
+        )
+        )}
+      
       <br></br>
 
       {/* <DateBox id="titleFont">

@@ -8,19 +8,30 @@ import dayjs from 'dayjs';
 
 const TagBox = styled.div`
   display: flex;
+  width : 1141.8px;
+  margin-bottom: 20px;
 `;
 const Select = styled.select`
-  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
   margin-right: 10%;
-  width: inherit;
+  width: 60%;
   /* border-bottom: 3px solid gray; */
-  margin-left: 6%;
+  margin-left: 17%;
   option {
   }
 `;
 
+const EachTitle = styled.h3`
+  width : 100px;
+  
+`
+
+
 const DateBox = styled.div`
   display: flex;
+  align-items: center;
+  height: 50px;
 `;
 
 const DateSelectBox = styled.div`
@@ -107,7 +118,7 @@ const MyNoticeDate = ({ getDateData, li, index, setDateDataee }) => {
       </Select>
 
       <DateBox id="titleFont">
-        <h3>해당일</h3>
+        <EachTitle>해당일</EachTitle>
         <DateSelectBox>
           <DatePicker
             style={{ 'z-index': 999 }}
@@ -123,6 +134,7 @@ const MyNoticeDate = ({ getDateData, li, index, setDateDataee }) => {
       </DateBox>
       
     </TagBox>
+    
   );
 };
 

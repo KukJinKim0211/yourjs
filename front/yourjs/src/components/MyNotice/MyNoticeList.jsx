@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 import { colors } from '../../common/color';
-import plusbutton from '../../img/noticeadd.png'
+import plusbutton from '../../img/plusbutton2.png'
 import {
   faCirclePlus,
  
@@ -60,12 +60,8 @@ const ItemList = styled.div`
 
 
 
-
 // 검색 div
-const SearchDiv = styled.div`
-  display: flex;
-  justify-content: center;
-`;
+
 // 태그를 담을 div box
 const TagBox = styled.div`
   display: flex;
@@ -88,16 +84,51 @@ const TagItemBox = styled.div`
   height: 30px;
 `;
 
+
+
+
+const SearchAlignDiv = styled.div`
+  
+`
+
+
 //검색 input
 
 const SearchInput = styled.input`
-  width: 350px;
+  width: 500px;
   height: 40px;
-  border-radius: 5px;
+  border : 2px solid ${colors.bsColor2};
+  border-radius: 20px;
+  padding-left: 10px;
+  margin-left: 20%;
+  :focus {
+    
+    outline: auto;
+    outline-color: ${colors.bsColor3};
+    
+    
+    
+    
+  }
+  /* ::-webkit-input-placeholder{text-align:center} */
   
 
   
 `;
+
+const SearchButton = styled.div`
+  
+  position: absolute;
+  top: 0;
+  right: 15px;
+  
+  
+`;
+
+const Label = styled.label`
+  position : relative;
+`
+
 // 아이템 나누기
 const ItemGrid = styled.div`
   
@@ -133,15 +164,22 @@ const ListTotal = styled.div`
   display: flex;
   margin-bottom: 10%;
   row-gap: 80px;
-  column-gap: 40px;
+  column-gap: 47px;
   flex-wrap: wrap;
 `;
 //셀렉트
 const ProgressSelect = styled.select`
-  background-color: ${colors.bsColor2};
+  background-color: ${colors.bsColor1};
   margin-left: 10px;
+  border : 2px solid ${colors.bsColor2};
+  width: 150px;
+  text-align: center;
+  outline-color: ${colors.bsColor2};
 
 
+  :focus {
+    border : 2px solid ${colors.bsColor1};
+  }
   option {
     background-color: ${colors.bsColor1};
   }
@@ -168,34 +206,45 @@ const CreateButton = styled.div`
   }
 `;
 
-const SearchButton = styled.button`
-  margin-left: 50px;
-`;
-const ButtonImg = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 300px;
-  height: 300px;
+
+// const ButtonImg = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   width: 200px;
+//   height: 200px;
+//   object-fit: cover;
+//   position: fixed;
+//   left: 85%;
+//   top: 63%;
+//   cursor: pointer;
+//   border-radius: 70%;
+//   background-color:  ${colors.bsColor2};
+// `;
+
+// const ButtonImg2 = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   width : 150px;
+//   height: 150px;
+//   border-radius: 70%;
+//   background-color: white;
+//   font-size: 100px;
+// `
+const ButtonImg3 = styled.img`
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   position: fixed;
-  left: 80%;
+  left: 88%;
   top: 73%;
-  cursor: pointer;
-  border-radius: 70%;
-  background-color: red;
+
 `;
 
-const ButtonImg2 = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width : 250px;
-  height: 250px;
-  border-radius: 70%;
-  background-color: white;
-  font-size: 150px;
-`
+ButtonImg3.defaultProps = {
+  src: plusbutton,
+};
 
 
 //테스트 버튼
@@ -315,26 +364,18 @@ const MyNoticeList = () => {
 
   return (
     <Wrapper>
-      <SearchDiv>
-        <SearchInput
-          onChange={handleChangeSearch}
-          value={searchData}
-          onKeyDown={keyDownSearch}
-          placeholder="태그를 검색하세요."
-        ></SearchInput>
-        <SearchButton onClick={onClickSearch}>🔍</SearchButton>
-      </SearchDiv>
+      
       <br></br>
       <br></br>
       {/*자소서 작성 버튼을 우측 으로 하기위한 div */}
-      <div
+      {/* <div
         style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}
       >
         <Link to="/notice/add" style={{ textDecoration: 'none' }}>
           <CreateButton id="contentFont">공고 추가</CreateButton>
         </Link>
-      </div>
-      <div>
+      </div> */}
+      
         <ProgressSelect
           id="contentFont"
           defaultValue="전체보기"
@@ -345,8 +386,20 @@ const MyNoticeList = () => {
           <option value="서류탈락">서류탈락</option>
           <option value="최종합격">최종합격</option>
           <option value="면접탈락">면접탈락</option>
+          
         </ProgressSelect>
-      </div>
+        <Label>
+        <SearchInput
+          onChange={handleChangeSearch}
+          value={searchData}
+          onKeyDown={keyDownSearch}
+          placeholder="태그를 검색하세요." 
+        ></SearchInput>
+        <SearchButton className="searchbutton" onClick={onClickSearch}>🔍</SearchButton>
+        </Label>
+        <br></br>
+        <br></br>
+      
       <ListTotal>
         {dummyData.map((dummy, index) => (
           
@@ -387,10 +440,11 @@ const MyNoticeList = () => {
         ))}
       </ListTotal>
       <Link to="/notice/add" style={{ textDecoration: 'none' }}>
-        <ButtonImg><ButtonImg2>➕</ButtonImg2>
-      {/* <FontAwesomeIcon size='4x' icon={faCirclePlus}></FontAwesomeIcon> */}
+        {/* <ButtonImg><ButtonImg2>➕</ButtonImg2>
+      <FontAwesomeIcon size='4x' icon={faCirclePlus}></FontAwesomeIcon>
 
-      </ButtonImg>
+      </ButtonImg> */}
+      <ButtonImg3></ButtonImg3>
       
       </Link>
     </Wrapper>
