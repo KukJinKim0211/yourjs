@@ -4,6 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import TodayNoticeItem from './TodayNoticeItem';
 import { colors } from '../../common/color';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Wrapper = styled.div`
   width: 33%;
@@ -15,6 +16,7 @@ const Wrapper = styled.div`
 `;
 
 const TitleDiv = styled.div`
+  margin-top: 2%;
   width: 100%;
   height: 25%;
 `;
@@ -24,7 +26,7 @@ const ContentDiv = styled.div`
   height: 75%;
 `;
 
-const TitleText = styled.p`
+const TitleText = styled.span`
   font-size: 20px;
   margin-top: 2%;
   margin-left: 5%;
@@ -37,6 +39,13 @@ const TodayNotice = ({ data, type }) => {
   return (
     <Wrapper>
       <TitleDiv>
+        <FontAwesomeIcon
+          icon={data?.icon}
+          size="xl"
+          className="fa-light"
+          style={{ marginLeft: '20px' }}
+          color={colors.bsColor4}
+        />
         <TitleText id="titleFont">{data.title}</TitleText>
       </TitleDiv>
       <ContentDiv>

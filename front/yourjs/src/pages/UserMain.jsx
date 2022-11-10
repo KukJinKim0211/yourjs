@@ -5,7 +5,13 @@ import CurrentTime from '../components/MyTravel/CurrentTime';
 import TodayNotice from '../components/MyTravel/TodayNotice';
 import RecommendNotice from '../components/MyTravel/RecommendNotice';
 import { colors } from '../common/color';
+import {
+  faHourglassEnd,
+  faBell,
+  faFileLines,
+} from '@fortawesome/free-solid-svg-icons';
 import { fullWidth } from '../common/size';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Wrapper = styled.div`
   width: 60%;
@@ -40,8 +46,9 @@ const RecommendDiv = styled.div`
 `;
 
 const RecommendTitleDiv = styled.div`
+  margin-top: 1%;
   width: ${fullWidth};
-  height: 30%;
+  height: 20%;
   margin-left: 2%;
 `;
 
@@ -49,10 +56,12 @@ const RecommendContentDiv = styled.div`
   width: 96%;
   margin-left: 2%;
   margin-right: 2%;
-  height: 60%;
+  height: 80%;
 `;
 
 const RecommendTitleText = styled.p`
+  margin-left: 2%;
+  display: inline;
   color: ${colors.bsColor4};
   font-size: 20px;
   font-weight: 600;
@@ -66,10 +75,12 @@ const todayContent = [
       { company: '신한은행', date: '2022-11-03 23:59:59' },
       { company: '지우컴퍼니', date: '2022-11-04 17:00:00' },
     ],
+    icon: faHourglassEnd,
   },
   {
     title: '발표 임박 공고',
     content: [{ company: 'Pasoo', date: '2022-11-03' }],
+    icon: faBell,
   },
 ];
 
@@ -88,6 +99,13 @@ const Calendar = () => {
       </TodayDiv>
       <RecommendDiv>
         <RecommendTitleDiv>
+          <FontAwesomeIcon
+            icon={faFileLines}
+            size="xl"
+            className="fa-light"
+            style={{ marginLeft: '20px' }}
+            color={colors.bsColor4}
+          />
           <RecommendTitleText id="titleFont">
             관심 분야의 놓친 공고
           </RecommendTitleText>

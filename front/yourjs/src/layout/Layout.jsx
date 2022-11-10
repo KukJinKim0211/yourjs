@@ -25,7 +25,7 @@ const ErrorDiv = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 42px;
-
+  z-index: 999;
   @media only screen and (max-width: 1152px) {
     display: flex;
   }

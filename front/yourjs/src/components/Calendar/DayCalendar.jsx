@@ -1,13 +1,19 @@
-import { faBorderNone } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBuilding,
+  faSpinner,
+  faFile,
+  faCalendarDays,
+} from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import './style.css';
 import Modal from 'react-modal';
 import { colors } from '../../common/color';
-import { scheduleList } from '../../common/define';
+import { scheduleList, getScheduleList } from '../../common/define';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 import { getYYMMFormat } from '../../common/date';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -54,13 +60,13 @@ const DayDiv = styled.div`
 `;
 
 const ContentDiv = styled.div`
-  margin-left: 3%;
-  margin-right: 3%;
+  margin-left: 2%;
+  margin-right: 2%;
   margin-bottom: 1px;
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  height: 35px;
+  height: 40px;
   font-size: 13px;
   user-select: none;
   font-weight: 600;
@@ -72,7 +78,7 @@ const ContentDiv = styled.div`
   }
 `;
 
-const customStyles = {
+const customNoticeStyles = {
   content: {
     top: '50%',
     left: '50%',
@@ -82,6 +88,21 @@ const customStyles = {
     transform: 'translate(-50%, -50%)',
     width: '30%',
     height: '75%',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+};
+
+const customScheduleStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    width: '30%',
+    height: '50%',
     display: 'flex',
     justifyContent: 'center',
   },
@@ -227,6 +248,17 @@ const ModalButton = styled.button`
   }
 `;
 
+const ScheduleModalDiv = styled.div`
+  margin-top: 6%;
+  display: flex;
+  align-items: center;
+`;
+
+const ScheduleModalTitle = styled.span`
+  font-size: 22px;
+  font-family: 'GmarketSansMedium';
+`;
+
 const TagComponent = ({ tagName, deleteTag }) => {
   return (
     <TagComponentDiv id="contentFont">
@@ -251,7 +283,8 @@ const DayCalendar = ({
   noticeList,
   noticeData,
 }) => {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [noticeModalOpen, setNoticeModalOpen] = useState(false);
+  const [scheduleModalOpen, setScheduleModalOpen] = useState(false);
   const [tabState, setTabState] = useState(0);
   // 공고등록 관련 State
   const [noticeName, setNoticeName] = useState(''); // 공고명
@@ -267,6 +300,9 @@ const DayCalendar = ({
   // 공고 시퀀스
   const [noticeSeq, setNoticeSeq] = useState(0);
 
+  // 선택한 일정 데이터
+  const [selectedData, setSelectedData] = useState([]);
+
   const hoverOver = e => {
     if (dayData.day === 0) return;
     const button = e.currentTarget.children[0].children[0].children[0];
@@ -281,11 +317,15 @@ const DayCalendar = ({
 
   const plusButtonClicked = () => {
     setScheduleDate(`${getYYMMFormat(searchDate, dayData.day)} 23:59:59`);
-    setModalOpen(true);
+    setNoticeModalOpen(true);
   };
 
-  const closeModal = () => {
-    setModalOpen(false);
+  const closeNoticeModal = () => {
+    setNoticeModalOpen(false);
+  };
+
+  const closeScheduleModal = () => {
+    setScheduleModalOpen(false);
   };
 
   // 태그등록 enter 키 다운 이벤트
@@ -349,7 +389,7 @@ const DayCalendar = ({
       ],
     };
     axiosInstance.post(apis.notice, data).then(response => {
-      closeModal();
+      closeNoticeModal();
       getNotice();
     });
   };
@@ -379,7 +419,7 @@ const DayCalendar = ({
     );
     console.log(notice[0]);
     axiosInstance.patch(apis.notice, notice[0]).then(response => {
-      closeModal();
+      closeNoticeModal();
       getNotice();
     });
   };
@@ -407,17 +447,42 @@ const DayCalendar = ({
       </TitleDiv>
       <div style={{ height: '5%' }}></div>
       {dayData.data.map((d, index) => (
-        <ContentDiv id="font_pretendard" key={index}>
-          {d.coName}
-          <br />
-          {d.scheduleName}
+        <ContentDiv
+          id="font_pretendard"
+          key={index}
+          onClick={() => {
+            setSelectedData(d);
+            setScheduleModalOpen(true);
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faBuilding}
+            size="lg"
+            className="fa-light"
+            style={{ width: '20px' }}
+          />
+          <span>
+            {d.coName.length >= 8 ? `${d.coName.slice(0, 7)}....` : d.coName}
+          </span>
+          <div style={{ height: '3px' }} />
+          <span
+            style={{
+              backgroundColor: `${colors.bsColor2}`,
+              borderRadius: '5px',
+              paddingLeft: '5px',
+              paddingRight: '5px',
+              opacity: '80%',
+            }}
+          >
+            {d.scheduleName}
+          </span>
         </ContentDiv>
       ))}
       <Modal
-        isOpen={modalOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Example Modal"
+        isOpen={noticeModalOpen}
+        onRequestClose={closeNoticeModal}
+        style={customNoticeStyles}
+        contentLabel="Notice Modal"
       >
         <ModalDiv>
           <ModalTitleDivForm>
@@ -581,7 +646,7 @@ const DayCalendar = ({
                     id="contentFont"
                     color="rgba(0, 0, 0, 0.3)"
                     type={1}
-                    onClick={() => closeModal()}
+                    onClick={() => closeNoticeModal()}
                   >
                     닫기
                   </ModalButton>
@@ -674,7 +739,7 @@ const DayCalendar = ({
                     id="contentFont"
                     color="rgba(0, 0, 0, 0.3)"
                     type={1}
-                    onClick={() => closeModal()}
+                    onClick={() => closeNoticeModal()}
                   >
                     닫기
                   </ModalButton>
@@ -682,6 +747,79 @@ const DayCalendar = ({
               </ModalButtonDivForm>
             </>
           )}
+        </ModalDiv>
+      </Modal>
+      <Modal
+        isOpen={scheduleModalOpen}
+        onRequestClose={closeScheduleModal}
+        style={customScheduleStyles}
+        contentLabel="Schedule Modal"
+      >
+        <ModalDiv>
+          <ScheduleModalDiv>
+            <FontAwesomeIcon
+              icon={faFile}
+              size="2x"
+              style={{
+                width: '60px',
+              }}
+            />
+            <ScheduleModalTitle>
+              {selectedData.noticeName?.length >= 25
+                ? `${selectedData.noticeName?.slice(0, 24)}....`
+                : selectedData.noticeName}
+            </ScheduleModalTitle>
+          </ScheduleModalDiv>
+          <ScheduleModalDiv>
+            <FontAwesomeIcon
+              icon={faBuilding}
+              size="2x"
+              style={{
+                width: '60px',
+              }}
+            />
+            <ScheduleModalTitle>
+              {selectedData.coName?.length >= 25
+                ? `${selectedData.coName?.slice(0, 24)}....`
+                : selectedData.coName}
+            </ScheduleModalTitle>
+          </ScheduleModalDiv>
+          <ScheduleModalDiv>
+            <FontAwesomeIcon
+              icon={faCalendarDays}
+              size="2x"
+              style={{
+                width: '60px',
+              }}
+            />
+            <ScheduleModalTitle>{selectedData.scheduleDate}</ScheduleModalTitle>
+          </ScheduleModalDiv>
+          <ScheduleModalDiv>
+            <FontAwesomeIcon
+              icon={faSpinner}
+              size="2x"
+              style={{
+                width: '60px',
+              }}
+            />
+
+            <ScheduleModalTitle>
+              <StateSelect
+                id="titleFont"
+                defaultValue={getScheduleList(selectedData.scheduleName)}
+                onChange={e => setScheduleIndex(parseInt(e.target.value))}
+              >
+                <option id="titleFont" value={0}>
+                  항목을 선택해주세요.
+                </option>
+                {scheduleList.map((schedule, index) => (
+                  <option key={index + 1} id="titleFont" value={index + 1}>
+                    {schedule}
+                  </option>
+                ))}
+              </StateSelect>
+            </ScheduleModalTitle>
+          </ScheduleModalDiv>
         </ModalDiv>
       </Modal>
     </Wrapper>

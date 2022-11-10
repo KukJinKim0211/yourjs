@@ -36,7 +36,6 @@ const Calendar = () => {
   }, []);
 
   useEffect(() => {
-    if (noticeData.length === 0) return;
     dataSetting(noticeData);
     getNoticeList();
   }, [noticeData, searchDate]);
