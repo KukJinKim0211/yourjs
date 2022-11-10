@@ -1,7 +1,7 @@
 package com.project.yourjs.api.controller;
 
 import com.project.yourjs.api.req.FollowReq;
-import com.project.yourjs.api.res.AwardPostRes;
+import com.project.yourjs.api.res.Portfolio.Award.AwardPostRes;
 import com.project.yourjs.api.service.FollowService;
 import com.project.yourjs.db.entity.Follow;
 import io.swagger.v3.oas.annotations.Operation;

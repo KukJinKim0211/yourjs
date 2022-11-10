@@ -1,7 +1,7 @@
 package com.project.yourjs.api.service;
 
-import com.project.yourjs.api.req.ProjectPostReq;
-import com.project.yourjs.api.res.ProjectRes;
+import com.project.yourjs.api.req.Portfolio.Project.ProjectPostReq;
+import com.project.yourjs.api.res.Portfolio.Project.ProjectRes;
 import com.project.yourjs.db.entity.Project;
 import com.project.yourjs.db.entity.User;
 import com.project.yourjs.db.repository.ProjectRepository;

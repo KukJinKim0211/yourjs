@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.yourjs.api.req.SelfIntroDeleteReq;
-import com.project.yourjs.api.req.SelfIntroPatchReq;
-import com.project.yourjs.api.req.SelfIntroPostReq;
-import com.project.yourjs.api.res.SelfIntroDeleteRes;
-import com.project.yourjs.api.res.SelfIntroGetRes;
-import com.project.yourjs.api.res.SelfIntroPatchRes;
-import com.project.yourjs.api.res.SelfIntroPostRes;
+import com.project.yourjs.api.req.SelfIntro.SelfIntroDeleteReq;
+import com.project.yourjs.api.req.SelfIntro.SelfIntroPatchReq;
+import com.project.yourjs.api.req.SelfIntro.SelfIntroPostReq;
+import com.project.yourjs.api.res.SelfIntro.SelfIntroDeleteRes;
+import com.project.yourjs.api.res.SelfIntro.SelfIntroGetRes;
+import com.project.yourjs.api.res.SelfIntro.SelfIntroPatchRes;
+import com.project.yourjs.api.res.SelfIntro.SelfIntroPostRes;
 import com.project.yourjs.api.service.SelfIntroService;
 
 import io.swagger.v3.oas.annotations.Operation;

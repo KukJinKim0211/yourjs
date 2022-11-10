@@ -1,6 +1,6 @@
 package com.project.yourjs.api.service;
 
-import com.project.yourjs.api.req.UserSubjectPostReq;
+import com.project.yourjs.api.req.User.UserSubjectPostReq;
 import com.project.yourjs.db.entity.User;
 import com.project.yourjs.db.entity.UserSubject;
 import com.project.yourjs.db.repository.SubjectRepository;

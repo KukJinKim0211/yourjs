@@ -1,7 +1,7 @@
 package com.project.yourjs.api.service;
 
-import com.project.yourjs.api.req.MilitaryPostReq;
-import com.project.yourjs.api.res.MilitaryRes;
+import com.project.yourjs.api.req.Portfolio.Military.MilitaryPostReq;
+import com.project.yourjs.api.res.Portfolio.Military.MilitaryRes;
 import com.project.yourjs.db.entity.Military;
 import com.project.yourjs.db.entity.User;
 import com.project.yourjs.db.repository.MilitaryRepository;

@@ -1,6 +1,5 @@
 package com.project.yourjs.db.entity;
 
-import com.project.yourjs.api.res.MilitaryRes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +7,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+
+import com.project.yourjs.api.res.Portfolio.Military.MilitaryRes;
 
 import javax.persistence.*;
 import java.sql.Date;

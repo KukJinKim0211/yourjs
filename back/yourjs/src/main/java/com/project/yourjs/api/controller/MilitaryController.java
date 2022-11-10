@@ -1,8 +1,8 @@
 package com.project.yourjs.api.controller;
 
-import com.project.yourjs.api.req.MilitaryDeleteReq;
-import com.project.yourjs.api.req.MilitaryPostReq;
-import com.project.yourjs.api.res.MilitaryRes;
+import com.project.yourjs.api.req.Portfolio.Military.MilitaryDeleteReq;
+import com.project.yourjs.api.req.Portfolio.Military.MilitaryPostReq;
+import com.project.yourjs.api.res.Portfolio.Military.MilitaryRes;
 import com.project.yourjs.api.service.MilitaryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

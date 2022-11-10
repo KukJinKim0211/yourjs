@@ -1,8 +1,8 @@
 package com.project.yourjs.api.controller;
 
-import com.project.yourjs.api.req.PortfolioDeleteReq;
-import com.project.yourjs.api.req.PortfolioPostReq;
-import com.project.yourjs.api.res.PortfolioRes;
+import com.project.yourjs.api.req.Portfolio.PortfolioDeleteReq;
+import com.project.yourjs.api.req.Portfolio.PortfolioPostReq;
+import com.project.yourjs.api.res.Portfolio.PortfolioRes;
 import com.project.yourjs.api.service.PortfolioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

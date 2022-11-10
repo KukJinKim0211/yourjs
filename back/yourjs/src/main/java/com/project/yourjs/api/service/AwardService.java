@@ -1,10 +1,10 @@
 package com.project.yourjs.api.service;
 
-import com.project.yourjs.api.req.AwardDeleteReq;
-import com.project.yourjs.api.req.AwardPostReq;
-import com.project.yourjs.api.res.AwardDeleteRes;
-import com.project.yourjs.api.res.AwardUpdateRes;
-import com.project.yourjs.api.res.AwardPostRes;
+import com.project.yourjs.api.req.Portfolio.Award.AwardDeleteReq;
+import com.project.yourjs.api.req.Portfolio.Award.AwardPostReq;
+import com.project.yourjs.api.res.Portfolio.Award.AwardDeleteRes;
+import com.project.yourjs.api.res.Portfolio.Award.AwardPostRes;
+import com.project.yourjs.api.res.Portfolio.Award.AwardUpdateRes;
 import com.project.yourjs.common.dto.AwardDto;
 import com.project.yourjs.db.entity.Award;
 import com.project.yourjs.db.entity.User;

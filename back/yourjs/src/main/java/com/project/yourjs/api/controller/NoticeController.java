@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.yourjs.api.req.NoticeDeleteReq;
-import com.project.yourjs.api.req.NoticePostReq;
-import com.project.yourjs.api.req.NoticeUpdateReq;
-import com.project.yourjs.api.res.NoticeDeleteRes;
-import com.project.yourjs.api.res.NoticeGetRes;
-import com.project.yourjs.api.res.NoticePatchRes;
-import com.project.yourjs.api.res.NoticePostRes;
+import com.project.yourjs.api.req.Notice.NoticeDeleteReq;
+import com.project.yourjs.api.req.Notice.NoticePostReq;
+import com.project.yourjs.api.req.Notice.NoticeUpdateReq;
+import com.project.yourjs.api.res.Notice.NoticeDeleteRes;
+import com.project.yourjs.api.res.Notice.NoticeGetRes;
+import com.project.yourjs.api.res.Notice.NoticePatchRes;
+import com.project.yourjs.api.res.Notice.NoticePostRes;
 import com.project.yourjs.api.service.NoticeService;
 import com.project.yourjs.db.entity.Notice;
 

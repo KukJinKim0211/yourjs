@@ -1,10 +1,10 @@
 package com.project.yourjs.api.controller;
 
-import com.project.yourjs.api.req.EducationDeleteReq;
-import com.project.yourjs.api.req.EducationPostReq;
-import com.project.yourjs.api.res.EducationDeleteRes;
-import com.project.yourjs.api.res.EducationPostRes;
-import com.project.yourjs.api.res.EducationUpdateRes;
+import com.project.yourjs.api.req.Portfolio.Education.EducationDeleteReq;
+import com.project.yourjs.api.req.Portfolio.Education.EducationPostReq;
+import com.project.yourjs.api.res.Portfolio.Education.EducationDeleteRes;
+import com.project.yourjs.api.res.Portfolio.Education.EducationPostRes;
+import com.project.yourjs.api.res.Portfolio.Education.EducationUpdateRes;
 import com.project.yourjs.api.service.EducationService;
 import com.project.yourjs.common.dto.EducationDto;
 import io.swagger.v3.oas.annotations.Operation;

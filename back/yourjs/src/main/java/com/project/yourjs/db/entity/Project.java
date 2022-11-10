@@ -1,12 +1,13 @@
 package com.project.yourjs.db.entity;
 
-import com.project.yourjs.api.res.ProjectRes;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+
+import com.project.yourjs.api.res.Portfolio.Project.ProjectRes;
 
 import javax.persistence.*;
 import java.sql.Date;

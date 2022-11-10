@@ -1,8 +1,8 @@
 package com.project.yourjs.api.controller;
 
-import com.project.yourjs.api.req.ProjectDeleteReq;
-import com.project.yourjs.api.req.ProjectPostReq;
-import com.project.yourjs.api.res.ProjectRes;
+import com.project.yourjs.api.req.Portfolio.Project.ProjectDeleteReq;
+import com.project.yourjs.api.req.Portfolio.Project.ProjectPostReq;
+import com.project.yourjs.api.res.Portfolio.Project.ProjectRes;
 import com.project.yourjs.api.service.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
