@@ -30,6 +30,7 @@ const App = () => {
   const nickname = useSelector(state => state.nickname);
 
   useEffect(() => {
+    if (sessionStorage.getItem('loginState') === null) return;
     // 자동 로그인은 설정이 되어 있지만 액세스 토큰은 없는 경우 ( 브라우저 다시 실행할 시 )
     if (
       JSON.parse(localStorage.getItem('autoLogin')) &&
@@ -80,7 +81,6 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<Main />} />
           <Route
             path="/main"
             element={
@@ -163,6 +163,7 @@ const App = () => {
           />
         </Route>
         <Route element={<HeaderlessLayout />}>
+          <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login/kakao" element={<KakaoLogin />} />
