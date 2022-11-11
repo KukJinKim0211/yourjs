@@ -228,8 +228,8 @@ const MyNoticeAdd = () => {
   
   // console.log(orderedDate,'222');
   const navigate = useNavigate();
-  const [list, setList] = useState([]);
-  const [dateList, setDateList] = useState([]); // 일정 등록 컴포넌트 생성을 위한 list
+  const [list, setList] = useState(['']);
+  const [dateList, setDateList] = useState(['']); // 일정 등록 컴포넌트 생성을 위한 list
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [companyInput, setCompanyInput] = useState('');
@@ -255,11 +255,13 @@ const MyNoticeAdd = () => {
     setList(a);
   };
 
-  useEffect(() => {
+  // useEffect(() => {
     
-  }, [list]);
+  // }, [list]);
 
-  useEffect(() => {}, [totalData]);
+  // useEffect(() => {}, [totalData]);
+
+  
 
   //회사이름 입력
   const handleCompanyInput = e => {
@@ -284,22 +286,28 @@ const MyNoticeAdd = () => {
 
   /// 할일 모아오는 함수
   const setDateData = (index, dateData) => {
+    
     const newArray = [...dateList];
     newArray[index] = dateData;
     setDateList(newArray);
     
     setTotalData({ ...totalData, schedules: dateList });
+    
   };
+  useEffect(() => { setTotalData({ ...totalData, schedules: dateList });}, [dateList]);
 
   const settingNoticeData = (index, noticeData) => {
+    
     const newArray2 = [...list];
     newArray2[index] = noticeData;
     setList(newArray2);
-    setSelfData({ ...selfData, noticeData: list });
+    // setSelfData({ ...selfData, noticeData: list });
     // setTotalData({ ...totalData, noticeData: list });
   };
-  // datelist useeffect
+  useEffect(() => { setSelfData({ ...selfData, noticeData: list });}, [list]);
+  
   useEffect(() => {}, [dateList]);
+  
 
   const handleDateClick = () => {
     const b = [...dateList];
@@ -312,14 +320,13 @@ const MyNoticeAdd = () => {
   const handleTotalData = () => {
     // const orderedDate = datetest.sort((a,b)=> new Date(a.date) - new Date(b.date))
     
-    console.log(selfData, '자소서 항목');
-    console.log(selfData.length,"자소사항목길이")
+    
 
     const orderedtotal = totalData.schedules.sort((a,b)=> new Date(a.scheduleDate)- new Date(b.scheduleDate))
     delete totalData.schedules;
     totalData.schedules = orderedtotal
     
-    console.log(totalData, '최종값');
+    
     
     //날짜 순서로 post 보내기
   
@@ -349,7 +356,7 @@ const MyNoticeAdd = () => {
       .catch(error => console.log(error));
   };
 
-  const getChildData = data => {};
+  
 
   const getDateData = data => {
     setTotalData({ ...totalData, schedules: data });
@@ -420,7 +427,7 @@ const MyNoticeAdd = () => {
         <EachTitle>결과를 선택하세요 </EachTitle>
         <StateSelect
           id="titleFont"
-          defaultValue="진행중"
+          defaultValue="등록"
           onChange={handleProgressInput}
         >
           <option id="titleFont" value="등록">
@@ -508,7 +515,7 @@ const MyNoticeAdd = () => {
       <div id="box"></div>
       {list.map((li, index) => (
         <MyNoticeAddcomponent
-          getChildData={getChildData}
+          
           key={index}
           settingNoticeData={settingNoticeData}
           index={index}

@@ -120,30 +120,30 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
       
     }
   };
+  const onChangeTitleHandler = e => {
+    setPushData({...pushData, question : e.target.value})
+    
+  };
+
+  const onChangeContentHandler = e => {
+    setPushData({...pushData, contents : e.target.value})
+    
+  };
 
 
   const onChangeTagHandler = e => {
     setTagItem(e.target.value);
   };
 
-  useEffect(() => {
-    setPushData({ ...pushData, question: title });
-  }, [title]);
+  // useEffect(() => {
+  //   setPushData({ ...pushData, question: title });
+  // }, [title]);
 
-  useEffect(() => {
-    setPushData({ ...pushData, contents: content });
-  }, [content]);
+  // useEffect(() => {
+  //   setPushData({ ...pushData, contents: content });
+  // }, [content]);
 
-  const onChangeTitleHandler = e => {
-    setTitle(e.target.value);
-    
-  };
-
-  const onChangeContentHandler = e => {
-    setContent(e.target.value);
-    
-  };
-
+ 
   return (
     <Wrapper>
       <br></br>
@@ -170,14 +170,14 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
         <ContentBox id="font_test2">
           <ContentTitle
             id="contentFont"
-            value={title}
+            value={pushData.title}
             onChange={onChangeTitleHandler}
             placeholder="제목을 입력하세요"
           ></ContentTitle>
           <br></br>
           <br />
           <ContentContent
-            value={content}
+            value={pushData.contents}
             id="contentFont"
             onChange={onChangeContentHandler}
             placeholder="내용을 입력하세요"
@@ -189,7 +189,6 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
             </CountBox>
           </div>
         </ContentBox>
-        
         <br></br>
       </div>
     </Wrapper>

@@ -81,10 +81,12 @@ const MyNoticeDate = ({ getDateData, li, index, setDateDataee }) => {
       index: li.index,
     });
   };
-
+  
   return (
     <TagBox>
-      <Select onChange={handleScheduleName}>
+      <Select onChange={handleScheduleName}
+      defaultValue="2차면접"
+      >
         <option id="titleFont" value="서류제출">
           서류제출
         </option>

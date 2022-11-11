@@ -31,14 +31,14 @@ const DateSelectBox = styled.div`
   margin-right: 15px;
 `;
 
-const MyNoticeSchedule = ({  }) => {
+const MyNoticeSchedule = ({ getDateData,setDateDataee,index ,pushData}) => {
   const [endDate, setEndDate] = useState('');
   const [dateData, setDateData] = useState('');
   const [scheduleName, setScheduleName] = useState('');
   const [scheduleDate, setScheduleDate] = useState('');
 
 
-
+  // console.log(pushData.scheduleName,"오이야호")
 //   useEffect(() => {
 //     setDateDataee(index, {
 //       scheduleName: dateData.scheduleName,
@@ -47,6 +47,14 @@ const MyNoticeSchedule = ({  }) => {
 //   }, [dateData]);
 
   // 할일 명 변경
+
+  useEffect(() => {
+    setDateDataee(index, {
+      scheduleName: dateData.scheduleName,
+      scheduleDate: dateData.scheduleDate,
+    });
+  }, [dateData]);
+
   const handleScheduleName = e => {
 
     
@@ -67,7 +75,10 @@ const MyNoticeSchedule = ({  }) => {
 
   return (
     <TagBox>
-      <Select onChange={handleScheduleName}>
+      <Select onChange={handleScheduleName}
+      key={pushData?.scheduleName}
+      value={pushData?.scheduleName} >
+        
         <option id="titleFont" value="서류제출">
           서류제출
         </option>
@@ -112,6 +123,7 @@ const MyNoticeSchedule = ({  }) => {
             id="contentFont"
             onChange={handleScheduleDate}
             selected={scheduleDate}
+            value={pushData.scheduleDate}
           ></DatePicker>
         </DateSelectBox>
       </DateBox>

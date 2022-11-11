@@ -10,6 +10,7 @@ import { apis } from '../../common/apis';
 import MyNoticePlus from './MyNoticePlus.jsx';
 import MyNoticeSchedule from './MyNoticeSchedule.jsx';
 import { colors } from '../../common/color.js';
+import MyNoticeDate from './MyNoticeDate.jsx';
 
 const Wrapper = styled.div`
   height: fit-content;
@@ -212,55 +213,7 @@ const Select = styled.select`
   }
 `;
 
-const dummyData = {
-  regdate: '2022-09-01',
-  company: '지우컴퍼니',
-  link: 'www.naver.com',
-  state: '면접탈락',
-  title: '상반기 IT 채용',
-};
-
-const dummy = [
-  {
-    title: '지우 컴퍼니에 지원하게 된 동기가 무엇입니까 ??',
-    content: `차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-    뽑아만`,
-  },
-  {
-    title: '지우 컴퍼니에 지원하게 된 동기가 무엇입니까 ??',
-    content: `차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-      뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-      뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-      뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-      뽑아만 주십시오! 충. 성 ^^7`,
-  },
-  {
-    title: '지우 컴퍼니에 지원하게 된 동기가 무엇입니까 ??',
-    content: `차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-        뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-        뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-        뽑아만 주십시오! 충. 성 ^^7 차세대 신흥회사로 떠오르고 있는 지우컴퍼니에서 몸을 바치고 싶습니다. 야근 자신있고 주말근무 가능합니다. 
-        뽑아만 주십시오! 충. 성 ^^7`,
-  },
-];
-
+let countDate = 1;
 const MyNoticeDetail = () => {
   const location = useLocation();
   // 이부분에서 get 받았을떄 , 값 게시글 개수에 따라 true false 배열이 필요하다.
@@ -268,10 +221,10 @@ const MyNoticeDetail = () => {
   const [addFlag, setAddFlag] = useState(false);
   const [noticeData, setNoticeData] = useState([]);
   const [tagItem, setTagItem] = useState('');
-  const [scheduleFlag, setScheduleFlag] = useState(false);
   const [totalData, setTotalData] = useState([]);
   const [contentList, setContentList] = useState([]);
   const [firstSelfData, setFirstSelfData] = useState([]); // 첫값 저장해놓는곳
+  const [dateList, setDateList] =useState(['']);
 
 
   // 수정 글자수 count
@@ -279,7 +232,20 @@ const MyNoticeDetail = () => {
 
   useEffect(() => {
     getDetailData();
+    
   }, []);
+  // +플러스 버튼 눌렀을때
+  const handleDateClick = () => {
+    const b = [...dateList];
+    b.push({ index: countDate });
+    countDate = countDate + 1;
+    setDateList(b);
+    
+    console.log(totalData,"토탈데이터")
+    console.log(dateList,"데이터리스트")
+    
+  };
+
 
   // 화면 렌더링시 get 실행
   const getDetailData = () => {
@@ -295,12 +261,37 @@ const MyNoticeDetail = () => {
         arr1.fill(false); // false 로 0을 바꿈
         setContentList(arr1);
         setFirstSelfData(response.data.intros);
+        setDateList(response.data.schedules)
         setNoticeData(response.data);
+        
+        
       });
   };
 
-  // 항목추가 변경 함수
+  // useEffect(() => {
+  //   console.log(noticeData,23423)
+  // }, [noticeData]);
 
+
+
+  const getDateData = data => {
+    setTotalData({ ...totalData, schedules: data });
+  };
+
+
+    /// 할일 모아오는 함수
+    const setDateData = (index, dateData) => {
+    
+      const newArray = [...dateList];
+      newArray[index] = dateData;
+      setDateList(newArray);
+      
+      setTotalData({ ...totalData, schedules: dateList });
+      
+    };
+    useEffect(() => { setTotalData({ ...totalData, schedules: dateList });}, [dateList]);
+    
+  
   const handleChangeAddFlag = () => {
     setAddFlag(!addFlag);
   };
@@ -367,27 +358,29 @@ const MyNoticeDetail = () => {
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
           <h3 style={{ width: '15%' }}>결과를 선택하세요 : </h3>
           <Select
+            key={noticeData.progress}
             onChange={handleProgressChange}
-            defaultValue={noticeData?.progress}
+            defaultValue={noticeData.progress}
           >
-            <option id="titleFont" value="등록">
-              등록
-            </option>
-            <option id="titleFont" value="진행중">
-              진행중
-            </option>
-            <option id="titleFont" value="서류탈락">
-              서류탈락
-            </option>
-            <option id="titleFont" value="코딩테스트탈락">
-              코딩테스트탈락
-            </option>
-            <option id="titleFont" value="면접탈락">
-              면접탈락
-            </option>
-            <option id="titleFont" value="최종합격">
-              최종합격
-            </option>
+          <option id="titleFont" value="등록">
+            등록
+          </option>
+          <option id="titleFont" value="진행중">
+            진행중
+          </option>
+          <option id="titleFont" value="서류탈락">
+            서류탈락
+          </option>
+          <option id="titleFont" value="코딩테스트탈락">
+            코딩테스트탈락
+          </option>
+          <option id="titleFont" value="면접탈락">
+            면접탈락
+          </option>
+          <option id="titleFont" value="최종합격">
+            최종합격
+          </option>
+          
           </Select>
         </div>
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
@@ -401,11 +394,17 @@ const MyNoticeDetail = () => {
           </h3>
         </div>
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-          <h3 style={{ width: '100%' }}>
-            일정 : {scheduleFlag && <MyNoticeSchedule></MyNoticeSchedule>}
+          <h3 style={{ width: '10%' }}>
+            일정등록 :
           </h3>
-          <button onClick={() => setScheduleFlag(!scheduleFlag)}>+</button>
+          <button onClick={handleDateClick}>+</button>
         </div>
+        
+        {dateList.map((li,index) => (
+            <MyNoticeSchedule pushData={li}key={index} li={li} index={index} getDateData={getDateData} setDateDataee={setDateData} ></MyNoticeSchedule>
+          ))}
+          <br></br>
+          
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
           <TagInput
             id="titleFont"
@@ -423,13 +422,16 @@ const MyNoticeDetail = () => {
           </TagBigBox>
         </div>
       </CompanyBox>
+      
+      <br></br>
+      <br></br>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <CreateButton id="contentFont" onClick={handleChangeAddFlag}>
           {addFlag ? '항목 닫기' : '항목 추가'}
         </CreateButton>
       </div>
       {/* 항목추가 눌를때 항목이 생성 */}
-      {addFlag && (
+      {/* {addFlag && (
         <div>
           <MyNoticePlus></MyNoticePlus>
           <br></br>
@@ -437,10 +439,7 @@ const MyNoticeDetail = () => {
             <CreateButton2 id="contentFont">저장</CreateButton2>
           </div>
         </div>
-      )}
-      <br></br>
-      <br></br>
-
+      )} */}
       {noticeData?.intros?.map((intros, index) => (
         <div key={index}>
           <div style={{ display: 'flex' }}>
@@ -450,7 +449,8 @@ const MyNoticeDetail = () => {
               </ResultTag>
             ))}
           </div>
-
+              
+          
           <ContentBox id="contentFont">
             {contentList[index] ? (
               <div>
@@ -468,6 +468,7 @@ const MyNoticeDetail = () => {
                     
                   }}
                 ></ContentTitle2>
+                <div></div>
                 <br></br>
                 <ContentContent2
                   id="contentFont"
@@ -482,6 +483,7 @@ const MyNoticeDetail = () => {
                     );
                     
                   }}
+                  // onChange = {handleChangeEditText}
                 ></ContentContent2>
               </div>
             ) : (
@@ -500,7 +502,7 @@ const MyNoticeDetail = () => {
                 {intros?.contents.replace(/<br\s*\/?>/gm, '\n').length}
               </div>
             </ContentCountBox>
-
+            
             {contentList[index] ? (
               <ContentEditBox>
                 <SaveCancelButton
@@ -533,9 +535,12 @@ const MyNoticeDetail = () => {
               </ContentEditBox>
             )}
           </ContentBox>
+          
+      
           <br></br>
         </div>
       ))}
+      
       <button onClick={()=>console.log(firstSelfData,"최종확인")}>저장하기</button>
     </Wrapper>
   );
