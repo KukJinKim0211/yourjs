@@ -9,8 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScheduleRes {
-    private Integer scheduleSeq;
-    private String scheduleName;
-    private String scheduleDate;
+public class ScheduleDeleteRes {
+    private String answer;
 }

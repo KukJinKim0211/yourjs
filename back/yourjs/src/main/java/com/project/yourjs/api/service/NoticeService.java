@@ -13,11 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.project.yourjs.api.req.Notice.NoticePostReq;
 import com.project.yourjs.api.req.Notice.NoticeUpdateReq;
 import com.project.yourjs.api.req.Notice.ScheduleReq;
+import com.project.yourjs.api.req.Notice.ScheduleUpdateReq;
 import com.project.yourjs.api.res.Notice.NoticeDeleteRes;
 import com.project.yourjs.api.res.Notice.NoticeGetRes;
 import com.project.yourjs.api.res.Notice.NoticePatchRes;
 import com.project.yourjs.api.res.Notice.NoticePostRes;
+import com.project.yourjs.api.res.Notice.ScheduleDeleteRes;
 import com.project.yourjs.api.res.Notice.ScheduleRes;
+import com.project.yourjs.api.res.Notice.ScheduleUpdateRes;
 import com.project.yourjs.db.entity.Notice;
 import com.project.yourjs.db.entity.NoticeTag;
 import com.project.yourjs.db.entity.Schedule;
@@ -25,7 +28,6 @@ import com.project.yourjs.db.entity.User;
 import com.project.yourjs.db.repository.NoticeRepository;
 import com.project.yourjs.db.repository.NoticeTagRepository;
 import com.project.yourjs.db.repository.ScheduleRepository;
-import com.project.yourjs.db.repository.SelfIntroRepository;
 import com.project.yourjs.db.repository.UserRepository;
 
 @Service
@@ -37,7 +39,8 @@ public class NoticeService {
     private final SelfIntroService selfIntroService;
 
     public NoticeService(NoticeRepository noticeRepository, UserRepository userRepository,
-            NoticeTagRepository noticeTagRepository, ScheduleRepository scheduleRepository, SelfIntroService selfIntroService) {
+            NoticeTagRepository noticeTagRepository, ScheduleRepository scheduleRepository,
+            SelfIntroService selfIntroService) {
         this.noticeRepository = noticeRepository;
         this.userRepository = userRepository;
         this.noticeTagRepository = noticeTagRepository;
@@ -62,20 +65,9 @@ public class NoticeService {
                         sb.delete(sb.length() - 2, sb.length());
                     noticeGetRes.setNoticeTag(sb.toString());
                 }
-                List<Schedule> schedules = scheduleRepository.findAllByNoticeSeq(notice.getNoticeSeq());
-                List<ScheduleRes> schedulesRes = new ArrayList<>();
-                if (schedules != null) {
-                    for (Schedule schedule : schedules) {
-                        ScheduleRes scheduleRes = new ScheduleRes();
-                        scheduleRes.setScheduleName(schedule.getScheduleName());
-                        String dateTime = schedule.getScheduleDate().toLocalDate() + " "
-                                + schedule.getScheduleDate().toLocalTime();
-                        scheduleRes.setScheduleDate(dateTime);
-                        schedulesRes.add(scheduleRes);
-                    }
-                }
+
                 noticeGetRes.setNoticeSeq(notice.getNoticeSeq());
-                noticeGetRes.setSchedules(schedulesRes);
+                noticeGetRes.setSchedules(this.getScheduleByNoticeSeq(notice.getNoticeSeq()));
                 noticeGetRes.setCoName(notice.getCoName());
                 noticeGetRes.setLink(notice.getLink());
                 noticeGetRes.setNoticeName(notice.getNoticeName());
@@ -97,19 +89,7 @@ public class NoticeService {
                 noticeGetRes.setLink(notice.getLink());
                 noticeGetRes.setNoticeName(notice.getNoticeName());
                 noticeGetRes.setProgress(notice.getProgress());
-                List<Schedule> schedules = scheduleRepository.findAllByNoticeSeq(notice.getNoticeSeq());
-                List<ScheduleRes> schedulesRes = new ArrayList<>();
-                if (schedules != null) {
-                    for (Schedule schedule : schedules) {
-                        ScheduleRes scheduleRes = new ScheduleRes();
-                        scheduleRes.setScheduleName(schedule.getScheduleName());
-                        String dateTime = schedule.getScheduleDate().toLocalDate() + " "
-                                + schedule.getScheduleDate().toLocalTime();
-                        scheduleRes.setScheduleDate(dateTime);
-                        schedulesRes.add(scheduleRes);
-                    }
-                    noticeGetRes.setSchedules(schedulesRes);
-                }
+                noticeGetRes.setSchedules(this.getScheduleByNoticeSeq(noticeSeq));
                 List<NoticeTag> noticeTagList = noticeTagRepository.findAllByNoticeSeq(notice.getNoticeSeq());
                 if (noticeTagList != null) {
                     StringBuilder sb = new StringBuilder();
@@ -150,23 +130,7 @@ public class NoticeService {
             notice.setCoName(noticePostReq.getCoName());
             notice = noticeRepository.save(notice);
             if (notice != null) {
-                List<ScheduleReq> schedules = noticePostReq.getSchedules();
-                if (schedules != null) {
-                    for (ScheduleReq scheduleReq : schedules) {
-                        Schedule schedule = new Schedule();
-                        schedule.setNoticeSeq(notice.getNoticeSeq());
-                        schedule.setScheduleName(scheduleReq.getScheduleName());
-                        String[] dateTime = scheduleReq.getScheduleDate().split(" ");
-                        String[] date = dateTime[0].split("-");
-                        String[] time = dateTime[1].split(":");
-                        LocalDateTime schedulDateTime = LocalDateTime.of(Integer.parseInt(date[0]),
-                                Month.of(Integer.parseInt(date[1])), Integer.parseInt(date[2]),
-                                Integer.parseInt(time[0]),
-                                Integer.parseInt(time[1]), Integer.parseInt(time[2]));
-                        schedule.setScheduleDate(schedulDateTime);
-                        scheduleRepository.save(schedule);
-                    }
-                }
+                this.updateSchedules(notice.getNoticeSeq(), noticePostReq.getSchedules());
                 String noticeTagList = noticePostReq.getNoticeTag();
                 if (noticeTagList != null) {
                     String[] tagList = noticeTagList.split(", ");
@@ -267,5 +231,80 @@ public class NoticeService {
             }
         }
         return noticeDeleteRes;
+    }
+
+    @Transactional
+    public List<ScheduleRes> getScheduleByNoticeSeq(Integer noticeSeq) {
+        List<Schedule> schedules = scheduleRepository.findAllByNoticeSeq(noticeSeq);
+        List<ScheduleRes> schedulesRes = new ArrayList<>();
+        if (schedules != null) {
+            for (Schedule schedule : schedules) {
+                ScheduleRes scheduleRes = new ScheduleRes();
+                scheduleRes.setScheduleSeq(schedule.getScheduleSeq());
+                scheduleRes.setScheduleName(schedule.getScheduleName());
+                String dateTime = schedule.getScheduleDate().toLocalDate() + " "
+                        + schedule.getScheduleDate().toLocalTime();
+                scheduleRes.setScheduleDate(dateTime);
+                schedulesRes.add(scheduleRes);
+            }
+        }
+        return schedulesRes;
+    }
+
+    @Transactional
+    public void updateSchedules(Integer noticeSeq, List<ScheduleReq> schedules) {
+        if (schedules != null) {
+            for (ScheduleReq scheduleReq : schedules) {
+                Schedule schedule = new Schedule();
+                schedule.setNoticeSeq(noticeSeq);
+                schedule.setScheduleName(scheduleReq.getScheduleName());
+                String[] dateTime = scheduleReq.getScheduleDate().split(" ");
+                String[] date = dateTime[0].split("-");
+                String[] time = dateTime[1].split(":");
+                LocalDateTime schedulDateTime = LocalDateTime.of(Integer.parseInt(date[0]),
+                        Month.of(Integer.parseInt(date[1])), Integer.parseInt(date[2]),
+                        Integer.parseInt(time[0]),
+                        Integer.parseInt(time[1]), Integer.parseInt(time[2]));
+                schedule.setScheduleDate(schedulDateTime);
+                scheduleRepository.save(schedule);
+            }
+        }
+    }
+
+    @Transactional
+    public ScheduleUpdateRes updateSchedule(ScheduleUpdateReq scheduleUpdateReq){
+        ScheduleUpdateRes scheduleUpdateRes = new ScheduleUpdateRes();
+        scheduleUpdateRes.setAnswer("fail");
+        Schedule schedule = new Schedule();
+        schedule.setScheduleSeq(scheduleUpdateReq.getScheduleSeq());
+        schedule.setNoticeSeq(scheduleUpdateReq.getNoticeSeq());
+        schedule.setScheduleName(scheduleUpdateReq.getScheduleName());
+        String[] dateTime = scheduleUpdateReq.getScheduleDate().split(" ");
+        String[] date = dateTime[0].split("-");
+        String[] time = dateTime[1].split(":");
+        LocalDateTime schedulDateTime = LocalDateTime.of(Integer.parseInt(date[0]),
+                        Month.of(Integer.parseInt(date[1])), Integer.parseInt(date[2]),
+                        Integer.parseInt(time[0]),
+                        Integer.parseInt(time[1]), Integer.parseInt(time[2]));
+        schedule.setScheduleDate(schedulDateTime);
+        Schedule scheduleRes = scheduleRepository.save(schedule);
+        if(scheduleRes != null)
+            scheduleUpdateRes.setAnswer("success");
+
+        return scheduleUpdateRes;
+    }
+
+    @Transactional
+    public ScheduleDeleteRes deleteSchedule(Integer scheduleSeq){
+        ScheduleDeleteRes scheduleDeleteRes = new ScheduleDeleteRes();
+        scheduleDeleteRes.setAnswer("fail");
+        Optional<Schedule> oSchedule = scheduleRepository.findById(scheduleSeq);
+        if(oSchedule.isPresent()){
+            Schedule schedule = oSchedule.get();
+            scheduleRepository.delete(schedule);
+            scheduleDeleteRes.setAnswer("success");
+        }
+            
+        return scheduleDeleteRes;
     }
 }

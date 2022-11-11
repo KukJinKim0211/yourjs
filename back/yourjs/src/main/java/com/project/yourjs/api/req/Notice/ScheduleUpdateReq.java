@@ -1,4 +1,4 @@
-package com.project.yourjs.api.res.Notice;
+package com.project.yourjs.api.req.Notice;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScheduleRes {
+public class ScheduleUpdateReq {
     private Integer scheduleSeq;
+    private Integer noticeSeq;
     private String scheduleName;
     private String scheduleDate;
 }

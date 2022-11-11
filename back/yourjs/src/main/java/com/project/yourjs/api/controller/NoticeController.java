@@ -20,12 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.yourjs.api.req.Notice.NoticeDeleteReq;
 import com.project.yourjs.api.req.Notice.NoticePostReq;
 import com.project.yourjs.api.req.Notice.NoticeUpdateReq;
+import com.project.yourjs.api.req.Notice.ScheduleDeleteReq;
+import com.project.yourjs.api.req.Notice.ScheduleUpdateReq;
 import com.project.yourjs.api.res.Notice.NoticeDeleteRes;
 import com.project.yourjs.api.res.Notice.NoticeGetRes;
 import com.project.yourjs.api.res.Notice.NoticePatchRes;
 import com.project.yourjs.api.res.Notice.NoticePostRes;
+import com.project.yourjs.api.res.Notice.ScheduleDeleteRes;
+import com.project.yourjs.api.res.Notice.ScheduleUpdateRes;
 import com.project.yourjs.api.service.NoticeService;
-import com.project.yourjs.db.entity.Notice;
+import com.project.yourjs.db.entity.Schedule;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -34,7 +38,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@CrossOrigin(origins = {"*"}, maxAge = 6000)
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @Tag(name = "Notice", description = "공고")
 @RestController
 @RequestMapping(("/notice"))
@@ -47,10 +51,10 @@ public class NoticeController {
 
   @Operation(summary = "공고 목록 조회")
   @ApiResponses(value = {
-    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticeGetRes.class))),
-    @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
-    @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
-    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+      @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticeGetRes.class))),
+      @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
   })
   @GetMapping
   @PreAuthorize("hasAnyRole('USER','ADMIN')")
@@ -60,10 +64,10 @@ public class NoticeController {
 
   @Operation(summary = "공고 단일 조회")
   @ApiResponses(value = {
-    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticeGetRes.class))),
-    @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
-    @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
-    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+      @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticeGetRes.class))),
+      @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
   })
   @GetMapping("/{noticeSeq}")
   @PreAuthorize("hasAnyRole('USER','ADMIN')")
@@ -73,10 +77,10 @@ public class NoticeController {
 
   @Operation(summary = "공고 등록")
   @ApiResponses(value = {
-    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePostRes.class))),
-    @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
-    @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
-    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+      @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePostRes.class))),
+      @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
   })
   @PostMapping
   @PreAuthorize("hasAnyRole('USER','ADMIN')")
@@ -87,10 +91,10 @@ public class NoticeController {
 
   @Operation(summary = "공고 수정")
   @ApiResponses(value = {
-    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePatchRes.class))),
-    @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
-    @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
-    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+      @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticePatchRes.class))),
+      @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
   })
   @PatchMapping
   @PreAuthorize("hasAnyRole('USER','ADMIN')")
@@ -101,14 +105,41 @@ public class NoticeController {
 
   @Operation(summary = "공고 삭제")
   @ApiResponses(value = {
-    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticeDeleteRes.class))),
-    @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
-    @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
-    @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+      @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = NoticeDeleteRes.class))),
+      @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
   })
   @DeleteMapping
   @PreAuthorize("hasAnyRole('USER','ADMIN')")
-  public ResponseEntity<NoticeDeleteRes> deleteNotice(Authentication authentication, @RequestBody NoticeDeleteReq noticeDeleteReq) {
+  public ResponseEntity<NoticeDeleteRes> deleteNotice(Authentication authentication,
+      @RequestBody NoticeDeleteReq noticeDeleteReq) {
     return ResponseEntity.ok(noticeService.deleteNotice(authentication.getName(), noticeDeleteReq.getNoticeSeq()));
+  }
+
+  @Operation(summary = "일정 단일 수정")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = ScheduleUpdateReq.class))),
+      @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+  })
+  @PatchMapping("/schedule")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
+  public ResponseEntity<ScheduleUpdateRes> updateSchedule(@RequestBody ScheduleUpdateReq scheduleUpdateReq) {
+    return ResponseEntity.ok(noticeService.updateSchedule(scheduleUpdateReq));
+  }
+
+  @Operation(summary = "일정 단일 삭제")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = ScheduleDeleteReq.class))),
+      @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+  })
+  @DeleteMapping("/schedule")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
+  public ResponseEntity<ScheduleDeleteRes> deleteSchedule(@RequestBody ScheduleDeleteReq scheduleDeleteReq) {
+    return ResponseEntity.ok(noticeService.deleteSchedule(scheduleDeleteReq.getScheduleSeq()));
   }
 }

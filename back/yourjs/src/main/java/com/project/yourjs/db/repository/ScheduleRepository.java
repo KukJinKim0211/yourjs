@@ -8,5 +8,6 @@ import com.project.yourjs.db.entity.Schedule;
 
 public interface ScheduleRepository extends JpaRepository <Schedule, Integer>{ 
     List<Schedule> findAllByNoticeSeq(Integer noticeSeq);  
-    void deleteAllByNoticeSeq(Integer noticeSeq); 
+    void deleteAllByNoticeSeq(Integer noticeSeq);
+    Schedule deleteByScheduleSeq(Integer scheduleSeq);
 }
