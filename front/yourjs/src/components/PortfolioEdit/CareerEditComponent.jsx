@@ -1,22 +1,22 @@
 import React from 'react';
-import styled from 'styled-components';
 import { useState } from 'react';
-import { Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxdepartment} from '../Portfolio/personal';
+import {Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle,
+  BoxInput, BoxArea, SaveButton, Essential, EssentialDate} from '../../common/PorfoStyled';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
-import { BoxInput, BoxArea, SaveButton } from './ProjectEditComponent';
+import axiosInstance from '../../common/customAxios';
+import { apis } from '../../common/apis';
 
 
-const CareerEditComponent = ({}) => {
+const CareerEditComponent = ({getServerData}) => {
   const [company, setCompany] = useState('');
   const [department, setDepartment] = useState('');
   const [position, setPosition] = useState('');
   const [salary, setSalary] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [file, setFile] = useState('');
-  const [data, setData] = useState({company: '', department: '', position: '', salary: '', startDate: '', endDate: '', file: ''});
+  const [data, setData] = useState({company: '', department: '', position: '', salary: '', startDate: '', endDate: ''});
 
   const onChangeCompanyHandler = e => {
     setCompany(e.target.value);
@@ -38,15 +38,42 @@ const CareerEditComponent = ({}) => {
     setData({ ...data, salary: salary });
   };
 
-  const onChangeFileHandler = e => {
-    setFile(e.target.value);
-    setData({ ...data, file: file });
+  const addButtonClicked = () => {
+    const data = {
+      company: company === "" ? null : company,
+      startDate: startDate === "" ? null : startDate,
+      endDate,
+      department: department === "" ? null : department,
+      position: position === "" ? null : position,
+      salary,
+    }
+    console.log(data)
+    if (data.company === null || data.startDate === null || data.department === null || data.position === null) {
+      alert("필수값을 입력해 주세요.")
+    } else {
+    axiosInstance
+      .post(apis.career, data)
+      .then(response => {
+        console.log('AA')
+        if (response.status === 200) {
+          getServerData()
+          setCompany('')
+          setDepartment('')
+          setPosition('')
+          setSalary('')
+          setStartDate('')
+          setEndDate('')
+        }
+      })
+      .catch(error => console.log(error));}
   };
 
   return (
     <Content>
       <LeftBox style={{marginLeft: "2rem"}}>
-      <br/>
+        <br/>
+        <LeftBoxTitle>시작일<EssentialDate>(*)</EssentialDate>{"\u00A0"}{"\u00A0"}~{"\u00A0"}{"\u00A0"}종료일</LeftBoxTitle>
+        <LeftBoxContent>
         <DatePicker
             style ={{"z-index" : 999}}
             placeholderText='시작일'
@@ -56,8 +83,8 @@ const CareerEditComponent = ({}) => {
             id="contentFont"
             onChange={date => setStartDate(date)}
             selected={startDate}
-        ></DatePicker>
-        ~
+        ></DatePicker></LeftBoxContent>
+        ~<LeftBoxContent>
         <DatePicker
             style ={{"z-index" : 999}}
             placeholderText='종료일'
@@ -67,14 +94,16 @@ const CareerEditComponent = ({}) => {
             id="contentFont"
             onChange={date => setEndDate(date)}
             selected={endDate}
-        ></DatePicker>
+        ></DatePicker></LeftBoxContent>
         <br/><br/>
-        <SaveButton>추가</SaveButton>
+        <SaveButton
+          onClick={addButtonClicked}
+        >추가</SaveButton>
       </LeftBox>
       <CenterBox></CenterBox>
       <RightBoxes>
         <RightBox>
-          <RightBoxTitle>회사명</RightBoxTitle>
+          <RightBoxTitle>회사명 <Essential>(*)</Essential></RightBoxTitle>
           <BoxInput 
             value={company}
             onChange={onChangeCompanyHandler}
@@ -82,7 +111,7 @@ const CareerEditComponent = ({}) => {
           ></BoxInput>
         </RightBox>
         <RightBox>
-          <RightBoxTitle>수상내용</RightBoxTitle>
+          <RightBoxTitle>부서명 <Essential>(*)</Essential></RightBoxTitle>
           <BoxInput 
             value={department}
             onChange={onChangeDepartmentHandler}
@@ -90,7 +119,7 @@ const CareerEditComponent = ({}) => {
           ></BoxInput>
         </RightBox>
         <RightBox>
-          <RightBoxTitle>수상기관</RightBoxTitle>
+          <RightBoxTitle>직위 <Essential>(*)</Essential></RightBoxTitle>
           <BoxInput 
             value={position}
             onChange={onChangePositionHandler}
@@ -102,15 +131,7 @@ const CareerEditComponent = ({}) => {
           <BoxInput 
             value={salary}
             onChange={onChangeSalaryHandler}
-            placeholder='연봉을 입력해 주세요'
-          ></BoxInput>
-        </RightBox>
-        <RightBox>
-          <RightBoxTitle>파일</RightBoxTitle>
-          <BoxInput 
-            value={file}
-            onChange={onChangeFileHandler}
-            placeholder='파일을 업로드해 주세요'
+            placeholder='연봉을 숫자로 입력해 주세요'
           ></BoxInput>
         </RightBox>
       </RightBoxes>

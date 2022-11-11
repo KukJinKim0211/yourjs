@@ -13,6 +13,7 @@ import Sidebar from '../components/Portfolio/sidebar';
 import { Link } from 'react-router-dom';
 import { fullWidth } from '../common/size';
 
+
 const Wrapper = styled.div`
   width: 100%;
 `

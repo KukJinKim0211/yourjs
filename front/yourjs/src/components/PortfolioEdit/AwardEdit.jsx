@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components';
 import { useState } from 'react';
-import { Container, ContentTitle, ContentSet, Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr} from '../Portfolio/personal';
-import { ChangeButton, DelButton } from './ProjectEdit';
+import {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,
+  ChangeButton, DelButton, customStyles, ModalForm, ModalTitle, ModalContent, ModalContentDate, InsertBtnDiv, InsertBtn} from '../../common/PorfoStyled';
 
 
 const dataArr = [

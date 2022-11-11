@@ -1,53 +1,13 @@
 import React from 'react';
-import styled from 'styled-components';
-import { useState, useEffect } from 'react';
-import { Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, LeftBoxTitle, LeftBoxContent } from '../Portfolio/personal';
+import { useState } from 'react';
+import {Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle,
+  BoxInput, BoxArea, SaveButton, Essential, EssentialDate} from '../../common/PorfoStyled';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 
-
-const BoxInput = styled.input`
-  border: none;
-  width: 70%;
-  border-bottom: 2px solid #b7cdee;
-  :focus {
-    outline: none;
-  }
-  padding: 0.5rem;
-  font-family: 'InfinitySans-RegularA1';
-`
-
-const BoxArea = styled.textarea`
-  border: none;
-  width: 70%;
-  border-bottom: 2px solid #b7cdee;
-  :focus {
-    outline: none;
-  }
-  padding: 0.5rem;
-  font-family: 'InfinitySans-RegularA1';
-`
-
-const SaveButton = styled.button`
-  width: 4rem;
-  height: 3rem;
-  margin-left: 2rem;
-  cursor: pointer;
-`
-
-const Essential = styled.text`
-  color: red;
-`
-
-const EssentialDate = styled.text`
-  color: red;
-  display: flex;
-`
-
-export {BoxInput, BoxArea, SaveButton, Essential}
 
 const ProjectEditComponent = ({getServerData}) => {
   const [projectName, setProjectName] = useState('');

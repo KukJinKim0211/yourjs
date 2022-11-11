@@ -12,13 +12,14 @@ import CertificateEditComponent from '../components/PortfolioEdit/CertificateEdi
 import AwardEdit from '../components/PortfolioEdit/AwardEdit';
 import AwardEditComponent from '../components/PortfolioEdit/AwardEditComponent';
 import CareerEdit from '../components/PortfolioEdit/CareerEdit';
-import CareerEditComponent from '../components/PortfolioEdit/CarrerEditComponent';
+import CareerEditComponent from '../components/PortfolioEdit/CareerEditComponent';
 import ProjectEdit from '../components/PortfolioEdit/ProjectEdit';
 import ProjectEditComponent from '../components/PortfolioEdit/ProjectEditComponent';
 import { fullWidth } from '../common/size';
 import { useEffect } from 'react';
 import axiosInstance from '../common/customAxios';
 import { apis } from '../common/apis';
+import { colors } from '../common/color';
 
 
 const Box = styled.div`
@@ -34,7 +35,7 @@ const Box = styled.div`
 `;
 
 const TabMenu = styled.ul`
-  background-color: #d4e1f5;
+  background-color: ${colors.bsColor2};
   color: white;
   display: flex;
   flex-direction: column;
@@ -85,27 +86,36 @@ const PortfolioEdit = () => {
   
     const [openTab, setOpenTab] = useState(0);
     const [viewData, setViewData] = useState([]);
-    useEffect(() => {
-      setViewData()
-    }, [])
+    const [zeroData, setZeroData] = useState('');
 
     //토탈 데이터 받아오는 함수
     const getServerData = () => {
+      if (openTab === 0) {
       axiosInstance
         .get(apiSequence[openTab])
-        .then(response => setViewData(response.data))
+        .then(response => { 
+          setZeroData(response.data);
+        })}
+      
+      else {
+      axiosInstance
+        .get(apiSequence[openTab])
+        .then(response => { 
+          setViewData(response.data);
+        })}
     }
 
     useEffect(() => {
-
+      console.log("WWWWWWWWWWWWWWWWWWWWWw");
+      console.log(viewData);
     }, [viewData])
 
-    useEffect(() => {
-      getServerData(openTab)
-    }, [])
+    // useEffect(() => {
+    //   getServerData(openTab)
+    // }, [])
 
     useEffect(() => {
-      console.log("오픈탭====================", openTab);
+      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!오픈탭 변경", openTab)
       getServerData(openTab);
     }, [openTab])
 
@@ -116,11 +126,12 @@ const PortfolioEdit = () => {
         { name: '교육사항', content: <TrainingEdit/>, component: <TrainingEditComponent/> },
         { name: '자격증 / 어학', content: <CertificateEdit/>, component: <CertificateEditComponent/> },
         { name: '수상내역', content: <AwardEdit/>, component: <AwardEditComponent/> },
-        { name: '커리어', content: <CareerEdit/>, component: <CareerEditComponent/>},
+        { name: '커리어', content: <CareerEdit dataArr={viewData} getServerData={getServerData}/>, component: <CareerEditComponent getServerData={getServerData}/>},
         { name: '프로젝트', content: <ProjectEdit dataArr={viewData} getServerData={getServerData}/>, component: <ProjectEditComponent getServerData={getServerData}/> },
     ];
 
     const selectMenuHandler = (index) => {
+        console.log(index);
         setOpenTab(index);
         
     };

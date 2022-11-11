@@ -1,15 +1,59 @@
 import React from 'react'
-import styled from 'styled-components';
 import { useState } from 'react';
-import { Container, ContentTitle, ContentSet, Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr} from '../Portfolio/personal';
-import { ChangeButton, DelButton } from './ProjectEdit';
+import {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,
+  ChangeButton, DelButton, customStyles, ModalForm, ModalTitle, ModalContent, ModalContentArea, ModalContentDate, InsertBtnDiv, InsertBtn,
+  BoxInput, BoxArea, SaveButton, Essential, EssentialDate} from '../../common/PorfoStyled';
+import axiosInstance from '../../common/customAxios';
+import { apis } from '../../common/apis';
+import Modal from 'react-modal';
+import { ko } from 'date-fns/esm/locale';
+import DatePicker from 'react-datepicker';
+import dayjs from 'dayjs';
 
 
-const dataArr = [
-  { company: '삼성전자', department: 'IT개발', position: '대리', salary: '5000만', startDate: '2021.01.01', endDate: '2021.12.12'},
-];
+Modal.setAppElement('#root');
 
-const CareerEdit = () => {
+const CareerEdit = ({dataArr, getServerData}) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalData, setModalData] = useState({});
+
+  const openModal = (index) => {
+    setModalOpen(true);
+    setModalData(dataArr[index]);
+  }
+
+  const closeModal = () => {
+    setModalOpen(false);
+  }
+
+  const delButtonClicked = (careerSeq) => {
+    axiosInstance
+      .delete(apis.career, {
+        data: {"careerSeq": careerSeq}
+      })
+      .then(response => {
+        if (response.status === 200) {
+          getServerData()
+        }
+      })
+      .catch(error => console.log(error));
+  };
+
+  const insertBtnClicked = () => {
+    if (modalData.company === '' || modalData.department === '' || modalData.position === '' || modalData.startDate === '') {
+      alert("필수값을 입력해 주세요.")
+    } else {
+    axiosInstance
+      .put(apis.career, modalData)
+      .then(response => {
+        if (response.status === 200) {
+          getServerData()
+          closeModal()
+        }
+      })
+      .catch(error => console.log(error));}
+  }
+
 
   return (
     <div>
@@ -17,11 +61,85 @@ const CareerEdit = () => {
         <ContentTitle>📈 커리어</ContentTitle>
         <ContentSet>
           <Hr></Hr>
-          {dataArr.map((el, index) => (
+          <Modal
+            isOpen={modalOpen}
+            onRequestClose={closeModal}
+            style={customStyles}
+            contentLabel="Example Modal"
+          >
+            <ModalForm>
+              <ModalTitle>시작일 <Essential>(*)</Essential></ModalTitle>
+              <ModalContentDate>
+                <DatePicker
+                  placeholderText='시작일'
+                  locale={ko}
+                  dateFormat="yyyy-MM-dd"
+                  autoComplete="off"
+                  id="contentFont"
+                  value={modalData.startDate}
+                  onChange={(e) => setModalData({...modalData, startDate: dayjs(e).format('YYYY-MM-DD')})}
+                  >
+                </DatePicker>
+              </ModalContentDate>
+              <ModalTitle>종료일</ModalTitle>
+              <ModalContentDate>
+                <DatePicker
+                  placeholderText='종료일'
+                  locale={ko}
+                  dateFormat="yyyy-MM-dd"
+                  autoComplete="off"
+                  id="contentFont"
+                  value={modalData.endDate}
+                  onChange={(e) => setModalData({...modalData, endDate: dayjs(e).format('YYYY-MM-DD')})}
+                  >
+                </DatePicker>
+              </ModalContentDate>
+            </ModalForm>
+            <ModalForm>
+              <ModalTitle>회사명 <Essential>(*)</Essential></ModalTitle>
+              <ModalContent
+                type="text"
+                value={modalData.company}
+                onChange={(e) => setModalData({...modalData, company: e.target.value})} />
+            </ModalForm>
+            <ModalForm>
+              <ModalTitle>부서명 <Essential>(*)</Essential></ModalTitle>
+              <ModalContent
+                type="text"
+                value={modalData.department}
+                onChange={(e) => setModalData({...modalData, department: e.target.value})} />
+            </ModalForm>
+            <ModalForm>
+              <ModalTitle>직위 <Essential>(*)</Essential></ModalTitle>
+              <ModalContent
+                type="text"
+                value={modalData.position}
+                onChange={(e) => setModalData({...modalData, position: e.target.value})} />
+            </ModalForm>
+            <ModalForm>
+              <ModalTitle>연봉 </ModalTitle>
+              <ModalContent
+                type="text"
+                value={modalData.salary}
+                onChange={(e) => setModalData({...modalData, salary: e.target.value})} />
+            </ModalForm>
+            <InsertBtnDiv>
+              <InsertBtn
+                id="contentFont"
+                onClick={insertBtnClicked}
+              >수정</InsertBtn>
+              <InsertBtn
+                id="contentFont"
+                onClick={() => closeModal()}
+              >취소</InsertBtn>
+            </InsertBtnDiv>
+          </Modal>
+
+          {dataArr?.map((el, index) => (
             <Content key={index}>
               <LeftBox>{el.startDate}<br/>~ {el.endDate}<br/><br/>
-              <ChangeButton>수정</ChangeButton>
-              <DelButton>삭제</DelButton></LeftBox>
+              <ChangeButton onClick={() => openModal(index)}>수정</ChangeButton>
+              <DelButton onClick={() => delButtonClicked(el.careerSeq)}>삭제</DelButton></LeftBox>
               <CenterBox></CenterBox>
               <RightBoxes>
                 <RightBox>
@@ -40,12 +158,11 @@ const CareerEdit = () => {
                   <RightBoxTitle>연봉</RightBoxTitle>
                   <RightBoxContent>{el.salary}</RightBoxContent>
                 </RightBox>
-                <RightBox>파일</RightBox>
               </RightBoxes>
             </Content>
-            ))}
-          </ContentSet>
-        </Container>
+          ))}
+        </ContentSet>
+      </Container>
     </div>
   )
 }

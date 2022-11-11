@@ -1,96 +1,17 @@
 import React from 'react'
-import styled from 'styled-components';
 import { useState } from 'react';
-import { Container, ContentTitle, ContentSet, Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr} from '../Portfolio/personal';
+import {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,
+  ChangeButton, DelButton, customStyles, ModalForm, ModalTitle, ModalContent, ModalContentArea, ModalContentDate, InsertBtnDiv, InsertBtn,
+  BoxInput, BoxArea, SaveButton, Essential, EssentialDate} from '../../common/PorfoStyled';
 import axiosInstance from '../../common/customAxios';
-import { apis, SERVER_IP } from '../../common/apis';
-import Project from '../Portfolio/project';
-import axios from 'axios';
-import { useEffect } from 'react';
+import { apis } from '../../common/apis';
 import Modal from 'react-modal';
-import { colors } from '../../common/color';
 import { ko } from 'date-fns/esm/locale';
 import DatePicker from 'react-datepicker';
 import dayjs from 'dayjs';
-import { Essential } from './ProjectEditComponent';
 
-
-const ChangeButton = styled.button`
-  width: 4rem;
-  height: 2rem;
-  cursor: pointer;
-  margin: 0.5rem;
-`
-
-const DelButton = styled.button`
-  width: 4rem;
-  height: 2rem;
-  cursor: pointer;
-  margin: 0.5rem;
-`
-
-export {ChangeButton, DelButton}
-
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    width: '50%',
-    // height: '50%',
-    height: "fit-content"
-  },
-};
 
 Modal.setAppElement('#root');
-
-const ModalForm = styled.div`
-  display: flex;
-  margin-bottom: 1rem;
-`
-
-const ModalTitle = styled.div`
-  font-size: 1rem;
-  margin-bottom: 1%;
-  font-family: 'InfinitySans-RegularA1';
-  width: 35%;
-  text-align: center;
-`
-
-const ModalContent = styled.input`
-  font-size: 1rem;
-  margin-bottom: 1%;
-  font-family: 'GmarketSansMedium';
-  width: 60%;
-`
-
-const ModalContentDate = styled.div`
-  font-size: 1rem;
-  margin-bottom: 3%;
-  font-family: 'GmarketSansMedium';
-  width: 60%;
-`
-
-const InsertBtnDiv = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const InsertBtn = styled.button`
-  cursor: pointer;
-  border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  font-size: 1.1rem;
-  margin: 1rem;
-  padding: 0.5rem;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.3);
-  }
-`;
 
 const ProjectEdit = ({dataArr, getServerData}) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -132,7 +53,6 @@ const ProjectEdit = ({dataArr, getServerData}) => {
       })
       .catch(error => console.log(error));}
   }
-
 
   return (
     <div>
@@ -197,7 +117,7 @@ const ProjectEdit = ({dataArr, getServerData}) => {
             </ModalForm>
             <ModalForm>
               <ModalTitle>내용 <Essential>(*)</Essential></ModalTitle>
-              <ModalContent
+              <ModalContentArea
                 type="text"
                 value={modalData.content}
                 onChange={(e) => setModalData({...modalData, content: e.target.value})} />
@@ -213,7 +133,6 @@ const ProjectEdit = ({dataArr, getServerData}) => {
               >취소</InsertBtn>
             </InsertBtnDiv>
           </Modal>
-
           {dataArr?.map((el, index) => (
             <Content key={index}>
               <LeftBox>{el.startDate}<br/>~ {el.endDate}<br/><br/>
@@ -235,7 +154,7 @@ const ProjectEdit = ({dataArr, getServerData}) => {
                 </RightBox>
                 <RightBox>
                   <RightBoxTitle>내용</RightBoxTitle>
-                  <RightBoxContent>{el.content}</RightBoxContent>
+                  <RightBoxContent>{el.content?.split("\n").map((e, index) => <div key={index}>{e}</div>)}</RightBoxContent>
                 </RightBox>
                 <RightBox>파일</RightBox>
               </RightBoxes>
