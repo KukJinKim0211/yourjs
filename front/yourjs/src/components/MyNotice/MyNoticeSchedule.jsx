@@ -38,6 +38,8 @@ const MyNoticeSchedule = ({ getDateData,setDateDataee,index ,pushData}) => {
   const [scheduleDate, setScheduleDate] = useState('');
 
 
+  
+
   // console.log(pushData.scheduleName,"오이야호")
 //   useEffect(() => {
 //     setDateDataee(index, {
@@ -49,16 +51,19 @@ const MyNoticeSchedule = ({ getDateData,setDateDataee,index ,pushData}) => {
   // 할일 명 변경
 
   useEffect(() => {
+    if (dateData.length !== 0) {
     setDateDataee(index, {
       scheduleName: dateData.scheduleName,
       scheduleDate: dateData.scheduleDate,
-    });
-  }, [dateData]);
+    });}
+    
+  }, [scheduleDate]);
 
   const handleScheduleName = e => {
 
     
     setDateData({ ...dateData, scheduleName: e.target.value });
+    
     
   };
 

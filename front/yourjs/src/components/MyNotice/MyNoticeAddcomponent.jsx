@@ -91,6 +91,7 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
 
   
   useEffect(() => {
+    console.log(index,"컴포넌트안 출력")
     settingNoticeData(index, {
       question: pushData.question,
       contents: pushData.contents,
