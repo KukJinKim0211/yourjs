@@ -2,21 +2,63 @@
 import styled, { useEffect } from 'styled-components';
 import { colors } from '../common/color';
 import { FullPage, Slide } from 'react-full-page';
+import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import {
+  faUser,
+  faPeopleArrows,
+  faFileContract,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import logo from '../img/logo.png';
 
 const Wrapper = styled.div`
   background-color: ${colors.bsColor0};
   width: 100%;
-  height: 400%;
+  height: 500%;
+`;
+
+const LogoDiv = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 30%;
+  top: 10%;
+  display: flex;
+  justify-content: center;
+`;
+
+const LogoImage = styled.img`
+  height: 100%;
+  user-select: none;
+`;
+
+LogoImage.defaultProps = {
+  src: logo,
+};
+
+const LoginButton = styled.button`
+  position: absolute;
+  top: 75%;
+  left: 37%;
+  width: 26%;
+  height: 10%;
+  background-color: ${colors.bsColor3};
+  border: none;
+  cursor: pointer;
+  border-radius: 15px;
+  color: white;
+  font-size: 38px;
 `;
 
 const TitleDiv = styled.div`
   position: absolute;
   top: 50%;
-  left: 60%;
-  width: 500px;
-  height: 50px;
+  width: 100%;
+  height: 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   color: ${colors.bsColor4};
   font-size: 36px;
   user-select: none;
@@ -70,18 +112,8 @@ const CalendarDiv = styled.div`
   position: absolute;
   top: 20%;
   left: 15%;
-  width: 600px;
-  height: 500px;
-  background-color: #ccd6dd;
-  border-radius: 40px;
-`;
-
-const PortfolioDiv = styled.div`
-  position: absolute;
-  top: 15%;
-  left: 60%;
-  width: 600px;
-  height: 600px;
+  width: 35%;
+  height: 60%;
   background-color: #ccd6dd;
   border-radius: 40px;
 `;
@@ -124,14 +156,97 @@ const CalendarContentDayDiv = styled.div`
   user-select: none;
 `;
 
+const PortfolioDiv = styled.div`
+  position: absolute;
+  top: 15%;
+  left: 60%;
+  width: 30%;
+  height: 65%;
+  background-color: #ccd6dd;
+  border-radius: 40px;
+`;
+
+const PortfolioTitle = styled.div`
+  width: 100%;
+  height: 25%;
+  display: flex;
+`;
+
+const PortfolioTitleProfile = styled.div`
+  width: 35%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const PortfolioTitleContent = styled.div`
+  width: 65%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const PortfolioContent = styled.div`
+  width: 100%;
+  height: 75%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const PortfolioLineWrite = styled.div`
+  width: 80%;
+  height: 10px;
+  margin-top: 25px;
+  background-color: rgba(0, 0, 0, 0.6);
+`;
+
+const NoticeDiv = styled.div`
+  position: absolute;
+  top: 20%;
+  left: 15%;
+  width: 35%;
+  height: 60%;
+  border-radius: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const NoticeFirstDiv = styled.div`
+  width: 100%;
+  height: 30%;
+  display: flex;
+  justify-content: center;
+`;
+
+const NoticeSecondDiv = styled.div`
+  width: 100%;
+  height: 30%;
+  display: flex;
+  justify-content: center;
+`;
+
 const FirstPage = () => {
   return (
-    <TitleDiv>
-      <p>
-        나만의 취업 다이어리
-        <span style={{ textAlign: 'right' }}>your.js</span>
-      </p>
-    </TitleDiv>
+    <>
+      <LogoDiv>
+        <LogoImage />
+      </LogoDiv>
+      <TitleDiv>
+        <p style={{ textAlign: 'center' }}>
+          나만의 취업 다이어리
+          <br />
+          yourjs
+        </p>
+      </TitleDiv>
+      <Link to="/login" style={{ textDecoration: 'none' }} id="navBarFont">
+        <LoginButton id="titleFont">시작하기</LoginButton>
+      </Link>
+    </>
   );
 };
 
@@ -201,7 +316,37 @@ const ThirdPage = () => {
       <ThirdContentDiv data-aos="zoom-in" data-aos-delay="300" id="contentFont">
         공통으로 작성될 내용을 정리할 수 있어요
       </ThirdContentDiv>
-      <PortfolioDiv data-aos="zoom-in" data-aos-delay="700"></PortfolioDiv>
+      <PortfolioDiv data-aos="zoom-in" data-aos-delay="700">
+        <PortfolioTitle>
+          <PortfolioTitleProfile>
+            <div
+              style={{
+                width: '70%',
+                height: '80%',
+                backgroundColor: 'white',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: '5px',
+              }}
+            >
+              <FontAwesomeIcon icon={faUser} size="5x" />
+            </div>
+          </PortfolioTitleProfile>
+          <PortfolioTitleContent>
+            <PortfolioLineWrite />
+            <PortfolioLineWrite />
+            <PortfolioLineWrite />
+          </PortfolioTitleContent>
+        </PortfolioTitle>
+        <PortfolioContent>
+          <PortfolioLineWrite />
+          <PortfolioLineWrite />
+          <PortfolioLineWrite />
+          <PortfolioLineWrite />
+          <PortfolioLineWrite />
+        </PortfolioContent>
+      </PortfolioDiv>
     </>
   );
 };
@@ -210,18 +355,37 @@ const FourthPage = () => {
   return (
     <>
       <SecondTitleDiv data-aos="zoom-in" data-aos-delay="300" id="titleFont">
-        내 <span style={{ color: 'skyblue' }}>포트폴리오</span> 관리
+        공고 <span style={{ color: 'skyblue' }}>찾기</span>
       </SecondTitleDiv>
       <SecondContentDiv
         data-aos="zoom-in"
         data-aos-delay="300"
         id="contentFont"
       >
-        공통으로 작성될 내용을 정리할 수 있어요
+        관심분야가 같은 다른 사람의
+        <br />
+        공고를 확인할 수 있어요
       </SecondContentDiv>
-      <PortfolioDiv data-aos="zoom-in" data-aos-delay="700"></PortfolioDiv>
+      <NoticeDiv data-aos="zoom-in" data-aos-delay="700">
+        <NoticeFirstDiv>
+          <FontAwesomeIcon icon={faUser} size="7x" />
+        </NoticeFirstDiv>
+        <NoticeSecondDiv>
+          <FontAwesomeIcon icon={faUser} size="7x" />
+          <FontAwesomeIcon
+            icon={faFileContract}
+            size="5x"
+            style={{ marginLeft: '10%', marginRight: '10%' }}
+          />
+          <FontAwesomeIcon icon={faUser} size="7x" />
+        </NoticeSecondDiv>
+      </NoticeDiv>
     </>
   );
+};
+
+const CustomControls = () => {
+  return <div>HHI</div>;
 };
 
 const Main = () => {
@@ -234,7 +398,7 @@ const Main = () => {
   AOS.init();
   return (
     <Wrapper>
-      <FullPage duration={1000}>
+      <FullPage>
         <Slide style={{ position: 'relative' }}>
           <FirstPage />
         </Slide>
@@ -246,6 +410,9 @@ const Main = () => {
         </Slide>
         <Slide style={{ position: 'relative' }}>
           <FourthPage />
+        </Slide>
+        <Slide style={{ position: 'relative' }}>
+          <FirstPage />
         </Slide>
       </FullPage>
     </Wrapper>
