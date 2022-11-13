@@ -1,8 +1,90 @@
 //MyPage
-import React from 'react';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import MyAccountInfo from '../components/MyPage/MyAccountInfo';
+import ManageAccount from '../components/MyPage/ManageAccount';
+import PasswordChange from '../components/MyPage/PasswordChange';
+import InfoLevelSet from '../components/MyPage/InfoLevelSet';
+import { fullWidth } from '../common/size';
+import { colors } from '../common/color';
+
+const menuItemList = [
+  '내정보보기',
+  '계정관리',
+  '비밀번호변경',
+  '공개범위설정',
+  '계정탈퇴',
+];
+
+const Wrapper = styled.div`
+  width: ${fullWidth};
+  height: 100%;
+  display: flex;
+`;
+
+const ContentDiv = styled.div`
+  width: 75%;
+  margin-top: 5%;
+`;
+
+const MenuDiv = styled.div`
+  width: 20%;
+  margin-top: 5%;
+`;
+
+const Menu = styled.div`
+  margin-left: 5%;
+  width: 100%;
+  height: 40%;
+  display: flex;
+  justify-content: space-around;
+  align-items: space-between;
+  flex-direction: column;
+  border-radius: 5px;
+  background-color: ${colors.bsColor0};
+`;
+
+const MenuItem = styled.div`
+  width: 100%;
+  height: 18%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+`;
+
+const MenuFont = styled.p`
+  margin-left: 20px;
+  color: ${props => (props.select ? 'black' : 'rgba(0, 0, 0, 0.4)')};
+`;
 
 const MyPage = () => {
-  return <div>MyPage</div>;
+  const [select, setSelect] = useState(0);
+  return (
+    <Wrapper>
+      <MenuDiv>
+        <Menu id="titleFont">
+          {menuItemList.map((item, index) => (
+            <MenuItem key={index} onClick={() => setSelect(index)}>
+              <MenuFont select={select === index ? true : false}>
+                {item}
+              </MenuFont>
+            </MenuItem>
+          ))}
+        </Menu>
+      </MenuDiv>
+      <div style={{ width: '5%' }}></div>
+
+      <ContentDiv>
+        {select === 0 && <MyAccountInfo />}
+        {select === 1 && <ManageAccount />}
+        {select === 2 && <PasswordChange />}
+        {select === 3 && <InfoLevelSet />}
+      </ContentDiv>
+    </Wrapper>
+  );
 };
 
 export default MyPage;
