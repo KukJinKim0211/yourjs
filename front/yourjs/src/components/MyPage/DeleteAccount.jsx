@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { colors } from '../../common/color';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
   background-color: ${colors.bsColor0};
@@ -50,63 +51,41 @@ const RadioButton = styled.input`
   margin-right: 20px;
 `;
 
-const RadioText = styled.span`
+const ContentText = styled.span`
   font-family: 'InfinitySans-RegularA1';
+  margin-bottom: 20px;
 `;
 
-const InfoLevelSet = () => {
+const DeleteAccount = () => {
   const [infoLevel, setInfoLevel] = useState('0');
 
+  const navigator = useNavigate();
+
   // 공개 범위 변경
-  const changeInfoLevel = () => {
-    axiosInstance
-      .patch(apis.levelChange, { type: infoLevel })
-      .then(response => {
-        if (response.status === 200) alert('공개 범위가 변경되었습니다.');
-      });
+  const deleteAccount = () => {
+    axiosInstance.delete(apis.deleteUser).then(response => {
+      if (response.status === 200) {
+        alert('계정이 삭제되었습니다.');
+        navigator('/');
+      }
+    });
   };
   return (
     <Wrapper>
-      <TitleFont>공개 범위 설정</TitleFont>
+      <TitleFont>계정 탈퇴</TitleFont>
       <RadioDiv>
-        <div style={{ display: 'flex' }}>
-          <RadioButton
-            type="radio"
-            value="1"
-            onChange={e => setInfoLevel(e.target.value)}
-            checked={infoLevel === '1'}
-          />
-          <RadioText>전체 공개</RadioText>
-        </div>
-        <div style={{ display: 'flex', marginTop: '20px' }}>
-          <RadioButton
-            type="radio"
-            value="2"
-            onChange={e => setInfoLevel(e.target.value)}
-            checked={infoLevel === '2'}
-          />
-          <RadioText>캘린더만 공개</RadioText>
-        </div>
-        <div style={{ display: 'flex', margin: '20px 0px' }}>
-          <RadioButton
-            type="radio"
-            value="3"
-            onChange={e => setInfoLevel(e.target.value)}
-            checked={infoLevel === '3'}
-          />
-          <RadioText>전체 비공개</RadioText>
-        </div>
+        <ContentText>모든 정보가 삭제됩니다.</ContentText>
       </RadioDiv>
       <SaveButton
         type={0}
         color={colors.bsColor4}
         id="contentFont"
-        onClick={() => changeInfoLevel()}
+        onClick={() => deleteAccount()}
       >
-        저장하기
+        삭제하기
       </SaveButton>
     </Wrapper>
   );
 };
 
-export default InfoLevelSet;
+export default DeleteAccount;

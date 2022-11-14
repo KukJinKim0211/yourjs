@@ -1,5 +1,6 @@
 const initialState = {
   nickname: '',
+  select: -1,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -14,6 +15,12 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         nickname: '',
+      };
+    }
+    case 'selected': {
+      return {
+        ...state,
+        select: action.select,
       };
     }
     default:

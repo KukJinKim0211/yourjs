@@ -48,21 +48,19 @@ axiosInstance.interceptors.response.use(
           sessionStorage.setItem('accessToken', response.data.accessToken);
           console.log('토큰만료 에러 intercepter end');
           return axiosInstance(originalRequest);
-        })
-        .catch(err => {
-          if (err.response.status === 405) {
-            alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
-            setCookie('refresh_Token', '');
-
-            localStorage.removeItem('autoLogin');
-
-            sessionStorage.setItem('loginState', false);
-            sessionStorage.removeItem('accessToken');
-            sessionStorage.removeItem('nickname');
-
-            useNavigate('/');
-          }
         });
+    }
+    if (error.response.status === 405) {
+      alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+      setCookie('refresh_Token', '');
+
+      localStorage.removeItem('autoLogin');
+
+      sessionStorage.setItem('loginState', false);
+      sessionStorage.removeItem('accessToken');
+      sessionStorage.removeItem('nickname');
+
+      useNavigate('/');
     }
     console.log('Interceptor 호출 종료==============');
     return Promise.reject(error);

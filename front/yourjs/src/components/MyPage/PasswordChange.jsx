@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   flex-direction: column;
   padding-left: 5%;
+  width: 100%;
 `;
 
 const TitleFont = styled.p`
@@ -24,6 +25,7 @@ const TitleFont = styled.p`
 const LabelFont = styled.p`
   color: rgba(0, 0, 0, 0.7);
   font-size: 20px;
+  font-family: 'InfinitySans-RegularA1';
 `;
 
 const DataInput = styled.input`

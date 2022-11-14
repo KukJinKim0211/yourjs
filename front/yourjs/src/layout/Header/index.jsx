@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { setCookie } from '../../common/cookie';
 import { fullWidth } from '../../common/size';
 import { faPersonDigging } from '@fortawesome/free-solid-svg-icons';
+import { useSelector, useDispatch } from 'react-redux';
 
 const Wrapper = styled.div`
   background-color: white;
@@ -60,13 +61,20 @@ const NavText = styled.p`
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const select = useSelector(state => state.select);
   const [selectedMenu, setSelectedMenu] = useState(
-    parseInt(sessionStorage.getItem('selectItem')),
+    select === -1 ? parseInt(sessionStorage.getItem('selectItem')) : select,
   );
+  const [refreshFlag, setRefreshFlag] = useState(false);
+
   const [loginState, setLoginState] = useState(
     JSON.parse(sessionStorage.getItem('loginState')),
   );
-  const [refreshFlag, setRefreshFlag] = useState(false);
+
+  useEffect(() => {
+    setSelectedMenu(select);
+  }, [select]);
 
   useEffect(() => {
     setLoginState(
@@ -77,7 +85,7 @@ const Header = () => {
   // 새로고침 후에도 유지하기 위해 Session Storage 사용
   const staySelectedMenu = menuSelectedItem => {
     setSelectedMenu(menuSelectedItem);
-
+    dispatch({ type: 'selected', select: menuSelectedItem });
     sessionStorage.setItem('selectItem', menuSelectedItem);
   };
 

@@ -4,6 +4,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from '../../common/color';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 const Wrapper = styled.div`
   width: 23.5%;
@@ -45,7 +47,20 @@ const ContentText = styled.p`
   font-weight: 500;
 `;
 
-const MainCountItem = ({ data }) => {
+const MainCountItem = ({ data, type }) => {
+  const dispatch = useDispatch();
+  const navigator = useNavigate();
+  // 항목 클릭 이벤트
+  const contentClicked = () => {
+    if (type === 0) {
+    } else if (type === 1) {
+    } else if (type === 2) {
+    } else {
+      dispatch({ type: 'selected', select: 6 });
+      sessionStorage.setItem('selectItem', 6);
+      navigator('/MyPage');
+    }
+  };
   return (
     <Wrapper backColor={colors.bsColor0}>
       <TitleContentDiv>
@@ -55,7 +70,11 @@ const MainCountItem = ({ data }) => {
           </TitleText>
         </div>
         <div style={{ height: '50%' }}>
-          <ContentText color={colors.bsColor4} id="contentFont">
+          <ContentText
+            color={colors.bsColor4}
+            id="contentFont"
+            onClick={() => contentClicked()}
+          >
             {data?.content}
           </ContentText>
         </div>

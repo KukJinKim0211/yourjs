@@ -69,7 +69,12 @@ const MainCount = () => {
       icon: faAddressCard,
     },
   ]);
-  const [nickname, setNickname] = useState(sessionStorage.getItem('nickname'));
+  const nick = useSelector(state => state.nickname);
+  const [nickname, setNickname] = useState(
+    sessionStorage.getItem('nickname') === null
+      ? nick
+      : sessionStorage.getItem('nickname'),
+  );
 
   const getNotice = () => {
     axiosInstance.get(apis.notice).then(response => {
@@ -110,13 +115,13 @@ const MainCount = () => {
         </TitleText>
       </TitleDiv>
       <CountItemDiv>
-        <MainCountItem data={countData[0]} />
+        <MainCountItem data={countData[0]} type={0} />
         <div style={{ width: '2%' }} />
-        <MainCountItem data={countData[1]} />
+        <MainCountItem data={countData[1]} type={1} />
         <div style={{ width: '2%' }} />
-        <MainCountItem data={countData[2]} />
+        <MainCountItem data={countData[2]} type={2} />
         <div style={{ width: '2%' }} />
-        <MainCountItem data={countData[3]} />
+        <MainCountItem data={countData[3]} type={3} />
       </CountItemDiv>
     </Wrapper>
   );
