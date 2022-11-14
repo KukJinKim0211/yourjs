@@ -14,4 +14,5 @@ public class UserDetailInfoRes {
     String email;
     String nickname;
     Integer infoLevel;
+    String userImg;
 }

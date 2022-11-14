@@ -12,4 +12,5 @@ import lombok.Setter;
 public class ChangeUserInfoReq {
     private String nickname;
     private String email;
+    private String userImg;
 }
