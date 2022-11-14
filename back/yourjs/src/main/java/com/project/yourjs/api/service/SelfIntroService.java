@@ -207,6 +207,7 @@ public class SelfIntroService {
         Optional<User> oUser = userRepository.findByUserId(userId);
         if (oUser.isPresent()) {
             User user = oUser.get();
+            System.out.println(selfIntroPatchReq.getIntroSeq());
             Optional<SelfIntro> oSelfIntro = selfIntroRepository.findById(selfIntroPatchReq.getIntroSeq());
             if (oSelfIntro.isPresent()) {
                 SelfIntro selfIntro = oSelfIntro.get();

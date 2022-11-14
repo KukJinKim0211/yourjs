@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class SelfIntroPatchReq {
-    private Integer IntroSeq;
+    private Integer introSeq;
     private String question;
     private String contents;
     private Integer noticeSeq;
