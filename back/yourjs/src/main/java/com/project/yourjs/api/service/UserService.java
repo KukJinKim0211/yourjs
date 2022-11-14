@@ -22,7 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.yourjs.api.req.User.ChangeUserInfoReq;
 import com.project.yourjs.api.req.User.ChangeUserLevelReq;
@@ -41,7 +40,9 @@ import com.project.yourjs.common.jwt.JwtFilter;
 import com.project.yourjs.common.jwt.TokenProvider;
 import com.project.yourjs.common.util.SecurityUtil;
 import com.project.yourjs.db.entity.Authority;
+import com.project.yourjs.db.entity.Portfolio;
 import com.project.yourjs.db.entity.User;
+import com.project.yourjs.db.repository.PortfolioRepository;
 import com.project.yourjs.db.repository.UserRepository;
 
 @Service
@@ -50,13 +51,15 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final PortfolioRepository portfolioRepository;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenProvider tokenProvider,
-            AuthenticationManagerBuilder authenticationManagerBuilder) {
+            AuthenticationManagerBuilder authenticationManagerBuilder, PortfolioRepository portfolioRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
+        this.portfolioRepository = portfolioRepository;
     }
 
     @Transactional
@@ -79,6 +82,9 @@ public class UserService {
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();
+        Portfolio portfolio = new Portfolio();
+        portfolio.setUser(user);
+        portfolioRepository.save(portfolio);
         return UserDto.from(userRepository.save(user));
     }
 
@@ -181,6 +187,7 @@ public class UserService {
             userDetailInfoRes.setEmail(user.getEmail());
             userDetailInfoRes.setNickname(user.getNickname());
             userDetailInfoRes.setInfoLevel(user.getInfoLevel());
+            userDetailInfoRes.setUserImg(user.getUserImg());
         }
         return userDetailInfoRes;
     }
@@ -208,6 +215,7 @@ public class UserService {
             User user = oUser.get();
             user.setEmail(changeUserInfoReq.getEmail());
             user.setNickname(changeUserInfoReq.getNickname());
+            user.setUserImg(changeUserInfoReq.getUserImg());
             userRepository.save(user);
         }
     }
@@ -326,12 +334,12 @@ public class UserService {
             e.printStackTrace();
         }
         // System.out.println(userLoginRes.getBody().getAccessToken());
-        
+
         return null;
     }
 
     @Transactional
-    public ResponseEntity<UserLoginRes> naverLogin(String code){
+    public ResponseEntity<UserLoginRes> naverLogin(String code) {
         System.out.println(code);
         return null;
     }
