@@ -260,6 +260,35 @@ const ScheduleModalTitle = styled.span`
   font-family: 'GmarketSansMedium';
 `;
 
+const TagSpan = styled.span`
+  background-color: ${props => {
+    if (props.type === '서류제출') {
+      return `${colors.bsColor1}`;
+    } else if (props.type === '코딩테스트') {
+      return `${colors.bsColor2}`;
+    } else if (props.type === '1차면접') {
+      return `${colors.bsColor3}`;
+    } else if (props.type === '2차면접') {
+      return `${colors.bsColor4}`;
+    } else {
+      return `#4aa8d8`;
+    }
+  }};
+  color: ${props => {
+    if (props.type === '서류제출') {
+    } else if (props.type === '코딩테스트') {
+    } else if (props.type === '1차면접') {
+    } else if (props.type === '2차면접') {
+    } else {
+      return `white`;
+    }
+  }};
+  border-radius: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  /* opacity: 80%; */
+`;
+
 const TagComponent = ({ tagName, deleteTag }) => {
   return (
     <TagComponentDiv id="contentFont">
@@ -461,6 +490,8 @@ const DayCalendar = ({
       });
   };
 
+  const backgroundSet = () => {};
+
   return (
     <Wrapper
       onMouseOver={e => hoverOver(e)}
@@ -501,17 +532,7 @@ const DayCalendar = ({
             {d.coName.length >= 8 ? `${d.coName.slice(0, 7)}....` : d.coName}
           </span>
           <div style={{ height: '3px' }} />
-          <span
-            style={{
-              backgroundColor: `${colors.bsColor2}`,
-              borderRadius: '5px',
-              paddingLeft: '5px',
-              paddingRight: '5px',
-              opacity: '80%',
-            }}
-          >
-            {d.scheduleName}
-          </span>
+          <TagSpan type={d.scheduleName}>{d.scheduleName}</TagSpan>
         </ContentDiv>
       ))}
       <Modal
