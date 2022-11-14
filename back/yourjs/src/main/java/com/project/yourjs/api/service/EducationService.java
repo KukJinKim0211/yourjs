@@ -35,7 +35,6 @@ public class EducationService {
 
     private final UserRepository userRepository;
 
-
     public List<EducationDto> getAllEducations(String userId){
 
         User user = userRepository.findByUserId(userId).get();
@@ -104,7 +103,7 @@ public class EducationService {
         educationDeleteRes.setResult("success");
 
         User user = userRepository.findByUserId(userId).get();
-        Education education = educationRepository.findById(educationDeleteReq.getCareerSeq()).get();
+        Education education = educationRepository.findById(educationDeleteReq.getEduSeq()).get();
         // 요청자와 등록자가 같은지 체크
         if(user.getUserSeq()!=education.getUser().getUserSeq()){
             educationDeleteRes.setResult("fail");
@@ -112,7 +111,7 @@ public class EducationService {
         }
 
         try{
-            educationRepository.deleteById(educationDeleteReq.getCareerSeq());
+            educationRepository.deleteById(educationDeleteReq.getEduSeq());
         }catch (Exception e){
             educationDeleteRes.setResult("fail");
         }

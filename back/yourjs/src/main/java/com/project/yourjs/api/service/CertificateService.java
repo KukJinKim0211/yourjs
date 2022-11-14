@@ -95,7 +95,7 @@ public class CertificateService {
         certificateDeleteRes.setResult("success");
 
         User user = userRepository.findByUserId(userId).get();
-        Certificate certificate = certificateRepository.findById(certificateDeleteReq.getCareerSeq()).get();
+        Certificate certificate = certificateRepository.findById(certificateDeleteReq.getCertSeq()).get();
         // 요청자와 등록자가 같은지 체크
         if(user.getUserSeq()!=certificate.getUser().getUserSeq()){
             certificateDeleteRes.setResult("fail");
@@ -103,7 +103,7 @@ public class CertificateService {
         }
 
         try{
-            certificateRepository.deleteById(certificateDeleteReq.getCareerSeq());
+            certificateRepository.deleteById(certificateDeleteReq.getCertSeq());
         }catch (Exception e){
             certificateDeleteRes.setResult("fail");
         }

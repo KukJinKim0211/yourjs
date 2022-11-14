@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class CertificateDeleteReq {
-    private Long careerSeq;
+    private Long certSeq;
 }
