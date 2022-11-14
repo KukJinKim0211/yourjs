@@ -29,7 +29,6 @@ import com.project.yourjs.api.res.Notice.NoticePostRes;
 import com.project.yourjs.api.res.Notice.ScheduleDeleteRes;
 import com.project.yourjs.api.res.Notice.ScheduleUpdateRes;
 import com.project.yourjs.api.service.NoticeService;
-import com.project.yourjs.db.entity.Schedule;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -141,5 +140,18 @@ public class NoticeController {
   @PreAuthorize("hasAnyRole('USER','ADMIN')")
   public ResponseEntity<ScheduleDeleteRes> deleteSchedule(@RequestBody ScheduleDeleteReq scheduleDeleteReq) {
     return ResponseEntity.ok(noticeService.deleteSchedule(scheduleDeleteReq.getScheduleSeq()));
+  }
+
+  @Operation(summary = "다른 사람 공고 조회")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content(schema = @Schema(hidden = true))),
+      @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR", content = @Content(schema = @Schema(hidden = true)))
+  })
+  @GetMapping("/subject/{userSeq}")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
+  public ResponseEntity<List<NoticeGetRes>> getNoticeByUserSeq(@PathVariable Integer userSeq) {
+    return ResponseEntity.ok(noticeService.getAllNoticeByUserSeq(userSeq));
   }
 }
