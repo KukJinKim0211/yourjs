@@ -1,9 +1,10 @@
 // 계정 관리 컴포넌트
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { colors } from '../../common/color';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
+import { useDispatch } from 'react-redux';
 
 const Wrapper = styled.div`
   background-color: ${colors.bsColor0};
@@ -88,9 +89,18 @@ const SaveButton = styled.button`
 
 const ManageAccount = () => {
   const [nickname, setNickname] = useState('');
+  const [userImg, setUserImg] = useState('');
   const [email, setEmail] = useState('');
   const [nicknameInvalid, setNicknameInvalid] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    axiosInstance
+      .get(apis.getUserDetailInfo)
+      .then(response => setUserImg(response.data.userImg));
+  }, []);
 
   // 닉네임 중복확인
   const checkNickname = () => {
@@ -110,12 +120,15 @@ const ManageAccount = () => {
     if (nickname === '' || email === '') {
       alert('정보를 입력 해 주세요.');
     }
-    console.log({ nickname, email });
-    axiosInstance.patch(apis.infoChange, { nickname, email }).then(response => {
-      if (response.status === 200) {
-        alert('계정 정보 변경에 성공하셨습니다.');
-      }
-    });
+    axiosInstance
+      .patch(apis.infoChange, { nickname, email, userImg })
+      .then(response => {
+        if (response.status === 200) {
+          dispatch({ type: 'login', nickname });
+          sessionStorage.setItem('nickname', nickname);
+          alert('계정 정보 변경에 성공하셨습니다.');
+        }
+      });
   };
 
   return (

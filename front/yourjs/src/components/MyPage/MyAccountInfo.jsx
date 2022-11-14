@@ -33,6 +33,7 @@ const Wrapper = styled.div`
 `;
 
 const SelectedProfileDiv = styled.div`
+  margin-top: 3%;
   width: 100%;
   height: 30%;
   display: flex;
@@ -64,13 +65,15 @@ const TitleLabel = styled.p`
 const ContentLabel = styled.p`
   width: 20%;
   color: rgba(0, 0, 0, 0.7);
-  font-size: 20px;
+  font-size: 18px;
+  font-family: 'InfinitySans-RegularA1';
+  padding-top: 4px;
 `;
 
 const DataDiv = styled.div`
   width: 100%;
   height: 40px;
-  margin-bottom: 2%;
+  margin-bottom: 3%;
   display: flex;
   justify-content: center;
 `;
@@ -90,7 +93,7 @@ const MyAccountInfo = () => {
       <SelectedProfileDiv>
         <SelectedImage
           src={
-            data.userImg === '-1'
+            data.userImg === '-1' || data.userImg === null
               ? Profile00
               : profileImgList[parseInt(data.userImg)]
           }

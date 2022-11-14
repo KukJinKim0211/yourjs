@@ -21,6 +21,7 @@ import { colors } from '../../common/color';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 import { profileImgList } from '../../common/profileImage';
+import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 
 const Wrapper = styled.div`
   background-color: ${colors.bsColor0};
@@ -39,51 +40,35 @@ const TitleFont = styled.p`
   padding-bottom: 15px;
 `;
 
-const ProfileDiv = styled.div`
-  display: flex;
-  margin-top: 3%;
-  width: 100%;
-  flex-wrap: wrap;
-  margin-bottom: 30px;
+const ContentFont = styled.p`
+  font-size: 22px;
+  text-align: center;
 `;
 
-const ProfileImageDiv = styled.div`
-  width: 90px;
-  height: 90px;
-  margin-left: 12px;
-  margin-top: 10px;
+const FavorDiv = styled.div`
+  width: 94%;
+  height: 30%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+`;
+
+const PositionDiv = styled.div`
+  width: 32%;
+  height: 55px;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-`;
-
-const ProfileImage = styled.img`
-  width: 80px;
-  height: 80px;
-  background-color: white;
-  border-radius: 50%;
-  border: none;
+  background-color: ${props =>
+    props.selected ? '#4aa8d8' : 'rgba(0, 0, 0, 0.1)'};
+  color: ${props => (props.selected ? 'white' : 'black')};
+  margin: 5px 5px;
   cursor: pointer;
-  user-select: none;
+  border-radius: 15px;
   &:hover {
-    border: 3px solid ${colors.bsColor4};
+    background-color: #4aa8d8;
+    color: white;
   }
-`;
-
-const SelectedProfileDiv = styled.div`
-  width: 100%;
-  height: 30%;
-  display: flex;
-  margin-top: 3%;
-  justify-content: center;
-`;
-
-const SelectedImage = styled.img`
-  width: 25%;
-  border-radius: 50%;
-  background-color: white;
-  border: 1px solid ${colors.bsColor3};
 `;
 
 const SaveButton = styled.button`
@@ -109,64 +94,79 @@ const ButtonDiv = styled.div`
   margin: 10px 0px;
 `;
 
-const SetProfile = () => {
-  const [selectImage, setSelectImage] = useState(-1);
+const SetPosition = () => {
   const [nickname, setNickname] = useState('');
-  const [email, setEmail] = useState('');
-  const getUserProfile = () => {
-    axiosInstance.get(apis.getUserDetailInfo).then(response => {
-      response.data.userImg === null
-        ? setSelectImage('-1')
-        : setSelectImage(response.data.userImg);
-      setNickname(response.data.nickname);
-      setEmail(response.data.email);
+  const [userPosition, setUserPosition] = useState('');
+  const [totalPosition, setTotalPosition] = useState([]);
+  const [newPosition, setNewPosition] = useState('');
+
+  // 현재 유저의 관심 포지션을 조회한다
+  const getUserPosition = () => {
+    axiosInstance.get(apis.userSubject).then(response => {
+      setNickname(response.data[0].user.nickname);
+      setUserPosition(response.data[0].subject);
     });
   };
 
+  // 전체 포지션을 조회한다
+  const getTotalPosition = () => {
+    axiosInstance
+      .get(apis.subject)
+      .then(response => setTotalPosition(response.data));
+  };
+
   useEffect(() => {
-    getUserProfile();
+    getTotalPosition();
+    getUserPosition();
   }, []);
 
-  const setUserProfile = () => {
+  const setPosition = () => {
+    if (newPosition === '') alert('관심 포지션을 선택해 주세요.');
+
     axiosInstance
-      .patch(apis.infoChange, {
-        nickname,
-        email,
-        userImg: selectImage,
-      })
-      .then(response => alert('프로필 사진 변경이 완료되었습니다.'));
+      .post(apis.userSubject, { subjectsStr: newPosition })
+      .then(response => {
+        if (response.status === 200) alert('관심포지션 설정이 완료되었습니다.');
+        getUserPosition();
+        setNewPosition('');
+      });
   };
 
   return (
     <Wrapper>
-      <TitleFont>프로필사진 설정</TitleFont>
-      <SelectedProfileDiv>
-        <SelectedImage
-          src={selectImage === '-1' ? Profile00 : profileImgList[selectImage]}
-        />
-      </SelectedProfileDiv>
+      <TitleFont>관심 포지션 설정</TitleFont>
+      <ContentFont id="contentFont">
+        <span style={{ color: `${colors.bsColor4}` }}>{nickname}</span>님의 현재
+        관심 포지션은{' '}
+        <span style={{ color: `${colors.bsColor4}` }}>
+          {userPosition.subjectName}
+        </span>
+        입니다.
+      </ContentFont>
+      <FavorDiv>
+        {totalPosition?.map((pos, index) => (
+          <PositionDiv
+            key={index}
+            id="contentFont"
+            selected={pos.subjectName === newPosition}
+            onClick={e => setNewPosition(e.target.innerText)}
+          >
+            {pos.subjectName}
+          </PositionDiv>
+        ))}
+      </FavorDiv>
       <ButtonDiv>
         <SaveButton
           type={0}
           color={colors.bsColor4}
           id="contentFont"
-          onClick={() => setUserProfile()}
+          onClick={() => setPosition()}
         >
           변경하기
         </SaveButton>
       </ButtonDiv>
-      <ProfileDiv>
-        {profileImgList.map((img, index) => (
-          <ProfileImageDiv
-            key={index}
-            onClick={() => setSelectImage(index.toString())}
-          >
-            <ProfileImage src={img} />
-          </ProfileImageDiv>
-        ))}
-      </ProfileDiv>
     </Wrapper>
   );
 };
 
-export default SetProfile;
+export default SetPosition;

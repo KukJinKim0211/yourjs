@@ -64,6 +64,7 @@ const ContentDiv = styled.div`
   margin-right: 2%;
   margin-bottom: 1px;
   border-radius: 5px;
+  padding: 2px 0px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   cursor: pointer;
   height: 40px;
@@ -101,7 +102,7 @@ const customScheduleStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    width: '30%',
+    width: '25%',
     height: '50%',
     display: 'flex',
     justifyContent: 'center',
@@ -249,7 +250,7 @@ const ModalButton = styled.button`
 `;
 
 const ScheduleModalDiv = styled.div`
-  margin-top: 6%;
+  margin-top: 10%;
   display: flex;
   align-items: center;
 `;
@@ -424,6 +425,42 @@ const DayCalendar = ({
     });
   };
 
+  // 일정 수정
+  const updateSchedule = () => {
+    axiosInstance
+      .patch(apis.schedule, {
+        scheduleSeq: selectedData.scheduleSeq,
+        noticeSeq: selectedData.noticeSeq,
+        scheduleName: scheduleList[scheduleIndex - 1],
+        scheduleDate: selectedData.scheduleDate,
+      })
+      .then(response => {
+        if (response.status === 200) {
+          alert('일정 수정이 완료되었습니다.');
+          closeScheduleModal();
+          getNotice();
+        }
+      });
+  };
+
+  // 일정 삭제
+  const deleteSchedule = () => {
+    console.log(selectedData.scheduleSeq);
+    axiosInstance
+      .delete(apis.schedule, {
+        data: {
+          scheduleSeq: selectedData.scheduleSeq,
+        },
+      })
+      .then(response => {
+        if (response.status === 200) {
+          alert('일정 삭제가 완료되었습니다.');
+          getNotice();
+          closeScheduleModal();
+        }
+      });
+  };
+
   return (
     <Wrapper
       onMouseOver={e => hoverOver(e)}
@@ -457,9 +494,8 @@ const DayCalendar = ({
         >
           <FontAwesomeIcon
             icon={faBuilding}
-            size="lg"
             className="fa-light"
-            style={{ width: '20px' }}
+            style={{ width: '20px', height: '13px' }}
           />
           <span>
             {d.coName.length >= 8 ? `${d.coName.slice(0, 7)}....` : d.coName}
@@ -820,6 +856,42 @@ const DayCalendar = ({
               </StateSelect>
             </ScheduleModalTitle>
           </ScheduleModalDiv>
+          <div style={{ height: '10%' }}></div>
+          <ModalButtonDivForm>
+            <ModalButtonDiv>
+              <ModalButton
+                id="contentFont"
+                color={colors.bsColor4}
+                type={0}
+                onClick={() => updateSchedule()}
+              >
+                수정하기
+              </ModalButton>
+            </ModalButtonDiv>
+            <ModalButtonDiv>
+              <ModalButton
+                id="contentFont"
+                color="white"
+                style={{ border: '1px solid red', color: 'red' }}
+                type={1}
+                onClick={() => deleteSchedule()}
+              >
+                삭제하기
+              </ModalButton>
+            </ModalButtonDiv>
+          </ModalButtonDivForm>
+          <ModalButtonDivForm
+            style={{ display: 'flex', justifyContent: 'center' }}
+          >
+            <ModalButton
+              id="contentFont"
+              color="rgba(0, 0, 0, 0.3)"
+              type={1}
+              onClick={() => closeScheduleModal()}
+            >
+              닫기
+            </ModalButton>
+          </ModalButtonDivForm>
         </ModalDiv>
       </Modal>
     </Wrapper>

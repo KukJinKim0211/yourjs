@@ -163,6 +163,7 @@ const Login = () => {
           if (autoLogin) localStorage.setItem('autoLogin', true);
           else localStorage.setItem('autoLogin', false);
           dispatch({ type: 'login', nickname: response.data.nickname });
+          sessionStorage.setItem('nickname', response.data.nickname);
           sessionStorage.setItem('selectItem', 0);
           sessionStorage.setItem('loginState', true);
           sessionStorage.setItem('accessToken', response.data.accessToken);

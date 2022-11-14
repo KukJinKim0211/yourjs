@@ -78,6 +78,7 @@ const Calendar = () => {
                 ...notice,
                 scheduleName: sche.scheduleName,
                 scheduleDate: sche.scheduleDate,
+                scheduleSeq: sche.scheduleSeq,
               });
             }
           });

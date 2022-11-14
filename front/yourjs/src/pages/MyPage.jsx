@@ -7,11 +7,13 @@ import PasswordChange from '../components/MyPage/PasswordChange';
 import InfoLevelSet from '../components/MyPage/InfoLevelSet';
 import DeleteAccount from '../components/MyPage/DeleteAccount';
 import SetProfile from '../components/MyPage/SetProfile';
+import SetPosition from '../components/MyPage/SetPosition';
 import { fullWidth } from '../common/size';
 import { colors } from '../common/color';
 
 const menuItemList = [
   '내정보보기',
+  '관심포지션설정',
   '프로필사진설정',
   '계정관리',
   '비밀번호변경',
@@ -31,14 +33,14 @@ const ContentDiv = styled.div`
 `;
 
 const MenuDiv = styled.div`
-  width: 16%;
+  width: 20%;
   margin-top: 5%;
 `;
 
 const Menu = styled.div`
   margin-left: 5%;
   width: 100%;
-  height: 50%;
+  height: 55%;
   display: flex;
   justify-content: space-around;
   align-items: space-between;
@@ -49,7 +51,7 @@ const Menu = styled.div`
 
 const MenuItem = styled.div`
   width: 100%;
-  height: 18%;
+  height: 14%;
   cursor: pointer;
   font-size: 18px;
   display: flex;
@@ -82,11 +84,12 @@ const MyPage = () => {
 
       <ContentDiv>
         {select === 0 && <MyAccountInfo />}
-        {select === 1 && <SetProfile />}
-        {select === 2 && <ManageAccount />}
-        {select === 3 && <PasswordChange />}
-        {select === 4 && <InfoLevelSet />}
-        {select === 5 && <DeleteAccount />}
+        {select === 1 && <SetPosition />}
+        {select === 2 && <SetProfile />}
+        {select === 3 && <ManageAccount />}
+        {select === 4 && <PasswordChange />}
+        {select === 5 && <InfoLevelSet />}
+        {select === 6 && <DeleteAccount />}
       </ContentDiv>
     </Wrapper>
   );

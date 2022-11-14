@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 `;
 
 const TitleDiv = styled.div`
-  margin-top: 2%;
+  margin-top: 5%;
   width: 100%;
   height: 25%;
 `;

@@ -33,6 +33,18 @@ const ImageDiv = styled.div`
   align-items: center;
 `;
 
+const TitleDiv = styled.div`
+  height: 45%;
+`;
+
+const ContentDiv = styled.div`
+  height: 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const TitleText = styled.p`
   font-size: 20px;
   color: ${props => props.color};
@@ -41,6 +53,8 @@ const TitleText = styled.p`
 `;
 
 const ContentText = styled.p`
+  height: 50%;
+  width: 100%;
   font-size: 17px;
   color: black;
   cursor: pointer;
@@ -64,12 +78,12 @@ const MainCountItem = ({ data, type }) => {
   return (
     <Wrapper backColor={colors.bsColor0}>
       <TitleContentDiv>
-        <div style={{ height: '50%' }}>
+        <TitleDiv>
           <TitleText color={colors.bsColor4} id="titleFont">
             {data?.title}
           </TitleText>
-        </div>
-        <div style={{ height: '50%' }}>
+        </TitleDiv>
+        <ContentDiv>
           <ContentText
             color={colors.bsColor4}
             id="contentFont"
@@ -77,7 +91,7 @@ const MainCountItem = ({ data, type }) => {
           >
             {data?.content}
           </ContentText>
-        </div>
+        </ContentDiv>
       </TitleContentDiv>
       {data?.icon !== null && (
         <ImageDiv>

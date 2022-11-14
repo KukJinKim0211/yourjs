@@ -46,7 +46,7 @@ const RecommendDiv = styled.div`
 `;
 
 const RecommendTitleDiv = styled.div`
-  margin-top: 1%;
+  margin-top: 2%;
   width: ${fullWidth};
   height: 20%;
   margin-left: 2%;

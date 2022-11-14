@@ -14,6 +14,9 @@ export const apis = {
   // [공고 API]
   notice: '/notice', // GET, POST, PUT, DELETE
 
+  // [일정 API]
+  schedule: '/notice/schedule', // PUT, DELETE
+
   // [경력사항 API]
   career: '/career', // GET, POST, PUT, DELETE
 
