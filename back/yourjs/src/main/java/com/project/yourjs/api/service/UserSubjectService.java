@@ -1,6 +1,6 @@
 package com.project.yourjs.api.service;
 
-import com.project.yourjs.api.req.User.UserSubjectPostReq;
+import com.project.yourjs.api.req.Portfolio.Subject.UserSubjectPostReq;
 import com.project.yourjs.db.entity.User;
 import com.project.yourjs.db.entity.UserSubject;
 import com.project.yourjs.db.repository.SubjectRepository;
@@ -27,16 +27,20 @@ public class UserSubjectService {
     }
 
     @Transactional
-    public boolean postUserSubjects(String userId, UserSubjectPostReq userSubjectPostReq) {
+    public boolean postUserSubjects(String userId, String subjectName) {
         userSubjectRepository.deleteAllByUser(userRepository.findByUserId(userId));
-        String[] parsedStr = userSubjectPostReq.getSubjectsStr().split(",");
+//        String[] parsedStr = userSubjectPostReq.getSubjectsStr().split(",");
         User user = userRepository.findByUserId(userId).get();
-        for (String seq : parsedStr) {
-            UserSubject userSubject = new UserSubject();
-            userSubject.setUser(user);
-            userSubject.setSubject(subjectRepository.findById(Long.parseLong(seq)).get());
-            userSubjectRepository.save(userSubject);
-        }
+//        for (String seq : parsedStr) {
+//            UserSubject userSubject = new UserSubject();
+//            userSubject.setUser(user);
+//            userSubject.setSubject(subjectRepository.findById(Long.parseLong(seq)).get());
+//            userSubjectRepository.save(userSubject);
+//        }
+        UserSubject userSubject = new UserSubject();
+        userSubject.setUser(user);
+        userSubject.setSubject(subjectRepository.findBySubjectName(subjectName));
+        userSubjectRepository.save(userSubject);
         return true;
     }
 }

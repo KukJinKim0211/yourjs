@@ -20,7 +20,7 @@ public class UserSubject {
     private User user;
 
     @ManyToOne(targetEntity = Subject.class)
-    @JoinColumn(name = "subject_seq", unique = true)
+    @JoinColumn(name = "subject_seq")
     private Subject subject;
 
 
