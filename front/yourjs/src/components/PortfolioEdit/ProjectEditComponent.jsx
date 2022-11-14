@@ -52,9 +52,9 @@ const ProjectEditComponent = ({getServerData}) => {
       belongs: belongs === "" ? null : belongs,
       tools: tools === "" ? null : tools,
       content: content === "" ? null : content,
-      file
+      file,
     }
-    console.log(data)
+
     if (data.projectName === null || data.startDate === null || data.belongs === null || data.tools === null || data.content === null) {
       alert("필수값을 입력해 주세요.")
     } else {

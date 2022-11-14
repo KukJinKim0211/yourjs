@@ -29,6 +29,9 @@ export const apis = {
   // [학력사항 API]
   graduation: '/graduate', // GET, POST, PUT, DELETE
 
+  // [교육사항 API]
+  education: '/education', // GET, POST, PUT, DELETE
+
   // [자소서 API]
   selfIntroduce: '/introduce', // GET, POST, PUT, DELETE
 

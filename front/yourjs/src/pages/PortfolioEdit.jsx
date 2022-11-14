@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import { Wrapper } from './Portfolio';
 import styled from 'styled-components';
 import PersonalEdit from '../components/PortfolioEdit/PersonalEdit';
+import PersonalEditComponent from '../components/PortfolioEdit/PersonalEditComponent';
 import MilitaryEdit from '../components/PortfolioEdit/MilitaryEdit';
+import MilitaryEditComponent from '../components/PortfolioEdit/MilitaryEditComponent';
+import GraduationEdit from '../components/PortfolioEdit/GraduationEdit';
+import GraduationEditComponent from '../components/PortfolioEdit/GraduationEditComponent';
 import EducationEdit from '../components/PortfolioEdit/EducationEdit';
 import EducationEditComponent from '../components/PortfolioEdit/EducationEditComponent';
-import TrainingEdit from '../components/PortfolioEdit/TrainingEdit';
-import TrainingEditComponent from '../components/PortfolioEdit/TrainingEditComponent';
 import CertificateEdit from '../components/PortfolioEdit/CertificateEdit';
 import CertificateEditComponent from '../components/PortfolioEdit/CertificateEditComponent';
 import AwardEdit from '../components/PortfolioEdit/AwardEdit';
@@ -79,7 +81,7 @@ const BoxContent = styled.div`
 `;
 
 const apiSequence = [
-  apis.portfolio, apis.military, apis.graduate, apis.education, apis.certificate ,apis.award, apis.career, apis.project
+  apis.portfolio, apis.military, apis.graduation, apis.education, apis.certificate ,apis.award, apis.career, apis.project
 ]
 
 const PortfolioEdit = () => {
@@ -96,7 +98,6 @@ const PortfolioEdit = () => {
         .then(response => { 
           setZeroData(response.data);
         })}
-      
       else {
       axiosInstance
         .get(apiSequence[openTab])
@@ -106,34 +107,25 @@ const PortfolioEdit = () => {
     }
 
     useEffect(() => {
-      console.log("WWWWWWWWWWWWWWWWWWWWWw");
-      console.log(viewData);
     }, [viewData])
 
-    // useEffect(() => {
-    //   getServerData(openTab)
-    // }, [])
-
     useEffect(() => {
-      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!오픈탭 변경", openTab)
       getServerData(openTab);
     }, [openTab])
 
     const menuArr = [
-        { name: '인적사항', content: <PersonalEdit/> },
-        { name: '병역사항', content: <MilitaryEdit/> },
-        { name: '학력사항', content: <EducationEdit/>, component: <EducationEditComponent/> },
-        { name: '교육사항', content: <TrainingEdit/>, component: <TrainingEditComponent/> },
-        { name: '자격증 / 어학', content: <CertificateEdit/>, component: <CertificateEditComponent/> },
-        { name: '수상내역', content: <AwardEdit/>, component: <AwardEditComponent/> },
+        { name: '인적사항', content: <PersonalEdit dataArr={viewData} getServerData={getServerData}/>, component: <PersonalEditComponent getServerData={getServerData}/> },
+        { name: '병역사항', content: <MilitaryEdit dataArr={viewData} getServerData={getServerData}/>, component: <MilitaryEditComponent getServerData={getServerData}/> },
+        { name: '학력사항', content: <GraduationEdit dataArr={viewData} getServerData={getServerData}/>, component: <GraduationEditComponent getServerData={getServerData}/> },
+        { name: '교육사항', content: <EducationEdit dataArr={viewData} getServerData={getServerData}/>, component: <EducationEditComponent getServerData={getServerData}/> },
+        { name: '자격증 / 어학', content: <CertificateEdit dataArr={viewData} getServerData={getServerData}/>, component: <CertificateEditComponent getServerData={getServerData}/> },
+        { name: '수상내역', content: <AwardEdit dataArr={viewData} getServerData={getServerData}/>, component: <AwardEditComponent getServerData={getServerData}/> },
         { name: '커리어', content: <CareerEdit dataArr={viewData} getServerData={getServerData}/>, component: <CareerEditComponent getServerData={getServerData}/>},
         { name: '프로젝트', content: <ProjectEdit dataArr={viewData} getServerData={getServerData}/>, component: <ProjectEditComponent getServerData={getServerData}/> },
     ];
 
     const selectMenuHandler = (index) => {
-        console.log(index);
         setOpenTab(index);
-        
     };
 
     return (

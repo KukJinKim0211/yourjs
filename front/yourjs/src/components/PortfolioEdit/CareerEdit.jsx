@@ -1,8 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
-import {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,
-  ChangeButton, DelButton, customStyles, ModalForm, ModalTitle, ModalContent, ModalContentArea, ModalContentDate, InsertBtnDiv, InsertBtn,
-  BoxInput, BoxArea, SaveButton, Essential, EssentialDate} from '../../common/PorfoStyled';
+import {Container, ContentTitle, ContentSet, Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,
+  ChangeButton, DelButton, customStyles, ModalForm, ModalTitle, ModalContent, ModalContentDate, InsertBtnDiv, InsertBtn, Essential} from '../../common/PorfoStyled';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 import Modal from 'react-modal';
@@ -53,7 +52,6 @@ const CareerEdit = ({dataArr, getServerData}) => {
       })
       .catch(error => console.log(error));}
   }
-
 
   return (
     <div>
@@ -156,7 +154,7 @@ const CareerEdit = ({dataArr, getServerData}) => {
                 </RightBox>
                 <RightBox>
                   <RightBoxTitle>연봉</RightBoxTitle>
-                  <RightBoxContent>{el.salary}</RightBoxContent>
+                  <RightBoxContent>{el.salary}만원</RightBoxContent>
                 </RightBox>
               </RightBoxes>
             </Content>

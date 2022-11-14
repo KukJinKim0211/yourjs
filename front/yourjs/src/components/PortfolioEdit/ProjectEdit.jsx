@@ -1,8 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
-import {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,
-  ChangeButton, DelButton, customStyles, ModalForm, ModalTitle, ModalContent, ModalContentArea, ModalContentDate, InsertBtnDiv, InsertBtn,
-  BoxInput, BoxArea, SaveButton, Essential, EssentialDate} from '../../common/PorfoStyled';
+import {Container, ContentTitle, ContentSet, Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,
+  ChangeButton, DelButton, customStyles, ModalForm, ModalTitle, ModalContent, ModalContentArea, ModalContentDate, InsertBtnDiv, InsertBtn, Essential} from '../../common/PorfoStyled';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 import Modal from 'react-modal';
@@ -133,6 +132,7 @@ const ProjectEdit = ({dataArr, getServerData}) => {
               >취소</InsertBtn>
             </InsertBtnDiv>
           </Modal>
+
           {dataArr?.map((el, index) => (
             <Content key={index}>
               <LeftBox>{el.startDate}<br/>~ {el.endDate}<br/><br/>
@@ -165,5 +165,6 @@ const ProjectEdit = ({dataArr, getServerData}) => {
     </div>
   )
 }
+
 
 export default ProjectEdit

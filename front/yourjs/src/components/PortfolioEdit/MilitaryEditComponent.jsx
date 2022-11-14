@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import {Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle,
-  BoxInput, BoxArea, SaveButton, Essential, EssentialDate} from '../../common/PorfoStyled';
+  BoxInput, SaveButton, Essential, EssentialDate} from '../../common/PorfoStyled';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
@@ -9,59 +9,51 @@ import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 
 
-const EducationEditComponent = ({getServerData}) => {
-  const [eduName, seteduName] = useState('');
+const MilitaryEditComponent = ({getServerData}) => {
+  const [militaryType, setmilitaryType] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [eduContents, seteduContents] = useState('');
-  const [eduInstitution, seteduInstitution] = useState('');
-  const [eduTime, seteduTime] = useState('');
-  const [data, setData] = useState({eduName: '', startDate: '', endDate: '', eduContents: '', eduInstitution: '', eduTime: null});
+  const [specialityType, setspecialityType] = useState('');
+  const [discharge, setdischarge] = useState('');
+  const [data, setData] = useState({militaryType: '', startDate: '', endDate: '', specialityType: '', discharge: ''});
 
   const onChangeNameHandler = e => {
-    seteduName(e.target.value);
-    setData({ ...data, eduName: eduName });
+    setmilitaryType(e.target.value);
+    setData({ ...data, militaryType: militaryType });
   };
 
-  const onChangeeduContentsHandler = e => {
-    seteduContents(e.target.value);
-    setData({ ...data, eduContents: eduContents });
+  const onChangespecialityTypeHandler = e => {
+    setspecialityType(e.target.value);
+    setData({ ...data, specialityType: specialityType });
   };
 
-  const onChangeeduInstitutionHandler = e => {
-    seteduInstitution(e.target.value);
-    setData({ ...data, eduInstitution: eduInstitution });
-  };
-
-  const onChangeeduTimeHandler = e => {
-    seteduTime(e.target.value);
-    setData({ ...data, eduTime: eduTime });
+  const onChangedischargeHandler = e => {
+    setdischarge(e.target.value);
+    setData({ ...data, discharge: discharge });
   };
 
   const addButtonClicked = () => {
     const data = {
-      eduName: eduName === "" ? null : eduName,
+      militaryType: militaryType === "" ? null : militaryType,
       startDate: startDate === "" ? null : startDate,
       endDate,
-      eduContents: eduContents === "" ? null : eduContents,
-      eduInstitution: eduInstitution === "" ? null : eduInstitution,
-      eduTime: eduTime === "" ? null : eduTime,
+      specialityType: specialityType === "" ? null : specialityType,
+      discharge: discharge === "" ? null : discharge,
     }
 
-    if (data.eduName === null || data.startDate === null || data.eduContents === null || data.eduInstitution === null || data.eduTime === null) {
+    if (data.militaryType === null || data.startDate === null || data.specialityType === null || data.discharge === null) {
       alert("필수값을 입력해 주세요.")
     } else {
     axiosInstance
-      .post(apis.education, data)
+      .post(apis.military, data)
       .then(response => {
         if (response.status === 200) {
           getServerData()
-          seteduName('')
+          setmilitaryType('')
           setStartDate('')
           setEndDate('')
-          seteduContents('')
-          seteduInstitution('')
-          seteduTime('')
+          setspecialityType('')
+          setdischarge('')
         }
       })
       .catch(error => console.log(error));}
@@ -102,36 +94,28 @@ const EducationEditComponent = ({getServerData}) => {
       <CenterBox></CenterBox>
       <RightBoxes>
         <RightBox>
-          <RightBoxTitle>교육명 <Essential>(*)</Essential></RightBoxTitle>
+          <RightBoxTitle>군별 <Essential>(*)</Essential></RightBoxTitle>
           <BoxInput 
-            value={eduName}
+            value={militaryType}
             onChange={onChangeNameHandler}
-            placeholder='교육명을 입력해 주세요'
+            placeholder='군별을 입력해 주세요'
           ></BoxInput>
         </RightBox>
         <RightBox>
-          <RightBoxTitle>주관기관 <Essential>(*)</Essential></RightBoxTitle>
+          <RightBoxTitle>병과 <Essential>(*)</Essential></RightBoxTitle>
           <BoxInput 
-            value={eduInstitution}
-            onChange={onChangeeduInstitutionHandler}
-            placeholder='주관기관을 입력해 주세요'
+            value={specialityType}
+            onChange={onChangespecialityTypeHandler}
+            placeholder='병과를 입력해 주세요'
           ></BoxInput>
         </RightBox>
         <RightBox>
-          <RightBoxTitle>교육시간 <Essential>(*)</Essential></RightBoxTitle>
+          <RightBoxTitle>전역사유 <Essential>(*)</Essential></RightBoxTitle>
           <BoxInput 
-            value={eduTime}
-            onChange={onChangeeduTimeHandler}
-            placeholder='교육시간을 입력해 주세요'
+            value={discharge}
+            onChange={onChangedischargeHandler}
+            placeholder='전역사유를 입력해 주세요'
           ></BoxInput>
-        </RightBox>
-        <RightBox>
-          <RightBoxTitle>교육내용 <Essential>(*)</Essential></RightBoxTitle>
-          <BoxArea 
-            value={eduContents}
-            onChange={onChangeeduContentsHandler}
-            placeholder='교육내용을 입력해 주세요'
-          ></BoxArea>
         </RightBox>
       </RightBoxes>
     </Content>
@@ -139,4 +123,4 @@ const EducationEditComponent = ({getServerData}) => {
 }
 
 
-export default EducationEditComponent;
+export default MilitaryEditComponent;

@@ -1,15 +1,15 @@
 //Portfolio
 import React from 'react';
 import styled from 'styled-components';
-import Personal from '../components/Portfolio/personal';
-import Military from '../components/Portfolio/military';
-import Education from '../components/Portfolio/education';
-import Training from '../components/Portfolio/training';
-import Certificate from '../components/Portfolio/certificate';
-import Award from '../components/Portfolio/award';
-import Career from '../components/Portfolio/career';
-import Project from '../components/Portfolio/project';
-import Sidebar from '../components/Portfolio/sidebar';
+import Personal from '../components/Portfolio/Personal';
+import Military from '../components/Portfolio/Military';
+import Graduation from '../components/Portfolio/Graduation';
+import Education from '../components/Portfolio/Education';
+import Certificate from '../components/Portfolio/Certificate';
+import Award from '../components/Portfolio/Award';
+import Career from '../components/Portfolio/Career';
+import Project from '../components/Portfolio/Project';
+import Sidebar from '../components/Portfolio/Sidebar';
 import { Link } from 'react-router-dom';
 import { fullWidth } from '../common/size';
 
@@ -39,22 +39,23 @@ const UpdatePofol = styled.div`
 
 export { Wrapper, Box }
 
+
 const Portfolio = () => {
   return (
     <Wrapper>
       <Wrapper>
         <Box>
           <UpdatePofol>
-            <Link to = 'edit' style={{textDecoration:"none", color:"white", backgroundColor:"#c4dbfd", borderRadius:"1rem", padding:"0.5rem"}}>Update Portfolio</Link>
+            <Link to = 'edit' style={{textDecoration:"none", color:"orange", borderRadius:"1rem", padding:"0.5rem"}}>Edit Portfolio</Link>
           </UpdatePofol>
-          <Personal></Personal>
-          <Military></Military>
-          <Education></Education>
-          <Training></Training>
-          <Certificate></Certificate>
-          <Award></Award>
-          <Career></Career>
-          <Project></Project>
+          <Personal/>
+          <Military/>
+          <Graduation/>
+          <Education/>
+          <Certificate/>
+          <Award/>
+          <Career/>
+          <Project/>
         </Box>
         <Sidebar></Sidebar>
       </Wrapper>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import {Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle,
-  BoxInput, BoxArea, SaveButton, Essential, EssentialDate} from '../../common/PorfoStyled';
+  BoxInput, SaveButton, Essential, EssentialDate} from '../../common/PorfoStyled';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
@@ -47,14 +47,12 @@ const CareerEditComponent = ({getServerData}) => {
       position: position === "" ? null : position,
       salary,
     }
-    console.log(data)
     if (data.company === null || data.startDate === null || data.department === null || data.position === null) {
       alert("필수값을 입력해 주세요.")
     } else {
     axiosInstance
       .post(apis.career, data)
       .then(response => {
-        console.log('AA')
         if (response.status === 200) {
           getServerData()
           setCompany('')

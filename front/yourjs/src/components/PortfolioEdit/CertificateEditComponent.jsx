@@ -1,46 +1,67 @@
 import React from 'react';
-import styled from 'styled-components';
 import { useState } from 'react';
-import {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,
-  ChangeButton, DelButton, customStyles, ModalForm, ModalTitle, ModalContent, ModalContentDate, InsertBtnDiv, InsertBtn,
-  BoxInput, BoxArea, SaveButton, Essential, EssentialDate} from '../../common/PorfoStyled';
+import {Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle,
+  BoxInput, SaveButton, Essential, EssentialDate} from '../../common/PorfoStyled';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
+import axiosInstance from '../../common/customAxios';
+import { apis } from '../../common/apis';
 
 
-const CertificateEditComponent = ({}) => {
-  const [name, setName] = useState('');
-  const [num, setNum] = useState('');
-  const [institution, setInstitution] = useState('');
-  const [acquisitionDate, setAcquisitionDate] = useState('');
-  const [file, setFile] = useState('');
-  const [data, setData] = useState({name: '', num: '', institution: '', acquisitionDate: '', file: ''});
+const CertificateEditComponent = ({getServerData}) => {
+  const [certName, setcertName] = useState('');
+  const [acquisitionDate, setacquisitionDate] = useState('');
+  const [certNum, setcertNum] = useState('');
+  const [certInstitution, setcertInstitution] = useState('');
+  const [data, setData] = useState({certName: '', acquisitionDate: '', certNum: '', certInstitution: ''});
 
   const onChangeNameHandler = e => {
-    setName(e.target.value);
-    setData({ ...data, name: name });
+    setcertName(e.target.value);
+    setData({ ...data, certName: certName });
   };
 
-  const onChangeNumHandler = e => {
-    setNum(e.target.value);
-    setData({ ...data, num: num });
+  const onChangecertNumHandler = e => {
+    setcertNum(e.target.value);
+    setData({ ...data, certNum: certNum });
   };
 
-  const onChangeInstitutionHandler = e => {
-    setInstitution(e.target.value);
-    setData({ ...data, institution: institution });
+  const onChangecertInstitutionHandler = e => {
+    setcertInstitution(e.target.value);
+    setData({ ...data, certInstitution: certInstitution });
   };
 
-  const onChangeFileHandler = e => {
-    setFile(e.target.value);
-    setData({ ...data, file: file });
+  const addButtonClicked = () => {
+    const data = {
+      certName: certName === "" ? null : certName,
+      acquisitionDate: acquisitionDate === "" ? null : acquisitionDate,
+      certNum: certNum === "" ? null : certNum,
+      certInstitution: certInstitution === "" ? null : certInstitution,
+    }
+
+    if (data.certName === null || data.acquisitionDate === null || data.certNum === null || data.certInstitution === null) {
+      alert("필수값을 입력해 주세요.")
+    } else {
+    axiosInstance
+      .post(apis.certificate, data)
+      .then(response => {
+        if (response.status === 200) {
+          getServerData()
+          setcertName('')
+          setacquisitionDate('')
+          setcertNum('')
+          setcertInstitution('')
+        }
+      })
+      .catch(error => console.log(error));}
   };
 
   return (
     <Content>
       <LeftBox style={{marginLeft: "2rem"}}>
         <br/>
+        <LeftBoxTitle>취득일<EssentialDate>(*)</EssentialDate></LeftBoxTitle>
+        <LeftBoxContent>
         <DatePicker
             style ={{"z-index" : 999}}
             placeholderText='취득일'
@@ -48,44 +69,38 @@ const CertificateEditComponent = ({}) => {
             dateFormat="yyyy년 MM월 dd일"
             autoComplete="off"
             id="contentFont"
-            onChange={date => setAcquisitionDate(date)}
+            onChange={date => setacquisitionDate(date)}
             selected={acquisitionDate}
-        ></DatePicker>
+        ></DatePicker></LeftBoxContent>
         <br/><br/>
-        <SaveButton>추가</SaveButton>
+        <SaveButton
+          onClick={addButtonClicked}
+        >추가</SaveButton>
       </LeftBox>
       <CenterBox></CenterBox>
       <RightBoxes>
         <RightBox>
-          <RightBoxTitle>자격증명</RightBoxTitle>
+          <RightBoxTitle>자격증명 <Essential>(*)</Essential></RightBoxTitle>
           <BoxInput 
-            value={name}
+            value={certName}
             onChange={onChangeNameHandler}
-            placeholder='자격증 명을 입력해 주세요'
+            placeholder='자격증명을 입력해 주세요'
           ></BoxInput>
         </RightBox>
         <RightBox>
-          <RightBoxTitle>자격번호</RightBoxTitle>
+          <RightBoxTitle>자격번호 <Essential>(*)</Essential></RightBoxTitle>
           <BoxInput 
-            value={num}
-            onChange={onChangeNumHandler}
+            value={certNum}
+            onChange={onChangecertNumHandler}
             placeholder='자격번호를 입력해 주세요'
           ></BoxInput>
         </RightBox>
         <RightBox>
-          <RightBoxTitle>발급기관</RightBoxTitle>
+          <RightBoxTitle>발급기관 <Essential>(*)</Essential></RightBoxTitle>
           <BoxInput 
-            value={institution}
-            onChange={onChangeInstitutionHandler}
+            value={certInstitution}
+            onChange={onChangecertInstitutionHandler}
             placeholder='발급기관을 입력해 주세요'
-          ></BoxInput>
-        </RightBox>
-        <RightBox>
-          <RightBoxTitle>파일</RightBoxTitle>
-          <BoxInput 
-            value={file}
-            onChange={onChangeFileHandler}
-            placeholder='파일을 업로드해 주세요'
           ></BoxInput>
         </RightBox>
       </RightBoxes>

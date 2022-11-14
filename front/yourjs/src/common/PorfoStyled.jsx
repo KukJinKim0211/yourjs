@@ -28,8 +28,8 @@ const Contents = styled.div`
 
 const Content = styled.div`
   display: flex;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 1.2rem;
+  margin-bottom: 1.3rem;
 `
 
 const LeftBox = styled.div`
@@ -38,12 +38,12 @@ const LeftBox = styled.div`
   word-break: break-all;
   font-weight: bold;
   font-family: 'Pretendard-Regular';
+  align-self: center;
 `
 
 const LeftBoxTitle = styled.div`
   width: 100%;
   margin: 1rem;
-  text-align: center;
   display: flex;
   justify-content: center;
   margin-bottom: 2rem;
@@ -63,6 +63,7 @@ const RightBoxes = styled.div`
   width: 70%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 `
 
 const RightBox = styled.div`
@@ -75,6 +76,7 @@ const RightBox = styled.div`
 
 const RightBoxTitle = styled.div`
   width: 20%;
+  display: flex;
 `
 
 const RightBoxContent = styled.div`
@@ -140,7 +142,8 @@ const ModalTitle = styled.div`
   margin-bottom: 1%;
   font-family: 'InfinitySans-RegularA1';
   width: 35%;
-  text-align: center;
+  display: flex;
+  justify-content: center;
 `
 
 const ModalContent = styled.input`
@@ -222,13 +225,12 @@ const SaveButton = styled.button`
   }
 `
 
-const Essential = styled.p`
+const Essential = styled.div`
   color: red;
 `
 
-const EssentialDate = styled.p`
+const EssentialDate = styled.div`
   color: red;
-  display: flex;
 `
 
 export {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,

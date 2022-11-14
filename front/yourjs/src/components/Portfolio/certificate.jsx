@@ -1,33 +1,46 @@
 //자격증, 어학
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr} from '../../common/PorfoStyled';
+import { apis } from '../../common/apis';
+import axiosInstance from '../../common/customAxios';
 
 
 const Certificate = () => {
+  const [viewData, setViewData] = useState([]);
+
+  useEffect(() => {
+    axiosInstance
+      .get(apis.certificate)
+      .then(response => {
+        setViewData(response.data);
+      })
+  }, []);
+
   return (
     <Container id='5'>
       <ContentTitle>📖 자격증/어학</ContentTitle>
       <ContentSet>
         <Hr></Hr>
-        <Content>
-          <LeftBox>2022.05.27</LeftBox>
-          <CenterBox></CenterBox>
-          <RightBoxes>
-          <RightBox>
-            <RightBoxTitle>자격증명</RightBoxTitle>
-            <RightBoxContent>정보처리기사</RightBoxContent>
-          </RightBox>
-          <RightBox>
-            <RightBoxTitle>자격번호</RightBoxTitle>
-            <RightBoxContent>003006861</RightBoxContent>
-          </RightBox>
-          <RightBox>
-            <RightBoxTitle>발급기관</RightBoxTitle>
-            <RightBoxContent>한국산업인력공단</RightBoxContent>
-          </RightBox>
-          <RightBox>파일</RightBox>
-          </RightBoxes>
-        </Content>
+        {viewData?.map((el, index) => (
+          <Content key={index}>
+            <LeftBox>{el.acquisitionDate}</LeftBox>
+            <CenterBox></CenterBox>
+            <RightBoxes>
+              <RightBox>
+                <RightBoxTitle>자격증명</RightBoxTitle>
+                <RightBoxContent>{el.certName}</RightBoxContent>
+              </RightBox>
+              <RightBox>
+                <RightBoxTitle>자격번호</RightBoxTitle>
+                <RightBoxContent>{el.certNum}</RightBoxContent>
+              </RightBox>
+              <RightBox>
+                <RightBoxTitle>발급기관</RightBoxTitle>
+                <RightBoxContent>{el.certInstitution}</RightBoxContent>
+              </RightBox>
+            </RightBoxes>
+          </Content>
+        ))}
       </ContentSet>
     </Container>
   )

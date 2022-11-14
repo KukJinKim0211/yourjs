@@ -1,8 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
-import {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,
-  ChangeButton, DelButton, customStyles, ModalForm, ModalTitle, ModalContent, ModalContentDate, InsertBtnDiv, InsertBtn,
-  BoxInput, BoxArea, SaveButton, Essential, EssentialDate} from '../../common/PorfoStyled';
+import {Container, ContentTitle, ContentSet, Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,
+  ChangeButton, DelButton, customStyles, ModalForm, ModalTitle, ModalContent, ModalContentDate, InsertBtnDiv, InsertBtn, Essential} from '../../common/PorfoStyled';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 import Modal from 'react-modal';
@@ -26,12 +25,13 @@ const CertificateEdit = ({dataArr, getServerData}) => {
     setModalOpen(false);
   }
 
-  const delButtonClicked = (certificateSeq) => {
+  const delButtonClicked = (certSeq) => {
     axiosInstance
       .delete(apis.certificate, {
-        data: {"certificateSeq": certificateSeq}
+        data: {"certSeq": certSeq}
       })
       .then(response => {
+        console.log('A')
         if (response.status === 200) {
           getServerData()
         }
@@ -60,32 +60,6 @@ const CertificateEdit = ({dataArr, getServerData}) => {
         <ContentTitle>📖 자격증/어학</ContentTitle>
         <ContentSet>
           <Hr></Hr>
-          {dataArr.map((el, index) => (
-            <Content key={index}>
-              <LeftBox>{el.acquisitionDate}<br/><br/>
-              <ChangeButton>수정</ChangeButton>
-              <DelButton>삭제</DelButton></LeftBox>
-              <CenterBox></CenterBox>
-              <RightBoxes>
-                <RightBox>
-                  <RightBoxTitle>자격증명</RightBoxTitle>
-                  <RightBoxContent>{el.certName}</RightBoxContent>
-                </RightBox>
-                <RightBox>
-                  <RightBoxTitle>자격번호</RightBoxTitle>
-                  <RightBoxContent>{el.certNum}</RightBoxContent>
-                </RightBox>
-                <RightBox>
-                  <RightBoxTitle>발급기관</RightBoxTitle>
-                  <RightBoxContent>{el.certInstitution}</RightBoxContent>
-                </RightBox>
-                <RightBox>파일</RightBox>
-              </RightBoxes>
-            </Content>
-            ))}
-          </ContentSet>
-          <ContentSet>
-          <Hr></Hr>
           <Modal
             isOpen={modalOpen}
             onRequestClose={closeModal}
@@ -93,29 +67,16 @@ const CertificateEdit = ({dataArr, getServerData}) => {
             contentLabel="Example Modal"
           >
             <ModalForm>
-              <ModalTitle>시작일 <Essential>(*)</Essential></ModalTitle>
+              <ModalTitle>취득일 <Essential>(*)</Essential></ModalTitle>
               <ModalContentDate>
                 <DatePicker
-                  placeholderText='시작일'
+                  placeholderText='취득일'
                   locale={ko}
                   dateFormat="yyyy-MM-dd"
                   autoComplete="off"
                   id="contentFont"
                   value={modalData.acquisitionDate}
                   onChange={(e) => setModalData({...modalData, acquisitionDate: dayjs(e).format('YYYY-MM-DD')})}
-                  >
-                </DatePicker>
-              </ModalContentDate>
-              <ModalTitle>종료일</ModalTitle>
-              <ModalContentDate>
-                <DatePicker
-                  placeholderText='종료일'
-                  locale={ko}
-                  dateFormat="yyyy-MM-dd"
-                  autoComplete="off"
-                  id="contentFont"
-                  value={modalData.endDate}
-                  onChange={(e) => setModalData({...modalData, endDate: dayjs(e).format('YYYY-MM-DD')})}
                   >
                 </DatePicker>
               </ModalContentDate>
@@ -155,28 +116,23 @@ const CertificateEdit = ({dataArr, getServerData}) => {
 
           {dataArr?.map((el, index) => (
             <Content key={index}>
-              <LeftBox>{el.acquisitionDate}<br/>~ {el.endDate}<br/><br/>
+              <LeftBox>{el.acquisitionDate}<br/><br/>
               <ChangeButton onClick={() => openModal(index)}>수정</ChangeButton>
-              <DelButton onClick={() => delButtonClicked(el.certificateSeq)}>삭제</DelButton></LeftBox>
+              <DelButton onClick={() => delButtonClicked(el.certSeq)}>삭제</DelButton></LeftBox>
               <CenterBox></CenterBox>
               <RightBoxes>
                 <RightBox>
-                  <RightBoxTitle>프로젝트명</RightBoxTitle>
+                  <RightBoxTitle>자격증명</RightBoxTitle>
                   <RightBoxContent>{el.certName}</RightBoxContent>
                 </RightBox>
                 <RightBox>
-                  <RightBoxTitle>소속명</RightBoxTitle>
+                  <RightBoxTitle>자격번호</RightBoxTitle>
                   <RightBoxContent>{el.certNum}</RightBoxContent>
                 </RightBox>
                 <RightBox>
-                  <RightBoxTitle>사용기술</RightBoxTitle>
+                  <RightBoxTitle>발급기관</RightBoxTitle>
                   <RightBoxContent>{el.certInstitution}</RightBoxContent>
                 </RightBox>
-                <RightBox>
-                  <RightBoxTitle>내용</RightBoxTitle>
-                  <RightBoxContent>{el.content}</RightBoxContent>
-                </RightBox>
-                <RightBox>파일</RightBox>
               </RightBoxes>
             </Content>
             ))}
@@ -185,5 +141,6 @@ const CertificateEdit = ({dataArr, getServerData}) => {
     </div>
   )
 }
+
 
 export default CertificateEdit
