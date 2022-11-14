@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
+import { addDays } from 'date-fns/esm';
 
 
 const EducationEditComponent = ({getServerData}) => {
@@ -41,8 +42,8 @@ const EducationEditComponent = ({getServerData}) => {
   const addButtonClicked = () => {
     const data = {
       eduName: eduName === "" ? null : eduName,
-      startDate: startDate === "" ? null : startDate,
-      endDate,
+      startDate: startDate === "" ? null : addDays(startDate, 1),
+      endDate: endDate === "" ? null : addDays(endDate, 1),
       eduContents: eduContents === "" ? null : eduContents,
       eduInstitution: eduInstitution === "" ? null : eduInstitution,
       eduTime: eduTime === "" ? null : eduTime,
@@ -54,6 +55,7 @@ const EducationEditComponent = ({getServerData}) => {
     axiosInstance
       .post(apis.education, data)
       .then(response => {
+        console.log(response.data)
         if (response.status === 200) {
           getServerData()
           seteduName('')
@@ -122,7 +124,7 @@ const EducationEditComponent = ({getServerData}) => {
           <BoxInput 
             value={eduTime}
             onChange={onChangeeduTimeHandler}
-            placeholder='교육시간을 입력해 주세요'
+            placeholder='교육시간을 숫자로 입력해 주세요'
           ></BoxInput>
         </RightBox>
         <RightBox>

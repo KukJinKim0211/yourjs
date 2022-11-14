@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
+import { addDays } from 'date-fns/esm';
 
 
 const CertificateEditComponent = ({getServerData}) => {
@@ -34,7 +35,7 @@ const CertificateEditComponent = ({getServerData}) => {
   const addButtonClicked = () => {
     const data = {
       certName: certName === "" ? null : certName,
-      acquisitionDate: acquisitionDate === "" ? null : acquisitionDate,
+      acquisitionDate: acquisitionDate === "" ? null : addDays(acquisitionDate, 1),
       certNum: certNum === "" ? null : certNum,
       certInstitution: certInstitution === "" ? null : certInstitution,
     }

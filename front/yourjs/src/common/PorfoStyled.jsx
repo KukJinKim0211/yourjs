@@ -22,10 +22,6 @@ const ContentSet = styled.div`
   flex-direction: column;
 `
 
-const Contents = styled.div`
-  
-`
-
 const Content = styled.div`
   display: flex;
   margin-top: 1.2rem;
@@ -67,7 +63,7 @@ const RightBoxes = styled.div`
 `
 
 const RightBox = styled.div`
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   display: flex;
   font-family: 'InfinitySans-RegularA1';
   font-weight: 200;
@@ -233,5 +229,5 @@ const EssentialDate = styled.div`
   color: red;
 `
 
-export {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,
+export {Container, ContentTitle, ContentSet, Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,
   ChangeButton, DelButton, customStyles, ModalForm, ModalTitle, ModalContent, ModalContentArea, ModalContentDate, InsertBtnDiv, InsertBtn, BoxInput, BoxArea, SaveButton, Essential, EssentialDate}

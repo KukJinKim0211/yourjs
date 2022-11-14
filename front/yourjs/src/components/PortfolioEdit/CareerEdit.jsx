@@ -154,7 +154,7 @@ const CareerEdit = ({dataArr, getServerData}) => {
                 </RightBox>
                 <RightBox>
                   <RightBoxTitle>연봉</RightBoxTitle>
-                  <RightBoxContent>{el.salary}만원</RightBoxContent>
+                  <RightBoxContent>{el.salary} 만원</RightBoxContent>
                 </RightBox>
               </RightBoxes>
             </Content>

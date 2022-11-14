@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Wrapper } from './Portfolio';
 import styled from 'styled-components';
 import PersonalEdit from '../components/PortfolioEdit/PersonalEdit';
-import PersonalEditComponent from '../components/PortfolioEdit/PersonalEditComponent';
 import MilitaryEdit from '../components/PortfolioEdit/MilitaryEdit';
 import MilitaryEditComponent from '../components/PortfolioEdit/MilitaryEditComponent';
 import GraduationEdit from '../components/PortfolioEdit/GraduationEdit';
@@ -114,7 +113,7 @@ const PortfolioEdit = () => {
     }, [openTab])
 
     const menuArr = [
-        { name: '인적사항', content: <PersonalEdit dataArr={viewData} getServerData={getServerData}/>, component: <PersonalEditComponent getServerData={getServerData}/> },
+        { name: '인적사항', content: <PersonalEdit/>},
         { name: '병역사항', content: <MilitaryEdit dataArr={viewData} getServerData={getServerData}/>, component: <MilitaryEditComponent getServerData={getServerData}/> },
         { name: '학력사항', content: <GraduationEdit dataArr={viewData} getServerData={getServerData}/>, component: <GraduationEditComponent getServerData={getServerData}/> },
         { name: '교육사항', content: <EducationEdit dataArr={viewData} getServerData={getServerData}/>, component: <EducationEditComponent getServerData={getServerData}/> },
@@ -131,23 +130,17 @@ const PortfolioEdit = () => {
     return (
       <Wrapper>
         <Wrapper>
-          <Box>
-            <BoxContent>
-              {menuArr[openTab].component}
-            </BoxContent>
-          </Box>
-          <Box>
-            <BoxContent>
-              {menuArr[openTab].content}
-            </BoxContent>
-          </Box>
+          {menuArr[openTab].component
+          ? <Box><BoxContent>{menuArr[openTab].component}</BoxContent></Box>
+          : ''}
+          <Box><BoxContent>{menuArr[openTab].content}</BoxContent></Box>
           <TabMenu>
-              {menuArr.map((el, index) => (
-                <li key={index} className={index === openTab ? "submenu focused" : "submenu"}
-                onClick={() => selectMenuHandler(index)
-                }>{el.name}</li>
-              ))}
-            </TabMenu>
+            {menuArr.map((el, index) => (
+              <li key={index} className={index === openTab ? "submenu focused" : "submenu"}
+              onClick={() => selectMenuHandler(index)
+              }>{el.name}</li>
+            ))}
+          </TabMenu>
         </Wrapper>
       </Wrapper>
     )

@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
+import { addDays } from 'date-fns/esm';
 
 
 const GraduationEditComponent = ({getServerData}) => {
@@ -77,8 +78,8 @@ const GraduationEditComponent = ({getServerData}) => {
   const addButtonClicked = () => {
     const data = {
       schoolName: schoolName === "" ? null : schoolName,
-      startDate: startDate === "" ? null : startDate,
-      endDate,
+      startDate: startDate === "" ? null : addDays(startDate, 1),
+      endDate: endDate === "" ? null : addDays(endDate, 1),
       location: location === "" ? null : location,
       majorName,
       doubleMajorName,

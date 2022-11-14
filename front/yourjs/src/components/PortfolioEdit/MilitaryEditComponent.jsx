@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle,
   BoxInput, SaveButton, Essential, EssentialDate} from '../../common/PorfoStyled';
 import DatePicker from 'react-datepicker';
@@ -7,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
+import { addDays } from 'date-fns/esm';
 
 
 const MilitaryEditComponent = ({getServerData}) => {
@@ -35,8 +35,8 @@ const MilitaryEditComponent = ({getServerData}) => {
   const addButtonClicked = () => {
     const data = {
       militaryType: militaryType === "" ? null : militaryType,
-      startDate: startDate === "" ? null : startDate,
-      endDate,
+      startDate: startDate === "" ? null : addDays(startDate, 1),
+      endDate: endDate === "" ? null : addDays(endDate, 1),
       specialityType: specialityType === "" ? null : specialityType,
       discharge: discharge === "" ? null : discharge,
     }
@@ -44,6 +44,7 @@ const MilitaryEditComponent = ({getServerData}) => {
     if (data.militaryType === null || data.startDate === null || data.specialityType === null || data.discharge === null) {
       alert("필수값을 입력해 주세요.")
     } else {
+    
     axiosInstance
       .post(apis.military, data)
       .then(response => {

@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
+import { addDays } from 'date-fns/esm';
 
 
 const ProjectEditComponent = ({getServerData}) => {
@@ -47,8 +48,8 @@ const ProjectEditComponent = ({getServerData}) => {
   const addButtonClicked = () => {
     const data = {
       projectName: projectName === "" ? null : projectName,
-      startDate: startDate === "" ? null : startDate,
-      endDate,
+      startDate: startDate === "" ? null : addDays(startDate, 1),
+      endDate: endDate === "" ? null : addDays(endDate, 1),
       belongs: belongs === "" ? null : belongs,
       tools: tools === "" ? null : tools,
       content: content === "" ? null : content,

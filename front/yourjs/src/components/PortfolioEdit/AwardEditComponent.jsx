@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
+import { addDays } from 'date-fns/esm';
 
 
 const AwardEditComponent = ({getServerData}) => {
@@ -34,7 +35,7 @@ const AwardEditComponent = ({getServerData}) => {
   const addButtonClicked = () => {
     const data = {
       awardName: awardName === "" ? null : awardName,
-      winDate: winDate === "" ? null : winDate,
+      winDate: winDate === "" ? null : addDays(winDate, 1),
       awardContents: awardContents === "" ? null : awardContents,
       awardInstitution: awardInstitution === "" ? null : awardInstitution,
     }

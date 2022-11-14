@@ -1,6 +1,6 @@
 //교육사항
 import React, {useState, useEffect} from 'react';
-import {Container, ContentTitle, ContentSet, Contents, Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr} from '../../common/PorfoStyled';
+import {Container, ContentTitle, ContentSet, Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr} from '../../common/PorfoStyled';
 import { apis } from '../../common/apis';
 import axiosInstance from '../../common/customAxios';
 

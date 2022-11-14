@@ -12,7 +12,7 @@ import Project from '../components/Portfolio/Project';
 import Sidebar from '../components/Portfolio/Sidebar';
 import { Link } from 'react-router-dom';
 import { fullWidth } from '../common/size';
-
+import { colors } from '../common/color';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -31,10 +31,24 @@ const Box = styled.div`
 `;
 
 const UpdatePofol = styled.div`
-  margin : 5% 0% 3% 15%;
-  font-size: 1.5rem;
-  width: 100%;
+  color: ${colors.bsColor4};
+  font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+  padding: 1rem 0 1rem 0;
+  width: 9rem; 
+  height: fit-content;
+  position: fixed; 
+  top: 10%;
+  /* margin-left: 73%;  */
+  margin-left: 1400px;
+  user-select: none;
+  cursor: pointer;
   font-family: 'GmarketSansMedium';
+  border-radius: 1rem;
+  border: 1px solid ${colors.bsColor3};
 `
 
 export { Wrapper, Box }
@@ -46,7 +60,7 @@ const Portfolio = () => {
       <Wrapper>
         <Box>
           <UpdatePofol>
-            <Link to = 'edit' style={{textDecoration:"none", color:"orange", borderRadius:"1rem", padding:"0.5rem"}}>Edit Portfolio</Link>
+            <Link to = 'edit' style={{textDecoration:"none", color:"orange"}}>⚙ Edit</Link>
           </UpdatePofol>
           <Personal/>
           <Military/>
@@ -57,7 +71,7 @@ const Portfolio = () => {
           <Career/>
           <Project/>
         </Box>
-        <Sidebar></Sidebar>
+        <Sidebar/>
       </Wrapper>
       <br></br>
     </Wrapper>
