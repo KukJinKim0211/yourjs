@@ -3,8 +3,7 @@ import { colors } from '../common/color';
 
 const Container = styled.div`
   width: 90%;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 5rem;
   display: flex;
 `
 
@@ -229,5 +228,15 @@ const EssentialDate = styled.div`
   color: red;
 `
 
+const NoData = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-family: 'InfinitySans-RegularA1';
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  min-height: 5rem;
+`
+
 export {Container, ContentTitle, ContentSet, Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,
-  ChangeButton, DelButton, customStyles, ModalForm, ModalTitle, ModalContent, ModalContentArea, ModalContentDate, InsertBtnDiv, InsertBtn, BoxInput, BoxArea, SaveButton, Essential, EssentialDate}
+  ChangeButton, DelButton, customStyles, ModalForm, ModalTitle, ModalContent, ModalContentArea, ModalContentDate, InsertBtnDiv, InsertBtn, BoxInput, BoxArea, SaveButton, Essential, EssentialDate, NoData}

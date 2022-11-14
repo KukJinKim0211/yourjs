@@ -55,7 +55,7 @@ const TabMenu = styled.ul`
 
   .submenu {
   // 기본 Tabmenu 에 대한 CSS를 구현
-    width: 70%;
+    width: 60%;
     padding: 1rem;
     font-size: 1.3rem;
     transition: 0.5s;

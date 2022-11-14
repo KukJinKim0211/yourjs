@@ -32,7 +32,7 @@ const Box = styled.div`
 
 const UpdatePofol = styled.div`
   color: ${colors.bsColor4};
-  font-size: 2rem;
+  font-size: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,7 +41,7 @@ const UpdatePofol = styled.div`
   width: 9rem; 
   height: fit-content;
   position: fixed; 
-  top: 10%;
+  top: 12%;
   /* margin-left: 73%;  */
   margin-left: 1400px;
   user-select: none;
@@ -49,6 +49,9 @@ const UpdatePofol = styled.div`
   font-family: 'GmarketSansMedium';
   border-radius: 1rem;
   border: 1px solid ${colors.bsColor3};
+  :hover {
+    background-color: ${colors.bsColor1};
+  }
 `
 
 export { Wrapper, Box }
@@ -59,8 +62,9 @@ const Portfolio = () => {
     <Wrapper>
       <Wrapper>
         <Box>
+          <br></br><br></br>
           <UpdatePofol>
-            <Link to = 'edit' style={{textDecoration:"none", color:"orange"}}>⚙ Edit</Link>
+            <Link to = 'edit' style={{textDecoration:"none", color:"orange"}}>⚙ 수정</Link>
           </UpdatePofol>
           <Personal/>
           <Military/>
@@ -70,10 +74,11 @@ const Portfolio = () => {
           <Award/>
           <Career/>
           <Project/>
+          <br></br><br></br>
         </Box>
         <Sidebar/>
       </Wrapper>
-      <br></br>
+      <br></br><br></br>
     </Wrapper>
   )
 };
