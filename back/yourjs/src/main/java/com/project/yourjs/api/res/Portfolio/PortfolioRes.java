@@ -16,5 +16,10 @@ public class PortfolioRes {
     private String links;
 
     public PortfolioRes(Long portfolioSeq, String cnName, String engName, String techStacks, String links) {
+        this.portfolioSeq = portfolioSeq;
+        this.cnName = cnName;
+        this.engName = engName;
+        this.techStacks = techStacks;
+        this.links = links;
     }
 }
