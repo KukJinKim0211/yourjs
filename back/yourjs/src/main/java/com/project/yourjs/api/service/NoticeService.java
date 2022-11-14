@@ -78,6 +78,36 @@ public class NoticeService {
         return noticeList;
     }
 
+    public List<NoticeGetRes> getAllNoticeByUserSeq(Integer userSeq) {
+        List<NoticeGetRes> noticeList = new ArrayList<>();
+        List<Notice> allNoticeList = noticeRepository.findAll();
+        for (Notice notice : allNoticeList) {
+            if (notice.getUser().getUserSeq() == (long)userSeq) {
+                NoticeGetRes noticeGetRes = new NoticeGetRes();
+                List<NoticeTag> noticeTagList = noticeTagRepository.findAllByNoticeSeq(notice.getNoticeSeq());
+                if (noticeTagList != null) {
+                    StringBuilder sb = new StringBuilder();
+                    for (NoticeTag tag : noticeTagList) {
+                        sb.append(tag.getNoticeTagName());
+                        sb.append(", ");
+                    }
+                    if (sb.length() > 1)
+                        sb.delete(sb.length() - 2, sb.length());
+                    noticeGetRes.setNoticeTag(sb.toString());
+                }
+
+                noticeGetRes.setNoticeSeq(notice.getNoticeSeq());
+                noticeGetRes.setSchedules(this.getScheduleByNoticeSeq(notice.getNoticeSeq()));
+                noticeGetRes.setCoName(notice.getCoName());
+                noticeGetRes.setLink(notice.getLink());
+                noticeGetRes.setNoticeName(notice.getNoticeName());
+                noticeGetRes.setProgress(notice.getProgress());
+                noticeList.add(noticeGetRes);
+            }
+        }
+        return noticeList;
+    }
+
     public NoticeGetRes getNotice(String userId, Integer noticeSeq) {
         Optional<Notice> oNotice = noticeRepository.findByNoticeSeq(noticeSeq);
         if (oNotice.isPresent()) {
@@ -244,6 +274,8 @@ public class NoticeService {
                 scheduleRes.setScheduleName(schedule.getScheduleName());
                 String dateTime = schedule.getScheduleDate().toLocalDate() + " "
                         + schedule.getScheduleDate().toLocalTime();
+                if (schedule.getScheduleDate().toLocalTime().getSecond() == 0)
+                    dateTime += ":00";
                 scheduleRes.setScheduleDate(dateTime);
                 schedulesRes.add(scheduleRes);
             }
@@ -272,7 +304,7 @@ public class NoticeService {
     }
 
     @Transactional
-    public ScheduleUpdateRes updateSchedule(ScheduleUpdateReq scheduleUpdateReq){
+    public ScheduleUpdateRes updateSchedule(ScheduleUpdateReq scheduleUpdateReq) {
         ScheduleUpdateRes scheduleUpdateRes = new ScheduleUpdateRes();
         scheduleUpdateRes.setAnswer("fail");
         Schedule schedule = new Schedule();
@@ -283,28 +315,28 @@ public class NoticeService {
         String[] date = dateTime[0].split("-");
         String[] time = dateTime[1].split(":");
         LocalDateTime schedulDateTime = LocalDateTime.of(Integer.parseInt(date[0]),
-                        Month.of(Integer.parseInt(date[1])), Integer.parseInt(date[2]),
-                        Integer.parseInt(time[0]),
-                        Integer.parseInt(time[1]), Integer.parseInt(time[2]));
+                Month.of(Integer.parseInt(date[1])), Integer.parseInt(date[2]),
+                Integer.parseInt(time[0]),
+                Integer.parseInt(time[1]), Integer.parseInt(time[2]));
         schedule.setScheduleDate(schedulDateTime);
         Schedule scheduleRes = scheduleRepository.save(schedule);
-        if(scheduleRes != null)
+        if (scheduleRes != null)
             scheduleUpdateRes.setAnswer("success");
 
         return scheduleUpdateRes;
     }
 
     @Transactional
-    public ScheduleDeleteRes deleteSchedule(Integer scheduleSeq){
+    public ScheduleDeleteRes deleteSchedule(Integer scheduleSeq) {
         ScheduleDeleteRes scheduleDeleteRes = new ScheduleDeleteRes();
         scheduleDeleteRes.setAnswer("fail");
         Optional<Schedule> oSchedule = scheduleRepository.findById(scheduleSeq);
-        if(oSchedule.isPresent()){
+        if (oSchedule.isPresent()) {
             Schedule schedule = oSchedule.get();
             scheduleRepository.delete(schedule);
             scheduleDeleteRes.setAnswer("success");
         }
-            
+
         return scheduleDeleteRes;
     }
 }
