@@ -44,15 +44,17 @@ public class SubjectService {
             if (tempUser.getUserId() == userId) {
                 continue;
             }
-            SubjectUserRes subjectUserRes = new SubjectUserRes(
-                    tempUser.getUserSeq(),
-                    tempUser.getUserId(),
-                    tempUser.getUserName(),
-                    tempUser.getNickname(),
-                    tempUser.getInfoLevel(),
-                    tempUser.getUserImg()
-            );
-            subjectUserResList.add(subjectUserRes);
+            if (tempUser.getInfoLevel() != null && tempUser.getInfoLevel() < 3) {
+                SubjectUserRes subjectUserRes = new SubjectUserRes(
+                        tempUser.getUserSeq(),
+                        tempUser.getUserId(),
+                        tempUser.getUserName(),
+                        tempUser.getNickname(),
+                        tempUser.getInfoLevel(),
+                        tempUser.getUserImg()
+                );
+                subjectUserResList.add(subjectUserRes);
+            }
         }
         return subjectUserResList;
     }
