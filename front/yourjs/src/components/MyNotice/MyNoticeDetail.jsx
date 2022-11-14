@@ -244,6 +244,10 @@ const MyNoticeDetail = () => {
   useEffect(() => {
     getDetailData();
   }, []);
+
+  
+
+  
   // +플러스 버튼 눌렀을때
   const handleDateClick = () => {
     const b = [...dateList];
@@ -345,7 +349,8 @@ const MyNoticeDetail = () => {
 
       setNoticeData({
         ...noticeData,
-        noticeTag: noticeData.noticeTag + `, ${e.target.value}`,
+        
+        noticeTag:  noticeData.noticeTag!==null ?  noticeData.noticeTag + `, ${e.target.value}` : `${e.target.value}`,
       });
       console.log(noticeTagItem, '확인하자 제발');
       setNoticeTagItem('');
@@ -392,11 +397,29 @@ const MyNoticeDetail = () => {
     }
   };
 
-  const deleteIntroTag = tag2 => {};
+  const deleteDetailTag = (tag1,index) => {
+    var newNotice =[...noticeData.intros]
+    console.log(newNotice,"새로운복사본")
+    const newTag = noticeData.intros[index].introTag.replace(`${tag1}, `, '')
+    const newTag2 = newTag.replace(`, ${tag1}`, '');
+    const newTag3 = newTag2.replace(`${tag1}`, '');
+    console.log(newTag,"1")
+    console.log(newTag3,"2")
+    
+      if (newTag3==='') {
+      const newTag3 ='';
+      newNotice.map((detailTag,index2) => index2 === index ? delete detailTag.introTag : detailTag )
+      setNoticeData({...noticeData,intros:newNotice})
+    }
+    else {
+      newNotice.map((detailTag,index2) => index2 === index ? detailTag.introTag=newTag3 : detailTag )
+      setNoticeData({...noticeData,intros:newNotice})
+    }
+  }
 
   //최종적으로 데이터 종합
   const handleTotalPushData = () => {
-    // addSelfIndex.forEach(self => noticeData.intros.push(self)) // 자소서 추가한 것도 하나로 모으기
+    addSelfIndex.forEach(self => noticeData.intros.push(self)) // 자소서 추가한 것도 하나로 모으기
 
     noticeData.schedules = totalData.schedules.sort(
       (a, b) => new Date(a.scheduleDate) - new Date(b.scheduleDate),
@@ -545,17 +568,15 @@ const MyNoticeDetail = () => {
                   value={tagItem[index].value}
                   onKeyDown={e => {
                     if (e.key === 'Enter') {
-                      // console.log(index);
-                      // setFirstSelfData({
-                      //   ...firstSelfData,
-                      //   introTag: firstSelfData[index].introTag + `, ${e.target.value}`,
-                      // });
+                      
                       setFirstSelfData(
                         firstSelfData.map((self, index2) =>
+                          
                           index2 === index
+                          
                             ? {
                                 ...self,
-                                introTag: `${self.introTag}, ${e.target.value}`,
+                                introTag: self.introTag ? `${self.introTag}, ${e.target.value}` : `${e.target.value}`,
                               }
                             : self,
                         ),
@@ -583,7 +604,7 @@ const MyNoticeDetail = () => {
                     <ResultTag key={index4} id="contentFont">
                       {tag}
                       <DeleteTagButton
-                        onClick={() => console.log(index, intros.introTag)}
+                        onClick={() => deleteDetailTag(tag,index)}
                       >
                         X
                       </DeleteTagButton>
