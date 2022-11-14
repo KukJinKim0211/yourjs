@@ -212,6 +212,14 @@ const ResultTag = styled.div`
   box-shadow: 0.1rem 0.1rem 0.1rem gray; ;
 `;
 
+
+const DeleteTagButton = styled.div`
+  padding-left: 8px;
+  cursor: pointer;
+  
+  color: ${colors.bsColor4};
+`
+
 let countList = 1;
 let countDate = 1;
 const MyNoticeAdd = () => {
@@ -377,6 +385,13 @@ const MyNoticeAdd = () => {
     }
   };
 
+   // 태그 삭제
+  const deleteTag = tag1 => {
+    const newArray = tag.filter(d => d !== tag1);
+    setTag(newArray);
+  };
+
+
   return (
     <Wrapper>
       <br></br>
@@ -419,7 +434,8 @@ const MyNoticeAdd = () => {
       <div style={{ display: 'flex' }}>
         <EachTitle></EachTitle>
         {tag.map((tag, index) => (
-          <ResultTag key={index}># {tag}</ResultTag>
+          <ResultTag key={index} onClick={()=>{deleteTag(tag)
+          }}># {tag} <DeleteTagButton>X</DeleteTagButton></ResultTag>
         ))}
       </div>
 

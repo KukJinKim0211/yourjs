@@ -64,6 +64,14 @@ const ContentBox = styled.div`
   margin-top: 10px;
 `;
 
+const DeleteTagButton = styled.div`
+  padding-left: 8px;
+  cursor: pointer;
+  
+  color: ${colors.bsColor4};
+`
+
+
 // 내용 적는 textarea
 const ContentContent = styled.textarea`
   box-sizing: border-box;
@@ -144,6 +152,12 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
   //   setPushData({ ...pushData, contents: content });
   // }, [content]);
 
+     // 태그 삭제
+     const deleteTag = tag1 => {
+      const newArray = tag.filter(d => d !== tag1);
+      setTag(newArray);
+    };
+
  
   return (
     <Wrapper>
@@ -162,7 +176,7 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
       <br></br>
       <div style={{ display: 'flex' }}>
         {tag.map((tag, index) => (
-          <ResultTag id="contentFont" key={index}># {tag}</ResultTag>
+          <ResultTag id="contentFont" key={index}># {tag} <DeleteTagButton onClick={()=>deleteTag(tag) }>X</DeleteTagButton></ResultTag>
         ))}
       </div>
 
@@ -186,7 +200,7 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <CountBox id="contentFont">
               {' '}
-              현재 글자수 : {content.replace(/<br\s*\/?>/gm, '\n').length}{' '}
+              현재 글자수 : {pushData.contents.replace(/<br\s*\/?>/gm, '\n').length}{' '}
             </CountBox>
           </div>
         </ContentBox>

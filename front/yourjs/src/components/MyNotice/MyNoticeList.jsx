@@ -8,11 +8,8 @@ import { useEffect } from 'react';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 import { colors } from '../../common/color';
-import plusbutton from '../../img/plusbutton2.png'
-import {
-  faCirclePlus,
- 
-} from '@fortawesome/free-solid-svg-icons';
+import plusbutton from '../../img/plusbutton3.png';
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // 아이템 리스트
@@ -28,7 +25,7 @@ const ItemList = styled.div`
   border-radius: 10px;
   box-shadow: 0.5rem 0.5rem 0.5rem ${colors.bsColor2};
   .progress {
-    color : ${colors.bsColor3};
+    color: ${colors.bsColor3};
     justify-content: center;
     padding-top: 10px;
     padding-left: 35%;
@@ -36,14 +33,11 @@ const ItemList = styled.div`
     font-weight: 900;
   }
   .coName {
-    
   }
 
-  .noticeName{
-    
+  .noticeName {
   }
   .tag {
-    
   }
   .regdate {
     justify-content: center;
@@ -58,8 +52,6 @@ const ItemList = styled.div`
   cursor: pointer;
 `;
 
-
-
 // 검색 div
 
 // 태그를 담을 div box
@@ -68,7 +60,7 @@ const TagBox = styled.div`
   flex-wrap: wrap;
   min-height: 70px;
   column-gap: 10px;
-  
+
   padding: 0px 20px 0px 20px;
 `;
 // 태그 하나하나의 div
@@ -78,60 +70,42 @@ const TagItemBox = styled.div`
   align-items: center;
   border-radius: 10px;
   font-size: 15px;
-  padding : 0px 8px 0px 8px;
+  padding: 0px 8px 0px 8px;
   background-color: ${colors.bsColor2};
   width: fit-content;
   height: 30px;
 `;
 
-
-
-
-const SearchAlignDiv = styled.div`
-  
-`
-
+const SearchAlignDiv = styled.div``;
 
 //검색 input
 
 const SearchInput = styled.input`
   width: 500px;
   height: 40px;
-  border : 2px solid ${colors.bsColor2};
+  border: 2px solid ${colors.bsColor2};
   border-radius: 20px;
   padding-left: 10px;
-  margin-left: 20%;
+  
   :focus {
-    
     outline: auto;
     outline-color: ${colors.bsColor3};
-    
-    
-    
-    
   }
   /* ::-webkit-input-placeholder{text-align:center} */
-  
-
-  
 `;
 
 const SearchButton = styled.div`
-  
   position: absolute;
-  top: 0;
-  right: 15px;
-  
-  
+  top: 12px;
+  right: 20px;
 `;
 
 const Label = styled.label`
-  position : relative;
-`
+  position: relative;
+`;
 
 // 아이템 나누기
 const ItemGrid = styled.div`
-  
   font-weight: 600;
   width: ${props => props.width};
   height: ${props => props.height};
@@ -139,7 +113,6 @@ const ItemGrid = styled.div`
   justify-content: center;
   text-align: center;
 
-  
   margin-left: ${props => props.marginLeft};
   margin-top: ${props => props.marginTop};
   font-size: 20px;
@@ -159,7 +132,6 @@ const Wrapper = styled.div`
 `;
 // 카드 여러개 map 해주는 style div
 const ListTotal = styled.div`
-  
   height: 100%;
   display: flex;
   margin-bottom: 10%;
@@ -169,22 +141,19 @@ const ListTotal = styled.div`
 `;
 //셀렉트
 const ProgressSelect = styled.select`
-  background-color: ${colors.bsColor1};
+  border-radius: 10px;
   margin-left: 10px;
-  border : 2px solid ${colors.bsColor2};
-  width: 150px;
+  border: 2px solid ${colors.bsColor2};
+  width: 250px;
+  height: 40px;
   text-align: center;
   outline-color: ${colors.bsColor2};
+  font-size: 18px;
+  
 
-
-  :focus {
-    border : 2px solid ${colors.bsColor1};
-  }
-  option {
-    background-color: ${colors.bsColor1};
-  }
-`
-
+  
+  
+`;
 
 // 자소서 작성 버튼
 const CreateButton = styled.div`
@@ -198,14 +167,13 @@ const CreateButton = styled.div`
   background-color: ${colors.bsColor3};
   border-radius: 5px;
   font-size: 18px;
-  color : ${colors.bsColor1};
+  color: ${colors.bsColor1};
 
   :hover {
     background-color: ${colors.bsColor2};
     box-shadow: 0.2rem 0.2rem 0.2rem ${colors.bsColor3};
   }
 `;
-
 
 // const ButtonImg = styled.div`
 //   display: flex;
@@ -233,31 +201,39 @@ const CreateButton = styled.div`
 //   font-size: 100px;
 // `
 const ButtonImg3 = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
   position: fixed;
   left: 88%;
-  top: 73%;
-
+  top: 83%;
 `;
 
 ButtonImg3.defaultProps = {
   src: plusbutton,
 };
 
-
 //테스트 버튼
 const TestButton = styled.button`
   position: fixed;
   left: 82%;
-  top : 65%;
+  top: 65%;
 
   width: 300px;
   height: 300px;
   background-color: red;
-`
+`;
 
+
+const DeleteButton = styled.button`
+  width : 50px;
+  height: 30px;
+  font-size: 5px;
+  color : red;
+  border : none;
+  background-color: ${colors.bsColor1};
+  cursor : pointer;
+`
 
 const MyNoticeList = () => {
   const navigate = useNavigate();
@@ -265,21 +241,27 @@ const MyNoticeList = () => {
   const [detailFlag, setDetailFlag] = useState(false);
   const [dropdownState, setDropdownState] = useState('전체보기');
   const [dummyData, setDummyData] = useState([]);
+  
 
   useEffect(() => {
     getNoticeData();
-  }, []);
-
-  
-
+  }, [dropdownState]);
 
   // axios get 하는 함수
   const getNoticeData = () => {
     axiosInstance
       .get(apis.notice)
       .then(response => {
-        console.log([response.data], 'get해온값');
-        setDummyData(response.data);
+        console.log(response.data, 'get해온값');
+        if (dropdownState === '전체보기') {
+          const data = response.data;
+          setDummyData(data);
+        } else {
+          const data = response.data.filter(
+            data => data.progress === dropdownState,
+          );
+          setDummyData(data);
+        }
       })
       .catch(error => console.log(error));
   };
@@ -288,48 +270,6 @@ const MyNoticeList = () => {
     setDropdownState(e.target.value);
   };
 
-  // useEffect(() => {
-  //   getItems();
-  // }, [dropdownState]);
-
-  // const getItems = () => {
-  //   getNoticeData();
-  //   if (dropdownState === '전체보기') {
-      
-  //     setDummyData(dummyData);
-      
-  //   }
-
-  //   if (dropdownState === '진행중') {
-      
-  //     setDummyData(
-  //       dummyData.filter(dummystate => dummystate.progress === '진행중'),
-  //     );
-  //   }
-  //   if (dropdownState === '면접탈락') {
-      
-  //     setDummyData(
-  //       dummyData.filter(dummystate => dummystate.progress === '면접탈락'),
-  //     );
-  //   }
-  //   if (dropdownState === '서류탈락') {
-      
-  //     setDummyData(
-  //       dummyData.filter(dummystate => dummystate.progress === '서류탈락'),
-  //     );
-  //   }
-  //   if (dropdownState === '최종합격') {
-      
-  //     setDummyData(
-  //       dummyData.filter(dummystate => dummystate.progress === '최종합격'),
-  //     );
-  //   }
-    
-  // };
-
-  
-
-  
 
   // 검색 함수
 
@@ -350,21 +290,22 @@ const MyNoticeList = () => {
     setSearchData('');
   };
 
-
   // 값을 디테일 페이지에 보내는 함수
 
-  const onLinkDetail = async (e) => {
+  const onLinkDetail = async e => {
     e.preventDefault();
     navigate('/notice/detail', {
-      state : {
-
-      }
+      state: {},
     });
+  };
+
+  // 삭제함수
+  const handleDelete =(noticeSeq) => {
+    console.log(noticeSeq,"qwe")
   }
 
   return (
     <Wrapper>
-      
       <br></br>
       <br></br>
       {/*자소서 작성 버튼을 우측 으로 하기위한 div */}
@@ -375,68 +316,90 @@ const MyNoticeList = () => {
           <CreateButton id="contentFont">공고 추가</CreateButton>
         </Link>
       </div> */}
-      
-        <ProgressSelect
-          id="contentFont"
-          defaultValue="전체보기"
-          onChange={handleDropdownState}
-        >
-          <option value="전체보기">전체보기</option>
-          <option value="진행중">진행중</option>
-          <option value="서류탈락">서류탈락</option>
-          <option value="최종합격">최종합격</option>
-          <option value="면접탈락">면접탈락</option>
-          
-        </ProgressSelect>
-        <Label>
+      <div style={{display:"flex", justifyContent:"space-around"}}>
+      <ProgressSelect
+        id="contentFont"
+        defaultValue="전체보기"
+        onChange={handleDropdownState}
+      >
+        <option value="전체보기">전체보기</option>
+        <option value="진행중">진행중</option>
+        <option value="서류탈락">서류탈락</option>
+        <option value="최종합격">최종합격</option>
+        <option value="면접탈락">면접탈락</option>
+      </ProgressSelect>
+      <Label>
         <SearchInput
           onChange={handleChangeSearch}
           value={searchData}
           onKeyDown={keyDownSearch}
-          placeholder="태그를 검색하세요." 
+          placeholder="태그를 검색하세요."
         ></SearchInput>
-        <SearchButton className="searchbutton" onClick={onClickSearch}>🔍</SearchButton>
-        </Label>
-        <br></br>
-        <br></br>
+        <SearchButton className="searchbutton" onClick={onClickSearch}>
+          🔍
+        </SearchButton>
+      </Label>
       
+      <ProgressSelect style={{visibility:"hidden"}}></ProgressSelect>
+      </div>
+      <br></br>
+      <br></br>
+
       <ListTotal>
         {dummyData.map((dummy, index) => (
-          
-            
-              <ItemList key={index} onClick={()=>{navigate('/notice/detail',{
-                state:{
-                  noticeSeq : dummy.noticeSeq
-                }
-              })}}>
-                {/* <ItemGrid className="regdate" id="titleFont" width="100%">
+          <ItemList
+            key={index}
+            onClick={() => {
+              navigate('/notice/detail', {
+                state: {
+                  noticeSeq: dummy.noticeSeq,
+                },
+              });
+            }}
+          >
+            {/* <ItemGrid className="regdate" id="titleFont" width="100%">
                   {dummy.regDate}
                 </ItemGrid> */}
-                <ItemGrid className="progress" id="titleFont" width="100%">
-                  {dummy.progress}
-                </ItemGrid>
-                <ItemGrid className="coName"id="contentFont" width="250px" marginTop="40px" >
-                  {dummy.coName}
-                </ItemGrid>
+            <ItemGrid className="progress" id="titleFont" width="100%">
+              {dummy.progress}
+            </ItemGrid>
+            <ItemGrid
+              className="coName"
+              id="contentFont"
+              width="250px"
+              marginTop="40px"
+            >
+              {dummy.coName}
+            </ItemGrid>
 
-                <ItemGrid className="noticeName" id="contentFont" width="250px" marginTop="20px">
-                  {dummy.noticeName}
-                </ItemGrid>
-                <br></br>
-                <TagBox>
-                  {dummy?.noticeTag?.split(', ').map((tag, index) => (
-                    <TagItemBox className="tag" id="contentFont" key={index}>
-                      # {tag}
-                    </TagItemBox>
-                  ))}
-                </TagBox>
-                <br></br>
+            <ItemGrid
+              className="noticeName"
+              id="contentFont"
+              width="250px"
+              marginTop="20px"
+            >
+              {dummy.noticeName}
+            </ItemGrid>
+            <br></br>
+            <TagBox>
+              {dummy?.noticeTag?.split(', ').map((tag, index) => (
+                <TagItemBox className="tag" id="contentFont" key={index}>
+                  # {tag}
+                </TagItemBox>
+              ))}
+            </TagBox>
+            <br></br>
 
-                
-                <br></br>
-              </ItemList>
-            
-          
+            <br></br>
+            <div style ={{display:"flex", justifyContent:"flex-end"}}>
+            <DeleteButton onClick ={(e)=>{
+              e.stopPropagation();
+              alert('삭제하시겠습니까?')
+              axiosInstance .delete(apis.notice,{data:{"noticeSeq" : dummy.noticeSeq}})
+          .then(response => getNoticeData())
+          .catch(error => console.log(error))}}>삭제</DeleteButton>
+            </div>
+          </ItemList>
         ))}
       </ListTotal>
       <Link to="/notice/add" style={{ textDecoration: 'none' }}>
@@ -444,8 +407,7 @@ const MyNoticeList = () => {
       <FontAwesomeIcon size='4x' icon={faCirclePlus}></FontAwesomeIcon>
 
       </ButtonImg> */}
-      <ButtonImg3></ButtonImg3>
-      
+        <ButtonImg3></ButtonImg3>
       </Link>
     </Wrapper>
   );

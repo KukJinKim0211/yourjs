@@ -4,10 +4,9 @@ import { useState, useEffect } from 'react';
 import MyNoticeAdd from './MyNoticeAdd.jsx';
 import '../../App.css';
 import MyNoticeAddcomponent from './MyNoticeAddcomponent.jsx';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
-import MyNoticePlus from './MyNoticePlus.jsx';
 import MyNoticeSchedule from './MyNoticeSchedule.jsx';
 import { colors } from '../../common/color.js';
 import MyNoticeDate from './MyNoticeDate.jsx';
@@ -213,15 +212,24 @@ const Select = styled.select`
   }
 `;
 
+const DeleteTagButton = styled.div`
+  padding-left: 8px;
+  cursor: pointer;
+
+  color: ${colors.bsColor4};
+`;
+
 let countDate = 1;
 const MyNoticeDetail = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   // 이부분에서 get 받았을떄 , 값 게시글 개수에 따라 true false 배열이 필요하다.
   const [editFlag, setEditFlag] = useState([false, false, false]);
   const [addFlag, setAddFlag] = useState(false);
   const [noticeData, setNoticeData] = useState([]);
-  const [noticeTagItem,setNoticeTagItem] = useState('');
+  const [noticeTagItem, setNoticeTagItem] = useState('');
   const [tagItem, setTagItem] = useState([]);
+  const [tagItem2, setTagItem2] = useState('');
   const [totalData, setTotalData] = useState([]);
   const [contentList, setContentList] = useState([]);
   const [firstSelfData, setFirstSelfData] = useState([]); // 첫값 저장해놓는곳
@@ -247,9 +255,9 @@ const MyNoticeDetail = () => {
     console.log(dateList, '데이터리스트');
   };
 
-  useEffect(()=>{
-    setNoticeData({...noticeData, intros : firstSelfData})
-  },[firstSelfData])
+  useEffect(() => {
+    setNoticeData({ ...noticeData, intros: firstSelfData });
+  }, [firstSelfData]);
 
   // 화면 렌더링시 get 실행
   const getDetailData = () => {
@@ -265,9 +273,9 @@ const MyNoticeDetail = () => {
         arr1.fill(false); // false 로 0을 바꿈
         var arr2 = Array.apply(
           null,
-          new Array(response.data.intros.length+1),
+          new Array(response.data.intros.length),
         ).map(Number.prototype.valueOf, 0); // 0으로 만듬 배열
-        arr2.fill({value: ''})
+        arr2.fill({ value: '' });
         setTagItem(arr2);
         setContentList(arr1);
         setFirstSelfData(response.data.intros);
@@ -322,8 +330,8 @@ const MyNoticeDetail = () => {
   // }
 
   const handleTagChange = e => {
+    setTagItem(e.target.value);
     // setTagItem(e.target.value);
-    
   };
 
   const handleProgressChange = e => {
@@ -339,10 +347,9 @@ const MyNoticeDetail = () => {
         ...noticeData,
         noticeTag: noticeData.noticeTag + `, ${e.target.value}`,
       });
-      console.log(noticeTagItem,"확인하자 제발")
+      console.log(noticeTagItem, '확인하자 제발');
       setNoticeTagItem('');
     }
-    
   };
 
   // const onKeyDownEditHandler = (e,index) => {
@@ -372,16 +379,64 @@ const MyNoticeDetail = () => {
     setAddSelfIndex(newArray2);
   };
 
+  const deleteTag = tag1 => {
+    const newTag = noticeData.noticeTag.replace(`${tag1}, `, '');
+
+    const newTag2 = newTag.replace(`, ${tag1}`, '');
+    const newTag3 = newTag2.replace(`${tag1}`, '');
+    if (newTag3 === '') {
+      const newTag3 = null;
+      setNoticeData({ ...noticeData, noticeTag: newTag3 }); // 태그 마지막 잔챙이 처리 위함
+    } else {
+      setNoticeData({ ...noticeData, noticeTag: newTag3 });
+    }
+  };
+
+  const deleteIntroTag = tag2 => {};
 
   //최종적으로 데이터 종합
   const handleTotalPushData = () => {
+    // addSelfIndex.forEach(self => noticeData.intros.push(self)) // 자소서 추가한 것도 하나로 모으기
 
-    addSelfIndex.forEach(self => noticeData.intros.push(self)) // 자소서 추가한 것도 하나로 모으기
-    console.log(noticeData.intros, "자소서 항목 추가한것 까지 하나의 폼으로")
-    noticeData.schedules = totalData.schedules
-    console.log(totalData)
-    console.log(noticeData)
-  }
+    noticeData.schedules = totalData.schedules.sort(
+      (a, b) => new Date(a.scheduleDate) - new Date(b.scheduleDate),
+    );
+    noticeData.intros.forEach(
+      intro => (intro.noticeSeq = noticeData.noticeSeq),
+    );
+    noticeData.schedules.forEach(schedule => delete schedule.scheduleSeq); // 스케줄 시퀀스 제거
+    const notice2 = { ...noticeData };
+    delete noticeData.intros; // 노티스 데이터 자소서 부분 뺸 것 수정하기
+    console.log(notice2, '최종값');
+    console.log(notice2.intros, '자소서 기본 목록');
+    console.log(addSelfIndex, '자소서 추가 목록');
+    console.log(noticeData, '수정전 최종본');
+
+    axiosInstance
+      .patch(apis.notice, noticeData)
+      .then(response => {
+        console.log(response, '1단계 성공');
+      })
+      .catch(error => console.log(error));
+
+    notice2.intros.forEach(intro =>
+      axiosInstance
+        .patch(apis.selfIntroduce, intro)
+        .then(response => console.log(response, '2단계 성공'))
+        .catch(error => console.log(error)),
+    );
+
+    addSelfIndex.forEach(self => (self.noticeSeq = noticeData.noticeSeq));
+
+    addSelfIndex.forEach(self =>
+      axiosInstance
+        .post(apis.selfIntroduce, self)
+        .then(response => console.log(response, '3단계성공'))
+        .catch(error => console.log(error)),
+    );
+
+    navigate('/notice');
+  };
 
   return (
     // 제목을 두개로 나누는 div
@@ -453,11 +508,11 @@ const MyNoticeDetail = () => {
             id="titleFont"
             placeholder="태그를 추가하세요"
             value={noticeTagItem}
-            onChange = {(e)=> setNoticeTagItem(e.target.value)}
-            onKeyDown={onKeyDownHandler}  
+            onChange={e => setNoticeTagItem(e.target.value)}
+            onKeyDown={onKeyDownHandler}
             // onChange={(e)=> {
             //   setTagItem(
-            //     tagItem.map((tag,index2) => 
+            //     tagItem.map((tag,index2) =>
             //     index2 === 0 ? {...tag, value : e.target.value} : tag )
             //   )
             // }}
@@ -466,7 +521,12 @@ const MyNoticeDetail = () => {
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
           <TagBigBox>
             {noticeData?.noticeTag?.split(', ').map((tag, index) => (
-              <ResultTag key={index}>#{tag} </ResultTag>
+              <ResultTag key={index}>
+                #{tag}{' '}
+                <DeleteTagButton onClick={() => deleteTag(tag)}>
+                  X
+                </DeleteTagButton>
+              </ResultTag>
             ))}
           </TagBigBox>
         </div>
@@ -477,14 +537,12 @@ const MyNoticeDetail = () => {
         <div key={index}>
           <div style={{ display: 'flex' }}>
             {contentList[index] ? (
-              <div
-                style={{ width: '100%' }}
-              >
+              <div style={{ width: '100%' }}>
                 <TagInput
                   className="edittag"
                   id="titleFont"
                   placeholder="태그를 수정하세요"
-                  value={tagItem.value}
+                  value={tagItem[index].value}
                   onKeyDown={e => {
                     if (e.key === 'Enter') {
                       // console.log(index);
@@ -495,27 +553,46 @@ const MyNoticeDetail = () => {
                       setFirstSelfData(
                         firstSelfData.map((self, index2) =>
                           index2 === index
-                            ? { ...self, introTag: `${self.introTag}, ${e.target.value}` }
+                            ? {
+                                ...self,
+                                introTag: `${self.introTag}, ${e.target.value}`,
+                              }
                             : self,
                         ),
                       );
-                      
-                      setTagItem('');
+
+                      setTagItem(
+                        tagItem.map((tag, index3) =>
+                          index3 === index ? { value: '' } : tag,
+                        ),
+                      );
                     }
                   }}
-                  onChange={handleTagChange}
+                  onChange={e => {
+                    setTagItem(
+                      tagItem.map((tag, index4) =>
+                        index4 === index
+                          ? { ...tag, value: e.target.value }
+                          : tag,
+                      ),
+                    );
+                  }}
                 ></TagInput>
-                <div style={{display:"flex"}}>
-                  {intros?.introTag?.split(', ').map((tag, index) => (
-                    <ResultTag key={index} id="contentFont">
+                <div style={{ display: 'flex' }}>
+                  {intros?.introTag?.split(', ').map((tag, index4) => (
+                    <ResultTag key={index4} id="contentFont">
                       {tag}
+                      <DeleteTagButton
+                        onClick={() => console.log(index, intros.introTag)}
+                      >
+                        X
+                      </DeleteTagButton>
                     </ResultTag>
                   ))}
                 </div>
               </div>
             ) : (
-              
-              <div style={{display:"flex",}}>
+              <div style={{ display: 'flex' }}>
                 {intros?.introTag?.split(', ').map((tag, index) => (
                   <ResultTag key={index} id="contentFont">
                     {tag}
@@ -581,11 +658,10 @@ const MyNoticeDetail = () => {
                   id="contentFont"
                   onClick={() => handleChangeEditFlag(index)}
                   backgroundColor="#F6F6C9"
-                  marginRight = "15px"
+                  marginRight="15px"
                 >
                   완료
                 </SaveCancelButton>
-                
               </ContentEditBox>
             ) : (
               <ContentEditBox>
@@ -618,9 +694,7 @@ const MyNoticeDetail = () => {
         </CreateButton>
       </div>
 
-      <button onClick={handleTotalPushData}>
-        저장하기
-      </button>
+      <button onClick={handleTotalPushData}>저장하기</button>
     </Wrapper>
   );
 };

@@ -51,13 +51,17 @@ const MyNoticeSchedule = ({ getDateData,setDateDataee,index ,pushData}) => {
   // 할일 명 변경
 
   useEffect(() => {
-    if (dateData.length !== 0) {
+    if (dateData.length !== 0 ) {
     setDateDataee(index, {
+      
       scheduleName: dateData.scheduleName,
       scheduleDate: dateData.scheduleDate,
     });}
     
-  }, [scheduleDate]);
+  }, [dateData]);
+
+
+  
 
   const handleScheduleName = e => {
 

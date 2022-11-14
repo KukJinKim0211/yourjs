@@ -74,6 +74,7 @@ const MyNoticeDate = ({ getDateData, li, index, setDateDataee }) => {
   // 할일 날짜 변경
 
   const handleScheduleDate = e => {
+    
     setScheduleDate(e);
     setDateData({
       ...dateData,
