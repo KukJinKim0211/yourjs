@@ -82,7 +82,7 @@ public class NoticeService {
         List<NoticeGetRes> noticeList = new ArrayList<>();
         List<Notice> allNoticeList = noticeRepository.findAll();
         for (Notice notice : allNoticeList) {
-            if (notice.getUser().getUserSeq() == (long)userSeq) {
+            if (notice.getUser().getUserSeq() == (long) userSeq) {
                 NoticeGetRes noticeGetRes = new NoticeGetRes();
                 List<NoticeTag> noticeTagList = noticeTagRepository.findAllByNoticeSeq(notice.getNoticeSeq());
                 if (noticeTagList != null) {
@@ -97,7 +97,11 @@ public class NoticeService {
                 }
 
                 noticeGetRes.setNoticeSeq(notice.getNoticeSeq());
-                noticeGetRes.setSchedules(this.getScheduleByNoticeSeq(notice.getNoticeSeq()));
+                List<ScheduleRes> schedules = this.getScheduleByNoticeSeqWithDate(notice.getNoticeSeq());
+                if(schedules!=null)
+                    noticeGetRes.setSchedules(schedules);
+                else
+                    continue;
                 noticeGetRes.setCoName(notice.getCoName());
                 noticeGetRes.setLink(notice.getLink());
                 noticeGetRes.setNoticeName(notice.getNoticeName());
@@ -276,6 +280,31 @@ public class NoticeService {
                         + schedule.getScheduleDate().toLocalTime();
                 if (schedule.getScheduleDate().toLocalTime().getSecond() == 0)
                     dateTime += ":00";
+                scheduleRes.setScheduleDate(dateTime);
+                schedulesRes.add(scheduleRes);
+            }
+        }
+        return schedulesRes;
+    }
+
+    @Transactional
+    public List<ScheduleRes> getScheduleByNoticeSeqWithDate(Integer noticeSeq) {
+        List<Schedule> schedules = scheduleRepository.findAllByNoticeSeq(noticeSeq);
+        List<ScheduleRes> schedulesRes = new ArrayList<>();
+        if (schedules != null) {
+            for (Schedule schedule : schedules) {
+                ScheduleRes scheduleRes = new ScheduleRes();
+                scheduleRes.setScheduleSeq(schedule.getScheduleSeq());
+                scheduleRes.setScheduleName(schedule.getScheduleName());
+                String dateTime = schedule.getScheduleDate().toLocalDate() + " "
+                        + schedule.getScheduleDate().toLocalTime();
+                if (schedule.getScheduleDate().toLocalTime().getSecond() == 0)
+                    dateTime += ":00";
+
+                if (schedule.getScheduleName().equals("서류제출")) {
+                    if (schedule.getScheduleDate().isBefore(LocalDateTime.now()))
+                        return null;
+                }
                 scheduleRes.setScheduleDate(dateTime);
                 schedulesRes.add(scheduleRes);
             }
