@@ -113,7 +113,7 @@ const MyNoticePlus = ({ settingNoticeData,index}) => {
 
   const keydownHandler = e => {
     if (e.key === 'Enter') {
-      console.log('성공');
+      
       setTag([...tag, tagItem]);
       setTagItem('');
       

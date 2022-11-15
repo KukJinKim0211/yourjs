@@ -123,10 +123,20 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
 
   const keydownHandler = e => {
     if (e.key === 'Enter') {
-      console.log('성공');
+      if (tag.length >=5) {
+        alert('태그는 5개까지 입력 가능합니다.')
+        setTagItem('')
+        return
+      }
+      else if (tag.indexOf(tagItem) !== -1) {
+        setTagItem('')
+        return
+      }
+      else {
+      
       setTag([...tag, tagItem]);
       setTagItem('');
-      
+    }
     }
   };
   const onChangeTitleHandler = e => {

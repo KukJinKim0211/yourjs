@@ -17,7 +17,7 @@ const Select = styled.select`
   margin-right: 10%;
   width: 60%;
   /* border-bottom: 3px solid gray; */
-  margin-left: 17%;
+  margin-left: 17.5%;
   option {
   }
 `;

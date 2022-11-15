@@ -223,18 +223,7 @@ const DeleteTagButton = styled.div`
 let countList = 1;
 let countDate = 1;
 const MyNoticeAdd = () => {
-  // const datetest = [
-  //   { date: '2022-05-11' },
-  //   { date: '2021-03-11' },
-  //   { date: '2020-01-11' },
-  //   { date: '2022-05-15' },
-  //   { date: '2021-06-13' },
-  //   { date: '2019-05-11' },
-  //   { date: '2022-05-12' },
-  // ];
-  // const orderedDate = datetest.sort((a,b)=> new Date(a.date) - new Date(b.date))
-  
-  // console.log(orderedDate,'222');
+
   const navigate = useNavigate();
   const [list, setList] = useState(['']);
   const [dateList, setDateList] = useState(['']); // 일정 등록 컴포넌트 생성을 위한 list
@@ -248,7 +237,7 @@ const MyNoticeAdd = () => {
   });
   // const [formData,setFormData] = useState([])
 
-  const [totalData, setTotalData] = useState({});
+  const [totalData, setTotalData] = useState({progress:"등록"});
   const [tag, setTag] = useState([]);
   const [tagItem, setTagItem] = useState('');
 
@@ -341,7 +330,7 @@ const MyNoticeAdd = () => {
     axiosInstance
       .post(apis.notice, totalData)
       .then(response => {
-        console.log(response.data.noticeSeq, '리턴값 참조하기');
+        
 
         if (response.status === 200) {
           
@@ -351,9 +340,9 @@ const MyNoticeAdd = () => {
           else {
           selfData.noticeData.forEach(self => {
             const data = { ...self, noticeSeq: response.data.noticeSeq };
-            console.log(data);
+            
             axiosInstance.post(apis.selfIntroduce, data).then(response => {
-              console.log(response);
+              
               
             
             });
@@ -379,9 +368,19 @@ const MyNoticeAdd = () => {
   // 복사 추가
   const keydownHandler = e => {
     if (e.key === 'Enter') {
-      
+      if (tag.length >=5 ) {
+        alert('태그는 5개까지 입력 가능합니다.')
+        setTagItem('')
+        return;
+      }
+      else if (tag.indexOf(tagItem) !==-1){
+        setTagItem('')
+        return;
+      }
+      else {
       setTag([...tag, tagItem]);
       setTagItem('');
+    }
     }
   };
 
@@ -434,7 +433,7 @@ const MyNoticeAdd = () => {
       <div style={{ display: 'flex' }}>
         <EachTitle></EachTitle>
         {tag.map((tag, index) => (
-          <ResultTag key={index} onClick={()=>{deleteTag(tag)
+          <ResultTag id="titleFont" key={index} onClick={()=>{deleteTag(tag)
           }}># {tag} <DeleteTagButton>X</DeleteTagButton></ResultTag>
         ))}
       </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate,useLocation } from 'react-router-dom';
 import '../../App.css';
 import { useState } from 'react';
 import MyNoticeDetail from './MyNoticeDetail';
@@ -17,21 +17,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const ItemList = styled.div`
   width: 250px;
   display: flex;
-
+  position: relative;
   flex-direction: column;
   color: black;
-  height: 320px;
+  height: auto;
   background-color: ${colors.bsColor1}; // 카드 한장한장 배경화면 색깔
   margin-top: 30px;
   border-radius: 10px;
   box-shadow: 0.5rem 0.5rem 0.5rem ${colors.bsColor2};
   .progress {
     color: ${colors.bsColor3};
-    justify-content: center;
-    padding-top: 10px;
-    padding-left: 35%;
+    justify-content: flex-end;
+    padding-top: 15px;
+    /* padding-left: 35%; */
     font-size: 16px;
+    
     font-weight: 900;
+    text-align: end;
   }
   .coName {
   }
@@ -61,6 +63,7 @@ const TagBox = styled.div`
   flex-wrap: wrap;
   min-height: 70px;
   column-gap: 10px;
+  row-gap: 6px;
 
   padding: 0px 20px 0px 20px;
 `;
@@ -99,6 +102,7 @@ const SearchButton = styled.div`
   position: absolute;
   top: 12px;
   right: 20px;
+  cursor: pointer;
 `;
 
 const Label = styled.label`
@@ -118,6 +122,9 @@ const ItemGrid = styled.div`
   margin-top: ${props => props.marginTop};
   font-size: 20px;
   background-color: ${props => props.backgrounColor};
+  /* -webkit-line-clamp : 1;
+  text-overflow: ellipsis;
+  word-wrap: break-word; */
 `;
 
 const ItemGrid2 = styled.div`
@@ -227,9 +234,12 @@ const TestButton = styled.button`
 
 
 const DeleteButton = styled.button`
+  position: absolute;
+  bottom:0px;
   width : 50px;
   height: 30px;
-  font-size: 5px;
+  font-size: 15px;
+  font-weight: 600;
   color : red;
   border : none;
   background-color: ${colors.bsColor1};
@@ -238,23 +248,30 @@ const DeleteButton = styled.button`
 
 const MyNoticeList = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [searchData, setSearchData] = useState('');
   const [detailFlag, setDetailFlag] = useState(false);
-  const [dropdownState, setDropdownState] = useState('0');
+  const [getState, setGetState] = useState(location?.state?.type)
+  const [dropdownState, setDropdownState] = useState(getState ? getState : '0');
   const [dummyData, setDummyData] = useState([]);
+  const [searchCard, setSearchCard] = useState([]);
   
 
   useEffect(() => {
     getNoticeData();
   }, [dropdownState]);
 
+  useEffect(() => {
+    handleSearch()
+  }, [searchData]);
   // axios get 하는 함수
   const getNoticeData = () => {
     axiosInstance
       .get(apis.notice)
       .then(response => {
         console.log(response.data, 'get해온값');
-        console.log(typeof(Number(dropdownState)),"드랍다운")
+        
         if (Number(dropdownState) === 0) {
           const data = response.data;
           setDummyData(data);
@@ -265,11 +282,12 @@ const MyNoticeList = () => {
           setDummyData(data);
         }
       })
-      .catch(error => console.log(error));
-  };
+        .catch(error => console.log(error));
+    };
 
   const handleDropdownState = e => {
     setDropdownState(e.target.value);
+    
   };
 
 
@@ -282,6 +300,7 @@ const MyNoticeList = () => {
   // 검색 엔터 함수
   const keyDownSearch = e => {
     if (e.key === 'Enter') {
+      handleSearch(searchData)
       setSearchData('');
     }
   };
@@ -301,27 +320,26 @@ const MyNoticeList = () => {
     });
   };
 
-  // 삭제함수
-  const handleDelete =(noticeSeq) => {
-    console.log(noticeSeq,"qwe")
+  
+
+
+  const handleSearch = (search) => {
+    console.log(dummyData,"222")
+    // dummyData.forEach(dummy => console.log(dummy))
+    dummyData.forEach((dummy,index)=> dummy.noticeTag.indexOf(search) !== -1 ?  setSearchCard([...searchCard, dummy]) : console.log("실패"))
+    console.log(searchCard,"@2")
+    // dummyData?.map((dummy,index) => dummy.noticeTag.indexOf(search) !== -1 ? setDummyData({...dummyData,dummy}) : console.log(dummy) )
   }
 
   return (
     <Wrapper>
       <br></br>
       <br></br>
-      {/*자소서 작성 버튼을 우측 으로 하기위한 div */}
-      {/* <div
-        style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}
-      >
-        <Link to="/notice/add" style={{ textDecoration: 'none' }}>
-          <CreateButton id="contentFont">공고 추가</CreateButton>
-        </Link>
-      </div> */}
+      
       <div style={{display:"flex", justifyContent:"space-around"}}>
       <ProgressSelect
         id="contentFont"
-        defaultValue="전체보기"
+        defaultValue={getState ? getState : 0}
         onChange={handleDropdownState}
       > 
         
@@ -330,8 +348,9 @@ const MyNoticeList = () => {
         <option value="2">진행중</option>
         <option value="3">서류탈락</option>
         <option value="4">코딩테스트탈락</option>
-        <option value="5">최종합격</option>
-        <option value="6">면접탈락</option>
+        <option value="5">면접탈락</option>
+        <option value="6">최종합격</option>
+        
       </ProgressSelect>
       <Label>
         <SearchInput
@@ -351,7 +370,9 @@ const MyNoticeList = () => {
       <br></br>
 
       <ListTotal>
-        {dummyData.map((dummy, index) => (
+        
+        {dummyData?.map((dummy, index) => (
+          
           <ItemList
             key={index}
             onClick={() => {
@@ -362,11 +383,10 @@ const MyNoticeList = () => {
               });
             }}
           >
-            {/* <ItemGrid className="regdate" id="titleFont" width="100%">
-                  {dummy.regDate}
-                </ItemGrid> */}
+            
             <ItemGrid className="progress" id="titleFont" width="100%">
               {dummy.progress}
+              <div style={{width:"10px"}}></div>
             </ItemGrid>
             <ItemGrid
               className="coName"
@@ -374,7 +394,8 @@ const MyNoticeList = () => {
               width="250px"
               marginTop="40px"
             >
-              {dummy.coName}
+              {dummy.coName.length >=20 ? dummy.coName.substr(0,20) + '...' : dummy.coName}
+              
             </ItemGrid>
 
             <ItemGrid
@@ -383,13 +404,13 @@ const MyNoticeList = () => {
               width="250px"
               marginTop="20px"
             >
-              {dummy.noticeName}
+              {dummy.noticeName.length >=20 ? dummy.noticeName.substr(0,20) + '...' : dummy.noticeName}
             </ItemGrid>
             <br></br>
             <TagBox>
               {dummy?.noticeTag?.split(', ').map((tag, index) => (
                 <TagItemBox className="tag" id="contentFont" key={index}>
-                  # {tag}
+                  # {tag.length >=8 ? tag.substr(0,8)+'...' : tag}
                 </TagItemBox>
               ))}
             </TagBox>
@@ -397,7 +418,7 @@ const MyNoticeList = () => {
 
             <br></br>
             <div style ={{display:"flex", justifyContent:"flex-end"}}>
-            <DeleteButton onClick ={(e)=>{
+            <DeleteButton id="titleFont" onClick ={(e)=>{
               e.stopPropagation();
               alert('삭제하시겠습니까?')
               axiosInstance .delete(apis.notice,{data:{"noticeSeq" : dummy.noticeSeq}})

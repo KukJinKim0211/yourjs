@@ -8,19 +8,30 @@ import dayjs from 'dayjs';
 
 const TagBox = styled.div`
   display: flex;
+  width : 1141.8px;
+  margin-bottom: 20px;
 `;
 const Select = styled.select`
-  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
   margin-right: 10%;
-  width: inherit;
+  width: 60%;
   /* border-bottom: 3px solid gray; */
-  margin-left: 6%;
+  margin-left: 17%;
   option {
   }
 `;
 
+const EachTitle = styled.h3`
+  width : 100px;
+  
+`
+
+
 const DateBox = styled.div`
   display: flex;
+  align-items: center;
+  height: 50px;
 `;
 
 const DateSelectBox = styled.div`
@@ -40,22 +51,14 @@ const MyNoticeSchedule = ({ getDateData,setDateDataee,index ,pushData}) => {
 
   
 
-  // console.log(pushData.scheduleName,"오이야호")
-//   useEffect(() => {
-//     setDateDataee(index, {
-//       scheduleName: dateData.scheduleName,
-//       scheduleDate: dateData.scheduleDate,
-//     });
-//   }, [dateData]);
 
-  // 할일 명 변경
 
   useEffect(() => {
     if (dateData.length !== 0 ) {
     setDateDataee(index, {
       
-      scheduleName: dateData.scheduleName,
-      scheduleDate: dateData.scheduleDate,
+      scheduleName: dateData?.scheduleName,
+      scheduleDate: dateData?.scheduleDate,
     });}
     
   }, [dateData]);
@@ -85,8 +88,9 @@ const MyNoticeSchedule = ({ getDateData,setDateDataee,index ,pushData}) => {
   return (
     <TagBox>
       <Select onChange={handleScheduleName}
-      key={pushData?.scheduleName}
-      value={pushData?.scheduleName} >
+      id="titleFont"
+      key={pushData?.scheduleName ?  pushData.scheduleName : "서류제출"}
+      value={pushData?.scheduleName ? pushData.scheduleName : "서류제출"} >
         
         <option id="titleFont" value="서류제출">
           서류제출
@@ -121,7 +125,7 @@ const MyNoticeSchedule = ({ getDateData,setDateDataee,index ,pushData}) => {
       </Select>
 
       <DateBox id="titleFont">
-        <h5>해당일</h5>
+        <EachTitle>해당일</EachTitle>
         <DateSelectBox>
           <DatePicker
             style={{ 'z-index': 999 }}
@@ -132,7 +136,7 @@ const MyNoticeSchedule = ({ getDateData,setDateDataee,index ,pushData}) => {
             id="contentFont"
             onChange={handleScheduleDate}
             selected={scheduleDate}
-            value={pushData.scheduleDate}
+            value={pushData?.scheduleDate}
           ></DatePicker>
         </DateSelectBox>
       </DateBox>
