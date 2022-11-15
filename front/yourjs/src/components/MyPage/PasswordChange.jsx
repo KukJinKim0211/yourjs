@@ -52,6 +52,7 @@ const SaveButton = styled.button`
   margin-bottom: 4%;
   background-color: ${props => props.color};
   border: none;
+  margin-left: 70%;
   border-radius: 10px;
   cursor: pointer;
   &:hover {
@@ -102,7 +103,7 @@ const PasswordChange = () => {
 
   return (
     <Wrapper>
-      <TitleFont>비밀번호 변경</TitleFont>
+      <TitleFont id="contentFont">비밀번호 변경</TitleFont>
       <LabelFont>현재 비밀번호</LabelFont>
       <DataInput
         value={curPassword}

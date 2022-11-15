@@ -1,4 +1,5 @@
 //MainCalendar
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import MainCount from '../components/MyTravel/MainCount';
 import CurrentTime from '../components/MyTravel/CurrentTime';
@@ -12,6 +13,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { fullWidth } from '../common/size';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axiosInstance from '../common/customAxios';
+import { apis } from '../common/apis';
+import { getFullDateFormat } from '../common/date';
 
 const Wrapper = styled.div`
   width: 60%;
@@ -60,7 +64,7 @@ const RecommendContentDiv = styled.div`
 `;
 
 const RecommendTitleText = styled.p`
-  margin-left: 2%;
+  margin-left: 1%;
   display: inline;
   color: ${colors.bsColor4};
   font-size: 20px;
@@ -78,13 +82,81 @@ const todayContent = [
     icon: faHourglassEnd,
   },
   {
-    title: '발표 임박 공고',
+    title: '다음 전형 보기',
     content: [{ company: 'Pasoo', date: '2022-11-03' }],
     icon: faBell,
   },
 ];
 
-const Calendar = () => {
+const UserMain = () => {
+  // 마감 임박 공고
+  const [endNotice, setEndNotice] = useState([]);
+  // 발표 임박 공고
+  const [nextNotice, setNextNotice] = useState([]);
+  useEffect(() => {
+    console.log('wfw');
+    getEndNotice();
+  }, []);
+
+  // 마감임박 공고 정제
+  const getEndNotice = () => {
+    // 시간 계산
+    const date = getFullDateFormat(new Date());
+    // 사용자의 모든 공고를 가져옴
+    axiosInstance.get(apis.notice).then(response => {
+      if (response.status === 200) {
+        const { data } = response;
+
+        const notice1 = [];
+        // "서류제출" 일정만을 가져옴
+        data.forEach(da =>
+          da.schedules.forEach(d => {
+            if (d.scheduleName === '서류제출' && d.scheduleDate > date) {
+              const newData = {
+                coName: da.coName,
+                noticeSeq: da.noticeSeq,
+                scheduleDate: d.scheduleDate,
+              };
+              notice1.push(newData);
+            }
+          }),
+        );
+
+        const notice2 = [];
+        // 이후의 일정만을 가져옴
+        data.forEach(da =>
+          da.schedules.forEach(d => {
+            if (d.scheduleDate > date) {
+              const newData = {
+                coName: da.coName,
+                noticeSeq: da.noticeSeq,
+                scheduleDate: d.scheduleDate,
+              };
+              notice2.push(newData);
+            }
+          }),
+        );
+
+        notice1.sort(
+          (a, b) => new Date(a.scheduleDate) - new Date(b.scheduleDate),
+        );
+
+        notice2.sort(
+          (a, b) => new Date(a.scheduleDate) - new Date(b.scheduleDate),
+        );
+
+        console.log(notice1);
+        console.log(notice2);
+
+        setEndNotice(notice1.slice(0, 4));
+        setNextNotice(notice2.slice(0, 4));
+      }
+    });
+  };
+
+  // 발표 임박 공고 정제
+  const getNextNotice = () => {};
+
   return (
     <Wrapper>
       <MainCountDiv>
@@ -93,9 +165,19 @@ const Calendar = () => {
       <TodayDiv>
         <CurrentTime />
         <div style={{ width: '2%' }} />
-        <TodayNotice data={todayContent[0]} type={1} />
+        <TodayNotice
+          icon={faHourglassEnd}
+          title="마감임박공고"
+          data={endNotice}
+          type={1}
+        />
         <div style={{ width: '2%' }} />
-        <TodayNotice data={todayContent[1]} type={2} />
+        <TodayNotice
+          icon={faBell}
+          title="다음 일정 보기"
+          data={nextNotice}
+          type={2}
+        />
       </TodayDiv>
       <RecommendDiv>
         <RecommendTitleDiv>
@@ -118,4 +200,4 @@ const Calendar = () => {
   );
 };
 
-export default Calendar;
+export default UserMain;

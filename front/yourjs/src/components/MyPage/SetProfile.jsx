@@ -139,7 +139,7 @@ const SetProfile = () => {
 
   return (
     <Wrapper>
-      <TitleFont>프로필사진 설정</TitleFont>
+      <TitleFont id="contentFont">프로필사진 설정</TitleFont>
       <SelectedProfileDiv>
         <SelectedImage
           src={selectImage === '-1' ? Profile00 : profileImgList[selectImage]}

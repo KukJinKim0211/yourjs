@@ -137,7 +137,7 @@ const Header = () => {
                 </Link>
               </NavDiv>
               <NavDiv>
-                <Link to="/notice" style={{ textDecoration: 'none' }}>
+                <Link to="/notice?type=0" style={{ textDecoration: 'none' }}>
                   <NavText
                     selected={selectedMenu === 2 ? true : false}
                     onClick={e => staySelectedMenu(2)}
@@ -173,7 +173,7 @@ const Header = () => {
                   </NavText>
                 </Link>
               </NavDiv>
-              <NavDiv>
+              {/* <NavDiv>
                 <Link to="/MyGroup" style={{ textDecoration: 'none' }}>
                   <NavText
                     selected={selectedMenu === 5 ? true : false}
@@ -183,7 +183,7 @@ const Header = () => {
                     내그룹
                   </NavText>
                 </Link>
-              </NavDiv>
+              </NavDiv> */}
               <NavDiv>
                 <Link to="/MyPage" style={{ textDecoration: 'none' }}>
                   <NavText

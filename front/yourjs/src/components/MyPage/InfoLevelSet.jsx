@@ -30,6 +30,7 @@ const SaveButton = styled.button`
   background-color: ${props => props.color};
   border: none;
   border-radius: 10px;
+  margin-left: 70%;
   cursor: pointer;
   &:hover {
     background-color: ${props =>
@@ -67,7 +68,7 @@ const InfoLevelSet = () => {
   };
   return (
     <Wrapper>
-      <TitleFont>공개 범위 설정</TitleFont>
+      <TitleFont id="contentFont">공개 범위 설정</TitleFont>
       <RadioDiv>
         <div style={{ display: 'flex' }}>
           <RadioButton

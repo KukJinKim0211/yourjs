@@ -67,8 +67,23 @@ const MainCountItem = ({ data, type }) => {
   // 항목 클릭 이벤트
   const contentClicked = () => {
     if (type === 0) {
+      dispatch({ type: 'selected', select: 2 });
+      sessionStorage.setItem('selectItem', 6);
+      navigator('/notice', {
+        type: 0,
+      });
     } else if (type === 1) {
+      dispatch({ type: 'selected', select: 2 });
+      sessionStorage.setItem('selectItem', 6);
+      navigator('/notice', {
+        type: 1,
+      });
     } else if (type === 2) {
+      dispatch({ type: 'selected', select: 2 });
+      sessionStorage.setItem('selectItem', 6);
+      navigator('/notice', {
+        type: 2,
+      });
     } else {
       dispatch({ type: 'selected', select: 6 });
       sessionStorage.setItem('selectItem', 6);

@@ -92,6 +92,7 @@ const ButtonDiv = styled.div`
   display: flex;
   justify-content: center;
   margin: 10px 0px;
+  margin-bottom: 30px;
 `;
 
 const SetPosition = () => {
@@ -134,7 +135,7 @@ const SetPosition = () => {
 
   return (
     <Wrapper>
-      <TitleFont>관심 포지션 설정</TitleFont>
+      <TitleFont id="contentFont">관심 포지션 설정</TitleFont>
       <ContentFont id="contentFont">
         <span style={{ color: `${colors.bsColor4}` }}>{nickname}</span>님의 현재
         관심 포지션은{' '}

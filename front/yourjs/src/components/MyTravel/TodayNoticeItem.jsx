@@ -2,16 +2,24 @@
 
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { colors } from '../../common/color';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 const Wrapper = styled.div`
   width: 90%;
-  height: 30px;
+  height: 35px;
   margin-left: 5%;
   display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
-  &:hover {
-    border-bottom: 1px solid black;
-  }
+  margin-top: 2px;
+`;
+
+const TotalDiv = styled.div`
+  width: 100%;
+  height: 90%;
 `;
 
 const TitleDiv = styled.div`
@@ -21,27 +29,43 @@ const TitleDiv = styled.div`
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
+  color: rgba(0, 0, 0, 0.7);
 `;
 
 const DateDiv = styled.div`
   width: 50%;
   height: 30px;
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: center;
   flex-direction: column;
+  color: rgba(0, 0, 0, 0.6);
+`;
+
+const TitleText = styled.p`
+  font-weight: 700;
+  &:hover {
+    border-bottom: 1px solid ${colors.bsColor4};
+  }
 `;
 
 const ContentText = styled.p`
   font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 
 const TodayNoticeItem = ({ content, type }) => {
   const [time, setTime] = useState('');
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   // 지원마감시간
   useEffect(() => {
-    if (type === 2) return;
+    // if (type === 2) return;
     const getTime = setInterval(() => {
       const date = new Date();
       const currentTime = `${date.getFullYear()}-${
@@ -56,7 +80,7 @@ const TodayNoticeItem = ({ content, type }) => {
         date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
       }`;
       const currTime = new Date(currentTime);
-      const timeData = new Date(content.date);
+      const timeData = new Date(content.scheduleDate);
       const during = timeData - currTime;
       const hour = Math.floor(
         (during % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
@@ -64,16 +88,15 @@ const TodayNoticeItem = ({ content, type }) => {
       const minute = Math.floor((during % (1000 * 60 * 60)) / (1000 * 60));
       const second = Math.floor((during % (1000 * 60)) / 1000);
 
-      // 2022-10-10 20:20:20
       var stDate = new Date(
         currentTime.substring(0, 4),
         currentTime.substring(5, 7),
         currentTime.substring(8, 10),
       );
       var endDate = new Date(
-        content.date.substring(0, 4),
-        content.date.substring(5, 7),
-        content.date.substring(8, 10),
+        content.scheduleDate.substring(0, 4),
+        content.scheduleDate.substring(5, 7),
+        content.scheduleDate.substring(8, 10),
       );
       var btMs = endDate.getTime() - stDate.getTime();
       var btDay = btMs / (1000 * 60 * 60 * 24);
@@ -86,24 +109,43 @@ const TodayNoticeItem = ({ content, type }) => {
     return () => clearInterval(getTime);
   }, []);
 
+  const noticeClicked = () => {
+    dispatch({ type: 'selected', select: 2 });
+    sessionStorage.setItem('selectItem', 2);
+    navigate('/notice/detail', {
+      state: {
+        noticeSeq: content.noticeSeq,
+      },
+    });
+  };
+
   return (
-    <Wrapper>
-      <TitleDiv>
-        <ContentText>
-          <span style={{ fontWeight: '500' }} id="contentFont">
-            {content.company}
-          </span>
-        </ContentText>
-      </TitleDiv>
-      <DateDiv>
-        {type === 1 && (
+    <Wrapper onClick={() => noticeClicked()}>
+      <TotalDiv
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <TitleDiv>
           <ContentText>
-            <span id="contentFont">
-              <span style={{ fontWeight: '500' }}>지원마감</span>까지 {time}
-            </span>
+            <TitleText id="contentFont">{content.coName}</TitleText>
           </ContentText>
-        )}
-      </DateDiv>
+        </TitleDiv>
+        <DateDiv>
+          {type === 1 && (
+            <ContentText>
+              <span id="contentFont">지원마감까지 {time}</span>
+            </ContentText>
+          )}
+          {type === 2 && (
+            <ContentText>
+              <span id="contentFont">일정까지 {time}</span>
+            </ContentText>
+          )}
+        </DateDiv>
+      </TotalDiv>
     </Wrapper>
   );
 };

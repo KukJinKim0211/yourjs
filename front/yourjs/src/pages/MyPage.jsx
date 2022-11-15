@@ -70,7 +70,7 @@ const MyPage = () => {
   return (
     <Wrapper>
       <MenuDiv>
-        <Menu id="titleFont">
+        <Menu id="contentFont">
           {menuItemList.map((item, index) => (
             <MenuItem key={index} onClick={() => setSelect(index)}>
               <MenuFont select={select === index ? true : false}>

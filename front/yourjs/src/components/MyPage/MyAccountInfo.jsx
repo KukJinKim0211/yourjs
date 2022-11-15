@@ -89,7 +89,7 @@ const MyAccountInfo = () => {
 
   return (
     <Wrapper>
-      <TitleFont>내정보보기</TitleFont>
+      <TitleFont id="contentFont">내정보보기</TitleFont>
       <SelectedProfileDiv>
         <SelectedImage
           src={
@@ -115,6 +115,7 @@ const MyAccountInfo = () => {
         <TitleLabel>공개범위</TitleLabel>
         <ContentLabel>{INFO_LEVEL[data.infoLevel - 1]}</ContentLabel>
       </DataDiv>
+      <DataDiv></DataDiv>
     </Wrapper>
   );
 };

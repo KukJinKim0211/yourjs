@@ -75,8 +75,8 @@ const SaveButton = styled.button`
   height: 40px;
   font-size: 18px;
   margin-top: 4%;
-  margin-left: 3%;
   margin-bottom: 4%;
+  margin-left: 70%;
   background-color: ${props => props.color};
   border: none;
   border-radius: 10px;
@@ -133,7 +133,7 @@ const ManageAccount = () => {
 
   return (
     <Wrapper>
-      <TitleFont>계정 관리</TitleFont>
+      <TitleFont id="contentFont">계정 관리</TitleFont>
       <LabelFont>닉네임</LabelFont>
       <DataDiv>
         <DataInput

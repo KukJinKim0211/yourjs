@@ -31,6 +31,7 @@ const SaveButton = styled.button`
   background-color: ${props => props.color};
   border: none;
   border-radius: 10px;
+  margin-left: 70%;
   cursor: pointer;
   &:hover {
     background-color: ${props =>
@@ -72,7 +73,7 @@ const DeleteAccount = () => {
   };
   return (
     <Wrapper>
-      <TitleFont>계정 탈퇴</TitleFont>
+      <TitleFont id="contentFont">계정 탈퇴</TitleFont>
       <RadioDiv>
         <ContentText>모든 정보가 삭제됩니다.</ContentText>
       </RadioDiv>

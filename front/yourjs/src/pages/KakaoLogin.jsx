@@ -26,7 +26,7 @@ const KakaoLogin = props => {
         sessionStorage.setItem('selectItem', 0);
         sessionStorage.setItem('loginState', true);
         sessionStorage.setItem('accessToken', response.data.accessToken);
-        navigate('http://localhost:3000/main');
+        navigate('/main');
       }
     });
   }, []);

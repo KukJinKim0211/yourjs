@@ -35,21 +35,21 @@ const TitleText = styled.span`
   font-weight: 600;
 `;
 
-const TodayNotice = ({ data, type }) => {
+const TodayNotice = ({ icon, title, data, type }) => {
   return (
     <Wrapper>
       <TitleDiv>
         <FontAwesomeIcon
-          icon={data?.icon}
+          icon={icon}
           size="xl"
           className="fa-light"
           style={{ marginLeft: '20px' }}
           color={colors.bsColor4}
         />
-        <TitleText id="titleFont">{data.title}</TitleText>
+        <TitleText id="titleFont">{title}</TitleText>
       </TitleDiv>
       <ContentDiv>
-        {data.content.map((content, index) => (
+        {data.map((content, index) => (
           <TodayNoticeItem key={index} content={content} type={type} />
         ))}
       </ContentDiv>

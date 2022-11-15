@@ -816,7 +816,7 @@ const DayCalendar = ({
           <ScheduleModalDiv>
             <FontAwesomeIcon
               icon={faFile}
-              size="2x"
+              size="xl"
               style={{
                 width: '60px',
               }}
@@ -830,7 +830,7 @@ const DayCalendar = ({
           <ScheduleModalDiv>
             <FontAwesomeIcon
               icon={faBuilding}
-              size="2x"
+              size="xl"
               style={{
                 width: '60px',
               }}
@@ -844,7 +844,7 @@ const DayCalendar = ({
           <ScheduleModalDiv>
             <FontAwesomeIcon
               icon={faCalendarDays}
-              size="2x"
+              size="xl"
               style={{
                 width: '60px',
               }}
@@ -854,7 +854,7 @@ const DayCalendar = ({
           <ScheduleModalDiv>
             <FontAwesomeIcon
               icon={faSpinner}
-              size="2x"
+              size="xl"
               style={{
                 width: '60px',
               }}
