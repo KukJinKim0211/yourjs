@@ -262,9 +262,7 @@ const MyNoticeList = () => {
     getNoticeData();
   }, [dropdownState]);
 
-  useEffect(() => {
-    handleSearch()
-  }, [searchData]);
+  
   // axios get 하는 함수
   const getNoticeData = () => {
     axiosInstance
@@ -294,13 +292,16 @@ const MyNoticeList = () => {
   // 검색 함수
 
   const handleChangeSearch = e => {
+    getNoticeData();
     setSearchData(e.target.value);
   };
 
   // 검색 엔터 함수
   const keyDownSearch = e => {
+    
     if (e.key === 'Enter') {
       handleSearch(searchData)
+      
       setSearchData('');
     }
   };
@@ -308,6 +309,7 @@ const MyNoticeList = () => {
   // 검색 버튼 클릭 함수
 
   const onClickSearch = () => {
+    handleSearch(searchData)
     setSearchData('');
   };
 
@@ -324,10 +326,15 @@ const MyNoticeList = () => {
 
 
   const handleSearch = (search) => {
-    console.log(dummyData,"222")
-    // dummyData.forEach(dummy => console.log(dummy))
-    dummyData.forEach((dummy,index)=> dummy.noticeTag.indexOf(search) !== -1 ?  setSearchCard([...searchCard, dummy]) : console.log("실패"))
-    console.log(searchCard,"@2")
+    
+    
+    // dummyData.forEach(dummy => console.log(dummy))\
+    
+    let searchForm = [];
+    dummyData.forEach((dummy,index)=> dummy.noticeTag.indexOf(search) !== -1 ?  searchForm.push(dummy) : search)
+    
+    setDummyData(searchForm)
+    
     // dummyData?.map((dummy,index) => dummy.noticeTag.indexOf(search) !== -1 ? setDummyData({...dummyData,dummy}) : console.log(dummy) )
   }
 
