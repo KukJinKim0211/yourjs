@@ -69,20 +69,26 @@ const MainCountItem = ({ data, type }) => {
     if (type === 0) {
       dispatch({ type: 'selected', select: 2 });
       sessionStorage.setItem('selectItem', 6);
-      navigator('/notice', {
-        type: 0,
+      navigate('/notice', {
+        state: {
+          type: 0,
+        },
       });
     } else if (type === 1) {
       dispatch({ type: 'selected', select: 2 });
       sessionStorage.setItem('selectItem', 6);
-      navigator('/notice', {
-        type: 1,
+      navigate('/notice', {
+        state: {
+          type: 1,
+        },
       });
     } else if (type === 2) {
       dispatch({ type: 'selected', select: 2 });
       sessionStorage.setItem('selectItem', 6);
-      navigator('/notice', {
-        type: 2,
+      navigate('/notice', {
+        state: {
+          type: 2,
+        },
       });
     } else {
       dispatch({ type: 'selected', select: 6 });
