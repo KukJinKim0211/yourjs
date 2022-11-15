@@ -14,6 +14,7 @@ const MonthCalendar = ({
   searchDate,
   noticeList,
   noticeData,
+  guest,
 }) => {
   return (
     <Wrapper>
@@ -25,6 +26,7 @@ const MonthCalendar = ({
           searchDate={searchDate}
           noticeList={noticeList}
           noticeData={noticeData}
+          guest={guest}
         />
       ))}
     </Wrapper>

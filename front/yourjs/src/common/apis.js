@@ -11,8 +11,13 @@ export const apis = {
   // [구직포지션 API]
   subject: '/subject', // GET
 
+  // [구직포지션 유저 조회 API]
+  subjectPosition: '/subject/position', // GET
+
   // [공고 API]
   notice: '/notice', // GET, POST, PUT, DELETE
+
+  noticeSubject: '/notice/subject',
 
   // [일정 API]
   schedule: '/notice/schedule', // PUT, DELETE

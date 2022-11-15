@@ -94,7 +94,6 @@ const UserMain = () => {
   // 발표 임박 공고
   const [nextNotice, setNextNotice] = useState([]);
   useEffect(() => {
-    console.log('wfw');
     getEndNotice();
   }, []);
 
@@ -131,6 +130,7 @@ const UserMain = () => {
                 coName: da.coName,
                 noticeSeq: da.noticeSeq,
                 scheduleDate: d.scheduleDate,
+                scheduleName: d.scheduleName,
               };
               notice2.push(newData);
             }
@@ -144,9 +144,6 @@ const UserMain = () => {
         notice2.sort(
           (a, b) => new Date(a.scheduleDate) - new Date(b.scheduleDate),
         );
-
-        console.log(notice1);
-        console.log(notice2);
 
         setEndNotice(notice1.slice(0, 4));
         setNextNotice(notice2.slice(0, 4));

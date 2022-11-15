@@ -163,6 +163,8 @@ const Login = () => {
           if (autoLogin) localStorage.setItem('autoLogin', true);
           else localStorage.setItem('autoLogin', false);
           dispatch({ type: 'login', nickname: response.data.nickname });
+          dispatch({ type: 'selected', select: 0 });
+          sessionStorage.setItem('selectItem', 0);
           sessionStorage.setItem('nickname', response.data.nickname);
           sessionStorage.setItem('selectItem', 0);
           sessionStorage.setItem('loginState', true);

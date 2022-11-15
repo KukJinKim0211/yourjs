@@ -13,6 +13,7 @@ const WeekCalendar = ({
   searchDate,
   noticeList,
   noticeData,
+  guest,
 }) => {
   return (
     <Wrapper>
@@ -24,6 +25,7 @@ const WeekCalendar = ({
           searchDate={searchDate}
           noticeList={noticeList}
           noticeData={noticeData}
+          guest={guest}
         />
       ))}
     </Wrapper>

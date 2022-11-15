@@ -15,7 +15,9 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Calendar = () => {
+const Calendar = ({ userSeq, readOnly }) => {
+  // 캘린더 게스트 권한
+  const [guest, setGuest] = useState(readOnly ? true : false);
   // 현재 달력 상태 관리
   const [searchDate, setSearchDate] = useState(new Date());
   // 공고 총 데이터
@@ -25,9 +27,8 @@ const Calendar = () => {
   // 서버에서 응답받은 공고 데이터 상태 관리
   const [monthMenu, setMonthMenu] = useState([]);
   const getNotice = () => {
-    axiosInstance
-      .get(apis.notice)
-      .then(response => setNoticeData(response.data));
+    const url = userSeq ? apis.noticeSubject + `/${userSeq}` : apis.notice;
+    axiosInstance.get(url).then(response => setNoticeData(response.data));
   };
 
   useEffect(() => {
@@ -105,6 +106,7 @@ const Calendar = () => {
         searchDate={searchDate}
         noticeList={noticeList}
         noticeData={noticeData}
+        guest={guest}
       ></MonthCalendar>
     </Wrapper>
   );

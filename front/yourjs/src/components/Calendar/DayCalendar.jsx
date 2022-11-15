@@ -3,6 +3,7 @@ import {
   faSpinner,
   faFile,
   faCalendarDays,
+  faRightToBracket,
 } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
@@ -312,6 +313,7 @@ const DayCalendar = ({
   searchDate,
   noticeList,
   noticeData,
+  guest,
 }) => {
   const [noticeModalOpen, setNoticeModalOpen] = useState(false);
   const [scheduleModalOpen, setScheduleModalOpen] = useState(false);
@@ -327,6 +329,7 @@ const DayCalendar = ({
   const [scheduleDate, setScheduleDate] = useState(
     `${getYYMMFormat(searchDate, dayData.day)} 23:59:59`,
   ); // 일정 날짜
+
   // 공고 시퀀스
   const [noticeSeq, setNoticeSeq] = useState(0);
 
@@ -334,12 +337,16 @@ const DayCalendar = ({
   const [selectedData, setSelectedData] = useState([]);
 
   const hoverOver = e => {
+    // 캘린더 게스트 권한일 시, 편집 불가
+    if (guest) return;
     if (dayData.day === 0) return;
     const button = e.currentTarget.children[0].children[0].children[0];
     button.classList.remove('buttonView');
   };
 
   const hoverOut = e => {
+    // 캘린더 게스트 권한일 시, 편집 불가
+    if (guest) return;
     if (dayData.day === 0) return;
     const button = e.currentTarget.children[0].children[0].children[0];
     button.classList.add('buttonView');

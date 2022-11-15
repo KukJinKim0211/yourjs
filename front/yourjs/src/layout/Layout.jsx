@@ -1,9 +1,9 @@
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import styled from 'styled-components';
-import { fullWidth } from '../common/size';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPersonDigging } from '@fortawesome/free-solid-svg-icons';
+import { colors } from '../common/color';
 
 const LayoutDiv = styled.div`
   height: 100vh;
@@ -11,7 +11,6 @@ const LayoutDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   @media only screen and (max-width: 1152px) {
     display: none;
   }

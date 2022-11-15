@@ -23,7 +23,7 @@ const TotalDiv = styled.div`
 `;
 
 const TitleDiv = styled.div`
-  width: 50%;
+  width: ${props => (props.type === 1 ? '50%' : '70%')};
   height: 30px;
   display: flex;
   align-items: flex-start;
@@ -33,7 +33,7 @@ const TitleDiv = styled.div`
 `;
 
 const DateDiv = styled.div`
-  width: 50%;
+  width: ${props => (props.type === 1 ? '50%' : '30%')};
   height: 30px;
   display: flex;
   align-items: flex-end;
@@ -128,12 +128,12 @@ const TodayNoticeItem = ({ content, type }) => {
           alignItems: 'center',
         }}
       >
-        <TitleDiv>
-          <ContentText>
-            <TitleText id="contentFont">{content.coName}</TitleText>
-          </ContentText>
+        <TitleDiv type={type}>
+          <TitleText id="contentFont">
+            {content.coName}-{content.scheduleName}
+          </TitleText>
         </TitleDiv>
-        <DateDiv>
+        <DateDiv type={type}>
           {type === 1 && (
             <ContentText>
               <span id="contentFont">지원마감까지 {time}</span>
@@ -141,7 +141,7 @@ const TodayNoticeItem = ({ content, type }) => {
           )}
           {type === 2 && (
             <ContentText>
-              <span id="contentFont">일정까지 {time}</span>
+              <span id="contentFont">{time}</span>
             </ContentText>
           )}
         </DateDiv>

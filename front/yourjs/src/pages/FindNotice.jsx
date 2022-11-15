@@ -1,16 +1,18 @@
 //FindNotice
 import React from 'react';
-import FindNoticeIndex from '../components/FindNotice/FindNoticeIndex';
+import FindUser from '../components/FindNotice/FindUser';
 import styled from 'styled-components';
 
-
-
 const Wrapper = styled.div`
-        width: 1152px;
-    `
+  width: 1152px;
+`;
 
 const FindNotice = () => {
-  return <Wrapper><FindNoticeIndex></FindNoticeIndex></Wrapper>;
+  return (
+    <Wrapper>
+      <FindUser></FindUser>
+    </Wrapper>
+  );
 };
 
 export default FindNotice;

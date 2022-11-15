@@ -11,7 +11,7 @@ export const colors = {
   // 부정 확인 메세지 색상
   negativeMsgColor: 'red',
 
-  // 파랑하늘 테마색상 # BS 숫자가 작을수록 채도가 낮음
+  // 테마색상 # BS 숫자가 작을수록 채도가 낮음
   bsColor0: '#fdf5eb',
   bsColor1: '#FDEEDC',
   bsColor2: '#FFD8A9',
