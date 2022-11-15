@@ -52,4 +52,4 @@ const getScheduleList = scheName => {
 // 정보공개등급
 const INFO_LEVEL = ['전체 공개', '캘린더만 공개', '전체 비공개'];
 
-export { scheduleList, getScheduleList, INFO_LEVEL };
+export { scheduleList, getScheduleList, INFO_LEVEL,progressList };

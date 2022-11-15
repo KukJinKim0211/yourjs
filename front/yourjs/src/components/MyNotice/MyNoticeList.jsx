@@ -9,6 +9,7 @@ import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 import { colors } from '../../common/color';
 import plusbutton from '../../img/plusbutton3.png';
+import { progressList } from '../../common/define';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -239,7 +240,7 @@ const MyNoticeList = () => {
   const navigate = useNavigate();
   const [searchData, setSearchData] = useState('');
   const [detailFlag, setDetailFlag] = useState(false);
-  const [dropdownState, setDropdownState] = useState('전체보기');
+  const [dropdownState, setDropdownState] = useState('0');
   const [dummyData, setDummyData] = useState([]);
   
 
@@ -253,12 +254,13 @@ const MyNoticeList = () => {
       .get(apis.notice)
       .then(response => {
         console.log(response.data, 'get해온값');
-        if (dropdownState === '전체보기') {
+        console.log(typeof(Number(dropdownState)),"드랍다운")
+        if (Number(dropdownState) === 0) {
           const data = response.data;
           setDummyData(data);
         } else {
           const data = response.data.filter(
-            data => data.progress === dropdownState,
+            data => data.progress === progressList[Number(dropdownState)-1],
           );
           setDummyData(data);
         }
@@ -321,12 +323,15 @@ const MyNoticeList = () => {
         id="contentFont"
         defaultValue="전체보기"
         onChange={handleDropdownState}
-      >
-        <option value="전체보기">전체보기</option>
-        <option value="진행중">진행중</option>
-        <option value="서류탈락">서류탈락</option>
-        <option value="최종합격">최종합격</option>
-        <option value="면접탈락">면접탈락</option>
+      > 
+        
+        <option value="0">전체보기</option>
+        <option value="1">등록</option>
+        <option value="2">진행중</option>
+        <option value="3">서류탈락</option>
+        <option value="4">코딩테스트탈락</option>
+        <option value="5">최종합격</option>
+        <option value="6">면접탈락</option>
       </ProgressSelect>
       <Label>
         <SearchInput
