@@ -41,7 +41,7 @@ public class SubjectService {
         }
         List<SubjectUserRes> subjectUserResList = new ArrayList<>();
         for (User tempUser : users) {
-            if (tempUser.getUserId() == userId) {
+            if (tempUser.getUserId().equals(userId)) {
                 continue;
             }
             if (tempUser.getInfoLevel() != null && tempUser.getInfoLevel() < 3) {
