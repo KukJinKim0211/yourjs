@@ -63,7 +63,7 @@ const ContentText = styled.p`
 
 const MainCountItem = ({ data, type }) => {
   const dispatch = useDispatch();
-  const navigator = useNavigate();
+  const navigate = useNavigate();
   // 항목 클릭 이벤트
   const contentClicked = () => {
     if (type === 0) {
