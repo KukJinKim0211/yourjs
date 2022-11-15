@@ -23,8 +23,8 @@ const ContentSet = styled.div`
 
 const Content = styled.div`
   display: flex;
-  margin-top: 1.2rem;
-  margin-bottom: 1.3rem;
+  margin-top: 15px;
+  margin-bottom: 45px;
 `
 
 const LeftBox = styled.div`
@@ -55,33 +55,39 @@ const CenterBox = styled.div`
 `
 
 const RightBoxes = styled.div`
-  width: 70%;
+  width: 60%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* box-shadow: 1px 1px 4px 2px #dadce0 inset; */
+  border-left: 2px dotted orange;
 `
 
 const RightBox = styled.div`
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
+  margin: 10px 20px;
   display: flex;
   font-family: 'InfinitySans-RegularA1';
   font-weight: 200;
   color: rgba(0, 0, 0, 0.55);
+  /* border: 10px solid red; */
 `
 
 const RightBoxTitle = styled.div`
-  width: 20%;
+  width: 25%;
   display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 const RightBoxContent = styled.div`
-  width: 80%;
+  width: 75%;
   word-break: break-all;
 `
 
 const Hr = styled.hr`
   width: 100%;
-  height: 0.1rem;
+  height: 2px;
   background-color: ${colors.bsColor3};
 `
 
@@ -191,6 +197,9 @@ const BoxInput = styled.input`
   }
   padding: 0.5rem;
   font-family: 'InfinitySans-RegularA1';
+  ::placeholder {
+    color: #a7a0a0;
+  }
 `
 
 const BoxArea = styled.textarea`
@@ -204,6 +213,10 @@ const BoxArea = styled.textarea`
   }
   padding: 0.5rem;
   font-family: 'InfinitySans-RegularA1';
+  ::placeholder {
+    color: #a7a0a0;
+  }
+  ::-webkit-input-placeholder{line-height:10rem}
 `
 
 const SaveButton = styled.button`
@@ -238,5 +251,9 @@ const NoData = styled.div`
   min-height: 5rem;
 `
 
+const DateBox = styled.div`
+  width: 50%;
+`
+
 export {Container, ContentTitle, ContentSet, Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,
-  ChangeButton, DelButton, customStyles, ModalForm, ModalTitle, ModalContent, ModalContentArea, ModalContentDate, InsertBtnDiv, InsertBtn, BoxInput, BoxArea, SaveButton, Essential, EssentialDate, NoData}
+  ChangeButton, DelButton, customStyles, ModalForm, ModalTitle, ModalContent, ModalContentArea, ModalContentDate, InsertBtnDiv, InsertBtn, BoxInput, BoxArea, SaveButton, Essential, EssentialDate, NoData, DateBox}

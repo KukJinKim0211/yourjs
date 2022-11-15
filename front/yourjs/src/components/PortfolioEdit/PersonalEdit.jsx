@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import {Container, ContentTitle, ContentSet, Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,
+import {Container, ContentTitle, ContentSet, Content, LeftBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,
   ChangeButton, customStyles, ModalForm, ModalTitle, ModalContent, InsertBtnDiv, InsertBtn, ModalContentArea} from '../../common/PorfoStyled';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
@@ -102,35 +102,36 @@ const PersonalEdit = () => {
             </InsertBtnDiv>
           </Modal>
           <Content>
-            <LeftBox><ChangeButton onClick={() => openModal()}>수정</ChangeButton></LeftBox>
-            <CenterBox></CenterBox>
-            <RightBoxes>
+            <RightBoxes style={{width: "90%", border: "0px"}}>
               <RightBox>
-                <RightBoxTitle>이름</RightBoxTitle>
+                <RightBoxTitle style={{width: "30%"}}>이름</RightBoxTitle>
                 <RightBoxContent>{detailData.userName}</RightBoxContent>
               </RightBox>
               <RightBox>
-                <RightBoxTitle>이메일</RightBoxTitle>
+                <RightBoxTitle style={{width: "30%"}}>이메일</RightBoxTitle>
                 <RightBoxContent>{detailData.email}</RightBoxContent>
               </RightBox>
               <RightBox>
-                <RightBoxTitle>한자 이름</RightBoxTitle>
+                <RightBoxTitle style={{width: "30%"}}>한자 이름</RightBoxTitle>
                 <RightBoxContent>{viewData.cnName}</RightBoxContent>
               </RightBox>
               <RightBox>
-                <RightBoxTitle>영어 이름</RightBoxTitle>
+                <RightBoxTitle style={{width: "30%"}}>영어 이름</RightBoxTitle>
                 <RightBoxContent>{viewData.engName}</RightBoxContent>
               </RightBox>
               <RightBox>
-                <RightBoxTitle>기술스택</RightBoxTitle>
+                <RightBoxTitle style={{width: "30%"}}>기술스택</RightBoxTitle>
                 <RightBoxContent>{viewData.techStacks}</RightBoxContent>
               </RightBox>
               <RightBox>
-                <RightBoxTitle>외부 URL</RightBoxTitle>
+                <RightBoxTitle style={{width: "30%"}}>외부 URL</RightBoxTitle>
                 <RightBoxContent>{viewData.links?.split("\n").map((e, index) => <div key={index}>{e}</div>)}</RightBoxContent>
               </RightBox>
             </RightBoxes>
+            
+            {/* <CenterBox></CenterBox> */}
           </Content>
+          <LeftBox><ChangeButton onClick={() => openModal()}>수정</ChangeButton></LeftBox>
         </ContentSet>
       </Container>
     </div>

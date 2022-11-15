@@ -1,16 +1,21 @@
 import React from 'react';
 import { useState } from 'react';
 import {Content, LeftBox, LeftBoxTitle, LeftBoxContent, CenterBox, RightBoxes, RightBox, RightBoxTitle,
-  BoxInput, SaveButton, Essential, EssentialDate} from '../../common/PorfoStyled';
+  BoxInput, SaveButton, Essential, EssentialDate, DateBox} from '../../common/PorfoStyled';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 import { addDays } from 'date-fns/esm';
+import getYear from 'date-fns/getYear';
+import getMonth from 'date-fns/getMonth';
+import range from "lodash/range"
 
 
 const CertificateEditComponent = ({getServerData}) => {
+  const years = range(getYear(new Date()), getYear(new Date())-40, -1);
+  const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
   const [certName, setcertName] = useState('');
   const [acquisitionDate, setacquisitionDate] = useState('');
   const [certNum, setcertNum] = useState('');
@@ -64,15 +69,50 @@ const CertificateEditComponent = ({getServerData}) => {
         <LeftBoxTitle>취득일<EssentialDate>(*)</EssentialDate></LeftBoxTitle>
         <LeftBoxContent>
         <DatePicker
-            style ={{"z-index" : 999}}
-            placeholderText='취득일'
+            renderCustomHeader={({
+              date,
+              changeYear,
+              changeMonth,
+            }) => (
+              <Content>
+                <DateBox>
+                  <select
+                    value={getYear(date)}
+                    onChange={({ target: { value } }) => changeYear(Number(value))}
+                  >
+                    {years.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                  <span> 년</span>
+                </DateBox>
+                <DateBox>
+                  <select
+                    value={months[getMonth(date)]}
+                    onChange={({ target: { value } }) =>
+                      changeMonth(months.indexOf(value))
+                    }
+                  >
+                    {months.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                  <span> 월</span>
+                </DateBox>
+              </Content>
+            )}
             locale={ko}
-            dateFormat="yyyy년 MM월 dd일"
+            placeholderText='취득일'
+            dateFormat="yyyy - MM - dd"
             autoComplete="off"
             id="contentFont"
-            onChange={date => setacquisitionDate(date)}
             selected={acquisitionDate}
-        ></DatePicker></LeftBoxContent>
+            onChange={date => setacquisitionDate(date)}
+          /></LeftBoxContent>
         <br/><br/>
         <SaveButton
           onClick={addButtonClicked}

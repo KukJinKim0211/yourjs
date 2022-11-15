@@ -1,18 +1,23 @@
 import React from 'react'
 import { useState } from 'react';
 import {Container, ContentTitle, ContentSet, Content, LeftBox, CenterBox, RightBoxes, RightBox, RightBoxTitle, RightBoxContent, Hr,
-  ChangeButton, DelButton, customStyles, ModalForm, ModalTitle, ModalContent, ModalContentDate, InsertBtnDiv, InsertBtn, Essential} from '../../common/PorfoStyled';
+  ChangeButton, DelButton, customStyles, ModalForm, ModalTitle, ModalContent, ModalContentDate, InsertBtnDiv, InsertBtn, Essential, DateBox} from '../../common/PorfoStyled';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 import Modal from 'react-modal';
 import { ko } from 'date-fns/esm/locale';
 import DatePicker from 'react-datepicker';
 import dayjs from 'dayjs';
+import getYear from 'date-fns/getYear';
+import getMonth from 'date-fns/getMonth';
+import range from "lodash/range";
 
 
 Modal.setAppElement('#root');
 
 const CareerEdit = ({dataArr, getServerData}) => {
+  const years = range(getYear(new Date()), getYear(new Date())-40, -1);
+  const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState({});
 
@@ -69,28 +74,98 @@ const CareerEdit = ({dataArr, getServerData}) => {
               <ModalTitle>시작일 <Essential>(*)</Essential></ModalTitle>
               <ModalContentDate>
                 <DatePicker
-                  placeholderText='시작일'
+                  renderCustomHeader={({
+                    date,
+                    changeYear,
+                    changeMonth,
+                  }) => (
+                    <Content>
+                      <DateBox>
+                        <select
+                          value={getYear(date)}
+                          onChange={({ target: { value } }) => changeYear(Number(value))}
+                        >
+                          {years.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                        <span> 년</span>
+                      </DateBox>
+                      <DateBox>
+                        <select
+                          value={months[getMonth(date)]}
+                          onChange={({ target: { value } }) =>
+                            changeMonth(months.indexOf(value))
+                          }
+                        >
+                          {months.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                        <span> 월</span>
+                      </DateBox>
+                    </Content>
+                  )}
                   locale={ko}
-                  dateFormat="yyyy-MM-dd"
+                  placeholderText='시작일'
+                  dateFormat="yyyy - MM - dd"
                   autoComplete="off"
                   id="contentFont"
                   value={modalData.startDate}
-                  onChange={(e) => setModalData({...modalData, startDate: dayjs(e).format('YYYY-MM-DD')})}
-                  >
-                </DatePicker>
+                  onChange={(date) => setModalData({...modalData, startDate: dayjs(date).format('YYYY-MM-DD')})}
+                />
               </ModalContentDate>
               <ModalTitle>종료일</ModalTitle>
               <ModalContentDate>
                 <DatePicker
-                  placeholderText='종료일'
+                  renderCustomHeader={({
+                    date,
+                    changeYear,
+                    changeMonth,
+                  }) => (
+                    <Content>
+                      <DateBox>
+                        <select
+                          value={getYear(date)}
+                          onChange={({ target: { value } }) => changeYear(Number(value))}
+                        >
+                          {years.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                        <span> 년</span>
+                      </DateBox>
+                      <DateBox>
+                        <select
+                          value={months[getMonth(date)]}
+                          onChange={({ target: { value } }) =>
+                            changeMonth(months.indexOf(value))
+                          }
+                        >
+                          {months.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                        <span> 월</span>
+                      </DateBox>
+                    </Content>
+                  )}
                   locale={ko}
-                  dateFormat="yyyy-MM-dd"
+                  placeholderText='종료일'
+                  dateFormat="yyyy - MM - dd"
                   autoComplete="off"
                   id="contentFont"
                   value={modalData.endDate}
-                  onChange={(e) => setModalData({...modalData, endDate: dayjs(e).format('YYYY-MM-DD')})}
-                  >
-                </DatePicker>
+                  onChange={(date) => setModalData({...modalData, endDate: dayjs(date).format('YYYY-MM-DD')})}
+                />
               </ModalContentDate>
             </ModalForm>
             <ModalForm>

@@ -31,7 +31,7 @@ const Personal = () => {
         <Hr></Hr>
           <Content>
             <CenterBox></CenterBox>
-            <RightBoxes>
+            <RightBoxes style={{width: "80%"}}>
               <RightBox>
                 <RightBoxTitle>이름</RightBoxTitle>
                 <RightBoxContent>{detailData.userName}</RightBoxContent>
