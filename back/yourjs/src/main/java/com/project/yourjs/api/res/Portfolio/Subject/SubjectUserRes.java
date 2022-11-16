@@ -12,13 +12,16 @@ public class SubjectUserRes {
     private String nickname;
     private Integer infoLevel;
     private String userImg;
+    private int totCnt;
 
-    public SubjectUserRes(long userSeq, String userId, String userName, String nickname, Integer infoLevel, String userImg) {
+    public SubjectUserRes(long userSeq, String userId, String userName, String nickname, Integer infoLevel, String userImg, int totCnt) {
         this.userSeq = userSeq;
         this.userId = userId;
         this.userName = userName;
         this.nickname = nickname;
         this.infoLevel = infoLevel;
         this.userImg = userImg;
+        this.totCnt = totCnt;
+
     }
 }
