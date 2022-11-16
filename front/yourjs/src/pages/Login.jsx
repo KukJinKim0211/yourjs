@@ -28,6 +28,7 @@ const CenterDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 10% 0px;
 `;
 
 const FormDiv = styled.div`
@@ -63,11 +64,22 @@ const FormInput = styled.input`
   color: black;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  &:hover {
+  padding-left: 10px;
+  /* &:hover {
     border-bottom: 1px solid black;
   }
   &:focus {
     border-bottom: 1px solid black;
+  } */
+
+  &:hover {
+    border: 1px solid ${colors.bsColor4};
+  }
+
+  &:focus {
+    border: 1px solid ${colors.bsColor4};
+    box-shadow: 0 0 10px ${colors.bsColor3};
+    outline: none;
   }
 `;
 
@@ -78,11 +90,11 @@ const CustomCheckBox = styled.input`
 `;
 
 const LoginButton = styled.button`
-  width: ${props => props.width};
-  height: ${props => props.height};
+  width: 100%;
+  height: 75px;
   font-size: 26px;
-  background-color: ${props => props.color};
-  color: ${props => props.fontcolor};
+  background-color: ${colors.bsColor3};
+  color: black;
   margin-top: 2%;
   cursor: pointer;
   border: none;
@@ -125,17 +137,17 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
-  const naverRef = useRef();
+  // const naverRef = useRef();
   const navigate = useNavigate();
-  const initializeNaverLogin = () => {
-    const naverLogin = new naver.LoginWithNaverId({
-      clientId: NAVER_CLIENT_ID,
-      callbackUrl: NAVER_REDIRECT_URI,
-      isPopup: false,
-      loginButton: { color: 'green', type: 2, height: '70' },
-    });
-    naverLogin.init();
-  };
+  // const initializeNaverLogin = () => {
+  //   const naverLogin = new naver.LoginWithNaverId({
+  //     clientId: NAVER_CLIENT_ID,
+  //     callbackUrl: NAVER_REDIRECT_URI,
+  //     isPopup: false,
+  //     loginButton: { color: 'green', type: 2, height: '70' },
+  //   });
+  //   naverLogin.init();
+  // };
   const getToken = () => {
     const token = window.location.href.split('=')[1].split('&')[0];
   };
@@ -143,9 +155,9 @@ const Login = () => {
     window.location.href.includes('access_token') && getToken();
   };
 
-  const handleNaverLogin = () => {
-    naverRef.current.children[0].click();
-  };
+  // const handleNaverLogin = () => {
+  //   naverRef.current.children[0].click();
+  // };
 
   const loginButtonClicked = () => {
     // 아이디 유효성 체크
@@ -183,7 +195,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    initializeNaverLogin();
+    // initializeNaverLogin();
     userAccessToken();
   });
 
@@ -192,9 +204,9 @@ const Login = () => {
       <CenterDiv>
         <LogoImage />
       </CenterDiv>
-      <CenterDiv>
+      {/* <CenterDiv>
         <h1 id="titleFont">로그인</h1>
-      </CenterDiv>
+      </CenterDiv> */}
       <FormDiv>
         <LabelText id="contentFont">아이디</LabelText>
         <FormInput
@@ -225,16 +237,10 @@ const Login = () => {
             자동 로그인
           </p>
         </CheckBoxDiv>
-        <p id="contentFont">
+        <p id="contentFont" style={{ textAlign: 'right' }}>
           <Link to="/signup">아이디가 없으신가요? 회원가입</Link>
         </p>
-        <LoginButton
-          color={colors.buttonBlue}
-          fontcolor="white"
-          width="100%"
-          height="65px"
-          onClick={loginButtonClicked}
-        >
+        <LoginButton id="contentFont" onClick={loginButtonClicked}>
           로그인
         </LoginButton>
         <div
@@ -244,14 +250,14 @@ const Login = () => {
             justifyContent: 'space-between',
           }}
         >
-          <a href={KAKAO_AUTH_URL} style={{ width: '49%', height: '65px' }}>
+          <a href={KAKAO_AUTH_URL} style={{ width: '100%', height: '75px' }}>
             <KakaoButtonImage />
           </a>
           {/* <KakaoButtonImage onClick={() => kakao()} /> */}
-          <a style={{ width: '49%', height: '65px' }}>
+          {/* <a style={{ width: '49%', height: '65px' }}>
             <NaverIdLogin ref={naverRef} id="naverIdLogin" />
             <NaverButtonImage onClick={handleNaverLogin} />
-          </a>
+          </a> */}
         </div>
       </FormDiv>
     </Wrapper>

@@ -1,6 +1,5 @@
 //signup
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../img/logo.png';
 import { colors } from '../common/color';
@@ -20,6 +19,7 @@ const CenterDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 10% 0px;
 `;
 
 const FormDiv = styled.div`
@@ -227,9 +227,9 @@ const SignUp = () => {
       <CenterDiv>
         <LogoImage />
       </CenterDiv>
-      <CenterDiv>
+      {/* <CenterDiv>
         <h1>회원가입</h1>
-      </CenterDiv>
+      </CenterDiv> */}
       <FormDiv>
         <LabelText>아이디</LabelText>
         <FormInput

@@ -79,7 +79,7 @@ const MainCount = () => {
   const getNotice = () => {
     axiosInstance.get(apis.notice).then(response => {
       if (response.status === 200) {
-        let i1 = 4;
+        let i1 = 0;
         let i2 = 0;
         const newArray = [...countData];
         response.data.forEach(d => {
@@ -87,7 +87,7 @@ const MainCount = () => {
             i1++;
           }
 
-          if (d.profress === '진행중') {
+          if (d.progress === '진행중') {
             i2++;
           }
         });

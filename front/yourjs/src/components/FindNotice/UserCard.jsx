@@ -9,6 +9,7 @@ import { apis } from '../../common/apis';
 import { getFullDateFormat } from '../../common/date';
 import Modal from 'react-modal';
 import Calendar from '../../pages/Calendar';
+import { fullWidth } from '../../common/size';
 
 const UserCardDiv = styled.div`
   width: 28%;
@@ -71,7 +72,7 @@ const customModalStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    width: '60%',
+    width: `${fullWidth}`,
     height: '85%',
     display: 'flex',
     justifyContent: 'center',

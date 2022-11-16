@@ -23,7 +23,18 @@ const HeaderDiv = styled.div`
   justify-content: space-between;
 `;
 
+const LogoDiv = styled.div`
+  top: 5%;
+  width: 10%;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
 const LogoImage = styled.img`
+  width: 100%;
   height: 100%;
   user-select: none;
 `;
@@ -106,11 +117,11 @@ const Header = () => {
   return (
     <Wrapper>
       <HeaderDiv>
-        <div>
+        <LogoDiv>
           <Link to={loginState ? '/main' : '/'}>
             <LogoImage />
           </Link>
-        </div>
+        </LogoDiv>
         {loginState ? (
           <>
             <NavBar>

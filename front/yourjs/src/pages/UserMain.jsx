@@ -71,23 +71,6 @@ const RecommendTitleText = styled.p`
   font-weight: 600;
 `;
 
-const todayContent = [
-  {
-    title: '마감 임박 공고',
-    content: [
-      { company: '신세계 I&C', date: '2022-11-01 17:00:00' },
-      { company: '신한은행', date: '2022-11-03 23:59:59' },
-      { company: '지우컴퍼니', date: '2022-11-04 17:00:00' },
-    ],
-    icon: faHourglassEnd,
-  },
-  {
-    title: '다음 전형 보기',
-    content: [{ company: 'Pasoo', date: '2022-11-03' }],
-    icon: faBell,
-  },
-];
-
 const UserMain = () => {
   // 마감 임박 공고
   const [endNotice, setEndNotice] = useState([]);
@@ -150,9 +133,6 @@ const UserMain = () => {
       }
     });
   };
-
-  // 발표 임박 공고 정제
-  const getNextNotice = () => {};
 
   return (
     <Wrapper>

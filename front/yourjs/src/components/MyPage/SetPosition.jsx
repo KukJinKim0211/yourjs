@@ -104,8 +104,10 @@ const SetPosition = () => {
   // 현재 유저의 관심 포지션을 조회한다
   const getUserPosition = () => {
     axiosInstance.get(apis.userSubject).then(response => {
-      setNickname(response.data[0].user.nickname);
-      setUserPosition(response.data[0].subject);
+      if (response.status === 200 && response.data.length > 0) {
+        setNickname(response.data[0].user.nickname);
+        setUserPosition(response.data[0].subject);
+      }
     });
   };
 

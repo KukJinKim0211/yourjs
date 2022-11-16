@@ -29,7 +29,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async function (error) {
-    console.log('Interceptor 호출 시작==============');
+    if (error.response.statue >= 500) return;
     const originalRequest = error.config;
     //console.log(error.response.status);
     // 토른 만료 에러 처리
@@ -62,7 +62,6 @@ axiosInstance.interceptors.response.use(
 
       useNavigate('/');
     }
-    console.log('Interceptor 호출 종료==============');
     return Promise.reject(error);
   },
 );

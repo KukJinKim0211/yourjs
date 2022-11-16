@@ -129,9 +129,14 @@ const TodayNoticeItem = ({ content, type }) => {
         }}
       >
         <TitleDiv type={type}>
-          <TitleText id="contentFont">
-            {content.coName}-{content.scheduleName}
-          </TitleText>
+          {type === 1 && (
+            <TitleText id="contentFont">{content.coName}</TitleText>
+          )}
+          {type === 2 && (
+            <TitleText id="contentFont">
+              {content.coName}-{content.scheduleName}
+            </TitleText>
+          )}
         </TitleDiv>
         <DateDiv type={type}>
           {type === 1 && (
