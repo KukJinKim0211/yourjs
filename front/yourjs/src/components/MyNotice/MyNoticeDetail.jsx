@@ -11,6 +11,7 @@ import MyNoticeSchedule from './MyNoticeSchedule.jsx';
 import { colors } from '../../common/color.js';
 import MyNoticeDate from './MyNoticeDate.jsx';
 
+
 const Wrapper = styled.div`
   height: fit-content;
   padding-bottom: 100px;
@@ -77,7 +78,8 @@ const ContentBox = styled.div`
   width: 100%;
   height: 400px;
   border-radius: 15px;
-  box-shadow: 0.5rem 0.5rem 0.5rem gray;
+  border : 3px solid ${colors.bsColor2};
+  /* box-shadow: 0.2rem 0.2rem 0.2rem ${colors.bsColor2}; */
   margin-bottom: 50px;
   margin-top: 10px;
 `;
@@ -97,8 +99,8 @@ const TagBox = styled.div`
 `;
 //컨텐츠 박스 제목
 const ContentTitle = styled.div`
-  border-bottom: 3px solid gray;
-
+  border-bottom: 3px solid ${colors.bsColor2};
+  
   padding-top: 5px;
   margin-left: 25px;
   width: 95%;
@@ -129,7 +131,7 @@ const ContentTitle2 = styled.input`
   align-items: center;
   border: none;
   font-size: 16px;
-  border-bottom: 3px solid gray;
+  border-bottom: 3px solid ${colors.bsColor2};
   background-color: whitesmoke;
   width: 95%;
   :focus {
@@ -152,8 +154,16 @@ const ContentContent2 = styled.textarea`
   }
 `;
 
-const DeleteButton = styled.div`
-  margin-left: 5px;
+const DeleteButton = styled.button`
+  margin-left: 30px;
+  width: 5%;
+  color: red;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  
+
 `;
 
 const NoticeNameInput = styled.input`
@@ -259,12 +269,19 @@ const LastSaveCancelButton = styled.button`
   background-color: ${props => props.backgroundColor};
   margin-left: ${props => props.marginLeft};
   border: none;
-  box-shadow: 0.5rem 0.5rem 0.5rem gray;
-  width: 10%;
-  height: 30px;
+  /* box-shadow: 0.5rem 0.5rem 0.5rem ${colors.bsColor3}; */
+  width: 15%;
+  height: 60px;
   cursor: pointer;
   margin-bottom: 10%;
+  border-radius: 15px;
+
+  &:hover {
+    background-color: ${colors.bsColor2};
+  }
 `;
+
+
 
 let countDate = 1;
 const MyNoticeDetail = () => {
@@ -294,7 +311,9 @@ const MyNoticeDetail = () => {
 
   
 
-  
+
+ 
+
   // +플러스 버튼 눌렀을때
   const handleDateClick = () => {
     const b = [...dateList];
@@ -331,8 +350,14 @@ const MyNoticeDetail = () => {
         setContentList(arr1);
         setFirstSelfData(response.data.intros);
         setDateList(response.data.schedules);
-
-        setNoticeData(response.data);
+        if (!response.data.progress ) {response.data.progress ="등록"
+        setNoticeData(response.data);}
+        
+        
+        else {
+          setNoticeData(response.data);
+        }
+        
       });
   };
 
@@ -459,21 +484,42 @@ const MyNoticeDetail = () => {
 
   //최종적으로 데이터 종합
   const handleTotalPushData = () => {
-    addSelfIndex.forEach(self => noticeData.intros.push(self)) // 자소서 추가한 것도 하나로 모으기
-
-    noticeData.schedules = totalData.schedules.sort(
+    addSelfIndex.forEach(self => self===undefined ? console.log("실패") : noticeData.intros.push(self)) // 자소서 추가한 것도 하나로 모으기
+    
+    
+    var test2=[]
+    
+    dateList.map((li) => {test2.push(li)
+      
+    })
+    const noundefined = test2.filter(data => data !==undefined)
+    
+    
+    
+    
+    
+    noticeData.schedules = noundefined.sort(
       (a, b) => new Date(a.scheduleDate) - new Date(b.scheduleDate),
     );
+
+    
+
+    // noticeData.schedules = totalData.schedules.sort(
+    //   (a, b) => new Date(a.scheduleDate) - new Date(b.scheduleDate),
+    // );
+
     noticeData.intros.forEach(
       intro => (intro.noticeSeq = noticeData.noticeSeq),
-    );
+    );  
     noticeData.schedules.forEach(schedule => delete schedule.scheduleSeq); // 스케줄 시퀀스 제거
     const notice2 = { ...noticeData };
     delete noticeData.intros; // 노티스 데이터 자소서 부분 뺸 것 수정하기
+
+    console.log(noticeData, '수정전 최종본');
     // console.log(notice2, '최종값');
     // console.log(notice2.intros, '자소서 기본 목록');
     // console.log(addSelfIndex, '자소서 추가 목록');
-    // console.log(noticeData, '수정전 최종본');
+    
 
     axiosInstance
       .patch(apis.notice, noticeData)
@@ -500,6 +546,38 @@ const MyNoticeDetail = () => {
 
     navigate('/notice');
   };
+
+
+  const handleDeleteSchedule = (index) =>   {
+    var test =[...dateList]
+    delete test[index]
+    setDateList(test)
+    
+  }
+
+  // const confirmCancel = () => {
+  //   const msg = "화면을 나가면 작성데이터가 사라집니다."
+  //   if (confirm(msg)!=0) {
+  //     console.log("컨펌확인")
+  //   } else {
+  //     console.log("컨펌취소확인")
+  //   }
+  // }
+  const onRemove = () => {
+
+    if (window.confirm("저장하지 않으면 작성내용이 사라집니다. 그래도 나가시겠습니까 ??")) {
+
+      navigate('/notice')
+
+    } else {
+
+      return
+
+    }
+
+  };
+
+  
 
   return (
     // 제목을 두개로 나누는 div
@@ -592,15 +670,21 @@ const MyNoticeDetail = () => {
           <button onClick={handleDateClick}>➕</button>
         </div>
 
-        {dateList.map((li, index) => (
-          <MyNoticeSchedule
-            pushData={li}
-            key={index}
-            li={li}
-            index={index}
-            getDateData={getDateData}
-            setDateDataee={setDateData}
-          ></MyNoticeSchedule>
+        {dateList?.map((li, index) => (
+            li === undefined ? ( <div key={index}></div>) : (<div key={index} style={{display:"flex" ,alignItems:"center"}}>
+            <MyNoticeSchedule
+              pushData={li}
+              
+              li={li}
+              index={index}
+              getDateData={getDateData}
+              setDateDataee={setDateData}
+            >
+              
+            </MyNoticeSchedule>
+            <DeleteButton id="titleFont" onClick={()=>{handleDeleteSchedule(index)}}>삭제</DeleteButton>
+            </div>)
+          
         ))}
         <br></br>
 
@@ -748,9 +832,9 @@ const MyNoticeDetail = () => {
               </div>
             ) : (
               <div>
-                <ContentTitle id="font_test2">{intros?.question}</ContentTitle>
+                <ContentTitle id="contentFont">{intros?.question}</ContentTitle>
                 <br></br>
-                <ContentContent id="font_test2">
+                <ContentContent id="contentFont">
                   {intros?.contents}
                 </ContentContent>
               </div>
@@ -807,8 +891,8 @@ const MyNoticeDetail = () => {
       <br></br>
       <br></br>
       <div style={{display:"flex", justifyContent:"center"}}>
-      <LastSaveCancelButton id="titleFont" backgroundColor={colors.bsColor2}  onClick={handleTotalPushData}>최종저장</LastSaveCancelButton>
-      <LastSaveCancelButton id="titleFont" backgroundColor="#FFE15D" marginLeft="30px" >취소</LastSaveCancelButton>
+      <LastSaveCancelButton id="titleFont"   onClick={handleTotalPushData}>저장</LastSaveCancelButton>
+      <LastSaveCancelButton onClick ={onRemove} id="titleFont" backgroundColor="#FFE15D" marginLeft="30px">취소</LastSaveCancelButton>
       </div>
     </Wrapper>
   );

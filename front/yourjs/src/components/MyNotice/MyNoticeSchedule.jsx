@@ -13,11 +13,12 @@ const TagBox = styled.div`
 `;
 const Select = styled.select`
   border: 1px solid rgba(0, 0, 0, 0.3);
+  font-size: 16px;
   border-radius: 5px;
-  margin-right: 10%;
+  margin-right: 5.5%;
   width: 60%;
   /* border-bottom: 3px solid gray; */
-  margin-left: 17%;
+  margin-left: 18%;
   option {
   }
 `;
@@ -38,8 +39,9 @@ const DateSelectBox = styled.div`
   display: flex;
   align-items: center;
   margin-top: 10px;
-  margin-left: 50px;
+  margin-left: 20px;
   margin-right: 15px;
+  
 `;
 
 const MyNoticeSchedule = ({ getDateData,setDateDataee,index ,pushData}) => {
@@ -133,10 +135,11 @@ const MyNoticeSchedule = ({ getDateData,setDateDataee,index ,pushData}) => {
             locale={ko}
             dateFormat="yyyy년 MM월 dd일"
             autoComplete="off"
+            
             id="contentFont"
             onChange={handleScheduleDate}
             selected={scheduleDate}
-            value={pushData?.scheduleDate}
+            value={pushData?.scheduleDate?.replace('-','년').replace('-','월').replace(' ','일').replace('년','년 ').replace('월','월 ').slice(0,pushData?.scheduleDate.length-6)}
           ></DatePicker>
         </DateSelectBox>
       </DateBox>

@@ -322,6 +322,20 @@ const MyNoticeList = () => {
     });
   };
 
+  const onRemove = () => {
+
+    if (window.confirm("정말로 삭제하시겠습니까 ?")) {
+
+      navigate('/notice')
+
+    } else {
+
+      return
+
+    }
+
+  };
+
   
 
 
@@ -427,10 +441,18 @@ const MyNoticeList = () => {
             <div style ={{display:"flex", justifyContent:"flex-end"}}>
             <DeleteButton id="titleFont" onClick ={(e)=>{
               e.stopPropagation();
-              alert('삭제하시겠습니까?')
-              axiosInstance .delete(apis.notice,{data:{"noticeSeq" : dummy.noticeSeq}})
+              if (window.confirm("정말로 삭제하시겠습니까 ?")) {
+                axiosInstance .delete(apis.notice,{data:{"noticeSeq" : dummy.noticeSeq}})
           .then(response => getNoticeData())
-          .catch(error => console.log(error))}}>삭제</DeleteButton>
+          .catch(error => console.log(error))
+          
+              } else {
+          
+                return
+          
+              }
+              
+              }}>삭제</DeleteButton>
             </div>
           </ItemList>
         ))}

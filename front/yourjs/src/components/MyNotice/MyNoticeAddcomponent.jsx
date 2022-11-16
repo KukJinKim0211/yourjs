@@ -15,9 +15,10 @@ const TagBox = styled.div`
 //태그 입력창
 const TagInputBox = styled.input`
   border: none;
-  border-bottom: 3px solid gray;
+  border-bottom: 3px solid ${colors.bsColor2};
   width: 100%;
   height: 40px;
+  padding-left: 10px;
   :focus {
     outline: none;
   }
@@ -47,8 +48,11 @@ const ContentTitle = styled.input`
   height: 50px;
   display: flex;
   align-items: center;
+  padding-left: 10px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
   border: none;
-  border-bottom: 3px solid gray;
+  border-bottom: 3px solid ${colors.bsColor2};
   background-color: whitesmoke;
   :focus {
     outline: none;
@@ -60,8 +64,10 @@ const ContentBox = styled.div`
   width: 100%;
   height: 420px;
   border-radius: 15px;
-  box-shadow: 0.5rem 0.5rem 0.5rem gray;
+  border : 3px solid ${colors.bsColor2};
+  /* box-shadow: 0.5rem 0.5rem 0.5rem gray; */
   margin-top: 10px;
+  
 `;
 
 const DeleteTagButton = styled.div`
@@ -79,6 +85,7 @@ const ContentContent = styled.textarea`
   border: none;
   width: 100%;
   min-height: 300px;
+  padding-left: 10px;
 
   :focus {
     outline: none;
@@ -99,7 +106,7 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
 
   
   useEffect(() => {
-    console.log(index,"컴포넌트안 출력")
+    
     settingNoticeData(index, {
       question: pushData.question,
       contents: pushData.contents,

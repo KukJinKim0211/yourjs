@@ -16,8 +16,9 @@ const Select = styled.select`
   border-radius: 5px;
   margin-right: 10%;
   width: 60%;
+  font-size: 16px;
   /* border-bottom: 3px solid gray; */
-  margin-left: 17.5%;
+  margin-left: 19%;
   option {
   }
 `;
@@ -38,7 +39,7 @@ const DateSelectBox = styled.div`
   display: flex;
   align-items: center;
   margin-top: 10px;
-  margin-left: 50px;
+  margin-left: 30px;
   margin-right: 15px;
 `;
 
@@ -85,8 +86,10 @@ const MyNoticeDate = ({ getDateData, li, index, setDateDataee }) => {
   
   return (
     <TagBox>
-      <Select onChange={handleScheduleName}
-      defaultValue="2차면접"
+      <Select 
+      id="titleFont"
+      onChange={handleScheduleName}
+      defaultValue="서류제출"
       >
         <option id="titleFont" value="서류제출">
           서류제출

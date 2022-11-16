@@ -220,6 +220,16 @@ const DeleteTagButton = styled.div`
   color: ${colors.bsColor4};
 `
 
+const DeleteButton = styled.button`
+  margin-left: 30px;
+  width: 5%;
+  color: red;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+`
+
 let countList = 1;
 let countDate = 1;
 const MyNoticeAdd = () => {
@@ -316,10 +326,12 @@ const MyNoticeAdd = () => {
   // 최종 버튼 눌렀을때 post axios
   const handleTotalData = () => {
     // const orderedDate = datetest.sort((a,b)=> new Date(a.date) - new Date(b.date))
-    
+    var test2 = []
+    dateList.map((li)=> test2.push(li))
+    const noundefined = test2.filter(data=>data !==undefined)
     
 
-    const orderedtotal = totalData.schedules.sort((a,b)=> new Date(a.scheduleDate)- new Date(b.scheduleDate))
+    const orderedtotal = noundefined.sort((a,b)=> new Date(a.scheduleDate)- new Date(b.scheduleDate))
     delete totalData.schedules;
     totalData.schedules = orderedtotal
     
@@ -389,6 +401,13 @@ const MyNoticeAdd = () => {
     const newArray = tag.filter(d => d !== tag1);
     setTag(newArray);
   };
+
+
+  const handleDeleteSchedule = (index) => {
+    var test = [...dateList]
+    delete test[index]
+    setDateList(test)
+  }
 
 
   return (
@@ -469,6 +488,7 @@ const MyNoticeAdd = () => {
       <UrlBox id="titleFont">
         <EachTitle>채용사이트</EachTitle>
         <InputBox
+          id="titleFont"
           placeholder="URL을 입력하세요"
           onChange={handleLinkInput}
         ></InputBox>
@@ -483,15 +503,18 @@ const MyNoticeAdd = () => {
         <br></br>
         
         {dateList.map((li, index) => (
-          <MyNoticeDate
-            li={li}
-            getDateData={getDateData}
-            key={index}
-            index={index}
-            setDateDataee={setDateData}
-          >
-            
-          </MyNoticeDate>
+          li === undefined ? (<div key={index}></div>) : (<div key={index} style={{display:"flex" ,alignItems:"center"}} >
+            <MyNoticeDate
+              li={li}
+              getDateData={getDateData}
+              
+              index={index}
+              setDateDataee={setDateData}
+            >
+              
+            </MyNoticeDate>
+            <DeleteButton onClick={()=>handleDeleteSchedule(index)}>삭제</DeleteButton>
+            </div>)
           
         )
         )}
@@ -528,13 +551,15 @@ const MyNoticeAdd = () => {
       <br></br>
 
       <div id="box"></div>
-      {list.map((li, index) => (
+      {list?.map((li, index) => (
+        
         <MyNoticeAddcomponent
           
           key={index}
           settingNoticeData={settingNoticeData}
           index={index}
         ></MyNoticeAddcomponent>
+        
       ))}
       <div
         style={{
