@@ -231,10 +231,6 @@ const ProjectEdit = ({dataArr, getServerData}) => {
                   <RightBoxTitle>내용</RightBoxTitle>
                   <RightBoxContent>{el.content?.split("\n").map((e, index) => <div key={index}>{e}</div>)}</RightBoxContent>
                 </RightBox>
-                <RightBox>
-                  <RightBoxTitle>파일</RightBoxTitle>
-                  <RightBoxContent></RightBoxContent>
-                </RightBox>
               </RightBoxes>
             </Content>
             ))}

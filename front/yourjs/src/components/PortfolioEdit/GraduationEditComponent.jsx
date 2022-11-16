@@ -27,8 +27,7 @@ const GraduationEditComponent = ({getServerData}) => {
   const [totCredit, settotCredit] = useState('');
   const [majorAvgCredit, setmajorAvgCredit] = useState('');
   const [totAvgCredit, settotAvgCredit] = useState('');
-  const [file, setFile] = useState('');
-  const [data, setData] = useState({schoolName: '', startDate: '', endDate: '', location: '', majorName: '', doubleMajorName: '', subMajorName: '', majorCredit: '', totCredit: '', majorAvgCredit: '', totAvgCredit: '', file: ''});
+  const [data, setData] = useState({schoolName: '', startDate: '', endDate: '', location: '', majorName: '', doubleMajorName: '', subMajorName: '', majorCredit: '', totCredit: '', majorAvgCredit: '', totAvgCredit: ''});
 
   const onChangeNameHandler = e => {
     setschoolName(e.target.value);
@@ -75,11 +74,6 @@ const GraduationEditComponent = ({getServerData}) => {
     setData({ ...data, totAvgCredit: totAvgCredit });
   };
 
-  const onChangeFileHandler = e => {
-    setFile(e.target.value);
-    setData({ ...data, file: file });
-  };
-
   const addButtonClicked = () => {
     const data = {
       schoolName: schoolName === "" ? null : schoolName,
@@ -93,7 +87,6 @@ const GraduationEditComponent = ({getServerData}) => {
       totCredit,
       majorAvgCredit,
       totAvgCredit,
-      file,
     }
 
     if (data.schoolName === null || data.startDate === null || data.location === null) {
@@ -115,7 +108,6 @@ const GraduationEditComponent = ({getServerData}) => {
           settotCredit('')
           setmajorAvgCredit('')
           settotAvgCredit('')
-          setFile('')
         }
       })
       .catch(error => console.log(error));}
@@ -297,14 +289,6 @@ const GraduationEditComponent = ({getServerData}) => {
             value={totAvgCredit}
             onChange={onChangetotAvgCreditHandler}
             placeholder='총 평점을 입력해 주세요'
-          ></BoxInput>
-        </RightBox>
-        <RightBox>
-          <RightBoxTitle>파일</RightBoxTitle>
-          <BoxInput 
-            value={file}
-            onChange={onChangeFileHandler}
-            placeholder='파일을 업로드해 주세요'
           ></BoxInput>
         </RightBox>
       </RightBoxes>

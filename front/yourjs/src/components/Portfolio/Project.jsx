@@ -44,7 +44,6 @@ const Project = () => {
                     <RightBoxTitle>내용</RightBoxTitle>
                     <RightBoxContent>{el.content?.split("\n").map((e, index) => <div key={index}>{e}</div>)}</RightBoxContent>
                   </RightBox>
-                  <RightBox>파일</RightBox>
                 </RightBoxes>
               </Content>
             ))}

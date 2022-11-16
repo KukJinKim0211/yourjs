@@ -13,6 +13,7 @@ import getMonth from 'date-fns/getMonth';
 import range from "lodash/range"
 
 
+
 const ProjectEditComponent = ({getServerData}) => {
   const years = range(getYear(new Date()), getYear(new Date())-40, -1);
   const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
@@ -22,8 +23,7 @@ const ProjectEditComponent = ({getServerData}) => {
   const [belongs, setBelongs] = useState('');
   const [tools, setTools] = useState('');
   const [content, setContent] = useState('');
-  const [file, setFile] = useState('');
-  const [data, setData] = useState({projectName: '', startDate: '', endDate: '', belongs: '', tools: '', content: '', file: ''});
+  const [data, setData] = useState({projectName: '', startDate: '', endDate: '', belongs: '', tools: '', content: ''});
 
   const onChangeNameHandler = e => {
     setProjectName(e.target.value);
@@ -45,11 +45,6 @@ const ProjectEditComponent = ({getServerData}) => {
     setData({ ...data, content: content });
   };
 
-  const onChangeFileHandler = e => {
-    setFile(e.target.value);
-    setData({ ...data, file: file });
-  };
-
   const addButtonClicked = () => {
     const data = {
       projectName: projectName === "" ? null : projectName,
@@ -58,7 +53,6 @@ const ProjectEditComponent = ({getServerData}) => {
       belongs: belongs === "" ? null : belongs,
       tools: tools === "" ? null : tools,
       content: content === "" ? null : content,
-      file,
     }
 
     if (data.projectName === null || data.startDate === null || data.belongs === null || data.tools === null || data.content === null) {
@@ -75,13 +69,10 @@ const ProjectEditComponent = ({getServerData}) => {
           setBelongs('')
           setTools('')
           setContent('')
-          setFile('')
         }
       })
       .catch(error => console.log(error));}
   };
-
-
 
   return (
     <Content>
@@ -220,14 +211,6 @@ const ProjectEditComponent = ({getServerData}) => {
             onChange={onChangeContentHandler}
             placeholder='프로젝트 내용을 입력해 주세요'
           ></BoxArea>
-        </RightBox>
-        <RightBox>
-          <RightBoxTitle>파일</RightBoxTitle>
-          <BoxInput 
-            value={file}
-            onChange={onChangeFileHandler}
-            placeholder='파일을 업로드해 주세요'
-          ></BoxInput>
         </RightBox>
       </RightBoxes>
     </Content>
