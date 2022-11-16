@@ -426,6 +426,7 @@ const MyNoticeAdd = () => {
           id="titleFont"
           placeholder="회사를 입력해 주세요"
           onChange={handleCompanyInput}
+          autoComplete="off"
         ></InputBox>
       </CompanyBox>
       <TitleNoticeBox id="titleFont">
@@ -434,6 +435,7 @@ const MyNoticeAdd = () => {
           onChange={handleNoticeInput}
           id="titleFont"
           placeholder="ex) 상반기 IT 채용 "
+          autoComplete="off"
         ></InputBox>
       </TitleNoticeBox>
       
@@ -443,6 +445,7 @@ const MyNoticeAdd = () => {
           id="titleFont"
           value={tagItem}
           placeholder="태그를 추가하세요 "
+          autoComplete="off"
           onKeyDown={keydownHandler}
           onChange={handleTagInput}
         />
@@ -490,6 +493,7 @@ const MyNoticeAdd = () => {
         <InputBox
           id="titleFont"
           placeholder="URL을 입력하세요"
+          autoComplete="off"
           onChange={handleLinkInput}
         ></InputBox>
       </UrlBox>

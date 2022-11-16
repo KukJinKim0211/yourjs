@@ -187,6 +187,7 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
           placeholder="태그를 추가하세요 "
           onKeyDown={keydownHandler}
           onChange={onChangeTagHandler}
+          autoComplete="off"
         />
         {/* <TagAddButton onClick={tagAdd}>추가</TagAddButton> */}
       </TagBox>
@@ -205,6 +206,7 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
             value={pushData.title}
             onChange={onChangeTitleHandler}
             placeholder="제목을 입력하세요"
+            autoComplete="off"
           ></ContentTitle>
           <br></br>
           <br />
@@ -213,6 +215,7 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
             id="contentFont"
             onChange={onChangeContentHandler}
             placeholder="내용을 입력하세요"
+            autoComplete="off"
           ></ContentContent>
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <CountBox id="contentFont">

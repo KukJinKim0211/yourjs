@@ -417,6 +417,15 @@ const MyNoticeDetail = () => {
 
   const onKeyDownHandler = e => {
     if (e.key === 'Enter') {
+      if (noticeData.noticeTag===null) {
+        setNoticeData({
+          ...noticeData,
+          
+          noticeTag:  noticeData.noticeTag!==null ?  noticeData.noticeTag + `, ${e.target.value}` : `${e.target.value}`,
+        });
+        setNoticeTagItem('');
+        return
+      }
       if (noticeData.noticeTag.split(',').length-1 === 4 ) {
         alert('5개까지 입력 가능합니다.')
         setNoticeTagItem('');
@@ -597,6 +606,7 @@ const MyNoticeDetail = () => {
           <TagInput
             id="titleFont"
             placeholder="공고 태그를 추가하세요"
+            autoComplete="off"
             value={noticeTagItem}
             onChange={e => setNoticeTagItem(e.target.value)}
             onKeyDown={onKeyDownHandler}
@@ -659,6 +669,7 @@ const MyNoticeDetail = () => {
             채용사이트 {' '}
             <UrlInput
               placeholder='채용사이트 URL을 입력하세요'
+              autoComplete="off"
               id="titleFont"
               onChange={handleLinkChange}
               defaultValue={noticeData.link}
@@ -730,13 +741,36 @@ const MyNoticeDetail = () => {
                   className="edittag"
                   id="titleFont"
                   placeholder="해당 자소서에 알맞은 태그를 입력하세요"
+                  autoComplete="off"
                   value={tagItem[index].value}
                   onKeyDown={e => {
                     if (e.key === 'Enter') {
+                      if (firstSelfData[index].introTag === undefined) {
+                        setFirstSelfData(
+                          firstSelfData.map((self, index2) =>
+                            
+                            index2 === index
+                            
+                              ? {
+                                  ...self,
+                                  introTag: self.introTag ? `${self.introTag}, ${e.target.value}` : `${e.target.value}`,
+                                }
+                              : self,
+                          ),
+                        );
+  
+                        setTagItem(
+                          tagItem.map((tag, index3) =>
+                            index3 === index ? { value: '' } : tag,
+                          ),
+                        );
+                        return
+                      }
                       if (firstSelfData[index].introTag.split(',').length-1 === 4) {
                         alert("5개까지 입력 가능합니다.")
                         return
                       }
+                      
                       else if (firstSelfData[index].introTag.indexOf(e.target.value) !== -1){
                         return
                       }
@@ -801,6 +835,7 @@ const MyNoticeDetail = () => {
             {contentList[index] ? (
               <div>
                 <ContentTitle2
+                  autoComplete="off"
                   id="contentFont"
                   defaultValue={intros?.question}
                   onChange={e => {
@@ -816,6 +851,7 @@ const MyNoticeDetail = () => {
                 <div></div>
                 <br></br>
                 <ContentContent2
+                  autoComplete="off"
                   id="contentFont"
                   defaultValue={intros?.contents}
                   onChange={e => {
