@@ -109,6 +109,8 @@ public class NoticeService {
                 noticeList.add(noticeGetRes);
             }
         }
+        if(noticeList.size()==0)
+            return null;
         return noticeList;
     }
 
