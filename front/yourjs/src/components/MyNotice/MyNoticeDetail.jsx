@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import MyNoticeAdd from './MyNoticeAdd.jsx';
 import '../../App.css';
 import MyNoticeAddcomponent from './MyNoticeAddcomponent.jsx';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -9,7 +8,7 @@ import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 import MyNoticeSchedule from './MyNoticeSchedule.jsx';
 import { colors } from '../../common/color.js';
-import MyNoticeDate from './MyNoticeDate.jsx';
+
 
 
 const Wrapper = styled.div`
@@ -17,10 +16,7 @@ const Wrapper = styled.div`
   padding-bottom: 100px;
   width: 60%;
 `;
-const TitleBox = styled.div`
-  display: flex;
-  align-items: center;
-`;
+
 
 //회사 정보 전달 박스
 const CompanyBox = styled.div`
@@ -36,6 +32,7 @@ const CompanyBox = styled.div`
 //태그 입력 창
 const TagInput = styled.input`
   border: none;
+  padding-left: 10px;
   border-bottom: 3px solid ${colors.bsColor2};
   width: 100%;
   margin-bottom: 5px;
@@ -56,6 +53,7 @@ const TagBigBox = styled.div`
 
 //자기소개서 작성창 여는 버튼
 const CreateButton = styled.button`
+
   width: 150px;
   height: 60px;
   background-color: ${colors.bsColor2};
@@ -63,15 +61,14 @@ const CreateButton = styled.button`
   border: 1px solid ${colors.bsColor3};
   color: rgba(0, 0, 0, 0.9);
   cursor: pointer;
+
+  &:hover {
+    background-color: ${colors.bsColor3};
+  }
+
+
 `;
 
-// 자기소개서 작성창 안에서 최종 작성 버튼.
-const CreateButton2 = styled.button`
-  width: 100px;
-  height: 40px;
-  background-color: #fdfdbd;
-  cursor: pointer;
-`;
 // 컨텐츠 박스
 const ContentBox = styled.div`
   background-color: whitesmoke;
@@ -83,20 +80,7 @@ const ContentBox = styled.div`
   margin-bottom: 50px;
   margin-top: 10px;
 `;
-//컨텐츠 박스 속 태그 박스
-const TagBox = styled.div`
-  background-color: #81c6e8;
-  border-radius: 15px;
-  height: 40px;
-  width: fit-content;
-  padding-left: 25px;
-  padding-right: 30px;
-  display: flex;
-  align-items: center;
-  font-weight: 700;
-  margin-right: 10px;
-  margin-top: 10px;
-`;
+
 //컨텐츠 박스 제목
 const ContentTitle = styled.div`
   border-bottom: 3px solid ${colors.bsColor2};
@@ -124,11 +108,13 @@ const ContentContent = styled.div`
 
 //컨텐츠 박스 제목 텍스트필드
 const ContentTitle2 = styled.input`
+  
   padding-top: 5px;
   margin-left: 25px;
   height: 50px;
   display: flex;
   align-items: center;
+  
   border: none;
   font-size: 16px;
   border-bottom: 3px solid ${colors.bsColor2};
@@ -160,6 +146,7 @@ const DeleteButton = styled.button`
   color: red;
   background-color: white;
   border: none;
+  margin-bottom: 20px;
   cursor: pointer;
   font-weight: 700;
   
@@ -170,6 +157,7 @@ const NoticeNameInput = styled.input`
   border : none;
   width : 100%;
   height :40px;
+  
   font-size: 24px;
   color : #3c4048;
   font-weight: 700;
@@ -209,11 +197,14 @@ const SaveCancelButton = styled.button`
   margin-right: ${props => props.marginRight};
   border: none;
   border-radius: 10px;
-  box-shadow: 0.5rem 0.5rem 0.5rem gray;
+  border : 1px solid ${colors.bsColor3};
   width: 10%;
   height: 30px;
   cursor: pointer;
   margin-bottom: 10%;
+  &:hover {
+    background-color: ${colors.bsColor3};
+  }
 `;
 // 태그 결과 값 나열
 const ResultTag = styled.div`
@@ -225,24 +216,25 @@ const ResultTag = styled.div`
   padding: 0px 5px 0px 8px;
   margin-right: 10px;
   height: 30px;
-  
-  background-color: ${colors.bsColor2};
+  background-color: ${props => props.backgroundColor};
   font-weight: 700;
   box-shadow: 0.1rem 0.1rem 0.1rem gray; ;
 `;
 
-const UrlInput = styled.input`  
+const UrlInput = styled.input`
+  padding-left: 10px;
   
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   margin-left: 110px;
-  width: 46%;
+  width: 45.3%;
   height: 40px;
   font-size: 18px;
   
 `;
 
 const Select = styled.select`
+  padding-left: 10px;
   border: none;
    border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
@@ -275,10 +267,28 @@ const LastSaveCancelButton = styled.button`
   height: 60px;
   cursor: pointer;
   margin-bottom: 10%;
-  border-radius: 15px;
+  border-radius: 10px;
+  border: 1px solid ${colors.bsColor3};
 
-  &:hover {
-    background-color: ${colors.bsColor2};
+   &:hover {
+    background-color: ${colors.bsColor3};
+  }
+`;
+
+const LastSaveCancel2Button = styled.button`
+  background-color: ${props => props.backgroundColor};
+  margin-left: ${props => props.marginLeft};
+  border: none;
+  /* box-shadow: 0.5rem 0.5rem 0.5rem ${colors.bsColor3}; */
+  width: 15%;
+  height: 60px;
+  cursor: pointer;
+  margin-bottom: 10%;
+  border-radius: 15px;
+  border: 1px solid #D6E4E5;
+
+   &:hover {
+    background-color: #D6E4E5;
   }
 `;
 
@@ -288,42 +298,30 @@ let countDate = 1;
 const MyNoticeDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  // 이부분에서 get 받았을떄 , 값 게시글 개수에 따라 true false 배열이 필요하다.
-  const [editFlag, setEditFlag] = useState([false, false, false]);
-  const [addFlag, setAddFlag] = useState(false);
   const [noticeData, setNoticeData] = useState([]);
   const [noticeTagItem, setNoticeTagItem] = useState('');
   const [tagItem, setTagItem] = useState([]);
-  const [tagItem2, setTagItem2] = useState('');
   const [totalData, setTotalData] = useState([]);
   const [contentList, setContentList] = useState([]);
   const [firstSelfData, setFirstSelfData] = useState([]); // 첫값 저장해놓는곳
   const [dateList, setDateList] = useState(['']);
-
-  const [addSelfList, setAddSelfList] = useState(['']);
   const [addSelfIndex, setAddSelfIndex] = useState([]);
 
-  // 수정 글자수 count
-  // const [editCount, setEditCount] = useState('');
+
 
   useEffect(() => {
     getDetailData();
   }, []);
-
-  
-
-
- 
-
   // +플러스 버튼 눌렀을때
   const handleDateClick = () => {
+
+    
+
     const b = [...dateList];
     b.push({ index: countDate });
     countDate = countDate + 1;
     setDateList(b);
 
-    // console.log(totalData, '토탈데이터');
-    // console.log(dateList, '데이터리스트');
   };
 
   useEffect(() => {
@@ -335,8 +333,6 @@ const MyNoticeDetail = () => {
     axiosInstance
       .get(apis.notice + `/${location.state.noticeSeq}`)
       .then(response => {
-        // console.log(response.data, '디테일 값 받아오기');
-        // console.log(response.data.intros.length);
         var arr1 = Array.apply(
           null,
           new Array(response.data.intros.length),
@@ -362,9 +358,6 @@ const MyNoticeDetail = () => {
       });
   };
 
-  // useEffect(() => {
-  //   console.log(noticeData,23423)
-  // }, [noticeData]);
 
   const getDateData = data => {
     setTotalData({ ...totalData, schedules: data });
@@ -406,11 +399,6 @@ const MyNoticeDetail = () => {
   const handleChangeCoName = (e) => {
     setNoticeData({...noticeData,coName:e.target.value})
   }
-
-  const handleTagChange = e => {
-    setTagItem(e.target.value);
-    // setTagItem(e.target.value);
-  };
 
   const handleProgressChange = e => {
     setNoticeData({ ...noticeData, progress: e.target.value });
@@ -512,11 +500,6 @@ const MyNoticeDetail = () => {
       (a, b) => new Date(a.scheduleDate) - new Date(b.scheduleDate),
     );
 
-    
-
-    // noticeData.schedules = totalData.schedules.sort(
-    //   (a, b) => new Date(a.scheduleDate) - new Date(b.scheduleDate),
-    // );
 
     noticeData.intros.forEach(
       intro => (intro.noticeSeq = noticeData.noticeSeq),
@@ -525,23 +508,19 @@ const MyNoticeDetail = () => {
     const notice2 = { ...noticeData };
     delete noticeData.intros; // 노티스 데이터 자소서 부분 뺸 것 수정하기
 
-    console.log(noticeData, '수정전 최종본');
-    // console.log(notice2, '최종값');
-    // console.log(notice2.intros, '자소서 기본 목록');
-    // console.log(addSelfIndex, '자소서 추가 목록');
     
 
     axiosInstance
       .patch(apis.notice, noticeData)
       .then(response => {
-        console.log(response, '1단계 성공');
+        
       })
       .catch(error => console.log(error));
 
     notice2.intros.forEach(intro =>
       axiosInstance
         .patch(apis.selfIntroduce, intro)
-        .then(response => console.log(response, '2단계 성공'))
+        .then(response => {})
         .catch(error => console.log(error)),
     );
 
@@ -550,7 +529,7 @@ const MyNoticeDetail = () => {
     addSelfIndex.forEach(self =>
       axiosInstance
         .post(apis.selfIntroduce, self)
-        .then(response => console.log(response, '3단계성공'))
+        .then(response => {})
         .catch(error => console.log(error)),
     );
 
@@ -574,25 +553,18 @@ const MyNoticeDetail = () => {
     
   }
 
-  // const confirmCancel = () => {
-  //   const msg = "화면을 나가면 작성데이터가 사라집니다."
-  //   if (confirm(msg)!=0) {
-  //     console.log("컨펌확인")
-  //   } else {
-  //     console.log("컨펌취소확인")
-  //   }
-  // }
+
   const onRemove = () => {
 
     if (window.confirm("저장하지 않으면 작성내용이 사라집니다. 그래도 나가시겠습니까 ??")) {
 
       navigate('/notice')
-
+      
     } else {
-
+    
       return
-
-    }
+    
+    } 
 
   };
 
@@ -604,10 +576,10 @@ const MyNoticeDetail = () => {
       <CompanyBox id="titleFont">
         <br></br>
         <br></br>
-        <NoticeCompanyInput id="titleFont" value={noticeData.coName} onChange={handleChangeCoName}></NoticeCompanyInput>
+        <NoticeCompanyInput id="titleFont" value={noticeData.coName||""} onChange={handleChangeCoName}></NoticeCompanyInput>
         
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-          <NoticeNameInput id="titleFont" value={noticeData.noticeName} onChange={handleChangeNoticeName}>
+          <NoticeNameInput id="titleFont" value={noticeData.noticeName||""} onChange={handleChangeNoticeName}>
           {/* <h2 style={{ width: '100%' }}> {noticeData.noticeName} </h2> */}
           </NoticeNameInput>
         </div>
@@ -617,15 +589,9 @@ const MyNoticeDetail = () => {
             id="titleFont"
             placeholder="공고 태그를 추가하세요"
             autoComplete="off"
-            value={noticeTagItem}
+            value={noticeTagItem || ""}
             onChange={e => setNoticeTagItem(e.target.value)}
             onKeyDown={onKeyDownHandler}
-            // onChange={(e)=> {
-            //   setTagItem(
-            //     tagItem.map((tag,index2) =>
-            //     index2 === 0 ? {...tag, value : e.target.value} : tag )
-            //   )
-            // }}
           ></TagInput>
           
         </div>
@@ -633,8 +599,9 @@ const MyNoticeDetail = () => {
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
           
           <TagBigBox>
-            {noticeData?.noticeTag?.split(', ').map((tag, index) => (
-              <ResultTag key={index}>
+            {noticeData?.noticeTag?.split(', ',-1).map((tag, index) => (
+              tag === '' ? <div key={index} ></div> :
+              <ResultTag backgroundColor={colors.bsColor2} key={index}>
                 # {tag}{' '}
                 <DeleteTagButton onClick={() => deleteTag(tag)}>
                   X
@@ -652,7 +619,7 @@ const MyNoticeDetail = () => {
             id ="titleFont"
             key={noticeData.progress}
             onChange={handleProgressChange}
-            defaultValue={noticeData.progress}
+            defaultValue={noticeData.progress || ""}
           >
             <option id="titleFont" value="등록">
               등록
@@ -682,7 +649,7 @@ const MyNoticeDetail = () => {
               autoComplete="off"
               id="titleFont"
               onChange={handleLinkChange}
-              defaultValue={noticeData.link}
+              defaultValue={noticeData.link||""}
             ></UrlInput>
           </h3>
         </div>
@@ -708,37 +675,6 @@ const MyNoticeDetail = () => {
           
         ))}
         <br></br>
-
-        {/* <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-          <TagInput
-            id="titleFont"
-            placeholder="공고 태그를 추가하세요"
-            value={noticeTagItem}
-            onChange={e => setNoticeTagItem(e.target.value)}
-            onKeyDown={onKeyDownHandler}
-            // onChange={(e)=> {
-            //   setTagItem(
-            //     tagItem.map((tag,index2) =>
-            //     index2 === 0 ? {...tag, value : e.target.value} : tag )
-            //   )
-            // }}
-          ></TagInput>
-          
-        </div>
-        
-        <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-          
-          <TagBigBox>
-            {noticeData?.noticeTag?.split(', ').map((tag, index) => (
-              <ResultTag key={index}>
-                #{tag}{' '}
-                <DeleteTagButton onClick={() => deleteTag(tag)}>
-                  X
-                </DeleteTagButton>
-              </ResultTag>
-            ))}
-          </TagBigBox>
-        </div> */}
       </CompanyBox>
       <br></br>
       <br></br>
@@ -752,7 +688,7 @@ const MyNoticeDetail = () => {
                   id="titleFont"
                   placeholder="해당 자소서에 알맞은 태그를 입력하세요"
                   autoComplete="off"
-                  value={tagItem[index].value}
+                  value={tagItem[index].value||""}
                   onKeyDown={e => {
                     if (e.key === 'Enter') {
                       if (firstSelfData[index].introTag === undefined) {
@@ -818,8 +754,9 @@ const MyNoticeDetail = () => {
                   }}
                 ></TagInput>
                 <div style={{ display: 'flex' }}>
-                  {intros?.introTag?.split(', ').map((tag, index4) => (
-                    <ResultTag key={index4} id="contentFont">
+                  {intros?.introTag?.split(', ',-1).map((tag, index4) => (
+                    tag === '' ? <div></div> :
+                    <ResultTag backgroundColor={colors.bsColor1} key={index4} id="contentFont">
                       # {tag}
                       <DeleteTagButton
                         onClick={() => deleteDetailTag(tag,index)}
@@ -833,7 +770,8 @@ const MyNoticeDetail = () => {
             ) : (
               <div style={{ display: 'flex' }}>
                 {intros?.introTag?.split(', ').map((tag, index) => (
-                  <ResultTag key={index} id="contentFont">
+                  tag === '' ? <div key={index} ></div> : 
+                  <ResultTag backgroundColor={colors.bsColor1} key={index} id="contentFont">
                     # {tag}
                   </ResultTag>
                 ))}
@@ -847,7 +785,7 @@ const MyNoticeDetail = () => {
                 <ContentTitle2
                   autoComplete="off"
                   id="contentFont"
-                  defaultValue={intros?.question}
+                  defaultValue={intros?.question||""}
                   onChange={e => {
                     setFirstSelfData(
                       firstSelfData.map((self, index2) =>
@@ -863,7 +801,7 @@ const MyNoticeDetail = () => {
                 <ContentContent2
                   autoComplete="off"
                   id="contentFont"
-                  defaultValue={intros?.contents}
+                  defaultValue={intros?.contents||""}
                   onChange={e => {
                     setFirstSelfData(
                       firstSelfData.map((self, index2) =>
@@ -873,7 +811,7 @@ const MyNoticeDetail = () => {
                       ),
                     );
                   }}
-                  // onChange = {handleChangeEditText}
+                  
                 ></ContentContent2>
               </div>
             ) : (
@@ -886,7 +824,6 @@ const MyNoticeDetail = () => {
               </div>
             )}
             <ContentCountBox>
-              {/* <div> 현재 글자수 : { editFlag[index] ? `${editCount.replace(/<br\s*\/?>/gm, '\n').length}` : `${dummy.content.replace(/<br\s*\/?>/gm, '\n').length}`}</div> */}
               <div>
                 현재 글자수 :{' '}
                 {intros?.contents.replace(/<br\s*\/?>/gm, '\n').length}
@@ -906,7 +843,7 @@ const MyNoticeDetail = () => {
               </ContentEditBox>
             ) : (
               <ContentEditBox>
-                <SaveCancelButton
+                <SaveCancelButton 
                   id="contentFont"
                   onClick={() => handleChangeEditFlag(index)}
                   marginRight="20px"
@@ -937,8 +874,8 @@ const MyNoticeDetail = () => {
       <br></br>
       <br></br>
       <div style={{display:"flex", justifyContent:"center"}}>
-      <LastSaveCancelButton id="titleFont"   onClick={handleTotalPushData}>저장</LastSaveCancelButton>
-      <LastSaveCancelButton onClick ={onRemove} id="titleFont" backgroundColor="#FFE15D" marginLeft="30px">취소</LastSaveCancelButton>
+      <LastSaveCancelButton className="savebutton" id="titleFont"   backgroundColor={colors.bsColor2} onClick={handleTotalPushData}>저장</LastSaveCancelButton>
+      <LastSaveCancel2Button className="cancelbutton" onClick ={onRemove} id="titleFont"  marginLeft="30px">취소</LastSaveCancel2Button>
       </div>
     </Wrapper>
   );

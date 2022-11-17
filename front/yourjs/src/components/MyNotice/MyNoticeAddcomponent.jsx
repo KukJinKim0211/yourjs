@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import axiosInstance from '../../common/customAxios';
-import { apis } from '../../common/apis';
 import { colors } from '../../common/color';
 
 
@@ -37,7 +35,7 @@ const ResultTag = styled.div`
   padding: 0px 7px 0px 7px;
   margin-right: 10px;
   height: 30px;
-  background-color: ${colors.bsColor2};
+  background-color: ${colors.bsColor1};
   font-weight: 700;
   box-shadow: 0.1rem 0.1rem 0.1rem gray; ;
 `;
@@ -53,21 +51,26 @@ const ContentTitle = styled.input`
   border-top-right-radius: 15px;
   border: none;
   border-bottom: 3px solid ${colors.bsColor2};
-  background-color: whitesmoke;
+  background-color: #F9F9F9;
   :focus {
     outline: none;
   }
 `;
 // content 담는 박스
 const ContentBox = styled.div`
-  background-color: whitesmoke;
+  background-color: #F9F9F9;
   width: 100%;
   height: 420px;
   border-radius: 15px;
-  border : 3px solid ${colors.bsColor2};
-  /* box-shadow: 0.5rem 0.5rem 0.5rem gray; */
+  box-shadow: 0rem 0.1rem 0.2rem gray;
   margin-top: 10px;
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &:hover {
+    background-color: #F5F5F5;
+    box-shadow: 0rem 0.2rem 0.4rem ${colors.bsColor4};
+  }
 `;
 
 const DeleteTagButton = styled.div`
@@ -81,27 +84,35 @@ const DeleteTagButton = styled.div`
 // 내용 적는 textarea
 const ContentContent = styled.textarea`
   box-sizing: border-box;
-  background-color: whitesmoke;
+  background-color: #F9F9F9;
   border: none;
   width: 100%;
-  min-height: 300px;
+  height: 320px;
   padding-left: 10px;
 
   :focus {
     outline: none;
   }
+  &:hover {
+    background-color: #F5F5F5;
+  }
 `;
 
 //글자수 세는 div
 const CountBox = styled.div`
-  margin-right: 1%;
+  width: 100%;
+  margin-bottom: 10px;
+  display: flex;
+  height: 40px;
+  text-align: end;
+  align-items: flex-end;
+  justify-content: end;
+  margin-right: 50px;
 `;
 
 const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
   const [tag, setTag] = useState([]);
   const [tagItem, setTagItem] = useState('');
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
   const [pushData, setPushData] = useState({ question: '', introTag: '', contents: '' });
 
   
@@ -114,10 +125,7 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
     });
   }, [pushData]);
 
-  // push data 값이 변할때 부모에게 값주는 effect
-  // useEffect(() => {
-  //   getChildData(pushData);
-  // }, [pushData]);
+
 
   // 태그 값이 변하는걸쳐다봄
   useEffect(() => {
@@ -161,14 +169,6 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
     setTagItem(e.target.value);
   };
 
-  // useEffect(() => {
-  //   setPushData({ ...pushData, question: title });
-  // }, [title]);
-
-  // useEffect(() => {
-  //   setPushData({ ...pushData, contents: content });
-  // }, [content]);
-
      // 태그 삭제
      const deleteTag = tag1 => {
       const newArray = tag.filter(d => d !== tag1);
@@ -183,13 +183,12 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
       <TagBox>
         <TagInputBox
           id="contentFont"
-          value={tagItem}
+          value={tagItem || ""}
           placeholder="태그를 추가하세요 "
           onKeyDown={keydownHandler}
           onChange={onChangeTagHandler}
-          autoComplete="off"
         />
-        {/* <TagAddButton onClick={tagAdd}>추가</TagAddButton> */}
+        
       </TagBox>
       <br></br>
       <div style={{ display: 'flex' }}>
@@ -206,23 +205,16 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
             value={pushData.title}
             onChange={onChangeTitleHandler}
             placeholder="제목을 입력하세요"
-            autoComplete="off"
           ></ContentTitle>
-          <br></br>
-          <br />
           <ContentContent
             value={pushData.contents}
             id="contentFont"
             onChange={onChangeContentHandler}
             placeholder="내용을 입력하세요"
-            autoComplete="off"
           ></ContentContent>
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <CountBox id="contentFont">
-              {' '}
-              현재 글자수 : {pushData.contents.replace(/<br\s*\/?>/gm, '\n').length}{' '}
-            </CountBox>
-          </div>
+          <CountBox id="contentFont">
+            현재 글자수 : {pushData.contents.replace(/<br\s*\/?>/gm, '\n').length || 0}{' '}
+          </CountBox>
         </ContentBox>
         <br></br>
       </div>

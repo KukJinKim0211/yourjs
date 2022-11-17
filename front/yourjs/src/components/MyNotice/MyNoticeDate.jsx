@@ -8,10 +8,12 @@ import dayjs from 'dayjs';
 
 const TagBox = styled.div`
   display: flex;
-  width : 1141.8px;
+  width: 1141.8px;
   margin-bottom: 20px;
+  
 `;
 const Select = styled.select`
+  padding-left: 8px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   margin-right: 10%;
@@ -24,10 +26,8 @@ const Select = styled.select`
 `;
 
 const EachTitle = styled.h3`
-  width : 100px;
-  
-`
-
+  width: 100px;
+`;
 
 const DateBox = styled.div`
   display: flex;
@@ -38,24 +38,16 @@ const DateBox = styled.div`
 const DateSelectBox = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-left: 30px;
   margin-right: 15px;
 `;
 
 const MyNoticeDate = ({ getDateData, li, index, setDateDataee }) => {
-  const [endDate, setEndDate] = useState('');
   const [dateData, setDateData] = useState('');
-  const [scheduleName, setScheduleName] = useState('');
   const [scheduleDate, setScheduleDate] = useState('');
 
-  const setDate = () => {};
-
-  // 부모로 값을 보낸다.
-
-  // useEffect(() => {
-  //   getDateData(dateData);
-  // }, [dateData]);
+  
 
   useEffect(() => {
     setDateDataee(index, {
@@ -66,8 +58,6 @@ const MyNoticeDate = ({ getDateData, li, index, setDateDataee }) => {
 
   // 할일 명 변경
   const handleScheduleName = e => {
-
-    
     setDateData({ ...dateData, scheduleName: e.target.value });
     getDateData(dateData);
   };
@@ -75,7 +65,6 @@ const MyNoticeDate = ({ getDateData, li, index, setDateDataee }) => {
   // 할일 날짜 변경
 
   const handleScheduleDate = e => {
-    
     setScheduleDate(e);
     setDateData({
       ...dateData,
@@ -83,14 +72,15 @@ const MyNoticeDate = ({ getDateData, li, index, setDateDataee }) => {
       index: li.index,
     });
   };
-  
+
   return (
     <TagBox>
-      <Select 
-      id="titleFont"
-      onChange={handleScheduleName}
-      defaultValue="서류제출"
+      <Select
+        id="titleFont"
+        onChange={handleScheduleName}
+        defaultValue="일정을 선택하세요"
       >
+        <option  disabled hidden>일정을 선택하세요</option>
         <option id="titleFont" value="서류제출">
           서류제출
         </option>
@@ -126,8 +116,9 @@ const MyNoticeDate = ({ getDateData, li, index, setDateDataee }) => {
       <DateBox id="titleFont">
         <EachTitle>해당일</EachTitle>
         <DateSelectBox>
+          
           <DatePicker
-            style={{ 'z-index': 999 }}
+            style={{ 'z-index': 999, backgroundColor: 'red' }}
             placeholderText="날짜를 선택해 주세요."
             locale={ko}
             dateFormat="yyyy년 MM월 dd일"
@@ -136,11 +127,10 @@ const MyNoticeDate = ({ getDateData, li, index, setDateDataee }) => {
             onChange={handleScheduleDate}
             selected={scheduleDate}
           ></DatePicker>
+          
         </DateSelectBox>
       </DateBox>
-      
     </TagBox>
-    
   );
 };
 

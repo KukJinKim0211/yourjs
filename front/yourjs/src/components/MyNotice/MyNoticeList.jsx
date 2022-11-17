@@ -1,17 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate,useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import '../../App.css';
 import { useState } from 'react';
-import MyNoticeDetail from './MyNoticeDetail';
 import { useEffect } from 'react';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 import { colors } from '../../common/color';
 import plusbutton from '../../img/plusbutton3.png';
 import { progressList } from '../../common/define';
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // 아이템 리스트
 const ItemList = styled.div`
@@ -31,7 +28,7 @@ const ItemList = styled.div`
     padding-top: 15px;
     /* padding-left: 35%; */
     font-size: 16px;
-    
+
     font-weight: 900;
     text-align: end;
   }
@@ -55,7 +52,34 @@ const ItemList = styled.div`
   cursor: pointer;
 `;
 
-// 검색 div
+const NoItemDiv = styled.div`
+  flex-direction: column;
+  width: 100%;
+  height: 500px;
+  font-size: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.5);
+`;
+
+const Add = styled.button`
+width:250px;
+height:80px;
+font-size: 40px;
+border-radius: 15px;
+border : 2px solid ${colors.bsColor3};
+background-color: ${colors.bsColor3};
+
+color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  :hover{
+    background-color: ${colors.bsColor4};
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+
+`
 
 // 태그를 담을 div box
 const TagBox = styled.div`
@@ -90,7 +114,7 @@ const SearchInput = styled.input`
   border: 2px solid ${colors.bsColor2};
   border-radius: 20px;
   padding-left: 10px;
-  
+
   :focus {
     outline: auto;
     outline-color: ${colors.bsColor3};
@@ -122,9 +146,6 @@ const ItemGrid = styled.div`
   margin-top: ${props => props.marginTop};
   font-size: 20px;
   background-color: ${props => props.backgrounColor};
-  /* -webkit-line-clamp : 1;
-  text-overflow: ellipsis;
-  word-wrap: break-word; */
 `;
 
 const ItemGrid2 = styled.div`
@@ -157,10 +178,6 @@ const ProgressSelect = styled.select`
   text-align: center;
   outline-color: ${colors.bsColor2};
   font-size: 18px;
-  
-
-  
-  
 `;
 
 // 자소서 작성 버튼
@@ -183,31 +200,6 @@ const CreateButton = styled.div`
   }
 `;
 
-// const ButtonImg = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   width: 200px;
-//   height: 200px;
-//   object-fit: cover;
-//   position: fixed;
-//   left: 85%;
-//   top: 63%;
-//   cursor: pointer;
-//   border-radius: 70%;
-//   background-color:  ${colors.bsColor2};
-// `;
-
-// const ButtonImg2 = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   width : 150px;
-//   height: 150px;
-//   border-radius: 70%;
-//   background-color: white;
-//   font-size: 100px;
-// `
 const ButtonImg3 = styled.img`
   width: 100px;
   height: 100px;
@@ -221,6 +213,7 @@ ButtonImg3.defaultProps = {
   src: plusbutton,
 };
 
+
 //테스트 버튼
 const TestButton = styled.button`
   position: fixed;
@@ -232,62 +225,61 @@ const TestButton = styled.button`
   background-color: red;
 `;
 
-
 const DeleteButton = styled.button`
   position: absolute;
-  bottom:0px;
-  width : 50px;
+  bottom: 0px;
+  width: 50px;
   height: 30px;
   font-size: 15px;
   font-weight: 600;
-  color : red;
-  border : none;
+  color: red;
+  border: none;
   background-color: ${colors.bsColor1};
-  cursor : pointer;
-`
+  cursor: pointer;
+`;
 
 const MyNoticeList = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const [searchData, setSearchData] = useState('');
-  const [detailFlag, setDetailFlag] = useState(false);
-  const [getState, setGetState] = useState(location?.state?.type)
+  const [getState, setGetState] = useState(location?.state?.type);
   const [dropdownState, setDropdownState] = useState(getState ? getState : '0');
   const [dummyData, setDummyData] = useState([]);
-  const [searchCard, setSearchCard] = useState([]);
-  
+  const [visible,setVisible] =useState('0');
 
   useEffect(() => {
     getNoticeData();
   }, [dropdownState]);
 
-  
   // axios get 하는 함수
   const getNoticeData = () => {
     axiosInstance
       .get(apis.notice)
       .then(response => {
-        console.log(response.data, 'get해온값');
+        if (response.data.length === 0) {
+          setVisible('1')
+        }
         
         if (Number(dropdownState) === 0) {
           const data = response.data;
+          
           setDummyData(data);
+          
+          console.log(response.data)
         } else {
           const data = response.data.filter(
-            data => data.progress === progressList[Number(dropdownState)-1],
+            data => data.progress === progressList[Number(dropdownState) - 1],
           );
           setDummyData(data);
         }
       })
-        .catch(error => console.log(error));
-    };
+      .catch(error => console.log(error));
+  };
 
   const handleDropdownState = e => {
     setDropdownState(e.target.value);
-    
   };
-
 
   // 검색 함수
 
@@ -298,10 +290,9 @@ const MyNoticeList = () => {
 
   // 검색 엔터 함수
   const keyDownSearch = e => {
-    
     if (e.key === 'Enter') {
-      handleSearch(searchData)
-      
+      handleSearch(searchData);
+
       setSearchData('');
     }
   };
@@ -309,153 +300,141 @@ const MyNoticeList = () => {
   // 검색 버튼 클릭 함수
 
   const onClickSearch = () => {
-    handleSearch(searchData)
+    handleSearch(searchData);
     setSearchData('');
   };
 
-  // 값을 디테일 페이지에 보내는 함수
-
-  const onLinkDetail = async e => {
-    e.preventDefault();
-    navigate('/notice/detail', {
-      state: {},
-    });
-  };
-
-  const onRemove = () => {
-
-    if (window.confirm("정말로 삭제하시겠습니까 ?")) {
-
-      navigate('/notice')
-
-    } else {
-
-      return
-
-    }
-
-  };
-
-  
-
-
-  const handleSearch = (search) => {
-    
-    
-    // dummyData.forEach(dummy => console.log(dummy))\
-    
+  const handleSearch = search => {
     let searchForm = [];
-    dummyData.forEach((dummy,index)=> dummy.noticeTag.indexOf(search) !== -1 ?  searchForm.push(dummy) : search)
-    
-    setDummyData(searchForm)
-    
-    // dummyData?.map((dummy,index) => dummy.noticeTag.indexOf(search) !== -1 ? setDummyData({...dummyData,dummy}) : console.log(dummy) )
-  }
+    dummyData.forEach((dummy, index) =>
+      dummy.noticeTag.indexOf(search) !== -1 ? searchForm.push(dummy) : search,
+    );
+
+    setDummyData(searchForm);
+  };
 
   return (
     <Wrapper>
       <br></br>
       <br></br>
-      
-      <div style={{display:"flex", justifyContent:"space-around"}}>
-      <ProgressSelect
-        id="contentFont"
-        defaultValue={getState ? getState : 0}
-        onChange={handleDropdownState}
-      > 
-        
-        <option value="0">전체보기</option>
-        <option value="1">등록</option>
-        <option value="2">진행중</option>
-        <option value="3">서류탈락</option>
-        <option value="4">코딩테스트탈락</option>
-        <option value="5">면접탈락</option>
-        <option value="6">최종합격</option>
-        
-      </ProgressSelect>
-      <Label>
-        <SearchInput
-          onChange={handleChangeSearch}
-          value={searchData}
-          onKeyDown={keyDownSearch}
-          placeholder="태그를 검색하세요."
-        ></SearchInput>
-        <SearchButton className="searchbutton" onClick={onClickSearch}>
-          🔍
-        </SearchButton>
-      </Label>
-      
-      <ProgressSelect style={{visibility:"hidden"}}></ProgressSelect>
+
+      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        <ProgressSelect
+          id="contentFont"
+          defaultValue={getState ? getState : 0}
+          onChange={handleDropdownState}
+        >
+          <option value="0">전체보기</option>
+          <option value="1">등록</option>
+          <option value="2">진행중</option>
+          <option value="3">서류탈락</option>
+          <option value="4">코딩테스트탈락</option>
+          <option value="5">면접탈락</option>
+          <option value="6">최종합격</option>
+        </ProgressSelect>
+        <Label>
+          <SearchInput
+            onChange={handleChangeSearch}
+            value={searchData}
+            onKeyDown={keyDownSearch}
+            placeholder="태그를 검색하세요."
+          ></SearchInput>
+          <SearchButton className="searchbutton" onClick={onClickSearch}>
+            🔍
+          </SearchButton>
+        </Label>
+
+        <ProgressSelect style={{ visibility: 'hidden' }}></ProgressSelect>
       </div>
       <br></br>
       <br></br>
 
       <ListTotal>
-        
-        {dummyData?.map((dummy, index) => (
-          
-          <ItemList
-            key={index}
-            onClick={() => {
-              navigate('/notice/detail', {
-                state: {
-                  noticeSeq: dummy.noticeSeq,
-                },
-              });
-            }}
-          >
+          {visible === '1' ? <NoItemDiv id="contentFont">
+            <div style={{marginBottom:"30px"}}>등록된 공고가 없습니다.</div>
             
-            <ItemGrid className="progress" id="titleFont" width="100%">
-              {dummy.progress}
-              <div style={{width:"10px"}}></div>
-            </ItemGrid>
-            <ItemGrid
-              className="coName"
-              id="contentFont"
-              width="250px"
-              marginTop="40px"
+            <Link to="/notice/add" style={{ textDecoration: 'none' }}>
+            <Add id="contentFont">등록하기</Add>
+            
+            </Link>
+          </NoItemDiv> : <div style={{display:"none"}}></div> }
+          
+        
+          {dummyData?.map((dummy, index) => (
+            <ItemList
+              key={index}
+              onClick={() => {
+                navigate('/notice/detail', {
+                  state: {
+                    noticeSeq: dummy.noticeSeq,
+                  },
+                });
+              }}
             >
-              {dummy.coName.length >=20 ? dummy.coName.substr(0,20) + '...' : dummy.coName}
-              
-            </ItemGrid>
-
-            <ItemGrid
-              className="noticeName"
-              id="contentFont"
-              width="250px"
-              marginTop="20px"
-            >
-              {dummy.noticeName.length >=20 ? dummy.noticeName.substr(0,20) + '...' : dummy.noticeName}
-            </ItemGrid>
-            <br></br>
-            <TagBox>
-              {dummy?.noticeTag?.split(', ').map((tag, index) => (
-                <TagItemBox className="tag" id="contentFont" key={index}>
-                  # {tag.length >=8 ? tag.substr(0,8)+'...' : tag}
-                </TagItemBox>
-              ))}
-            </TagBox>
-            <br></br>
-
-            <br></br>
-            <div style ={{display:"flex", justifyContent:"flex-end"}}>
-            <DeleteButton id="titleFont" onClick ={(e)=>{
-              e.stopPropagation();
-              if (window.confirm("정말로 삭제하시겠습니까 ?")) {
-                axiosInstance .delete(apis.notice,{data:{"noticeSeq" : dummy.noticeSeq}})
-          .then(response => getNoticeData())
-          .catch(error => console.log(error))
-          
-              } else {
-          
-                return
-          
-              }
-              
-              }}>삭제</DeleteButton>
-            </div>
-          </ItemList>
-        ))}
+              <ItemGrid className="progress" id="titleFont" width="100%">
+                {dummy.progress}
+                <div style={{ width: '10px' }}></div>
+              </ItemGrid>
+              <ItemGrid
+                className="coName"
+                id="contentFont"
+                width="250px"
+                marginTop="40px"
+              >
+                {dummy.coName.length >= 20
+                  ? dummy.coName.substr(0, 20) + '...'
+                  : dummy.coName}
+              </ItemGrid>
+  
+              <ItemGrid
+                className="noticeName"
+                id="contentFont"
+                width="250px"
+                marginTop="20px"
+              >
+                {dummy.noticeName.length >= 20
+                  ? dummy.noticeName.substr(0, 20) + '...'
+                  : dummy.noticeName}
+              </ItemGrid>
+              <br></br>
+              <TagBox>
+                {dummy?.noticeTag?.split(', ').map((tag, index) =>
+                  tag === '' ? (
+                    <div key={index}></div>
+                  ) : (
+                    <TagItemBox className="tag" id="contentFont" key={index}>
+                      # {tag.length >= 8 ? tag.substr(0, 8) + '...' : tag}
+                    </TagItemBox>
+                  ),
+                )}
+              </TagBox>
+              <br></br>
+  
+              <br></br>
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <DeleteButton
+                  id="titleFont"
+                  onClick={e => {
+                    e.stopPropagation();
+                    if (window.confirm('정말로 삭제하시겠습니까 ?')) {
+                      axiosInstance
+                        .delete(apis.notice, {
+                          data: { noticeSeq: dummy.noticeSeq },
+                        })
+                        .then(response => getNoticeData())
+                        .catch(error => console.log(error));
+                    } else {
+                      return;
+                    }
+                  }}
+                >
+                  삭제
+                </DeleteButton>
+              </div>
+            </ItemList>
+          ))}
+        
+        
       </ListTotal>
       <Link to="/notice/add" style={{ textDecoration: 'none' }}>
         {/* <ButtonImg><ButtonImg2>➕</ButtonImg2>

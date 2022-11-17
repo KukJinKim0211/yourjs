@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import axiosInstance from '../../common/customAxios';
-import { apis } from '../../common/apis';
+
 
 
 const Wrapper = styled.div``;
@@ -21,10 +20,7 @@ const TagInputBox = styled.input`
     outline: none;
   }
 `;
-//태그 추가 버튼
-const TagAddButton = styled.button`
-  width: 10%;
-`;
+
 // 태그 완성시 표시되는 부분
 const ResultTag = styled.div`
   min-width: 40px;
@@ -88,19 +84,6 @@ const MyNoticePlus = ({ settingNoticeData,index}) => {
   const [content, setContent] = useState('');
   const [pushData, setPushData] = useState({ question: '', introTag: '', contents: '' });
 
-  
-//   useEffect(() => {
-//     settingNoticeData(index, {
-//       question: pushData.question,
-//       contents: pushData.contents,
-//       introTag : pushData.introTag
-//     });
-//   }, [pushData]);
-
-  // push data 값이 변할때 부모에게 값주는 effect
-  // useEffect(() => {
-  //   getChildData(pushData);
-  // }, [pushData]);
 
   // 태그 값이 변하는걸쳐다봄
   useEffect(() => {

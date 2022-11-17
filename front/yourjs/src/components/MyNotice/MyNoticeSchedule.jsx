@@ -12,13 +12,14 @@ const TagBox = styled.div`
   margin-bottom: 20px;
 `;
 const Select = styled.select`
+  padding-left: 10px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   font-size: 16px;
   border-radius: 5px;
   margin-right: 5.5%;
   width: 60%;
   /* border-bottom: 3px solid gray; */
-  margin-left: 18%;
+  margin-left: 18.5%;
   option {
   }
 `;
@@ -38,16 +39,16 @@ const DateBox = styled.div`
 const DateSelectBox = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-left: 20px;
   margin-right: 15px;
   
 `;
 
 const MyNoticeSchedule = ({ getDateData,setDateDataee,index ,pushData}) => {
-  const [endDate, setEndDate] = useState('');
+  
   const [dateData, setDateData] = useState('');
-  const [scheduleName, setScheduleName] = useState('');
+  
   const [scheduleDate, setScheduleDate] = useState('');
 
 
@@ -91,8 +92,8 @@ const MyNoticeSchedule = ({ getDateData,setDateDataee,index ,pushData}) => {
     <TagBox>
       <Select onChange={handleScheduleName}
       id="titleFont"
-      key={pushData?.scheduleName ?  pushData.scheduleName : "서류제출"}
-      value={pushData?.scheduleName ? pushData.scheduleName : "서류제출"} >
+      key={pushData?.scheduleName ?  pushData.scheduleName || "": "서류제출"}
+      value={pushData?.scheduleName ? pushData.scheduleName || "": "서류제출"} >
         
         <option id="titleFont" value="서류제출">
           서류제출

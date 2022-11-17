@@ -153,11 +153,34 @@ const SaveCancelButton = styled.button`
   background-color: ${props => props.backgroundColor};
   margin-left: ${props => props.marginLeft};
   border: none;
-  box-shadow: 0.5rem 0.5rem 0.5rem gray;
-  width: 10%;
-  height: 30px;
+  /* box-shadow: 0.5rem 0.5rem 0.5rem ${colors.bsColor3}; */
+  width: 15%;
+  height: 60px;
   cursor: pointer;
   margin-bottom: 10%;
+  border-radius: 10px;
+  border: 1px solid ${colors.bsColor3};
+
+   &:hover {
+    background-color: ${colors.bsColor3};
+  }
+`;
+
+const SaveCancelButton2 = styled.button`
+  background-color: ${props => props.backgroundColor};
+  margin-left: ${props => props.marginLeft};
+  border: none;
+  /* box-shadow: 0.5rem 0.5rem 0.5rem ${colors.bsColor3}; */
+  width: 15%;
+  height: 60px;
+  cursor: pointer;
+  margin-bottom: 10%;
+  border-radius: 10px;
+  border: 1px solid #D6E4E5;
+
+   &:hover {
+    background-color: #D6E4E5;
+  }
 `;
 
 const TagInputBox = styled.input`
@@ -225,6 +248,7 @@ const DeleteButton = styled.button`
   width: 5%;
   color: red;
   background-color: white;
+  margin-bottom: 20px;
   border: none;
   cursor: pointer;
   font-weight: 700;
@@ -237,36 +261,18 @@ const MyNoticeAdd = () => {
   const navigate = useNavigate();
   const [list, setList] = useState(['']);
   const [dateList, setDateList] = useState(['']); // 일정 등록 컴포넌트 생성을 위한 list
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [companyInput, setCompanyInput] = useState('');
   const [selfData, setSelfData] = useState([]);
-  const [schedule, setSchedule] = useState({
-    scheduleName: '',
-    scheduleDate: '',
-  });
-  // const [formData,setFormData] = useState([])
-
   const [totalData, setTotalData] = useState({progress:"등록"});
   const [tag, setTag] = useState([]);
   const [tagItem, setTagItem] = useState('');
 
   const onClick = () => {
-    // 수정 필요 ( 자식 값 안가져옴 - > 헛짓중 )
+
     const a = [...list];
-
     a.push({ index: countList });
-
     countList = countList + 1;
-
     setList(a);
   };
-
-  // useEffect(() => {
-    
-  // }, [list]);
-
-  // useEffect(() => {}, [totalData]);
 
   
 
@@ -308,8 +314,6 @@ const MyNoticeAdd = () => {
     const newArray2 = [...list];
     newArray2[index] = noticeData;
     setList(newArray2);
-    // setSelfData({ ...selfData, noticeData: list });
-    // setTotalData({ ...totalData, noticeData: list });
   };
   useEffect(() => { setSelfData({ ...selfData, noticeData: list });}, [list]);
   
@@ -325,7 +329,6 @@ const MyNoticeAdd = () => {
   };
   // 최종 버튼 눌렀을때 post axios
   const handleTotalData = () => {
-    // const orderedDate = datetest.sort((a,b)=> new Date(a.date) - new Date(b.date))
     var test2 = []
     dateList.map((li)=> test2.push(li))
     const noundefined = test2.filter(data=>data !==undefined)
@@ -409,6 +412,20 @@ const MyNoticeAdd = () => {
     setDateList(test)
   }
 
+  const onRemove = () => {
+
+    if (window.confirm("저장하지 않으면 작성내용이 사라집니다. 그래도 나가시겠습니까 ??")) {
+
+      navigate('/notice')
+      
+    } else {
+    
+      return
+    
+    } 
+
+  };
+
 
   return (
     <Wrapper>
@@ -449,7 +466,6 @@ const MyNoticeAdd = () => {
           onKeyDown={keydownHandler}
           onChange={handleTagInput}
         />
-        {/* <TagAddButton onClick={tagAdd}>추가</TagAddButton> */}
       </TagBox>
 
       <div style={{ display: 'flex' }}>
@@ -507,7 +523,8 @@ const MyNoticeAdd = () => {
         <br></br>
         
         {dateList.map((li, index) => (
-          li === undefined ? (<div key={index}></div>) : (<div key={index} style={{display:"flex" ,alignItems:"center"}} >
+          li === undefined ? (<div key={index}></div>) : (<div key={index} style={{display:"flex" , }} >
+            
             <MyNoticeDate
               li={li}
               getDateData={getDateData}
@@ -521,36 +538,10 @@ const MyNoticeAdd = () => {
             </div>)
           
         )
+
         )}
       
       <br></br>
-
-      {/* <DateBox id="titleFont">
-        <h3>시작일</h3>
-        <DateSelectBox>
-          <DatePicker
-            locale={ko}
-            dateFormat="yyyy년 MM월 dd일"
-            autoComplete='off'
-            id="contentFont"
-            onChange={date => setStartDate(date)}
-            selected={startDate}
-          ></DatePicker>
-        </DateSelectBox>
-
-          <h3>마감일</h3>
-          <DateSelectBox>
-          <DatePicker
-            locale={ko}
-            dateFormat="yyyy년 MM월 dd일"
-            autoComplete='off'
-            id="contentFont"
-            onChange={date => setEndDate(date)}
-            selected={endDate}
-          ></DatePicker>
-        </DateSelectBox>
-      </DateBox> */}
-
       <br></br>
       <br></br>
 
@@ -577,18 +568,19 @@ const MyNoticeAdd = () => {
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <SaveCancelButton
           id="contentFont"
-          backgroundColor="#81C6E8"
+          backgroundColor={colors.bsColor2}
           onClick={handleTotalData}
         >
           저장
         </SaveCancelButton>{' '}
-        <SaveCancelButton
+        <SaveCancelButton2
           id="contentFont"
-          backgroundColor="#FF6464"
+          
           marginLeft="30px"
+          onClick={onRemove}
         >
           취소
-        </SaveCancelButton>
+        </SaveCancelButton2>
       </div>
     </Wrapper>
   );
