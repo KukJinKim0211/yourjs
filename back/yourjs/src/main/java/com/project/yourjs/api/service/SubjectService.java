@@ -37,10 +37,19 @@ public class SubjectService {
     public List<SubjectUserRes> getAllSubjectUsers(String userId) {
         User user = userRepository.findByUserId(userId).get();
         Subject subject = userSubjectRepository.findByUser(user).getSubject();
+        if (subject == null) {
+            return null;
+        }
         List<UserSubject> userSubjects = userSubjectRepository.findAllBySubject(subject);
+        if (userSubjects == null) {
+            return null;
+        }
         List<User> users = new ArrayList<>();
         for (UserSubject userSubject : userSubjects) {
             users.add(userSubject.getUser());
+        }
+        if (users.size() == 0) {
+            return null;
         }
         List<SubjectUserRes> subjectUserResList = new ArrayList<>();
         for (User tempUser : users) {
