@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "subject")
 public class Subject {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "subject_seq")
     private Long subjectSeq;
 

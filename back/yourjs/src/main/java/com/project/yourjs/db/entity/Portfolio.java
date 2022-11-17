@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class Portfolio {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "portfolio_seq")
     private Long portfolioSeq;
 

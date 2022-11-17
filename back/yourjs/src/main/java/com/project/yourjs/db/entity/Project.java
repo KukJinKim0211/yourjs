@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Table(name = "project")
 public class Project {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_seq")
     private Long projectSeq;
 

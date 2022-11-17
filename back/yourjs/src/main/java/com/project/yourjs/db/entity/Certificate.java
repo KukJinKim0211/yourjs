@@ -1,18 +1,31 @@
 package com.project.yourjs.db.entity;
 
-import com.project.yourjs.common.dto.CareerDto;
-import com.project.yourjs.common.dto.CertificateDto;
-import lombok.*;
+import static javax.persistence.FetchType.LAZY;
+
+import java.sql.Date;
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.*;
-import java.sql.Date;
-import java.time.LocalDateTime;
+import com.project.yourjs.common.dto.CertificateDto;
 
-import static javax.persistence.FetchType.LAZY;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
