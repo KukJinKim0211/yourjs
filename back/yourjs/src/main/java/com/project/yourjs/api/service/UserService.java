@@ -257,15 +257,15 @@ public class UserService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id="+clientId);
-            sb.append("&redirect_uri=https://yourjs.co.kr/login/kakao");
-            // sb.append("&redirect_uri=http://localhost:3000/login/kakao");
+            // sb.append("&redirect_uri=https://yourjs.co.kr/login/kakao");
+            sb.append("&redirect_uri=http://localhost:3000/login/kakao");
             sb.append("&code=" + code);
             sb.append("&client_secret="+clientSecret);
             bw.write(sb.toString());
             // bw.flush();
 
             int responseCode = conn.getResponseCode();
-            // System.out.println("responseCode : " + responseCode);
+            System.out.println("responseCode : " + responseCode);
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
             String result = "";
