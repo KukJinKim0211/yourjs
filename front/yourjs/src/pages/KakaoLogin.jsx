@@ -15,8 +15,11 @@ const KakaoLogin = props => {
     // 리다이렉트 된 페이지에서 인가코드 꺼내오기
     const code = new URL(window.location.href).searchParams.get('code');
     axios.get(SERVER_IP + apis.kakaoLogin + `?code=${code}`).then(response => {
+      // console.log(response);
+      // alert('AA');
       if (response.status === 200 && response.data !== '') {
-        console.log('카카오로그인성공');
+        console.log(response);
+        alert('WEFWE');
         // 로그인 시 발급받은 Access/Refresh Token을 웹 쿠키에 저장
         setCookie('refresh_Token', response.data.refreshToken);
         localStorage.setItem('autoLogin', true);
@@ -24,6 +27,7 @@ const KakaoLogin = props => {
         localStorage.setItem('autoLogin', false);
         dispatch({ type: 'login', nickname: response.data.nickname });
         sessionStorage.setItem('selectItem', 0);
+        sessionStorage.setItem('nickname', response.data.nickname);
         sessionStorage.setItem('loginState', true);
         sessionStorage.setItem('accessToken', response.data.accessToken);
         navigate('/main');

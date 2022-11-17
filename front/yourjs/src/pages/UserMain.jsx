@@ -144,7 +144,7 @@ const UserMain = () => {
         <div style={{ width: '2%' }} />
         <TodayNotice
           icon={faHourglassEnd}
-          title="마감임박공고"
+          title="서류 제출 일정"
           data={endNotice}
           type={1}
         />

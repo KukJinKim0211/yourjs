@@ -4,17 +4,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../img/logo.png';
 import { colors } from '../common/color';
-import {
-  KAKAO_AUTH_URL,
-  NAVER_CLIENT_ID,
-  NAVER_REDIRECT_URI,
-} from '../common/login';
+import { KAKAO_AUTH_URL } from '../common/login';
 import kakao_login_button from '../img/kakao_login_button.png';
 import naver_login_button from '../img/naver_login_button.png';
 import axios from 'axios';
 import { SERVER_IP, apis } from '../common/apis';
 import { setCookie, getCookie } from '../common/cookie';
-import axiosInstance from '../common/customAxios';
 import { useDispatch } from 'react-redux';
 
 const Wrapper = styled.div`
@@ -56,6 +51,7 @@ LogoImage.defaultProps = {
 const LabelText = styled.label`
   font-size: 20px;
   margin-top: 8%;
+  margin-bottom: 2%;
 `;
 
 const FormInput = styled.input`
@@ -84,9 +80,14 @@ const FormInput = styled.input`
 `;
 
 const CustomCheckBox = styled.input`
-  background-color: red;
   width: 25px;
   height: 25px;
+  accent-color: ${colors.bsColor3};
+
+  &:checked {
+    background-color: ${colors.bsColor0};
+    color: white;
+  }
 `;
 
 const LoginButton = styled.button`
@@ -113,51 +114,21 @@ KakaoButtonImage.defaultProps = {
   src: kakao_login_button,
 };
 
-const NaverButtonImage = styled.img`
-  padding-top: 3%;
-  width: 100%;
-  height: 100%;
-  object-fit: fill;
-  cursor: pointer;
-`;
-
-NaverButtonImage.defaultProps = {
-  src: naver_login_button,
-};
-
-const NaverIdLogin = styled.div`
-  display: none;
-`;
-
 const Login = () => {
-  const { naver } = window;
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [autoLogin, setAutoLogin] = useState(false);
 
   const dispatch = useDispatch();
 
-  // const naverRef = useRef();
   const navigate = useNavigate();
-  // const initializeNaverLogin = () => {
-  //   const naverLogin = new naver.LoginWithNaverId({
-  //     clientId: NAVER_CLIENT_ID,
-  //     callbackUrl: NAVER_REDIRECT_URI,
-  //     isPopup: false,
-  //     loginButton: { color: 'green', type: 2, height: '70' },
-  //   });
-  //   naverLogin.init();
-  // };
+
   const getToken = () => {
     const token = window.location.href.split('=')[1].split('&')[0];
   };
   const userAccessToken = () => {
     window.location.href.includes('access_token') && getToken();
   };
-
-  // const handleNaverLogin = () => {
-  //   naverRef.current.children[0].click();
-  // };
 
   const loginButtonClicked = () => {
     // 아이디 유효성 체크
@@ -178,7 +149,6 @@ const Login = () => {
           dispatch({ type: 'selected', select: 0 });
           sessionStorage.setItem('selectItem', 0);
           sessionStorage.setItem('nickname', response.data.nickname);
-          sessionStorage.setItem('selectItem', 0);
           sessionStorage.setItem('loginState', true);
           sessionStorage.setItem('accessToken', response.data.accessToken);
           navigate('/main');
@@ -187,15 +157,7 @@ const Login = () => {
       .catch(error => console.log(error));
   };
 
-  const kakao = async () => {
-    const response = await axios
-      .get(KAKAO_AUTH_URL)
-      .then(response => console.log(response));
-    console.log(response);
-  };
-
   useEffect(() => {
-    // initializeNaverLogin();
     userAccessToken();
   });
 
@@ -253,11 +215,6 @@ const Login = () => {
           <a href={KAKAO_AUTH_URL} style={{ width: '100%', height: '75px' }}>
             <KakaoButtonImage />
           </a>
-          {/* <KakaoButtonImage onClick={() => kakao()} /> */}
-          {/* <a style={{ width: '49%', height: '65px' }}>
-            <NaverIdLogin ref={naverRef} id="naverIdLogin" />
-            <NaverButtonImage onClick={handleNaverLogin} />
-          </a> */}
         </div>
       </FormDiv>
     </Wrapper>

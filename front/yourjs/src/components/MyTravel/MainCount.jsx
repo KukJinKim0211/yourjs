@@ -91,7 +91,6 @@ const MainCount = () => {
             i2++;
           }
         });
-
         // 총 지원 횟수
         newArray[0].content = response.data.length;
         // 등록 중 공고

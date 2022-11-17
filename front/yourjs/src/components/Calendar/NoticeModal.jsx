@@ -519,13 +519,7 @@ const NoticeModal = ({
               type={0}
               onClick={() => noticeAddButtonClicked()}
             >
-              <FontAwesomeIcon
-                icon={faPlus}
-                size="xl"
-                style={{
-                  width: '60px',
-                }}
-              />
+              저장
             </Button>
           </ButtonDiv>
           <div style={{ width: '5%' }}></div>
@@ -536,13 +530,7 @@ const NoticeModal = ({
               type={1}
               onClick={() => closeNoticeModal()}
             >
-              <FontAwesomeIcon
-                icon={faXmark}
-                size="xl"
-                style={{
-                  width: '60px',
-                }}
-              />
+              닫기
             </Button>
           </ButtonDiv>
         </ButtonDivForm>

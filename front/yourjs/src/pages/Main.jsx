@@ -1,17 +1,16 @@
 // 사용자 Main
-import styled, { useEffect } from 'styled-components';
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
 import { colors } from '../common/color';
 import { FullPage, Slide } from 'react-full-page';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import {
-  faUser,
-  faPeopleArrows,
-  faFileContract,
-} from '@fortawesome/free-solid-svg-icons';
+import { faUser, faFileContract } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import logo from '../img/logo.png';
+import { useNavigate } from 'react-router-dom';
+import { areIntervalsOverlapping } from 'date-fns/esm';
 
 const Wrapper = styled.div`
   background-color: ${colors.bsColor0};
@@ -42,7 +41,7 @@ const LoginButton = styled.button`
   top: 75%;
   left: 37%;
   width: 26%;
-  height: 10%;
+  height: 6%;
   background-color: ${colors.bsColor3};
   border: none;
   cursor: pointer;
@@ -233,9 +232,6 @@ const NoticeSecondDiv = styled.div`
 const FirstPage = () => {
   return (
     <>
-      <LogoDiv>
-        <LogoImage />
-      </LogoDiv>
       <TitleDiv>
         <p style={{ textAlign: 'center' }}>
           나만의 취업 다이어리
@@ -243,6 +239,9 @@ const FirstPage = () => {
           yourjs
         </p>
       </TitleDiv>
+      <LogoDiv>
+        <LogoImage />
+      </LogoDiv>
       <Link to="/login" style={{ textDecoration: 'none' }} id="navBarFont">
         <LoginButton id="titleFont">시작하기</LoginButton>
       </Link>
@@ -384,17 +383,14 @@ const FourthPage = () => {
   );
 };
 
-const CustomControls = () => {
-  return <div>HHI</div>;
-};
-
 const Main = () => {
-  const handleScroll = e => {
-    const { innerHeight } = window;
-    const { scrollHeight } = document.body;
-    const myScroll = e.srcElement.scrollingElement.scrollTop;
-  };
-  window.addEventListener('scroll', handleScroll);
+  const navigator = useNavigate();
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem('autoLogin'))) {
+      navigator('/main');
+    }
+  }, []);
   AOS.init();
   return (
     <Wrapper>

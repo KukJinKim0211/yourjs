@@ -40,6 +40,8 @@ LogoImage.defaultProps = {
 const LabelText = styled.label`
   font-size: 20px;
   margin-top: 2%;
+  margin-bottom: 1%;
+  font-family: 'InfinitySans-RegularA1';
 `;
 
 const FormInput = styled.input`
@@ -49,6 +51,11 @@ const FormInput = styled.input`
   color: black;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-left: 10px;
+  ::placeholder {
+    font-family: 'InfinitySans-RegularA1';
+  }
+
   &:hover {
     border-bottom: 1px solid black;
   }
@@ -309,13 +316,15 @@ const SignUp = () => {
   />*/}
         <ButtonDiv>
           <Button
-            color={colors.buttonBlue}
-            fontcolor="white"
+            color={colors.bsColor3}
+            fontcolor="black"
             onClick={confirmButtonClicked}
+            id="contentFont"
           >
             회원가입
           </Button>
           <Button
+            id="contentFont"
             color="rgba(0, 0, 0, 0.2)"
             fontcolor="black"
             onClick={cancelButtonClicked}

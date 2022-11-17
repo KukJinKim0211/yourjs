@@ -196,7 +196,11 @@ const Header = () => {
                 </Link>
               </NavDiv> */}
               <NavDiv>
-                <Link to="/MyPage" style={{ textDecoration: 'none' }}>
+                <Link
+                  to="/mypage"
+                  state={{ menuItem: 0 }}
+                  style={{ textDecoration: 'none' }}
+                >
                   <NavText
                     selected={selectedMenu === 6 ? true : false}
                     onClick={e => staySelectedMenu(6)}

@@ -81,32 +81,6 @@ const customModalStyles = {
 
 const UserCard = ({ data }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [noticeCount, setNoticeCount] = useState(0);
-
-  const getData = () => {
-    axiosInstance
-      .get(apis.noticeSubject + `/${data.userSeq}`)
-      .then(response => {
-        if (response.status === 200) {
-          let count = 0;
-          response.data.forEach(data => {
-            data.schedules.forEach(d => {
-              if (
-                getFullDateFormat(new Date()) < d.scheduleDate &&
-                d.scheduleName === '서류제출'
-              )
-                count++;
-            });
-          });
-          setNoticeCount(count);
-        }
-      });
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
-
   return (
     <>
       <UserCardDiv onClick={() => setModalOpen(true)}>
@@ -121,7 +95,7 @@ const UserCard = ({ data }) => {
         </ProfileDiv>
         <ContentDiv>
           <NicknameDiv id="titleFont">{data.nickname}</NicknameDiv>
-          <NoticeDiv id="titleFont">진행중공고 : {noticeCount}</NoticeDiv>
+          <NoticeDiv id="titleFont">진행중공고 : {data.totCnt}</NoticeDiv>
         </ContentDiv>
       </UserCardDiv>
       <Modal

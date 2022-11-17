@@ -140,7 +140,6 @@ const ScheduleModal = ({ data, closeScheduleModal, getNotice }) => {
 
   // 일정 삭제
   const deleteSchedule = () => {
-    console.log(data.scheduleSeq);
     axiosInstance
       .delete(apis.schedule, {
         data: {
@@ -243,13 +242,7 @@ const ScheduleModal = ({ data, closeScheduleModal, getNotice }) => {
             type={0}
             onClick={() => updateSchedule()}
           >
-            <FontAwesomeIcon
-              icon={faPlus}
-              size="xl"
-              style={{
-                width: '60px',
-              }}
-            />
+            변경
           </Button>
         </ButtonDiv>
         <div style={{ width: '5%' }}></div>
@@ -261,13 +254,7 @@ const ScheduleModal = ({ data, closeScheduleModal, getNotice }) => {
             type={1}
             onClick={() => deleteSchedule()}
           >
-            <FontAwesomeIcon
-              icon={faMinus}
-              size="xl"
-              style={{
-                width: '60px',
-              }}
-            />
+            닫기
           </Button>
         </ButtonDiv>
       </ButtonDivForm>

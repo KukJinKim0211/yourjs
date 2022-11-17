@@ -101,12 +101,18 @@ const SetPosition = () => {
   const [totalPosition, setTotalPosition] = useState([]);
   const [newPosition, setNewPosition] = useState('');
 
+  // 1: 관심포지션 미등록  2 : 관심포지션 등록
+  const [positionInvalid, setPositionInvalid] = useState(0);
   // 현재 유저의 관심 포지션을 조회한다
   const getUserPosition = () => {
     axiosInstance.get(apis.userSubject).then(response => {
-      if (response.status === 200 && response.data.length > 0) {
+      console.log(response.data);
+      if (response.status === 200 && response.data.length === 0) {
+        setPositionInvalid(1);
+      } else if (response.status === 200 && response.data.length > 0) {
         setNickname(response.data[0].user.nickname);
         setUserPosition(response.data[0].subject);
+        setPositionInvalid(2);
       }
     });
   };
@@ -139,12 +145,17 @@ const SetPosition = () => {
     <Wrapper>
       <TitleFont id="contentFont">관심 포지션 설정</TitleFont>
       <ContentFont id="contentFont">
-        <span style={{ color: `${colors.bsColor4}` }}>{nickname}</span>님의 현재
-        관심 포지션은{' '}
-        <span style={{ color: `${colors.bsColor4}` }}>
-          {userPosition.subjectName}
-        </span>
-        입니다.
+        {positionInvalid === 1 && <>사용자님의 관심 포지션을 등록 해 주세요.</>}
+        {positionInvalid === 2 && (
+          <>
+            <span style={{ color: `${colors.bsColor4}` }}>{nickname}</span>님의
+            현재 관심 포지션은{' '}
+            <span style={{ color: `${colors.bsColor4}` }}>
+              {userPosition.subjectName}
+            </span>
+            입니다.
+          </>
+        )}
       </ContentFont>
       <FavorDiv>
         {totalPosition?.map((pos, index) => (

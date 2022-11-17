@@ -1,18 +1,9 @@
-import {
-  faBuilding,
-  faSpinner,
-  faFile,
-  faCalendarDays,
-} from '@fortawesome/free-solid-svg-icons';
-import React, { useState, useRef, useEffect } from 'react';
+import { faBuilding } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import './style.css';
 import Modal from 'react-modal';
 import { colors } from '../../common/color';
-import { scheduleList, getScheduleList } from '../../common/define';
-import axiosInstance from '../../common/customAxios';
-import { apis } from '../../common/apis';
-import { getYYMMFormat } from '../../common/date';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import FindNoticeModal from './FindNoticeModal';
@@ -57,7 +48,13 @@ const InsertButton = styled.button`
 
 const DayDiv = styled.div`
   font-size: 14px;
-  padding-right: 5px;
+  padding: 5px 6px;
+  background-color: ${props => (props.curr === props.date ? '#DB4455' : ``)};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 50%;
 `;
 
 const ContentDiv = styled.div`
@@ -192,8 +189,6 @@ const DayCalendar = ({
 
   const contentClicked = d => {
     setSelectedData(d);
-    console.log(d);
-    console.log(guest);
     if (guest) setFindNoticeModal(true);
     else setScheduleModalOpen(true);
   };
@@ -233,7 +228,9 @@ const DayCalendar = ({
             </span>
           </InsertButton>
         </InsertButtonDiv>
-        <DayDiv id="titleFont">{dayData.day === 0 ? null : dayData.day}</DayDiv>
+        <DayDiv id="titleFont" curr={new Date().getDate()} date={dayData.day}>
+          {dayData.day === 0 ? null : dayData.day}
+        </DayDiv>
       </TitleDiv>
       <div style={{ height: '5%' }}></div>
       {dayData.data.map((d, index) => (

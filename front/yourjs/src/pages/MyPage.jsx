@@ -10,6 +10,7 @@ import SetProfile from '../components/MyPage/SetProfile';
 import SetPosition from '../components/MyPage/SetPosition';
 import { fullWidth } from '../common/size';
 import { colors } from '../common/color';
+import { useLocation } from 'react-router-dom';
 
 const menuItemList = [
   '내정보보기',
@@ -66,7 +67,10 @@ const MenuFont = styled.p`
 `;
 
 const MyPage = () => {
-  const [select, setSelect] = useState(0);
+  const location = useLocation();
+  const [select, setSelect] = useState(
+    location.state.menuItem === null ? 0 : location.state.menuItem,
+  );
   return (
     <Wrapper>
       <MenuDiv>

@@ -57,7 +57,6 @@ const DataInput = styled.input`
 
 const ErrorMessage = styled.p`
   color: ${props => props.color};
-  margin-left: 3%;
 `;
 
 const NickCheckButton = styled.button`
@@ -145,9 +144,13 @@ const ManageAccount = () => {
         </NickCheckButton>
       </DataDiv>
       {nicknameInvalid ? (
-        <ErrorMessage color="blue">{errorMessage}</ErrorMessage>
+        <ErrorMessage id="contentFont" color="blue">
+          {errorMessage}
+        </ErrorMessage>
       ) : (
-        <ErrorMessage color="red">{errorMessage}</ErrorMessage>
+        <ErrorMessage id="contentFont" color="red">
+          {errorMessage}
+        </ErrorMessage>
       )}
       <LabelFont>이메일</LabelFont>
       <DataInput

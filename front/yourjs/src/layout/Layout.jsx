@@ -3,7 +3,6 @@ import Header from './Header';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPersonDigging } from '@fortawesome/free-solid-svg-icons';
-import { colors } from '../common/color';
 
 const LayoutDiv = styled.div`
   height: 100vh;
