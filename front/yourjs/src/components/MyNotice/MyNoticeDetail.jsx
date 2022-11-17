@@ -238,6 +238,7 @@ const UrlInput = styled.input`
   margin-left: 110px;
   width: 46%;
   height: 40px;
+  font-size: 18px;
   
 `;
 
@@ -246,7 +247,7 @@ const Select = styled.select`
    border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   height: 50px;
-  
+  font-size: 18px;
   width: 46.5%;
   /* border-bottom: 3px solid gray; */
   margin-left: 2%;
@@ -558,9 +559,18 @@ const MyNoticeDetail = () => {
 
 
   const handleDeleteSchedule = (index) =>   {
-    var test =[...dateList]
-    delete test[index]
-    setDateList(test)
+    if (window.confirm("삭제하시겠습니까?")) {
+
+      var test =[...dateList]
+      delete test[index]
+      
+      setDateList(test)
+    } else {
+
+      return
+
+    }
+    
     
   }
 
@@ -888,7 +898,7 @@ const MyNoticeDetail = () => {
                 <SaveCancelButton
                   id="contentFont"
                   onClick={() => handleChangeEditFlag(index)}
-                  backgroundColor="#F6F6C9"
+                  backgroundColor="#FFD8A9"
                   marginRight="15px"
                 >
                   완료
