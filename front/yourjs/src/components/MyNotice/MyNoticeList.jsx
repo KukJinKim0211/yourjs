@@ -266,7 +266,7 @@ const MyNoticeList = () => {
           
           setDummyData(data);
           
-          console.log(response.data)
+          
         } else {
           const data = response.data.filter(
             data => data.progress === progressList[Number(dropdownState) - 1],

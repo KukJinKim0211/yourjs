@@ -346,6 +346,7 @@ const MyNoticeDetail = () => {
         setTagItem(arr2);
         setContentList(arr1);
         setFirstSelfData(response.data.intros);
+        
         setDateList(response.data.schedules);
         if (!response.data.progress ) {response.data.progress ="등록"
         setNoticeData(response.data);}
@@ -482,7 +483,7 @@ const MyNoticeDetail = () => {
 
   //최종적으로 데이터 종합
   const handleTotalPushData = () => {
-    addSelfIndex.forEach(self => self===undefined ? console.log("실패") : noticeData.intros.push(self)) // 자소서 추가한 것도 하나로 모으기
+    addSelfIndex.forEach(self => self===undefined ? self : noticeData.intros.push(self)) // 자소서 추가한 것도 하나로 모으기
     
     
     var test2=[]

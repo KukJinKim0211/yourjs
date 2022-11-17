@@ -353,7 +353,13 @@ const MyNoticeAdd = () => {
             navigate('/notice')
           }
           else {
+            
+
           selfData.noticeData.forEach(self => {
+            if (self.question==='' && self.contents ===''&& self.introTag==='' ) {
+              return
+            }
+            
             const data = { ...self, noticeSeq: response.data.noticeSeq };
             
             axiosInstance.post(apis.selfIntroduce, data).then(response => {
