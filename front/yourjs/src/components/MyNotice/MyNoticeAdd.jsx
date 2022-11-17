@@ -371,7 +371,9 @@ const MyNoticeAdd = () => {
           navigate('/notice');
         }
       })
-      .catch(error => console.log(error));
+      .catch(error => {console.log(error)
+      alert('항목을 입력하세요.')});
+
   };
 
   

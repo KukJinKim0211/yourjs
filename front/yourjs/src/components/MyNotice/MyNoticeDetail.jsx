@@ -516,22 +516,27 @@ const MyNoticeDetail = () => {
       .then(response => {
         
       })
-      .catch(error => console.log(error));
+      .catch(error => {console.log(error)
+      });
 
     notice2.intros.forEach(intro =>
       axiosInstance
         .patch(apis.selfIntroduce, intro)
         .then(response => {})
-        .catch(error => console.log(error)),
+        .catch(error => {console.log(error)
+          }),
     );
 
     addSelfIndex.forEach(self => (self.noticeSeq = noticeData.noticeSeq));
 
-    addSelfIndex.forEach(self =>
+    addSelfIndex.forEach(self => 
+      self.question==='' && self.contents===''&& self.introTag==='' ? self :
+        
       axiosInstance
         .post(apis.selfIntroduce, self)
         .then(response => {})
-        .catch(error => console.log(error)),
+        .catch(error => {console.log(error)
+          }),
     );
 
     navigate('/notice');
