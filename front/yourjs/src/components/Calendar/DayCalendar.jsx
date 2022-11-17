@@ -49,7 +49,12 @@ const InsertButton = styled.button`
 const DayDiv = styled.div`
   font-size: 14px;
   padding: 5px 6px;
-  background-color: ${props => (props.curr === props.date ? '#DB4455' : ``)};
+  background-color: ${props =>
+    props.curr.getFullYear() === props.searchDate.getFullYear() &&
+    props.curr.getMonth() === props.searchDate.getMonth() &&
+    props.curr.getDate() === props.date
+      ? '#DB4455'
+      : ``};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -228,7 +233,12 @@ const DayCalendar = ({
             </span>
           </InsertButton>
         </InsertButtonDiv>
-        <DayDiv id="titleFont" curr={new Date().getDate()} date={dayData.day}>
+        <DayDiv
+          id="titleFont"
+          curr={new Date()}
+          searchDate={searchDate}
+          date={dayData.day}
+        >
           {dayData.day === 0 ? null : dayData.day}
         </DayDiv>
       </TitleDiv>

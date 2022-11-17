@@ -271,7 +271,6 @@ const NoticeModal = ({
       schedules.sort(
         (a, b) => new Date(a.scheduleDate) - new Date(b.scheduleDate),
       );
-      console.log(notice[0]);
       axiosInstance.patch(apis.notice, notice[0]).then(response => {
         closeNoticeModal();
         getNotice();

@@ -6,7 +6,7 @@ import axios from 'axios';
 import { SERVER_IP, apis } from '../common/apis';
 import { setCookie } from '../common/cookie';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const KakaoLogin = props => {
   const dispatch = useDispatch();
@@ -15,11 +15,7 @@ const KakaoLogin = props => {
     // 리다이렉트 된 페이지에서 인가코드 꺼내오기
     const code = new URL(window.location.href).searchParams.get('code');
     axios.get(SERVER_IP + apis.kakaoLogin + `?code=${code}`).then(response => {
-      // console.log(response);
-      // alert('AA');
       if (response.status === 200 && response.data !== '') {
-        console.log(response);
-        alert('WEFWE');
         // 로그인 시 발급받은 Access/Refresh Token을 웹 쿠키에 저장
         setCookie('refresh_Token', response.data.refreshToken);
         localStorage.setItem('autoLogin', true);

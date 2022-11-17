@@ -80,11 +80,21 @@ const DataDiv = styled.div`
 
 const MyAccountInfo = () => {
   const [data, setData] = useState('');
+  const [position, setPosition] = useState('');
 
   useEffect(() => {
-    axiosInstance
-      .get(apis.getUserDetailInfo)
-      .then(response => setData(response.data));
+    axiosInstance.get(apis.userSubject).then(response => {
+      if (response.status === 200) {
+        setData({
+          userImg: response.data[0].user.userImg,
+          userName: response.data[0].user.userName,
+          nickname: response.data[0].user.nickname,
+          email: response.data[0].user.email,
+          infoLevel: response.data[0].user.infoLevel,
+          subjectName: response.data[0].subject.subjectName,
+        });
+      }
+    });
   }, []);
 
   return (
@@ -106,6 +116,10 @@ const MyAccountInfo = () => {
       <DataDiv>
         <TitleLabel>닉네임</TitleLabel>
         <ContentLabel>{data.nickname}</ContentLabel>
+      </DataDiv>
+      <DataDiv>
+        <TitleLabel>관심포지션</TitleLabel>
+        <ContentLabel>{data.subjectName}</ContentLabel>
       </DataDiv>
       <DataDiv>
         <TitleLabel>이메일</TitleLabel>

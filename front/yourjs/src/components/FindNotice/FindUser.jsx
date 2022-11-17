@@ -63,7 +63,6 @@ const FindUser = () => {
 
   const getUserData = async () => {
     const { data } = await axiosInstance.get(apis.userSubject);
-    console.log(data);
     // 관심 포지션이 등록되어있지 않을 시
     if (data.length === 0) {
       setInfo(2);
