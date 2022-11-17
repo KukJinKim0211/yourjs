@@ -65,7 +65,7 @@ const ErrorText = styled.p`
   color: ${props => props.color};
 `;
 
-const PasswordChange = () => {
+const PasswordChange = ({ setSelect }) => {
   const [curPassword, setCurPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newPassword2, setNewPassword2] = useState('');
@@ -95,6 +95,7 @@ const PasswordChange = () => {
       .then(response => {
         if (response.data.type === 'success') {
           alert('비밀번호 변경에 성공하셨습니다.');
+          setSelect(0);
         } else {
           alert('비밀번호 변경에 실패하셨습니다.');
         }

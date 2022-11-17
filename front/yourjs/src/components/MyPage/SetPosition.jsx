@@ -95,7 +95,7 @@ const ButtonDiv = styled.div`
   margin-bottom: 30px;
 `;
 
-const SetPosition = () => {
+const SetPosition = ({ setSelect }) => {
   const [nickname, setNickname] = useState('');
   const [userPosition, setUserPosition] = useState('');
   const [totalPosition, setTotalPosition] = useState([]);
@@ -138,6 +138,7 @@ const SetPosition = () => {
         if (response.status === 200) alert('관심포지션 설정이 완료되었습니다.');
         getUserPosition();
         setNewPosition('');
+        setSelect(0);
       });
   };
 

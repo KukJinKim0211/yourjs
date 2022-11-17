@@ -55,7 +55,7 @@ const RadioText = styled.span`
   font-family: 'InfinitySans-RegularA1';
 `;
 
-const InfoLevelSet = () => {
+const InfoLevelSet = ({ setSelect }) => {
   const [infoLevel, setInfoLevel] = useState('0');
 
   // 공개 범위 변경
@@ -63,7 +63,10 @@ const InfoLevelSet = () => {
     axiosInstance
       .patch(apis.levelChange, { type: infoLevel })
       .then(response => {
-        if (response.status === 200) alert('공개 범위가 변경되었습니다.');
+        if (response.status === 200) {
+          alert('공개 범위가 변경되었습니다.');
+          setSelect(0);
+        }
       });
   };
   return (

@@ -5,6 +5,7 @@ import { colors } from '../../common/color';
 import axiosInstance from '../../common/customAxios';
 import { apis } from '../../common/apis';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
   background-color: ${colors.bsColor0};
@@ -86,13 +87,14 @@ const SaveButton = styled.button`
   }
 `;
 
-const ManageAccount = () => {
+const ManageAccount = ({ setSelect }) => {
   const [nickname, setNickname] = useState('');
   const [userImg, setUserImg] = useState('');
   const [email, setEmail] = useState('');
   const [nicknameInvalid, setNicknameInvalid] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  const navigator = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -113,11 +115,13 @@ const ManageAccount = () => {
 
   // 회원정보 변경
   const infoChange = () => {
-    if (!nicknameInvalid) {
-      alert('닉네임 중복체크를 해주세요.');
-    }
     if (nickname === '' || email === '') {
       alert('정보를 입력 해 주세요.');
+      return;
+    }
+    if (!nicknameInvalid) {
+      alert('닉네임 중복체크를 해주세요.');
+      return;
     }
     axiosInstance
       .patch(apis.infoChange, { nickname, email, userImg })
@@ -126,6 +130,7 @@ const ManageAccount = () => {
           dispatch({ type: 'login', nickname });
           sessionStorage.setItem('nickname', nickname);
           alert('계정 정보 변경에 성공하셨습니다.');
+          setSelect(0);
         }
       });
   };
@@ -138,6 +143,7 @@ const ManageAccount = () => {
         <DataInput
           value={nickname}
           onChange={e => setNickname(e.target.value)}
+          maxLength={8}
         ></DataInput>
         <NickCheckButton id="contentFont" onClick={() => checkNickname()}>
           중복확인

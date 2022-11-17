@@ -88,12 +88,12 @@ const MyPage = () => {
 
       <ContentDiv>
         {select === 0 && <MyAccountInfo />}
-        {select === 1 && <SetPosition />}
-        {select === 2 && <SetProfile />}
-        {select === 3 && <ManageAccount />}
-        {select === 4 && <PasswordChange />}
-        {select === 5 && <InfoLevelSet />}
-        {select === 6 && <DeleteAccount />}
+        {select === 1 && <SetPosition setSelect={setSelect} />}
+        {select === 2 && <SetProfile setSelect={setSelect} />}
+        {select === 3 && <ManageAccount setSelect={setSelect} />}
+        {select === 4 && <PasswordChange setSelect={setSelect} />}
+        {select === 5 && <InfoLevelSet setSelect={setSelect} />}
+        {select === 6 && <DeleteAccount setSelect={setSelect} />}
       </ContentDiv>
     </Wrapper>
   );

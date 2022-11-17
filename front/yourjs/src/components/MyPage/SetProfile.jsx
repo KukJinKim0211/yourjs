@@ -93,7 +93,7 @@ const ButtonDiv = styled.div`
   margin: 10px 0px;
 `;
 
-const SetProfile = () => {
+const SetProfile = ({ setSelect }) => {
   const [selectImage, setSelectImage] = useState(-1);
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
@@ -118,7 +118,12 @@ const SetProfile = () => {
         email,
         userImg: selectImage,
       })
-      .then(response => alert('프로필 사진 변경이 완료되었습니다.'));
+      .then(response => {
+        if (response.status === 200) {
+          alert('프로필 사진 변경이 완료되었습니다.');
+          setSelect(0);
+        }
+      });
   };
 
   return (

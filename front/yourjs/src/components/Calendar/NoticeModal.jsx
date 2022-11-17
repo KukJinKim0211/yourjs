@@ -229,32 +229,54 @@ const NoticeModal = ({
   };
 
   // 공고 추가 버튼 클릭
-  const noticeAddButtonClicked = () => {
-    if (!noticeInvalidCheck()) {
-      alert('필수 사항을 입력 해 주세요.');
-      return;
-    }
+  const addButtonClicked = () => {
+    if (tabState === 0) {
+      if (!noticeInvalidCheck()) {
+        alert('필수 사항을 입력 해 주세요.');
+        return;
+      }
 
-    const data = {
-      noticeName,
-      link,
-      progress: '등록',
-      coName: companyName,
-      noticeTag: tagList.join(', '),
-      schedules: [
-        {
-          scheduleName:
-            scheduleIndex === 10
-              ? scheduleName
-              : scheduleList[scheduleIndex - 1],
-          scheduleDate: scheduleDate,
-        },
-      ],
-    };
-    axiosInstance.post(apis.notice, data).then(response => {
-      closeNoticeModal();
-      getNotice();
-    });
+      const data = {
+        noticeName,
+        link,
+        progress: '등록',
+        coName: companyName,
+        noticeTag: tagList.join(', '),
+        schedules: [
+          {
+            scheduleName:
+              scheduleIndex === 10
+                ? scheduleName
+                : scheduleList[scheduleIndex - 1],
+            scheduleDate: scheduleDate,
+          },
+        ],
+      };
+      axiosInstance.post(apis.notice, data).then(response => {
+        closeNoticeModal();
+        getNotice();
+      });
+    } else {
+      if (!scheduleInvalidCheck()) {
+        alert('필수 사항을 입력 해 주세요.');
+        return;
+      }
+
+      const notice = noticeData.filter(data => data.noticeSeq === noticeSeq);
+      const schedules = notice[0].schedules;
+      schedules.push({
+        scheduleName: scheduleList[scheduleIndex - 1],
+        scheduleDate: scheduleDate,
+      });
+      schedules.sort(
+        (a, b) => new Date(a.scheduleDate) - new Date(b.scheduleDate),
+      );
+      console.log(notice[0]);
+      axiosInstance.patch(apis.notice, notice[0]).then(response => {
+        closeNoticeModal();
+        getNotice();
+      });
+    }
   };
 
   // 일정 추가 유효성 체크
@@ -517,7 +539,7 @@ const NoticeModal = ({
               id="contentFont"
               color={colors.bsColor2}
               type={0}
-              onClick={() => noticeAddButtonClicked()}
+              onClick={() => addButtonClicked()}
             >
               저장
             </Button>

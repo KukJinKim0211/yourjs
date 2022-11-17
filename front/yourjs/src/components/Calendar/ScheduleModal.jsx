@@ -6,8 +6,6 @@ import {
   faFile,
   faCalendarDays,
   faSpinner,
-  faMinus,
-  faPlus,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -140,6 +138,7 @@ const ScheduleModal = ({ data, closeScheduleModal, getNotice }) => {
 
   // 일정 삭제
   const deleteSchedule = () => {
+    if (!window.confirm('현재 일정을 삭제하시겠습니까?')) return;
     axiosInstance
       .delete(apis.schedule, {
         data: {
@@ -158,7 +157,7 @@ const ScheduleModal = ({ data, closeScheduleModal, getNotice }) => {
     <Wrapper>
       <TitleDiv>
         <CloseButton style={{ visibility: 'hidden' }} />
-        <TitleText id="contentFont">일정 변경</TitleText>
+        <TitleText id="contentFont">일정 수정</TitleText>
         <CloseButton id="contentFont" onClick={() => closeScheduleModal()}>
           <FontAwesomeIcon
             icon={faXmark}
@@ -178,9 +177,10 @@ const ScheduleModal = ({ data, closeScheduleModal, getNotice }) => {
           }}
         />
         <ScheduleTitle>
-          {data.noticeName?.length >= 25
+          {/* {data.noticeName?.length >= 25
             ? `${data.noticeName?.slice(0, 24)}....`
-            : data.noticeName}
+            : data.noticeName} */}
+          {data.noticeName}
         </ScheduleTitle>
       </ScheduleDiv>
       <ScheduleDiv mt={10}>
@@ -192,9 +192,10 @@ const ScheduleModal = ({ data, closeScheduleModal, getNotice }) => {
           }}
         />
         <ScheduleTitle>
-          {data.coName?.length >= 25
+          {/* {data.coName?.length >= 25
             ? `${data.coName?.slice(0, 24)}....`
-            : data.coName}
+            : data.coName} */}
+          {data.coName}
         </ScheduleTitle>
       </ScheduleDiv>
       <ScheduleDiv mt={10}>
@@ -242,7 +243,7 @@ const ScheduleModal = ({ data, closeScheduleModal, getNotice }) => {
             type={0}
             onClick={() => updateSchedule()}
           >
-            변경
+            일정변경
           </Button>
         </ButtonDiv>
         <div style={{ width: '5%' }}></div>
@@ -254,7 +255,7 @@ const ScheduleModal = ({ data, closeScheduleModal, getNotice }) => {
             type={1}
             onClick={() => deleteSchedule()}
           >
-            닫기
+            일정삭제
           </Button>
         </ButtonDiv>
       </ButtonDivForm>
