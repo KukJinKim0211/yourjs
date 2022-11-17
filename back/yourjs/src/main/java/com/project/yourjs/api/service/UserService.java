@@ -256,12 +256,26 @@ public class UserService {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
-            sb.append("&client_id="+clientId);
+            sb.append("&client_id=fb0ecb04816f465587d8bf341bacac7a");
             // sb.append("&redirect_uri=https://yourjs.co.kr/login/kakao");
             sb.append("&redirect_uri=http://localhost:3000/login/kakao");
             sb.append("&code=" + code);
-            sb.append("&client_secret="+clientSecret);
+            sb.append("&client_secret=OIvUN78Uyo8YNKFJ0jlAetvEqmEyMkaL");
             bw.write(sb.toString());
+            bw.flush();
+
+            // BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+            // StringBuilder sb = new StringBuilder();
+            // sb.append("grant_type=authorization_code");
+            // // sb.append("&client_id="+clientId);
+            // sb.append("&client_id=fb0ecb04816f465587d8bf341bacac7a");
+            // // sb.append("&redirect_uri=https://yourjs.co.kr/login/kakao");
+            // sb.append("&redirect_uri=http://localhost:3000/login/kakao");
+            // sb.append("&code=" + code);
+            // // sb.append("&client_secret="+clientSecret);
+            // sb.append("&client_secret=OIvUN78Uyo8YNKFJ0jlAetvEqmEyMkaL");
+            // bw.write(sb.toString());
+            // System.out.println(sb.toString());
             // bw.flush();
 
             int responseCode = conn.getResponseCode();
