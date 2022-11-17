@@ -38,7 +38,7 @@ import lombok.Setter;
 public class User implements Serializable {
 
       @Id
-      @GeneratedValue(strategy = GenerationType.AUTO)
+      @GeneratedValue(strategy = GenerationType.IDENTITY)
       @Column(name = "user_seq")
       private Long userSeq;
 
@@ -59,7 +59,7 @@ public class User implements Serializable {
       @Column(name = "password", nullable = false)
       private String password;
 
-      @Column(name = "info_level", nullable = true)
+      @Column(name = "info_level", nullable = true, columnDefinition = "default 3")
       private Integer infoLevel;
 
       @CreationTimestamp

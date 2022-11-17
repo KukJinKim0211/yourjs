@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,14 +48,18 @@ import com.project.yourjs.db.repository.UserRepository;
 
 @Service
 public class UserService {
+    private final String clientId;
+    private final String clientSecret;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final PortfolioRepository portfolioRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenProvider tokenProvider,
+    public UserService(@Value("${kakao.clientId}") String clientId, @Value("${kakao.clientSecret}") String clientSecret, UserRepository userRepository, PasswordEncoder passwordEncoder, TokenProvider tokenProvider,
             AuthenticationManagerBuilder authenticationManagerBuilder, PortfolioRepository portfolioRepository) {
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenProvider = tokenProvider;
@@ -239,7 +244,7 @@ public class UserService {
     public ResponseEntity<UserLoginRes> kakaoLogin(String code) {
         ResponseEntity<UserLoginRes> userLoginRes;
         String accessToken = "";
-        String refreshToken = "";
+        // String refreshToken = "";
         String reqURL = "https://kauth.kakao.com/oauth/token";
         try {
             URL url = new URL(reqURL);
@@ -251,11 +256,11 @@ public class UserService {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
-            sb.append("&client_id=fb0ecb04816f465587d8bf341bacac7a");
-            // sb.append("&redirect_uri=https://yourjs.co.kr/login/kakao");
-            sb.append("&redirect_uri=http://localhost:3000/login/kakao");
+            sb.append("&client_id="+clientId);
+            sb.append("&redirect_uri=https://yourjs.co.kr/login/kakao");
+            // sb.append("&redirect_uri=http://localhost:3000/login/kakao");
             sb.append("&code=" + code);
-            sb.append("&client_secret=OIvUN78Uyo8YNKFJ0jlAetvEqmEyMkaL");
+            sb.append("&client_secret="+clientSecret);
             bw.write(sb.toString());
             bw.flush();
 
@@ -297,7 +302,7 @@ public class UserService {
                 while ((line = br.readLine()) != null) {
                     result += line;
                 }
-                System.out.println("response body : " + result);
+                // System.out.println("response body : " + result);
 
                 String userId = result.substring(result.indexOf("id\":") + 4, result.indexOf(",\"connected_at"));
                 String nickname = result.substring(result.indexOf("\"properties\":{\"nickname\":\"") + 26,
@@ -312,7 +317,6 @@ public class UserService {
 
                 } else {
                     // 회원 가입 후 액세스 토큰 생성
-                    System.out.println("sfsdfsdf");
                     UserRegisterPostReq userRegisterPostReq = new UserRegisterPostReq();
                     userRegisterPostReq.setUserId(userId);
                     userRegisterPostReq.setNickname(nickname);
