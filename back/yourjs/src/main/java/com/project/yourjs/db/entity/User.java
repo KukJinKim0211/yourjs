@@ -48,7 +48,7 @@ public class User implements Serializable {
       @Column(name = "user_name", unique = true, nullable = false)
       private String userName;
 
-      @Column(name = "email", nullable = false)
+      @Column(name = "email")
       private String email;
 
       @Column(name = "nickname", nullable = false)
