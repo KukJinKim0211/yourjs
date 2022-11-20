@@ -48,9 +48,10 @@ const array = [
     date: '2022-11-27 23:59:59',
   },
   {
-    title: '현대 모비스',
-    content: '2022년 4분기 현대모비스 신입사원 채용',
-    date: '2022-11-05 23:59:59',
+    title: '쿠팡 주식회사',
+    content: '쿠팡 대규모 신입 채용',
+    link: 'https://www.jobkorea.co.kr/Recruit/GI_Read/40238376?PageGbn=ST&TpGb=TP',
+    date: '2022-11-27 23:59:59',
   },
 ];
 const RecommendNotice = () => {
