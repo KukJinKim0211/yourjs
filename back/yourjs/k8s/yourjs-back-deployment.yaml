@@ -1,0 +1,34 @@
+#yourjs-back-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yourjs-back-deployment
+spec:
+  replicas: 4
+  strategy:
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: yourjs-back
+  template:
+    metadata:
+      labels:
+        app: yourjs-back
+    spec:
+      containers:
+        - name: yourjs-back
+          image: pudingles94/project:yourjs-back
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
+          env:
+            - name: DATE
+              value: 'DATE_STRING'
+          resources:
+            limits:
+              cpu: 500m
+      imagePullSecrets:
+        - name: my-secret

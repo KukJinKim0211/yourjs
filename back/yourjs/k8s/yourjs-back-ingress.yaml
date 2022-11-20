@@ -1,0 +1,25 @@
+# yourjs-back-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: yourjs-back-ingress
+  namespace: ns-yourjs
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    - host: yourjs.co.kr
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: yourjs-back-service
+                port:
+                  number: 443
+
+  tls:
+    - hosts:
+        - yourjs.co.kr
+      secretName: yourjstls
