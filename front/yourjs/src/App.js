@@ -28,14 +28,14 @@ import { useSelector, useDispatch } from 'react-redux';
 const App = () => {
   const dispatch = useDispatch();
   const nickname = useSelector(state => state.nickname);
-
   useEffect(() => {
-    if (sessionStorage.getItem('loginState') === null) return;
+    // if (sessionStorage.getItem('loginState') === null) return;
     // 자동 로그인은 설정이 되어 있지만 액세스 토큰은 없는 경우 ( 브라우저 다시 실행할 시 )
     if (
       JSON.parse(localStorage.getItem('autoLogin')) &&
       sessionStorage.getItem('accessToken') === null
     ) {
+      let a = 0;
       // refreshToken으로 AccessToken 요청하기
       axios
         .get(SERVER_IP + apis.getAccessToken, {
@@ -45,6 +45,7 @@ const App = () => {
           if (response.status === 200) {
             sessionStorage.setItem('accessToken', response.data.accessToken);
             sessionStorage.setItem('loginState', true);
+            a = 1;
           }
         })
         .then(() => window.location.replace('/main'));
@@ -81,14 +82,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
-          <Route
-            path="/main"
-            element={
-              <PrivateRoute>
-                <UserMain />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/main" element={<UserMain />} />
           <Route
             path="/calendar"
             element={

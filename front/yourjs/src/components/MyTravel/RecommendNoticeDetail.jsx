@@ -51,7 +51,7 @@ const NoticeDateDiv = styled.div`
 const RecommendNoticeDetail = ({ data }) => {
   return (
     <Wrapper>
-      <NoticeDiv>
+      <NoticeDiv onClick={() => window.open(`${data.link}`)}>
         <NoticeTitleDiv id="contentFont">{data.title}</NoticeTitleDiv>
         <NoticeContentDiv id="contentFont">
           <div style={{ padding: '5px' }}>{data.content}</div>

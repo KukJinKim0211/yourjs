@@ -166,7 +166,7 @@ const UserMain = () => {
             color={colors.bsColor4}
           />
           <RecommendTitleText id="titleFont">
-            관심 분야의 놓친 공고
+            인기있는 놓친 공고
           </RecommendTitleText>
         </RecommendTitleDiv>
         <RecommendContentDiv>
