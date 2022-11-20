@@ -37,12 +37,10 @@ const UpdatePofol = styled.div`
   flex-direction: column;
   align-items: center;
   list-style: none;
-  padding: 1rem 0 1rem 0;
   width: 9rem; 
   height: fit-content;
   position: fixed; 
   top: 12%;
-  /* margin-left: 73%;  */
   margin-left: 1400px;
   user-select: none;
   cursor: pointer;
@@ -64,7 +62,7 @@ const Portfolio = () => {
         <Box>
           <br></br><br></br>
           <UpdatePofol>
-            <Link to = 'edit' style={{textDecoration:"none", color:"orange"}}>⚙ 수정</Link>
+            <Link to = 'edit' style={{textDecoration:"none", color:"orange", width:"100%", textAlign:"center", padding:"10px"}}>⚙ 수정</Link>
           </UpdatePofol>
           <Personal/>
           <Military/>
