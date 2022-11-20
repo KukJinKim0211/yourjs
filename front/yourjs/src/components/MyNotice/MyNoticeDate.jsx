@@ -8,25 +8,22 @@ import dayjs from 'dayjs';
 
 const TagBox = styled.div`
   display: flex;
-  width: 1141.8px;
-  margin-bottom: 20px;
-  
 `;
+
 const Select = styled.select`
-  padding-left: 8px;
+  padding-left: 10px;
   border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
-  margin-right: 10%;
-  width: 60%;
   font-size: 16px;
-  /* border-bottom: 3px solid gray; */
-  margin-left: 19%;
+  border-radius: 5px;
+  margin-right: 5.5%;
+  width: 300px;
   option {
   }
 `;
 
 const EachTitle = styled.h3`
   width: 100px;
+  margin-left: 40px;
 `;
 
 const DateBox = styled.div`

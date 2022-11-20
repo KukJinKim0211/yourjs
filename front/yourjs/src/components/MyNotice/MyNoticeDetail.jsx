@@ -31,54 +31,50 @@ const CompanyBox = styled.div`
 
 //태그 입력 창
 const TagInput = styled.input`
-  border: none;
   padding-left: 10px;
-  border-bottom: 3px solid ${colors.bsColor2};
-  width: 100%;
-  margin-bottom: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  width: 45.3%;
   height: 40px;
-  :focus {
-    outline: none;
-  }
+  font-size: 18px;
 `;
 
 // 큰 태그 박스
-
 const TagBigBox = styled.div`
   display: flex;
-  
-  
-  
+  flex-wrap: wrap;
+  margin: 0px 0px 20px 225px;
 `;
+
+// 일정 보여주는 div
+const DateListDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 70%;
+  border-left: 3px solid ${colors.bsColor2};
+`
 
 //자기소개서 작성창 여는 버튼
 const CreateButton = styled.button`
-
   width: 150px;
-  height: 60px;
-  background-color: ${colors.bsColor2};
+  height: 50px;
+  background-color: #FBFBFD;
   border-radius: 10px;
-  border: 1px solid ${colors.bsColor3};
-  color: rgba(0, 0, 0, 0.9);
+  border: 1px solid #F1F1F1;
   cursor: pointer;
-
   &:hover {
-    background-color: ${colors.bsColor3};
+    background-color: white;
+    border: 2px solid ${colors.bsColor2};
   }
-
-
 `;
 
 // 컨텐츠 박스
 const ContentBox = styled.div`
-  background-color: whitesmoke;
-  width: 100%;
-  height: 400px;
-  border-radius: 15px;
-  border : 3px solid ${colors.bsColor2};
-  /* box-shadow: 0.2rem 0.2rem 0.2rem ${colors.bsColor2}; */
-  margin-bottom: 50px;
-  margin-top: 10px;
+  border: 2px solid #F1F1F1;
+  border-radius: 10px;
+  background-color: #FBFBFD;
+  margin-bottom: 30px;
+  padding: 20px 0px 20px 0px;
 `;
 
 //컨텐츠 박스 제목
@@ -108,17 +104,15 @@ const ContentContent = styled.div`
 
 //컨텐츠 박스 제목 텍스트필드
 const ContentTitle2 = styled.input`
-  
-  padding-top: 5px;
-  margin-left: 25px;
+  padding: 0 15px 0 15px;
+  margin-left: 10px;
   height: 50px;
   display: flex;
   align-items: center;
-  
   border: none;
   font-size: 16px;
   border-bottom: 3px solid ${colors.bsColor2};
-  background-color: whitesmoke;
+  background-color: white;
   width: 95%;
   :focus {
     outline: none;
@@ -134,7 +128,7 @@ const ContentContent2 = styled.textarea`
   width: 70%;
   border: none;
   width: 95%;
-  background-color: whitesmoke;
+  background-color: white;
   :focus {
     outline: none;
   }
@@ -142,15 +136,12 @@ const ContentContent2 = styled.textarea`
 
 const DeleteButton = styled.button`
   margin-left: 30px;
-  width: 5%;
+  width: 10%;
   color: red;
   background-color: white;
   border: none;
-  margin-bottom: 20px;
   cursor: pointer;
   font-weight: 700;
-  
-
 `;
 
 const NoticeNameInput = styled.input`
@@ -190,105 +181,123 @@ const ContentEditBox = styled.div`
   width: 100%;
 `;
 
-// 수정 취소를 위한 버튼 style
+// 수정하기, 완료하기 버튼 style
 const SaveCancelButton = styled.button`
-  background-color: ${props => props.backgroundColor};
+  /* background-color: ${props => props.backgroundColor}; */
+  background-color: white;
+  color: #5F9EA0;
   margin-left: ${props => props.marginLeft};
   margin-right: ${props => props.marginRight};
   border: none;
   border-radius: 10px;
-  border : 1px solid ${colors.bsColor3};
+  border : 1px solid #5F9EA0;
   width: 10%;
   height: 30px;
   cursor: pointer;
   margin-bottom: 10%;
   &:hover {
-    background-color: ${colors.bsColor3};
+    background-color: #13C7A3;
+    border: none;
+    color: white;
   }
 `;
 // 태그 결과 값 나열
 const ResultTag = styled.div`
   min-width: 40px;
-  justify-content: center;
   display: flex;
   align-items: center;
-  border-radius: 10px;
-  padding: 0px 5px 0px 8px;
-  margin-right: 10px;
-  height: 30px;
-  background-color: ${props => props.backgroundColor};
+  padding: 10px;
+  margin: 10px 10px 10px 0px;
+  font-size: 15px;
   font-weight: 700;
-  box-shadow: 0.1rem 0.1rem 0.1rem gray; ;
+  border-radius: 10px;
+  background-color: white;
+  border: 2px solid ${colors.bsColor2};
+  &:hover {
+    border: 2.5px solid ${colors.bsColor3};
+  }
 `;
 
 const UrlInput = styled.input`
   padding-left: 10px;
-  
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
-  margin-left: 110px;
   width: 45.3%;
   height: 40px;
   font-size: 18px;
-  
 `;
+
+const PlusBtn = styled.button`
+  width: 30px;
+  height: 30px;
+  margin-left: 80px;
+  background-color: #FBFBFD;
+  border-radius: 10px;
+  border: 1px solid #c5c1c1;
+  font-size: 20px;
+  cursor: pointer;
+  &:hover {
+    background-color: white;
+    border: 2px solid ${colors.bsColor2};
+  }
+`
 
 const Select = styled.select`
   padding-left: 10px;
   border: none;
-   border: 1px solid rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   height: 50px;
   font-size: 18px;
   width: 46.5%;
-  /* border-bottom: 3px solid gray; */
-  margin-left: 2%;
   option {
   }
-  /* border-bottom: 3px solid gray; */
-
   option {
   }
 `;
 
 const DeleteTagButton = styled.div`
   padding-left: 8px;
+  width: 15px;
+  display: flex;
+  justify-content: center;
   cursor: pointer;
-
-  color: ${colors.bsColor4};
+  color: ${colors.bsColor2};
+  &:hover {
+    color: ${colors.bsColor4};
+  }
 `;
 
 const LastSaveCancelButton = styled.button`
-  background-color: ${props => props.backgroundColor};
-  margin-left: ${props => props.marginLeft};
-  border: none;
-  /* box-shadow: 0.5rem 0.5rem 0.5rem ${colors.bsColor3}; */
-  width: 15%;
+  width: 120px;
   height: 60px;
-  cursor: pointer;
-  margin-bottom: 10%;
+  color: blue;
+  background-color: #FBFBFD;
   border-radius: 10px;
-  border: 1px solid ${colors.bsColor3};
-
-   &:hover {
-    background-color: ${colors.bsColor3};
+  border: 1px solid #F1F1F1;
+  font-size: 18px;
+  margin-bottom: 70px;
+  margin-right: 15px;
+  cursor: pointer;
+  &:hover {
+    background-color: #0078FF;
+    color: white;
   }
 `;
 
 const LastSaveCancel2Button = styled.button`
-  background-color: ${props => props.backgroundColor};
-  margin-left: ${props => props.marginLeft};
-  border: none;
-  /* box-shadow: 0.5rem 0.5rem 0.5rem ${colors.bsColor3}; */
-  width: 15%;
+  width: 120px;
   height: 60px;
+  color: red;
+  background-color: #FBFBFD;
+  border-radius: 10px;
+  border: 1px solid #F1F1F1;
+  font-size: 18px;
+  margin-left: 15px;
   cursor: pointer;
-  margin-bottom: 10%;
-  border-radius: 15px;
-  border: 1px solid #D6E4E5;
-
-   &:hover {
-    background-color: #D6E4E5;
+  &:hover {
+    background-color: #FF7878;
+    color: white;
   }
 `;
 
@@ -590,7 +599,9 @@ const MyNoticeDetail = () => {
           </NoticeNameInput>
         </div>
         <br></br>
+        <br></br>
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+          <h3 style={{ width: '20%' }}>태그  </h3>
           <TagInput
             id="titleFont"
             placeholder="공고 태그를 추가하세요"
@@ -598,29 +609,21 @@ const MyNoticeDetail = () => {
             value={noticeTagItem || ""}
             onChange={e => setNoticeTagItem(e.target.value)}
             onKeyDown={onKeyDownHandler}
-          ></TagInput>
-          
+          />
         </div>
-        
-        <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-          
-          <TagBigBox>
-            {noticeData?.noticeTag?.split(', ',-1).map((tag, index) => (
-              tag === '' ? <div key={index} ></div> :
-              <ResultTag backgroundColor={colors.bsColor2} key={index}>
-                # {tag}{' '}
-                <DeleteTagButton onClick={() => deleteTag(tag)}>
-                  X
-                </DeleteTagButton>
-              </ResultTag>
-            ))}
-          </TagBigBox>
-        </div>
-        <br></br>
-        <br></br>
-        <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-          
-          <h3 style={{ width: '15%' }}>결과를 선택하세요  </h3>
+        <TagBigBox>
+          {noticeData?.noticeTag?.split(', ',-1).map((tag, index) => (
+            tag === '' ? <div key={index} ></div> :
+            <ResultTag backgroundColor={colors.bsColor2} key={index}>
+              # {tag}{' '}
+              <DeleteTagButton onClick={() => deleteTag(tag)}>
+                X
+              </DeleteTagButton>
+            </ResultTag>
+          ))}
+        </TagBigBox>
+        <div style={{ width: '100%', display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
+          <h3 style={{ width: '20%' }}>결과를 선택하세요</h3>
           <Select
             id ="titleFont"
             key={noticeData.progress}
@@ -647,39 +650,37 @@ const MyNoticeDetail = () => {
             </option>
           </Select>
         </div>
+        <div style={{ width: '100%', display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
+          <h3 style={{ width: '20%' }}>채용사이트</h3>
+          <UrlInput
+            placeholder='채용사이트 URL을 입력하세요'
+            autoComplete="off"
+            id="titleFont"
+            onChange={handleLinkChange}
+            defaultValue={noticeData.link||""}
+          />
+        </div>
         <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-          <h3 style={{ width: '100%' }}>
-            채용사이트 {' '}
-            <UrlInput
-              placeholder='채용사이트 URL을 입력하세요'
-              autoComplete="off"
-              id="titleFont"
-              onChange={handleLinkChange}
-              defaultValue={noticeData.link||""}
-            ></UrlInput>
+          <h3 style={{ width: '20%', alignSelf: 'start' }}>일정등록
+            <PlusBtn onClick={handleDateClick}>+</PlusBtn>
           </h3>
+          <DateListDiv>
+            {dateList?.map((li, index) => (
+              li === undefined
+                ? (<div key={index}></div>)
+                : (<div key={index} style={{display:"flex", alignItems:"center", margin: '10px'}}>
+                    <MyNoticeSchedule
+                      pushData={li}
+                      li={li}
+                      index={index}
+                      getDateData={getDateData}
+                      setDateDataee={setDateData}
+                    />
+                    <DeleteButton id="titleFont" onClick={()=>{handleDeleteSchedule(index)}}>삭제</DeleteButton>
+                  </div>)
+                ))}
+          </DateListDiv>
         </div>
-        <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-          <h3 style={{ width: '10%' }}>일정등록 </h3>
-          <button onClick={handleDateClick}>➕</button>
-        </div>
-
-        {dateList?.map((li, index) => (
-            li === undefined ? ( <div key={index}></div>) : (<div key={index} style={{display:"flex" ,alignItems:"center"}}>
-            <MyNoticeSchedule
-              pushData={li}
-              
-              li={li}
-              index={index}
-              getDateData={getDateData}
-              setDateDataee={setDateData}
-            >
-              
-            </MyNoticeSchedule>
-            <DeleteButton id="titleFont" onClick={()=>{handleDeleteSchedule(index)}}>삭제</DeleteButton>
-            </div>)
-          
-        ))}
         <br></br>
       </CompanyBox>
       <br></br>
@@ -700,9 +701,7 @@ const MyNoticeDetail = () => {
                       if (firstSelfData[index].introTag === undefined) {
                         setFirstSelfData(
                           firstSelfData.map((self, index2) =>
-                            
                             index2 === index
-                            
                               ? {
                                   ...self,
                                   introTag: self.introTag ? `${self.introTag}, ${e.target.value}` : `${e.target.value}`,
@@ -710,7 +709,6 @@ const MyNoticeDetail = () => {
                               : self,
                           ),
                         );
-  
                         setTagItem(
                           tagItem.map((tag, index3) =>
                             index3 === index ? { value: '' } : tag,
@@ -722,16 +720,13 @@ const MyNoticeDetail = () => {
                         alert("5개까지 입력 가능합니다.")
                         return
                       }
-                      
                       else if (firstSelfData[index].introTag.indexOf(e.target.value) !== -1){
                         return
                       }
                       else {
                       setFirstSelfData(
                         firstSelfData.map((self, index2) =>
-                          
                           index2 === index
-                          
                             ? {
                                 ...self,
                                 introTag: self.introTag ? `${self.introTag}, ${e.target.value}` : `${e.target.value}`,
@@ -739,7 +734,6 @@ const MyNoticeDetail = () => {
                             : self,
                         ),
                       );
-
                       setTagItem(
                         tagItem.map((tag, index3) =>
                           index3 === index ? { value: '' } : tag,
@@ -748,7 +742,6 @@ const MyNoticeDetail = () => {
                     }
                     }
                   }}
-
                   onChange={e => {
                     setTagItem(
                       tagItem.map((tag, index4) =>
@@ -831,7 +824,7 @@ const MyNoticeDetail = () => {
             )}
             <ContentCountBox>
               <div>
-                현재 글자수 :{' '}
+                글자수 :{' '}
                 {intros?.contents.replace(/<br\s*\/?>/gm, '\n').length}
               </div>
             </ContentCountBox>
@@ -880,8 +873,16 @@ const MyNoticeDetail = () => {
       <br></br>
       <br></br>
       <div style={{display:"flex", justifyContent:"center"}}>
-      <LastSaveCancelButton className="savebutton" id="titleFont"   backgroundColor={colors.bsColor2} onClick={handleTotalPushData}>저장</LastSaveCancelButton>
-      <LastSaveCancel2Button className="cancelbutton" onClick ={onRemove} id="titleFont"  marginLeft="30px">취소</LastSaveCancel2Button>
+      <LastSaveCancelButton
+        className="savebutton"
+        id="titleFont"
+        onClick={handleTotalPushData}
+      >저장</LastSaveCancelButton>
+      <LastSaveCancel2Button
+        className="cancelbutton"
+        id="titleFont"
+        onClick ={onRemove}
+      >취소</LastSaveCancel2Button>
       </div>
     </Wrapper>
   );

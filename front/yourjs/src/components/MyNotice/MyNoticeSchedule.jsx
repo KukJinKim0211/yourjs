@@ -8,8 +8,6 @@ import dayjs from 'dayjs';
 
 const TagBox = styled.div`
   display: flex;
-  width : 1141.8px;
-  margin-bottom: 20px;
 `;
 const Select = styled.select`
   padding-left: 10px;
@@ -17,16 +15,14 @@ const Select = styled.select`
   font-size: 16px;
   border-radius: 5px;
   margin-right: 5.5%;
-  width: 60%;
-  /* border-bottom: 3px solid gray; */
-  margin-left: 18.5%;
+  width: 300px;
   option {
   }
 `;
 
 const EachTitle = styled.h3`
   width : 100px;
-  
+  margin-left: 40px;
 `
 
 
@@ -42,7 +38,6 @@ const DateSelectBox = styled.div`
   margin-top: 5px;
   margin-left: 20px;
   margin-right: 15px;
-  
 `;
 
 const MyNoticeSchedule = ({ getDateData,setDateDataee,index ,pushData}) => {

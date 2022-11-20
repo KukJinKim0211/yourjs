@@ -12,29 +12,31 @@ import { progressList } from '../../common/define';
 
 // 아이템 리스트
 const ItemList = styled.div`
-  width: 250px;
-  display: flex;
+  width: 240px;
+  height: auto;
   position: relative;
+  display: flex;
   flex-direction: column;
   color: black;
-  height: auto;
-  background-color: ${colors.bsColor1}; // 카드 한장한장 배경화면 색깔
-  margin-top: 30px;
+  border: 1px solid ${colors.bsColor1};
   border-radius: 10px;
-  box-shadow: 0.5rem 0.5rem 0.5rem ${colors.bsColor2};
+  background-color: #FBFBFD;
+  margin-top: 30px;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0.05rem 0.05rem 0.25rem 0.25rem ${colors.bsColor1};
+  }
   .progress {
     color: ${colors.bsColor3};
+    /* color: #0078FF; */
     justify-content: flex-end;
     padding-top: 15px;
-    /* padding-left: 35%; */
     font-size: 16px;
-
     font-weight: 900;
     text-align: end;
   }
   .coName {
   }
-
   .noticeName {
   }
   .tag {
@@ -44,12 +46,6 @@ const ItemList = styled.div`
     padding-left: 25%;
     padding-top: 3%;
   }
-
-  &:hover {
-    box-shadow: 0.5rem 0.5rem 0.5rem ${colors.bsColor0};
-  }
-
-  cursor: pointer;
 `;
 
 const NoItemDiv = styled.div`
@@ -93,15 +89,16 @@ const TagBox = styled.div`
 `;
 // 태그 하나하나의 div
 const TagItemBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  font-size: 15px;
-  padding: 0px 8px 0px 8px;
-  background-color: ${colors.bsColor2};
   width: fit-content;
   height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 8px 0px 8px;
+  font-size: 15px;
+  border-radius: 10px;
+  background-color: white;
+  border: 2px solid ${colors.bsColor1};
 `;
 
 const SearchAlignDiv = styled.div``;
@@ -234,7 +231,7 @@ const DeleteButton = styled.button`
   font-weight: 600;
   color: red;
   border: none;
-  background-color: ${colors.bsColor1};
+  background-color: #FBFBFD;
   cursor: pointer;
 `;
 

@@ -64,7 +64,7 @@ const InputBox = styled.input`
   padding-left: 10px;
   
 
-  &:hover {
+  /* &:hover {
     border: 1px solid ${colors.bsColor4};
   }
 
@@ -72,7 +72,7 @@ const InputBox = styled.input`
     border: 1px solid ${colors.bsColor4};
     box-shadow: 0 0 10px ${colors.bsColor3};
     outline: none;
-  }
+  } */
 `;
 
 //상태 div
@@ -121,14 +121,38 @@ const UrlInput = styled.input`
 // date 입력 div
 const DateBox = styled.div`
   display : flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   width: 100%;
+  align-items: center;
 `;
 
-const DateTitle = styled.div`
-  font-size: 1.17em;
-  font-weight: 700;
+const DateTitle = styled.h3`
+  width: 20%;
+  align-self: flex-start;
 `;
+
+const PlusBtn = styled.button`
+  width: 30px;
+  height: 30px;
+  margin-left: 80px;
+  background-color: #FBFBFD;
+  border-radius: 10px;
+  border: 1px solid #c5c1c1;
+  font-size: 20px;
+  cursor: pointer;
+  &:hover {
+    background-color: white;
+    border: 2px solid ${colors.bsColor2};
+  }
+`
+
+// 일정 보여주는 div
+const DateListDiv = styled.div`
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  width: 70%;
+  border-left: 3px solid ${colors.bsColor2};
+`
 
 const DateSelectBox = styled.div`
   display: flex;
@@ -138,48 +162,52 @@ const DateSelectBox = styled.div`
   margin-right: 15px;
 `;
 
+// 항목추가 버튼
 const ComponentAddButton = styled.button`
-  width: 100px;
+  width: 150px;
   height: 50px;
-  background-color: ${colors.bsColor2};
+  background-color: #FBFBFD;
   border-radius: 10px;
-  border: none;
-  box-shadow: 0.5rem 0.5rem 0.5rem gray;
+  border: 1px solid #F1F1F1;
   cursor: pointer;
-  font-weight: 700;
-`;
-
-const SaveCancelButton = styled.button`
-  background-color: ${props => props.backgroundColor};
-  margin-left: ${props => props.marginLeft};
-  border: none;
-  /* box-shadow: 0.5rem 0.5rem 0.5rem ${colors.bsColor3}; */
-  width: 15%;
-  height: 60px;
-  cursor: pointer;
-  margin-bottom: 10%;
-  border-radius: 10px;
-  border: 1px solid ${colors.bsColor3};
-
-   &:hover {
-    background-color: ${colors.bsColor3};
+  &:hover {
+    background-color: white;
+    border: 2px solid ${colors.bsColor2};
   }
 `;
 
-const SaveCancelButton2 = styled.button`
-  background-color: ${props => props.backgroundColor};
-  margin-left: ${props => props.marginLeft};
-  border: none;
-  /* box-shadow: 0.5rem 0.5rem 0.5rem ${colors.bsColor3}; */
-  width: 15%;
+// 저장 버튼
+const SaveCancelButton = styled.button`
+  width: 120px;
   height: 60px;
-  cursor: pointer;
-  margin-bottom: 10%;
+  color: blue;
+  background-color: #FBFBFD;
   border-radius: 10px;
-  border: 1px solid #D6E4E5;
+  border: 1px solid #F1F1F1;
+  font-size: 18px;
+  margin-bottom: 70px;
+  margin-right: 15px;
+  cursor: pointer;
+  &:hover {
+    background-color: #0078FF;
+    color: white;
+  }
+`;
 
-   &:hover {
-    background-color: #D6E4E5;
+// 삭제 버튼
+const SaveCancelButton2 = styled.button`
+  width: 120px;
+  height: 60px;
+  color: red;
+  background-color: #FBFBFD;
+  border-radius: 10px;
+  border: 1px solid #F1F1F1;
+  font-size: 18px;
+  margin-left: 15px;
+  cursor: pointer;
+  &:hover {
+    background-color: #FF7878;
+    color: white;
   }
 `;
 
@@ -221,34 +249,46 @@ const TagBox = styled.div`
   height: 50px;
 `;
 
+const TagBigBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0px 0px 20px 200px;
+`
+
 const ResultTag = styled.div`
   min-width: 40px;
-  justify-content: center;
   display: flex;
   align-items: center;
-  border-radius: 10px;
-  padding: 0px 5px 0px 5px;
-  margin-right: 10px;
-  height: 30px;
-  background-color: ${colors.bsColor2};
+  padding: 10px;
+  margin: 0px 10px 10px 0px;
+  font-size: 15px;
   font-weight: 700;
-  box-shadow: 0.1rem 0.1rem 0.1rem gray; ;
+  border-radius: 10px;
+  background-color: white;
+  border: 2px solid ${colors.bsColor2};
+  &:hover {
+    border: 2.5px solid ${colors.bsColor3};
+  }
 `;
 
 
 const DeleteTagButton = styled.div`
   padding-left: 8px;
+  width: 15px;
+  display: flex;
+  justify-content: center;
   cursor: pointer;
-  
-  color: ${colors.bsColor4};
+  color: ${colors.bsColor2};
+  &:hover {
+    color: ${colors.bsColor4};
+  }
 `
 
 const DeleteButton = styled.button`
   margin-left: 30px;
-  width: 5%;
+  width: 10%;
   color: red;
   background-color: white;
-  margin-bottom: 20px;
   border: none;
   cursor: pointer;
   font-weight: 700;
@@ -469,21 +509,18 @@ const MyNoticeAdd = () => {
         <InputBox
           id="titleFont"
           value={tagItem}
-          placeholder="태그를 추가하세요 "
+          placeholder="공고 태그를 추가하세요"
           autoComplete="off"
           onKeyDown={keydownHandler}
           onChange={handleTagInput}
         />
       </TagBox>
-
-      <div style={{ display: 'flex' }}>
-        <EachTitle></EachTitle>
+      <TagBigBox>
         {tag.map((tag, index) => (
           <ResultTag id="titleFont" key={index} onClick={()=>{deleteTag(tag)
           }}># {tag} <DeleteTagButton>X</DeleteTagButton></ResultTag>
         ))}
-      </div>
-
+      </TagBigBox>
       <StateBox id="titleFont">
         <EachTitle>결과를 선택하세요 </EachTitle>
         <StateSelect
@@ -523,32 +560,25 @@ const MyNoticeAdd = () => {
       </UrlBox>
       <br></br>
       <DateBox id="titleFont">
-        <DateTitle>일정 등록</DateTitle>
-        <button style={{ marginLeft: '3%' }} onClick={handleDateClick}>
-          ➕
-        </button>
-        </DateBox>
-        <br></br>
-        
-        {dateList.map((li, index) => (
-          li === undefined ? (<div key={index}></div>) : (<div key={index} style={{display:"flex" , }} >
-            
-            <MyNoticeDate
-              li={li}
-              getDateData={getDateData}
-              
-              index={index}
-              setDateDataee={setDateData}
-            >
-              
-            </MyNoticeDate>
-            <DeleteButton onClick={()=>handleDeleteSchedule(index)}>삭제</DeleteButton>
-            </div>)
-          
-        )
-
-        )}
-      
+        <DateTitle>일정 등록
+          <PlusBtn onClick={handleDateClick}>+</PlusBtn>
+        </DateTitle>
+        <DateListDiv>
+          {dateList.map((li, index) => (
+            li === undefined
+              ? (<div key={index}></div>)
+              : (<div key={index} style={{display:"flex", alignItems:"center", margin: '10px'}} >
+                  <MyNoticeDate
+                    li={li}
+                    getDateData={getDateData}
+                    index={index}
+                    setDateDataee={setDateData}
+                  />
+                  <DeleteButton id="titleFont" onClick={()=>handleDeleteSchedule(index)}>삭제</DeleteButton>
+                </div>)
+              ))}
+        </DateListDiv>
+      </DateBox>
       <br></br>
       <br></br>
       <br></br>
@@ -571,7 +601,7 @@ const MyNoticeAdd = () => {
           marginTop: '20px',
         }}
       >
-        <ComponentAddButton onClick={onClick}>항목추가</ComponentAddButton>
+        <ComponentAddButton id="contentFont" onClick={onClick}>자소서 항목 추가</ComponentAddButton>
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <SaveCancelButton

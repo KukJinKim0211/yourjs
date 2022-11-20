@@ -4,120 +4,148 @@ import { useState, useEffect } from 'react';
 import { colors } from '../../common/color';
 
 
-const Wrapper = styled.div``;
-//태그 부분 전체 div
-const TagBox = styled.div`
-  display: flex;
-`;
+const Wrapper = styled.div`
+  border: 1px solid #F1F1F1;
+  border-radius: 10px;
+  background-color: #FBFBFD;
+  margin-bottom: 30px;
+  padding: 20px 0px 20px 0px;
+`
 
-//태그 입력창
-const TagInputBox = styled.input`
-  border: none;
-  border-bottom: 3px solid ${colors.bsColor2};
-  width: 100%;
+// 제목 name, input 포함하는 div + 태그 결과 폼도 같이 사용
+const TitleDiv = styled.div`
+  display: flex;
+  margin-bottom: 30px;
+  width: 95%;
+`
+
+// name
+const Name = styled.div`
+  width: 20%;
   height: 40px;
-  padding-left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+`
+
+// 제목 쓰는 input
+const TitleInput = styled.input`
+  box-sizing: border-box;
+  width: 80%;
+  border: 1px solid #F1F1F1;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 15px;
   :focus {
-    outline: none;
+    outline: 0.1px solid ${colors.bsColor2};
   }
-`;
-//태그 추가 버튼
-const TagAddButton = styled.button`
-  width: 10%;
-`;
-// 태그 완성시 표시되는 부분
+  &:hover {
+    border: 2px solid ${colors.bsColor2};
+  }
+`
+
+// 태그 추가 input
+const TagInput = styled.input`
+  box-sizing: border-box;
+  width: 80%;
+  border: 1px solid #F1F1F1;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 15px;
+  :focus {
+    outline: 0.1px solid ${colors.bsColor2};
+  }
+  &:hover {
+    border: 2px solid ${colors.bsColor2};
+  }
+`
+
+// Tag List 보여주는 div
+const TagList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0px 4% 30px 19%;
+`
+
+// Tag List 안의 요소들의 div
 const ResultTag = styled.div`
   min-width: 40px;
-  justify-content: center;
   display: flex;
   align-items: center;
-  border-radius: 10px;
-  padding: 0px 7px 0px 7px;
-  margin-right: 10px;
-  height: 30px;
-  background-color: ${colors.bsColor1};
+  padding: 10px;
+  margin: 0px 10px 10px 0px;
+  font-size: 15px;
   font-weight: 700;
-  box-shadow: 0.1rem 0.1rem 0.1rem gray; ;
-`;
-//제목 쓰는 인풋박스
-const ContentTitle = styled.input`
-  box-sizing: border-box;
-  width: 100%;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  padding-left: 10px;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  border: none;
-  border-bottom: 3px solid ${colors.bsColor2};
-  background-color: #F9F9F9;
-  :focus {
-    outline: none;
+  border-radius: 10px;
+  background-color: white;
+  border: 2px solid ${colors.bsColor2};
+  &:hover {
+    border: 2.5px solid ${colors.bsColor3};
   }
-`;
-// content 담는 박스
-const ContentBox = styled.div`
-  background-color: #F9F9F9;
-  width: 100%;
-  height: 420px;
-  border-radius: 15px;
-  box-shadow: 0rem 0.1rem 0.2rem gray;
-  margin-top: 10px;
+`
+
+// Tag 지우는 버튼
+const DeleteTagButton = styled.div`
+  padding-left: 8px;
+  width: 15px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  color: ${colors.bsColor2};
+  &:hover {
+    color: ${colors.bsColor4};
+  }
+`
+
+// 내용 name, input 포함하는 div
+const ContentDiv = styled.div`
+  display: flex;
+  width: 95%;
+`
+
+// 내용 name, 글자수 포함하는 div
+const ContentName = styled.div`
+  width: 20%;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  &:hover {
-    background-color: #F5F5F5;
-    box-shadow: 0rem 0.2rem 0.4rem ${colors.bsColor4};
-  }
-`;
-
-const DeleteTagButton = styled.div`
-  padding-left: 8px;
-  cursor: pointer;
-  
-  color: ${colors.bsColor4};
 `
-
-
-// 내용 적는 textarea
-const ContentContent = styled.textarea`
-  box-sizing: border-box;
-  background-color: #F9F9F9;
-  border: none;
-  width: 100%;
-  height: 320px;
-  padding-left: 10px;
-
-  :focus {
-    outline: none;
-  }
-  &:hover {
-    background-color: #F5F5F5;
-  }
-`;
 
 //글자수 세는 div
 const CountBox = styled.div`
-  width: 100%;
-  margin-bottom: 10px;
+  height: 360px;
   display: flex;
-  height: 40px;
-  text-align: end;
   align-items: flex-end;
-  justify-content: end;
-  margin-right: 50px;
-`;
+  font-size: 18px;
+`
+
+// 내용 쓰는 textarea
+const ContentInput = styled.textarea`
+  box-sizing: border-box;
+  width: 80%;
+  height: 400px;
+  border: 1px solid #F1F1F1;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 15px;
+  :focus {
+    outline: 0.1px solid ${colors.bsColor2};
+  }
+  &:hover {
+    border: 2px solid ${colors.bsColor2};
+  }
+`
+
 
 const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
   const [tag, setTag] = useState([]);
   const [tagItem, setTagItem] = useState('');
   const [pushData, setPushData] = useState({ question: '', introTag: '', contents: '' });
 
-  
   useEffect(() => {
-    
     settingNoticeData(index, {
       question: pushData.question,
       contents: pushData.contents,
@@ -126,14 +154,12 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
   }, [pushData]);
 
 
-
   // 태그 값이 변하는걸쳐다봄
   useEffect(() => {
     if (tag.length === 0) return;
     setPushData({ ...pushData, introTag: tag.join(', ') }); // ,로 구분하기 위한 과정
     
   }, [tag]);
-
 
 
   const keydownHandler = e => {
@@ -148,76 +174,69 @@ const MyNoticeAddcomponent = ({ settingNoticeData,index}) => {
         return
       }
       else {
-      
       setTag([...tag, tagItem]);
       setTagItem('');
-    }
+      }
     }
   };
   const onChangeTitleHandler = e => {
     setPushData({...pushData, question : e.target.value})
-    
   };
 
   const onChangeContentHandler = e => {
     setPushData({...pushData, contents : e.target.value})
-    
   };
-
 
   const onChangeTagHandler = e => {
     setTagItem(e.target.value);
   };
 
-     // 태그 삭제
-     const deleteTag = tag1 => {
-      const newArray = tag.filter(d => d !== tag1);
-      setTag(newArray);
-    };
+  // 태그 삭제
+  const deleteTag = tag1 => {
+  const newArray = tag.filter(d => d !== tag1);
+    setTag(newArray);
+  };
 
- 
   return (
     <Wrapper>
-      <br></br>
-      <br></br>
-      <TagBox>
-        <TagInputBox
+      <TitleDiv>
+        <Name id="titleFont">자기소개서 질문</Name>
+        <TitleInput
+          id="contentFont"
+          value={pushData.title}
+          onChange={onChangeTitleHandler}
+          placeholder="질문을 입력하세요"
+        />
+      </TitleDiv>
+      <TitleDiv>
+        <Name id="titleFont">태그</Name>
+        <TagInput
           id="contentFont"
           value={tagItem || ""}
-          placeholder="태그를 추가하세요 "
+          placeholder="태그를 추가하세요 (태그는 5개까지 가능합니다)"
           onKeyDown={keydownHandler}
           onChange={onChangeTagHandler}
         />
-        
-      </TagBox>
-      <br></br>
-      <div style={{ display: 'flex' }}>
+      </TitleDiv>
+      <TagList>
         {tag.map((tag, index) => (
           <ResultTag id="contentFont" key={index}># {tag} <DeleteTagButton onClick={()=>deleteTag(tag) }>X</DeleteTagButton></ResultTag>
         ))}
-      </div>
-
-      <br></br>
-      <div>
-        <ContentBox id="font_test2">
-          <ContentTitle
-            id="contentFont"
-            value={pushData.title}
-            onChange={onChangeTitleHandler}
-            placeholder="제목을 입력하세요"
-          ></ContentTitle>
-          <ContentContent
-            value={pushData.contents}
-            id="contentFont"
-            onChange={onChangeContentHandler}
-            placeholder="내용을 입력하세요"
-          ></ContentContent>
-          <CountBox id="contentFont">
-            현재 글자수 : {pushData.contents.replace(/<br\s*\/?>/gm, '\n').length || 0}{' '}
+      </TagList>
+      <ContentDiv>
+        <ContentName>
+          <Name id="titleFont">내용</Name>
+          <CountBox id="titleFont">
+            글자수 : {pushData.contents.replace(/<br\s*\/?>/gm, '\n').length || 0}{' '}
           </CountBox>
-        </ContentBox>
-        <br></br>
-      </div>
+        </ContentName>
+        <ContentInput
+          id="contentFont"
+          value={pushData.contents}
+          onChange={onChangeContentHandler}
+          placeholder="내용을 입력하세요"
+        />
+      </ContentDiv>
     </Wrapper>
   );
 };
